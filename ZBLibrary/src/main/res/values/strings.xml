@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World!</string>
+    <string name="app_name">坐标标准库</string>
+    <string name="page_return">返回</string>
+    <string name="remind">提示</string>
+    <string name="update">更新</string>
+    <string name="logging">正在登录，请稍侯……</string>
+    <string name="loading">正在加载,请稍后...</string>
+    <string name="saving">正在保存,请稍后...</string>
+    <string name="save_failed">保存失败</string>
+    <string name="save_succeed">保存成功</string>
+    <string name="deleting">正在删除,请稍后...</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="delete_succeed">删除成功</string>
+    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
+    <string name="pull_to_refresh_release_label">放开以刷新…</string>
+    <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+
+</resources>

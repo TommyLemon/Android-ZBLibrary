@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_item_text_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/llItemOnlyDialogTitleBar"
+        style="@style/ll_horizontal_match_wrap"
+        android:gravity="center"
+        android:padding="@dimen/common_item_distance"
+        android:paddingLeft="30dp" >
+
+        <ImageView
+            android:id="@+id/ivItemOnlyDialogImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvItemOnlyDialogTitle"
+            style="@style/text_huge_black"
+            android:text="Title" />
+    </LinearLayout>
+
+    <View style="@style/divider_horizontal_1px" />
+
+    <ListView
+        android:id="@+id/lvItemOnlyDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/alpha_3"
+        android:dividerHeight="1px" />
+
+</LinearLayout>
