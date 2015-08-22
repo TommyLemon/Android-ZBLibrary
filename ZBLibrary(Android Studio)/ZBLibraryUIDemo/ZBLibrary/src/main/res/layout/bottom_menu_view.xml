@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ll_vertical_match_wrap"
+    android:background="@color/white" >
+
+    <View
+        style="@style/divider_horizontal_1px"
+        android:layout_marginBottom="2dp" />
+
+    <LinearLayout
+        android:id="@+id/llBottomMenuViewMainItemContainer"
+        style="@style/ll_horizontal_match_wrap"
+        android:gravity="center"
+        android:paddingBottom="4dp" >
+    </LinearLayout>
+
+    <View
+        style="@style/divider_horizontal_1px"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/lvBottomMenuViewMoreItem"
+        style="@style/match_wrap"
+        android:divider="@color/alpha_3"
+        android:dividerHeight="1px"
+        android:visibility="gone" >
+    </ListView>
+
+</LinearLayout>
