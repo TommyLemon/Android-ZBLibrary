@@ -343,11 +343,6 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 
 		return super.onKeyUp(keyCode, event);
 	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		return super.onCreateOptionsMenu(menu);
-	}
 
 	//点击返回键事件>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
