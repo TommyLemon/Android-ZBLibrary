@@ -14,6 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseFragment;
+import zuo.biao.library.base.BaseFragmentActivity;
+import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,18 +40,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.bean.KeyValueBean;
-import zuo.biao.library.util.StringUtil;
-
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragment示例
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use new ModelFragment,详细使用见zuo.biao.library.MODEL.ModelFragmentActivity(initData方法内)
  */
 public class ModelFragment extends BaseFragment implements OnClickListener {
@@ -62,7 +62,8 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		//必须使用<<<<<<<<<<<<<<<<<<
-		view = inflater.inflate(R.layout.model_activity, container, false);//layoutResId具体自定义
+		//model_activity改为你所需要的layout文件
+		view = inflater.inflate(R.layout.model_fragment, container, false);
 		context = (BaseFragmentActivity) getActivity();
 		isActivityAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
@@ -82,8 +83,8 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 	//示例代码<<<<<<<<
 	public static final String INTENT_TITLE = "INTENT_TITLE";
 	
-	private TextView tvModelTitle;
-	private ListView lvModel;
+	private TextView tvModelFragmentTitle;
+	private ListView lvModelFragment;
 
 	private ScaleAnimation rollingOverAnim0 = new ScaleAnimation(1, 0, 1, 1,
 			Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT,
@@ -97,12 +98,12 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 
 		//示例代码<<<<<<<<<<<<<<
 
-		tvModelTitle = (TextView) view.findViewById(R.id.tvModelTitle);
+		tvModelFragmentTitle = (TextView) view.findViewById(R.id.tvModelFragmentTitle);
 		if (StringUtil.isNotEmpty(context.getIntent().getStringExtra(INTENT_TITLE), true)) {
-			tvModelTitle.setText(StringUtil.getCurrentString());
+			tvModelFragmentTitle.setText(StringUtil.getCurrentString());
 		}
 
-		lvModel = (ListView) view.findViewById(R.id.lvModel);
+		lvModelFragment = (ListView) view.findViewById(R.id.lvModelFragment);
 
 		rollingOverAnim0.setDuration(200);
 		rollingOverAnim1.setDuration(200);
@@ -119,15 +120,15 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 	 */
 	private void setList(List<KeyValueBean> list) {
 		if (list == null || list.size() <= 0) {
-			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvModel.setAdapter(null); return;");
+			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvModelFragment.setAdapter(null); return;");
 			adapter = null;
-			lvModel.setAdapter(null);
+			lvModelFragment.setAdapter(null);
 			return;
 		}
 
 		if (adapter == null) {
 			adapter = new ModelAdapter(context, list);
-			lvModel.setAdapter(adapter);
+			lvModelFragment.setAdapter(adapter);
 		} else {
 			adapter.refresh(list);
 		}
@@ -135,9 +136,9 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 
 	public void changeListStyle() {
 		adapter = new ModelAdapter(context, list, ! adapter.getShowSelfDefineView());
-		lvModel.startAnimation(rollingOverAnim0);
-		lvModel.setAdapter(adapter);
-		lvModel.startAnimation(rollingOverAnim1);
+		lvModelFragment.startAnimation(rollingOverAnim0);
+		lvModelFragment.setAdapter(adapter);
+		lvModelFragment.startAnimation(rollingOverAnim1);
 	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -219,15 +220,15 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 			@Override
 			public boolean handleMessage(Message msg) {
 				
-				lvModel.setAdapter(adapter);
+				lvModelFragment.setAdapter(adapter);
 				return false;
 			}
 		});
 		
-		view.findViewById(R.id.tvModelReturn).setOnClickListener(this);
-		view.findViewById(R.id.ivModelForward).setOnClickListener(this);
+		view.findViewById(R.id.tvModelFragmentReturn).setOnClickListener(this);
+		view.findViewById(R.id.ivModelFragmentForward).setOnClickListener(this);
 
-		lvModel.setOnItemClickListener(new OnItemClickListener() {
+		lvModelFragment.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position > 10) {
@@ -249,16 +250,16 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 //	@Override
 //	public void onClick(View v) {
 //		switch (v.getId()) {
-//		case R.id.tvModelReturn:
+//		case R.id.tvModelFragmentReturn:
 //			context.finish();
 //			//			getFragmentManager().popBackStack();
 //			break;
-//		case R.id.ivModelForward:
-//			adapter = new ModelAdapter(context, list, adapter.getShowSelfDefineView());
-//			if (lvModel.getChildCount() > 0) {
-//				lvModel.smoothScrollToPosition(0);
+//		case R.id.ivModelFragmentForward:
+//			adapter = new ModelFragmentAdapter(context, list, adapter.getShowSelfDefineView());
+//			if (lvModelFragment.getChildCount() > 0) {
+//				lvModelFragment.smoothScrollToPosition(0);
 //			}
-//			resetListHandler.sendEmptyMessageDelayed(0, 10 * lvModel.getCount());
+//			resetListHandler.sendEmptyMessageDelayed(0, 10 * lvModelFragment.getCount());
 //			break;
 //		default:
 //			break;
@@ -267,15 +268,15 @@ public class ModelFragment extends BaseFragment implements OnClickListener {
 	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvModelReturn) {
+		if (v.getId() == R.id.tvModelFragmentReturn) {
 			context.finish();
 			//			getFragmentManager().popBackStack();
-		} else if (v.getId() == R.id.ivModelForward) {
+		} else if (v.getId() == R.id.ivModelFragmentForward) {
 			adapter = new ModelAdapter(context, list, adapter.getShowSelfDefineView());
-			if (lvModel.getChildCount() > 0) {
-				lvModel.smoothScrollToPosition(0);
+			if (lvModelFragment.getChildCount() > 0) {
+				lvModelFragment.smoothScrollToPosition(0);
 			}
-			resetListHandler.sendEmptyMessageDelayed(0, 10 * lvModel.getCount());
+			resetListHandler.sendEmptyMessageDelayed(0, 10 * lvModelFragment.getCount());
 		}
 	}
 	//示例代码<<<<<<<<<<<<<<<<<<<

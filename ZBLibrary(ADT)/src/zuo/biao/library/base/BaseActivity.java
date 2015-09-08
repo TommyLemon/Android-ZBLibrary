@@ -14,6 +14,13 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.OnPageReturnListener;
+import zuo.biao.library.ui.EditTextManager;
+import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,20 +32,11 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnPageReturnListener;
-import zuo.biao.library.ui.EditTextManager;
-import zuo.biao.library.util.StringUtil;
 
 /**基础Activity，通过继承可获取或使用 里面创建的 组件 和 方法;不能用于FragmentActivity
  * @author Lemon

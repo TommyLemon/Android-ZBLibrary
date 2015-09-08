@@ -168,6 +168,10 @@ public class TimeUtil {
 	public static final int[] minTimeDetails = {0, 0, 0};
 	public static final int[] maxTimeDetails = {23, 59, 59};
 	
+	public static String getTime(long date) {
+		return new SimpleDateFormat("HH:mm:ss").format(date);
+	}
+	
 	/**获取完整时间
 	 * @param date
 	 * @return

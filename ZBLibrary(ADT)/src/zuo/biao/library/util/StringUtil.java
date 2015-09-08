@@ -398,6 +398,20 @@ public class StringUtil {
 		return getNumber(getString(cs));
 	}
 	/**去掉string内所有非数字类型字符
+	 * @param tv
+	 * @return
+	 */
+	public static String getNumber(TextView tv) {
+		return getNumber(getString(tv));
+	}
+	/**去掉string内所有非数字类型字符
+	 * @param et
+	 * @return
+	 */
+	public static String getNumber(EditText et) {
+		return getNumber(getString(et));
+	}
+	/**去掉string内所有非数字类型字符
 	 * @param s
 	 * @return
 	 */
@@ -439,7 +453,7 @@ public class StringUtil {
 			return "";
 		}
 
-		if (! url.endsWith("/") && ! url.endsWith(".html")) {
+		if (! url.endsWith("/") && ! url.endsWith(".htm") && ! url.endsWith(".html")) {
 			url = url + "/";
 		}
 

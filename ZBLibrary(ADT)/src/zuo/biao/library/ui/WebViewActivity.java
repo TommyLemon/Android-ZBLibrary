@@ -1,19 +1,9 @@
-/*Copyright ©2015 TommyLemon(https://github.com/TommyLemon)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.*/
-
 package zuo.biao.library.ui;
 
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnPageReturnListener;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +16,9 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnPageReturnListener;
-import zuo.biao.library.util.StringUtil;
 
 /**通用网页Activity
  * @author Lemon
@@ -71,13 +58,17 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	private TextView tvWebViewTitle;
 	private TextView tvWebViewReturn;
 	private WebView wvWebView;
+
+	private EditText etWebView;
 	@Override
 	public void initView() {
 
 		tvWebViewTitle = (TextView) findViewById(R.id.tvWebViewTitle);
 		tvWebViewReturn = (TextView) findViewById(R.id.tvWebViewReturn);
 
-		wvWebView = (WebView) findViewById(R.id.wvWebView);
+		wvWebView = (WebView) findViewById(R.id.wvWebView);  
+
+		etWebView = (EditText) findViewById(R.id.etWebView);
 	}
 
 
@@ -98,12 +89,21 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	public static final String INTENT_RETURN = "INTENT_RETURN";
 	public static final String INTENT_URL = "INTENT_URL";
 
+	private String url;
 	private Handler webHandler = new Handler();
 	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
 	public void initData() {
 
 		intent = getIntent();
+	
+		url = StringUtil.getCorrectUrl(intent.getStringExtra(INTENT_URL));
+		if (StringUtil.isNotEmpty(url, true) == false) {
+			Log.e(TAG, "initData  StringUtil.isNotEmpty(url, true) == false >> finish(); return;");
+			finish();
+			return;
+		}
+
 		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
 			tvWebViewTitle.setText("" + StringUtil.getCurrentString());
 		}
@@ -111,40 +111,43 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 			tvWebViewReturn.setText("" + StringUtil.getCurrentString());
 		}
 
-		WebSettings webSettings = wvWebView.getSettings();
+		WebSettings webSettings = wvWebView.getSettings();       
 		webSettings.setJavaScriptEnabled(true);
 
-		String url = StringUtil.getCorrectUrl(getIntent().getStringExtra(INTENT_URL));
-		if (StringUtil.isNotEmpty(url, true) == false) {
-			Log.e(TAG, "initData  StringUtil.isNotEmpty(url, true) == false >> finish(); return;");
-			finish();
-			return;
-		}
-
 		wvWebView.requestFocus();
-		wvWebView.addJavascriptInterface(new Object() {
+		wvWebView.addJavascriptInterface(new Object() {       
 			@SuppressWarnings("unused")
-			public void clickOnAndroid() {
-				webHandler.post(new Runnable() {
-					public void run() {
-						wvWebView.loadUrl("javascript:wave()");
-					}
-				});
+			public void clickOnAndroid() {       
+				webHandler.post(new Runnable() {       
+					public void run() {       
+						wvWebView.loadUrl("javascript:wave()");       
+					}       
+				});       
+			}       
+		}, "demo");     
+		loadUrl(url);
+		//		禁用跳转浏览器，但因无client导致不能点击
+		wvWebView.setWebViewClient(new WebViewClient(){
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url){
+
+				return false;
 			}
-		}, "demo");
-		wvWebView.loadUrl(url);
-		//禁用跳转浏览器，但因无client导致不能点击
-		//		wvWebView.setWebViewClient(new WebViewClient(){
-		//			@Override
-		//			public boolean shouldOverrideUrlLoading(WebView view, String url){
-		//
-		//				return false;
-		//			}
-		//		});
+		});
 
 	}
 
 
+
+	private void loadUrl(String url) {
+		if (StringUtil.isUrl(url) == false) {
+			return;
+		}
+		this.url = url;
+		
+		etWebView.setText(url);
+		wvWebView.loadUrl(url); 		
+	}
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -162,24 +165,31 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 
 		findViewById(R.id.tvWebViewReturn).setOnClickListener(this);
 
+		findViewById(R.id.ibtnWebView).setOnClickListener(this);
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.tvWebViewReturn) {
 			finish();
+		} else if (v.getId() == R.id.ibtnWebView) {
+			if (StringUtil.isNotEmpty(etWebView, true)) {
+				loadUrl(StringUtil.getCorrectUrl(etWebView));
+			}
 		}
 	}
 	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && wvWebView.canGoBack()) {
+	public boolean onKeyUp(int keyCode, KeyEvent event) {       
+		if ((keyCode == KeyEvent.KEYCODE_BACK) && wvWebView.canGoBack()) {       
 			wvWebView.goBack();
-			return true;
-		}
-		return super.onKeyUp(keyCode, event);
-	}
+			etWebView.setText(StringUtil.getCorrectUrl(wvWebView.getUrl()));
+			return true;       
+		}       
+		return super.onKeyUp(keyCode, event);       
+	}   
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

@@ -39,6 +39,7 @@ import android.widget.Toast;
 /**adapter模板
  * 适用于listView,gridView
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use new ModelAdapter
  */
 public class ModelAdapter extends BaseAdapter {
@@ -140,6 +141,7 @@ public class ModelAdapter extends BaseAdapter {
 
 		final ViewHolder holder;
 		if (convertView == null) {
+			//model_item改为你所需要的layout文件
 			convertView = inflater.inflate(R.layout.model_item, parent, false);
 			holder = new ViewHolder();
 

@@ -39,6 +39,7 @@ import zuo.biao.library.util.StringUtil;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**activity示例；如果是FragmentActivity应该继承BaseFragmentActivity
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use toActivity(ModelActivity.createIntent(...));
  */
 public class ModelActivity extends BaseActivity implements OnClickListener, OnPageReturnListener {
@@ -46,6 +47,14 @@ public class ModelActivity extends BaseActivity implements OnClickListener, OnPa
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		return createIntent(context, null);
+	}
+	
 	/**启动这个Activity的Intent
 	 * @param context
 	 * @param title
@@ -62,6 +71,7 @@ public class ModelActivity extends BaseActivity implements OnClickListener, OnPa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//model_activity改为你所需要的layout文件；传this是为了全局滑动返回
 		setContentView(R.layout.model_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
@@ -82,7 +92,6 @@ public class ModelActivity extends BaseActivity implements OnClickListener, OnPa
 	//示例代码<<<<<<<<
 
 	private TextView tvModelTitle;
-	private View ivModelForward;
 	private ListView lvModel;
 
 	private ScaleAnimation rollingOverAnim0 = new ScaleAnimation(1, 0, 1, 1,
@@ -98,7 +107,6 @@ public class ModelActivity extends BaseActivity implements OnClickListener, OnPa
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		tvModelTitle = (TextView) findViewById(R.id.tvModelTitle);
-		ivModelForward = findViewById(R.id.ivModelForward);
 
 		lvModel = (ListView) findViewById(R.id.lvModel);
 
@@ -212,7 +220,7 @@ public class ModelActivity extends BaseActivity implements OnClickListener, OnPa
 	public void initListener() {//必须调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		findViewById(R.id.tvModelReturn).setOnClickListener(this);
-		ivModelForward.setOnClickListener(this);
+		findViewById(R.id.ivModelForward).setOnClickListener(this);
 
 		lvModel.setOnItemClickListener(new OnItemClickListener() {
 			@Override

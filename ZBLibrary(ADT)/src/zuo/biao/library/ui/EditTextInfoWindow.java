@@ -48,7 +48,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	 * @return
 	 */
 	public static Intent createIntent(Context context, String key, String value) {
-		return createIntent(context, key, value, "zuo.biao.library");
+		return createIntent(context, key, value, context.getPackageName());
 	}
 	/**
 	 * @param context

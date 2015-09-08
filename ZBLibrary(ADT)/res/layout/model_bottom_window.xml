@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 使用方法：复制>粘贴>改名>改代码（id必须改，不要和其它类的id重复） -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llModelBottomWindowBg"
     style="@style/bottom_window_page"

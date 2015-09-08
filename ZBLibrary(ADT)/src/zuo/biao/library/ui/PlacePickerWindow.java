@@ -34,8 +34,8 @@ import zuo.biao.library.R;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.bean.GridPickerConfigBean;
 import zuo.biao.library.bean.GridPickerItemBean;
+import zuo.biao.library.manager.CityDBManager;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
-import zuo.biao.library.util.CityDB;
 import zuo.biao.library.util.PlaceUtil;
 import zuo.biao.library.util.StringUtil;
 
@@ -84,7 +84,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 		isActivityAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
-		cityDB = CityDB.getInstance(context, StringUtil.getTrimedString(getIntent().getStringExtra(INTENT_PACKAGE_NAME)));
+		cityDBManager = CityDBManager.getInstance(context, StringUtil.getTrimedString(getIntent().getStringExtra(INTENT_PACKAGE_NAME)));
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -166,7 +166,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	private int minLevel;
 	private int maxLevel;
 
-	private CityDB cityDB;
+	private CityDBManager cityDBManager;
 	private GridPickerView gridPickerView;
 	@Override
 	public void initData() {//必须调用
@@ -227,10 +227,10 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 		List<String> cityNameList = null;
 		switch (level) {
 		case PlaceUtil.LEVEL_PROVINCE:
-			cityNameList = cityDB.getAllProvince();
+			cityNameList = cityDBManager.getAllProvince();
 			break;
 		case PlaceUtil.LEVEL_CITY:
-			cityNameList = cityDB.getProvinceAllCity(StringUtil.getTrimedString(selectedItemList.get(0)));
+			cityNameList = cityDBManager.getProvinceAllCity(StringUtil.getTrimedString(selectedItemList.get(0)));
 			break;
 		case PlaceUtil.LEVEL_DISTRICT:
 			break;

@@ -47,9 +47,6 @@ public class DemoApplication extends Application {
 	public String getAppName() {
 		return getResources().getString(R.string.app_name);
 	}
-	public String getAppPackageName() {
-		return "zuo.biao.library";
-	}
 
 
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 使用方法：复制>粘贴>改名>改代码（id必须改，不要和其它类的id重复） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/activity_page" >
+
+    <TextView
+        style="@style/text_middle_blue"
+        android:layout_width="match_parent"
+        android:text="这是一个Fragment" />
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <TextView
+            android:id="@+id/tvModelFragmentReturn"
+            style="@style/topbar_return_tv" />
+
+        <TextView
+            android:id="@+id/tvModelFragmentTitle"
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="标题" />
+
+        <ImageView
+            android:id="@+id/ivModelFragmentForward"
+            style="@style/topbar_right_btn"
+            android:src="@drawable/refresh" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvModelFragment"
+        style="@style/match_match"
+        android:layout_weight="1"
+        android:divider="@color/alpha_3"
+        android:dividerHeight="1px"
+        android:listSelector="@drawable/bg_item_to_alpha"
+        android:padding="6dp" >
+    </ListView>
+
+</LinearLayout>

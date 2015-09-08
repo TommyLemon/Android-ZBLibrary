@@ -14,19 +14,18 @@ limitations under the License.*/
 
 package zuo.biao.library.MODEL;
 
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseBottomWindow;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseBottomWindow;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**底部弹出窗口界面示例
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use toActivity(ModelBottomWindow.createIntent);
  *      然后在onActivityResult方法内获取data.getStringExtra(ModelBottomWindow.RESULT_CONTACT_INFO);
  */
@@ -35,6 +34,19 @@ public class ModelBottomWindow extends BaseBottomWindow implements OnClickListen
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
+	/**启动这个Window的Intent
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		return createIntent(context, null);
+	}
+	
+	/**启动这个Window的Intent
+	 * @param context
+	 * @param title
+	 * @return
+	 */
 	public static Intent createIntent(Context context, String title) {
 		return new Intent(context, ModelBottomWindow.class).putExtra(INTENT_TITLE, title);
 	}
@@ -46,7 +58,7 @@ public class ModelBottomWindow extends BaseBottomWindow implements OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//model_bottom_window改为你所需要的layout文件；传context(这里是this)和backgroundViewResID(这里是R.id.llModelBottomWindowBg)是为了加载动画
 		setContentView(R.layout.model_bottom_window, this, R.id.llModelBottomWindowBg);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;

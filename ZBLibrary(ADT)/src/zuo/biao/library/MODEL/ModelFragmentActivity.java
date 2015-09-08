@@ -14,26 +14,32 @@ limitations under the License.*/
 
 package zuo.biao.library.MODEL;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
-
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseFragmentActivity;
 import zuo.biao.library.interfaces.OnPageReturnListener;
-import zuo.biao.library.util.StringUtil;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragmentActivity示例
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use toActivity(ModelFragmentActivity.createIntent(...));
  */
-public class ModelFragmentActivity extends BaseFragmentActivity implements OnClickListener, OnPageReturnListener {
+public class ModelFragmentActivity extends BaseFragmentActivity implements OnPageReturnListener {
 	//	private static final String TAG = "ModelFragmentActivity";
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		return createIntent(context, null);
+	}
+	
 	/**启动这个Activity的Intent
 	 * @param context
 	 * @param title
@@ -43,11 +49,15 @@ public class ModelFragmentActivity extends BaseFragmentActivity implements OnCli
 		return new Intent(context, ModelFragmentActivity.class).putExtra(INTENT_TITLE, title);
 	}
 
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//model_fragment_activity改为你所需要的layout文件；传this是为了全局滑动返回
 		setContentView(R.layout.model_fragment_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
@@ -67,16 +77,11 @@ public class ModelFragmentActivity extends BaseFragmentActivity implements OnCli
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private TextView tvModelFragmentActivityTitle;
-	private View ivModelFragmentActivityForward;
 	private ModelFragment modelFragment;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须调用
-		//示例代码<<<<<<<<
-		tvModelFragmentActivityTitle = (TextView) findViewById(R.id.tvModelFragmentActivityTitle);
-		ivModelFragmentActivityForward = findViewById(R.id.ivModelFragmentActivityForward);
-		//示例代码>>>>>>>>
+		
 	}
 
 
@@ -102,9 +107,6 @@ public class ModelFragmentActivity extends BaseFragmentActivity implements OnCli
 
 		//示例代码<<<<<<<<
 		intent = getIntent();
-		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
-			tvModelFragmentActivityTitle.setText("" + StringUtil.getCurrentString());
-		}
 
 		showShortToast("userId = " + intent.getLongExtra(INTENT_USER_ID, 0));
 
@@ -131,39 +133,11 @@ public class ModelFragmentActivity extends BaseFragmentActivity implements OnCli
 	public static final int RESULT_MODEL = 30;
 	@Override
 	public void initListener() {//必须调用
-		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvModelFragmentActivityReturn).setOnClickListener(this);
-		ivModelFragmentActivityForward.setOnClickListener(this);
-		//示例代码>>>>>>>>>>>>>>>>>>>
+
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-//示例代码<<<<<<<<<<<<<<<<<<<
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//		case R.id.tvModelFragmentActivityReturn:
-	//			onPageReturn();
-	//			break;
-	//		case R.id.ivModelFragmentActivityForward:
-	//			modelFragment.changeListStyle();
-	//			break;
-	//		default:
-	//			break;
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx会报错
-	@Override
-	public void onClick(View v) {
-		if (v.getId() ==  R.id.tvModelFragmentActivityReturn) {
-			onPageReturn();
-		} else if (v.getId() ==  R.id.ivModelFragmentActivityForward) {
-			modelFragment.changeListStyle();
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 

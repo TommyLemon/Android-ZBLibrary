@@ -12,12 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-/**通用操作类所在包
- * 所有类里的所有对外调用方法都是静态的(static)
- * 通过 XXUtil.methodI(...)直接调用方法
+/**管理器类所在包
+ * 所有类 保持单例(Single Instance)
+ * 通过XXManager.getInstance(...)获取实例
  */
 /**
  * @author Lemon
  *
  */
-package zuo.biao.library.util;
+package zuo.biao.library.manager;

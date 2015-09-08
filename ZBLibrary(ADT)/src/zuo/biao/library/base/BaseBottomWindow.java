@@ -17,11 +17,13 @@ package zuo.biao.library.base;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -40,6 +42,13 @@ public abstract class BaseBottomWindow extends Activity {
 	protected BaseBottomWindow context = null;//在onCreate方法中赋值，不能在子Activity中创建
 	protected boolean isActivityAlive = false;//该Activity是否已被使用并未被销毁。 在onCreate方法中赋值为true，不能在子Activity中创建
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉默认标题栏
+	}
+	
+	
 	private View vBg;//子Activity全局背景View
 	protected Animation animation;//界面进出动画
 	/**设置界面布局View

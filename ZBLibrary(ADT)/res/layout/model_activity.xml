@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 使用方法：复制>粘贴>改名>改代码（id必须改，不要和其它类的id重复） -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/activity_page" >
+
+    <TextView
+        style="@style/text_middle_blue"
+        android:layout_width="match_parent"
+        android:text="这是一个Activity或Fragment" />
 
     <RelativeLayout style="@style/topbar_bg" >
 
@@ -20,11 +26,7 @@
             android:src="@drawable/refresh" />
     </RelativeLayout>
 
-    <TextView
-        style="@style/text_middle_blue"
-        android:layout_width="match_parent"
-        android:text="这是一个Activity或Fragment" />
-    <ListView
+    <ListView
         android:id="@+id/lvModel"
         style="@style/match_match"
         android:layout_weight="1"

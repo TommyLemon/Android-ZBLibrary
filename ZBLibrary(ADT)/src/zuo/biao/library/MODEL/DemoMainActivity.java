@@ -17,8 +17,8 @@ package zuo.biao.library.MODEL;
 import java.util.ArrayList;
 
 import zuo.biao.library.R;
-import zuo.biao.library.application.DemoApplication;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.manager.TimeRefresher;
 import zuo.biao.library.ui.BottomMenuWindow;
 import zuo.biao.library.ui.CutPictureActivity;
 import zuo.biao.library.ui.DatePickerWindow;
@@ -217,7 +217,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void initData() {//必须调用
 
-		if (StringUtil.isNotEmpty(DemoApplication.getApplication().getAppPackageName(), true)) {
+		if (StringUtil.isNotEmpty(getPackageName(), true)) {
 			APP_PACKAGE_NAME = StringUtil.getCurrentString();
 		}
 		
@@ -254,6 +254,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelFragmentActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainModelUseTimeRefresherActivity).setOnClickListener(this);
 
 		findViewById(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
@@ -309,6 +310,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//		case R.id.llDemoMainModelFragmentActivity:
 	//			toActivity(ModelFragmentActivity.createIntent(context, null));
 	//			break;
+	//		case R.id.llDemoMainModelUseTimeRefresherActivity:
+	//			toActivity(ModelFragmentActivity.createIntent(context, null));
+	//			break;
+	//
 	//		case R.id.llDemoMainTopMenuWindow:
 	//			showTopMenu();
 	//			break;
@@ -357,7 +362,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		} else if (v.getId() ==  R.id.llDemoMainModelActivity) {
 			toActivity(ModelActivity.createIntent(context, null));
 		} else if (v.getId() ==  R.id.llDemoMainModelFragmentActivity) {
-			toActivity(ModelFragmentActivity.createIntent(context, null));
+			toActivity(ModelFragmentActivity.createIntent(context));
+		} else if (v.getId() ==  R.id.llDemoMainModelUseTimeRefresherActivity) {
+			toActivity(ModelUseTimeRefresherActivity.createIntent(context));
 		} else if (v.getId() ==  R.id.llDemoMainTopMenuWindow) {
 			showTopMenu();
 		} else if (v.getId() ==  R.id.llDemoMainBottomMenuWindow) {
@@ -468,6 +475,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 				showShortToast("再按一次退出");
 				firstTime = secondTime;
 			} else {//完全退出
+				TimeRefresher.getInstance().finish();//结束时间刷新器进程
+				
 				moveTaskToBack(false);//应用退到后台
 				System.exit(0);
 			}

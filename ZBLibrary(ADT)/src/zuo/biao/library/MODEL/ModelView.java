@@ -29,6 +29,7 @@ import android.widget.TextView;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**通用自定义View模板，当View比较庞大复杂且使用次数>=2时建议使用
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use
 	ModelView modleView = new ModelView(context, inflater);
 	adapter中使用convertView = modleView.getView();//[具体见.ModelAdapter] 或  其它类中使用 
@@ -52,6 +53,7 @@ public class ModelView extends BaseView<KeyValueBean> implements OnClickListener
 	@SuppressLint("InflateParams")
 	@Override
 	public View getView() {
+		//model_view改为你所需要的layout文件
 		convertView = inflater.inflate(R.layout.model_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<

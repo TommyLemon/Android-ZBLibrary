@@ -437,7 +437,6 @@ public class CommonUtil {
 	 */
 	public static String getTopActivity(Context context) {
 		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		@SuppressWarnings("deprecation")
 		List<RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1);
 
 		return runningTaskInfos == null ? "" : runningTaskInfos.get(0).topActivity.getClassName();

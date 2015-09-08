@@ -1,4 +1,4 @@
-package zuo.biao.library.util;
+package zuo.biao.library.manager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,34 +8,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.bean.City;
+import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.text.TextUtils;
 
-public class CityDB {
+public class CityDBManager {
     public static final String CITY_DB_NAME = "city.db";
     private static final String CITY_TABLE_NAME = "city";
     private SQLiteDatabase db;
 
-    public CityDB(Context context, String path) {
+    public CityDBManager(Context context, String path) {
         db = context.openOrCreateDatabase(path, Context.MODE_PRIVATE, null);
     }
     
-	private static CityDB cityDB;
-	public static synchronized CityDB getInstance(Context context, String packageName) {
-		if (cityDB == null) {
-			cityDB = openCityDB(context, packageName);
+	private static CityDBManager cityDBManager;
+	public static synchronized CityDBManager getInstance(Context context, String packageName) {
+		if (cityDBManager == null) {
+			cityDBManager = openCityDB(context, packageName);
 		}
-		return cityDB;
+		return cityDBManager;
 	}
     
-    private static CityDB openCityDB(Context context, String packageName) {
+    private static CityDBManager openCityDB(Context context, String packageName) {
         String path = "/data"
                 + Environment.getDataDirectory().getAbsolutePath()
                 + File.separator + packageName + File.separator
-                + CityDB.CITY_DB_NAME;
+                + CityDBManager.CITY_DB_NAME;
         File db = new File(path);
         if (!db.exists()) {
             try {
@@ -54,7 +55,7 @@ public class CityDB {
                 System.exit(0);
             }
         }
-        return new CityDB(context, path);
+        return new CityDBManager(context, path);
     }
 	
 
