@@ -1,6 +1,7 @@
 package zuo.biao.library.application;
 
 import zuo.biao.library.R;
+import zuo.biao.library.util.DataKeeper;
 import android.app.Activity;
 import android.app.Application;
 import android.util.DisplayMetrics;
@@ -21,6 +22,8 @@ public class DemoApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		demoApplication = this;
+		
+		DataKeeper.init();
 
 		System.out.println("项目启动");
 	}

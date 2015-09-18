@@ -62,15 +62,44 @@ public class TimeRefresher {
 		addTimeRefreshListener(tag, 1000, listener);
 	}
 	public synchronized void addTimeRefreshListener(String tag, long duration, OnTimeRefreshListener listener) {
-		if (duration > 0 && tag != null && listener != null && refreshMap.containsKey(tag) == false) {
-			Log.d(TAG, "\n addTimeRefreshListener  duration > 0  && tag != null && listener != null" +
-					" && refreshMap.containsKey(tag) == false >>  refreshMap.put(tag, new TimeHolder(duration, listener));");
-			refreshMap.put(tag, new TimeHolder(duration, listener));
-			Log.d(TAG, "addTimeRefreshListener  added tag = " + tag);
+		if (duration > 0 && tag != null && listener != null) {
+			Log.d(TAG, "\n addTimeRefreshListener  duration > 0 && tag = " + tag + " && listener != null >>");
+			if (refreshMap.containsKey(tag) && refreshMap.get(tag) != null) {
+				refreshMap.get(tag).startTimer();
+				Log.d(TAG, "refreshMap.containsKey(tag) && refreshMap.get(tag) != null >>  refreshMap.get(tag).startTimer();");
+			} else {
+				refreshMap.put(tag, new TimeHolder(duration, listener));
+				Log.d(TAG, "addTimeRefreshListener  added tag = ");
+			}
 		}
 		Log.d(TAG, "addTimeRefreshListener  refreshMap.size() = " + refreshMap.size() + "\n");
 	}
 
+	/**
+	 * @param tag
+	 */
+	public synchronized void startTimeRefreshListener(String tag) {
+		TimeHolder holder = refreshMap.get("" + tag);
+		if (holder != null) {
+			holder.startTimer();
+			Log.d(TAG, "startTimeRefreshListener started tag = " + tag);
+		}
+	}
+	
+	/**
+	 * @param tag
+	 */
+	public synchronized void stopTimeRefreshListener(String tag) {
+		TimeHolder holder = refreshMap.get("" + tag);
+		if (holder != null) {
+			holder.stopTimer();
+			Log.d(TAG, "stopTimeRefreshListener stopped tag = " + tag);
+		}
+	}
+	
+	/**
+	 * @param tag
+	 */
 	public synchronized void removeTimeRefreshListener(String tag) {
 		TimeHolder holder = refreshMap.get("" + tag);
 		if (holder != null) {
