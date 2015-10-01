@@ -155,6 +155,21 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
+                android:id="@+id/llDemoMainServerSettingActivity"
+                style="@style/content_item"
+                android:background="@drawable/bg_white_to_gray" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="ServerSettingActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
                 android:id="@+id/llDemoMainModelActivity"
                 style="@style/content_item"
                 android:background="@drawable/bg_white_to_gray" >

@@ -116,6 +116,10 @@
             android:theme="@style/Window"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
+        <activity
+            android:name="zuo.biao.library.ui.ServerSettingActivity"
+            android:launchMode="singleTop" >
+        </activity>
 
         <!-- ui >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 

@@ -221,6 +221,43 @@ public class DataKeeper {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
+	
+	
+	//使用SharedPreferences保存 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**使用SharedPreferences保存
+	 * @param context
+	 * @param path
+	 * @param key
+	 * @param value
+	 */
+	public static void save(Context context, String path, String key, String value) {
+		save(context, path, Context.MODE_PRIVATE, key, value);
+	}
+	/**使用SharedPreferences保存
+	 * @param context
+	 * @param path
+	 * @param mode
+	 * @param key
+	 * @param value
+	 */
+	public static void save(Context context, String path, int mode, String key, String value) {
+		save(context, context == null ? null : context.getSharedPreferences(path, mode), key, value);
+	}
+	/**使用SharedPreferences保存
+	 * @param context
+	 * @param sdf
+	 * @param key
+	 * @param value
+	 */
+	public static void save(Context context, SharedPreferences sdf, String key, String value) {
+		if (sdf == null || StringUtil.isNotEmpty(key, false) == false || StringUtil.isNotEmpty(value, false) == false) {
+			Log.e(TAG, "save sdf == null || \n key = " + key + ";\n value = " + value + "\n >> return;");
+			return;
+		}
+		sdf.edit().remove(key).putString(key, value).commit();		
+	}
+
+	//使用SharedPreferences保存 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

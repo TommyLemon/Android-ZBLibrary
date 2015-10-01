@@ -28,9 +28,11 @@ import zuo.biao.library.ui.ItemOnlyDialog;
 import zuo.biao.library.ui.MyAlertDialog;
 import zuo.biao.library.ui.PlacePickerWindow;
 import zuo.biao.library.ui.SelectPictureActivity;
+import zuo.biao.library.ui.ServerSettingActivity;
 import zuo.biao.library.ui.TopMenuWindow;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.DataKeeper;
+import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
@@ -63,7 +65,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -220,7 +222,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		if (StringUtil.isNotEmpty(getPackageName(), true)) {
 			APP_PACKAGE_NAME = StringUtil.getCurrentString();
 		}
-		
+
 	}
 
 
@@ -252,6 +254,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainServerSettingActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelFragmentActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelUseTimeRefresherActivity).setOnClickListener(this);
@@ -267,8 +270,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//@Override
-	//public void onClick(View v) {//直接调用不会显示v被点击效果
-	//	switch (v.getId()) {
+	//	public void onClick(View v) {//直接调用不会显示v被点击效果
+	//		switch (v.getId()) {
 	//		case R.id.ivDemoMainReturn:
 	//			enterAnim = R.anim.fade;
 	//			exitAnim = R.anim.bottom_push_out;
@@ -304,6 +307,16 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//		case R.id.llDemoMainEditTextInfoActivity:
 	//			editName(false);
 	//			break;
+	//		case R.id.llDemoMainServerSettingActivity:
+	//			toActivity(ServerSettingActivity.createIntent(context
+	//					, SettingUtil.getServerAddress(context, false)
+	//					, SettingUtil.getServerAddress(context, true)
+	//					, SettingUtil.APP_SETTING
+	//					, Context.MODE_PRIVATE
+	//					, SettingUtil.KEY_SERVER_ADDRESS_NORMAL
+	//					, SettingUtil.KEY_SERVER_ADDRESS_TEST
+	//					), REQUEST_TO_SERVER_SETTING);
+	//			break;
 	//		case R.id.llDemoMainModelActivity:
 	//			toActivity(ModelActivity.createIntent(context, null));
 	//			break;
@@ -325,15 +338,15 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//			break;
 	//		case R.id.llDemoMainDatePickerWindow:
 	//			toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
-	//					, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
+	//			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
 	//			break;
 	//		case R.id.llDemoMainPlacePickerWindow:
 	//			toActivity(PlacePickerWindow.createIntent(context, 2), REQUEST_TO_PLACE_PICKER, false);
 	//			break;
 	//		default:
 	//			break;
+	//		}
 	//	}
-	//}
 	//Library内switch方法中case R.id.idx:报错
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
@@ -359,6 +372,14 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
 		} else if (v.getId() ==  R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
+		} else if (v.getId() ==  R.id.llDemoMainServerSettingActivity) {
+			toActivity(ServerSettingActivity.createIntent(context
+					, SettingUtil.getServerAddress(context, false)
+					, SettingUtil.getServerAddress(context, true)
+					, SettingUtil.APP_SETTING
+					, Context.MODE_PRIVATE
+					, SettingUtil.KEY_SERVER_ADDRESS_NORMAL
+					, SettingUtil.KEY_SERVER_ADDRESS_TEST));
 		} else if (v.getId() ==  R.id.llDemoMainModelActivity) {
 			toActivity(ModelActivity.createIntent(context, null));
 		} else if (v.getId() ==  R.id.llDemoMainModelFragmentActivity) {
@@ -393,75 +414,76 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-			case REQUEST_TO_SELECT_PICTURE:
-				if (data != null) {
-					cutPicture(data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH));
-				}
-				break;
-			case REQUEST_TO_CUT_PICTURE://返回的结果
-				if (data != null) {
-					setPicture(data.getStringExtra(CutPictureActivity.RESULT_PICTURE_PATH));
-				}
-				break;
-			case REQUEST_TO_EDIT_TEXT_INFO:
-				if (data != null) {
-					svDemoMain.smoothScrollTo(0, 0);
-					tvDemoMainHeadName.setText(StringUtil.getTrimedString(
-							data.getStringExtra(EditTextInfoWindow.RESULT_VALUE)));
-				}
-				break;
-			case REQUEST_TO_TOP_MENU:
-				if (data != null) {
-					switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
-					case 0:
-						showItemOnlyDialog();
-						break;
-					case 1:
-						selectPicture();
-						break;
-					default:
-						break;
-					}
-				}
-				break;
-			case REQUEST_TO_BOTTOM_MENU:
-				if (data != null) {
-					int selectedPosition = data.getIntExtra(BottomMenuWindow.RESULT_POSITION, -1);
-					if (selectedPosition >= 0 && selectedPosition < topbarColorResIds.length) {
-						rlDemoMainTopbar.setBackgroundResource(topbarColorResIds[selectedPosition]);
-					}
-				}
-				break;
-			case REQUEST_TO_DATE_PICKER:
-				if (data != null) {
-					//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
-					//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
-					//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
-					//							? "null" : selectedPositionList.size()));
-
-					ArrayList<Integer> dateList = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
-					if (dateList != null && dateList.size() >= 3) {
-						showShortToast("选择的日期为" + dateList.get(0) + "-" + dateList.get(1) + "-" + dateList.get(2));
-					}
-				}
-				break;
-			case REQUEST_TO_PLACE_PICKER:
-				if (data != null) {
-					ArrayList<String> placeList = data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
-					if (placeList != null) {
-						String place = "";
-						for (String s : placeList) {
-							place += StringUtil.getTrimedString(s);
-						}
-						showShortToast("选择的地区为: " + place);
-					}
-				}
-				break;
-			default:
-				break;
+		if (resultCode != RESULT_OK) {
+			return;
+		}
+		switch (requestCode) {
+		case REQUEST_TO_SELECT_PICTURE:
+			if (data != null) {
+				cutPicture(data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH));
 			}
+			break;
+		case REQUEST_TO_CUT_PICTURE://返回的结果
+			if (data != null) {
+				setPicture(data.getStringExtra(CutPictureActivity.RESULT_PICTURE_PATH));
+			}
+			break;
+		case REQUEST_TO_EDIT_TEXT_INFO:
+			if (data != null) {
+				svDemoMain.smoothScrollTo(0, 0);
+				tvDemoMainHeadName.setText(StringUtil.getTrimedString(
+						data.getStringExtra(EditTextInfoWindow.RESULT_VALUE)));
+			}
+			break;
+		case REQUEST_TO_TOP_MENU:
+			if (data != null) {
+				switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
+				case 0:
+					showItemOnlyDialog();
+					break;
+				case 1:
+					selectPicture();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+		case REQUEST_TO_BOTTOM_MENU:
+			if (data != null) {
+				int selectedPosition = data.getIntExtra(BottomMenuWindow.RESULT_POSITION, -1);
+				if (selectedPosition >= 0 && selectedPosition < topbarColorResIds.length) {
+					rlDemoMainTopbar.setBackgroundResource(topbarColorResIds[selectedPosition]);
+				}
+			}
+			break;
+		case REQUEST_TO_DATE_PICKER:
+			if (data != null) {
+				//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
+				//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
+				//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
+				//							? "null" : selectedPositionList.size()));
+
+				ArrayList<Integer> dateList = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
+				if (dateList != null && dateList.size() >= 3) {
+					showShortToast("选择的日期为" + dateList.get(0) + "-" + dateList.get(1) + "-" + dateList.get(2));
+				}
+			}
+			break;
+		case REQUEST_TO_PLACE_PICKER:
+			if (data != null) {
+				ArrayList<String> placeList = data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
+				if (placeList != null) {
+					String place = "";
+					for (String s : placeList) {
+						place += StringUtil.getTrimedString(s);
+					}
+					showShortToast("选择的地区为: " + place);
+				}
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -476,7 +498,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 				firstTime = secondTime;
 			} else {//完全退出
 				TimeRefresher.getInstance().finish();//结束时间刷新器进程
-				
+
 				moveTaskToBack(false);//应用退到后台
 				System.exit(0);
 			}
