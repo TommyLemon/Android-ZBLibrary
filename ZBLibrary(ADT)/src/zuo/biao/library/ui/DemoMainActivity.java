@@ -297,7 +297,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//			cutPicture(picturePath);
 	//			break;
 	//		case R.id.llDemoMainWebViewActivity:
-	//			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
+	//			toActivity(WebViewActivity.createIntent(context, "首页", SettingUtil.getCurrentServerAddress(context)));
 	//			break;
 	//		case R.id.llDemoMainEditTextInfoActivity:
 	//			editName(false);
@@ -357,7 +357,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		} else if (v.getId() ==  R.id.llDemoMainCutPictureActivity) {
 			cutPicture(picturePath);
 		} else if (v.getId() ==  R.id.llDemoMainWebViewActivity) {
-			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
+			toActivity(WebViewActivity.createIntent(context, "首页", SettingUtil.getCurrentServerAddress(context)));
 		} else if (v.getId() ==  R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
 		} else if (v.getId() ==  R.id.llDemoMainServerSettingActivity) {

@@ -26,7 +26,8 @@ public class DemoApplication extends Application {
 		
 		DataKeeper.init();
 		SettingUtil.init(demoApplication);
-
+//		HttpRequest.URL_BASE = SettingUtil.getCurrentServerAddress(demoApplication);
+		
 		System.out.println("项目启动");
 	}
 

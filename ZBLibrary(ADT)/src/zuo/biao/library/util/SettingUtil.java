@@ -26,6 +26,8 @@ import android.util.Log;
 public final class SettingUtil {
 	private static final String TAG = "SettingUtil";
 
+	public static final boolean isReleased = false;//应用已发布
+
 	/**建议改成你自己项目的路径*/
 	public static final String APP_SETTING = "ZBLIBRARY_SHARE_PREFS_" + "APP_SETTING";
 
@@ -101,17 +103,9 @@ public final class SettingUtil {
 	 * @param context
 	 */
 	public static void restoreDefault(Context context) {
-
-		putBoolean(context, KEY_VOICE, defaultValues[2]);
-		putBoolean(context, KEY_VIBRATE, defaultValues[3]);
-		putBoolean(context, KEY_NO_DISTURB, defaultValues[4]);
-
-		putBoolean(context, KEY_START_WHEN_BOOT, defaultValues[5]);
-		putBoolean(context, KEY_ALLWAYS_SHOW_IN_NOTIFICATION_BAR, defaultValues[6]);
-		putBoolean(context, KEY_SHOW_FLOATING_WINDOW, defaultValues[7]);
-
-		putBoolean(context, KEY_IS_ON_TEST_MODE, defaultValues[8]);
-		putBoolean(context, KEY_IS_FIRST_START, defaultValues[9]);
+		for (int i = 0; i < KEYS.length; i++) {
+			putBoolean(context, KEYS[i], defaultValues[i]);
+		}
 
 		init(context);
 	}
@@ -222,7 +216,6 @@ public final class SettingUtil {
 
 	/**免打扰
 	 * @param context
-	 * @param phone
 	 * @return
 	 */
 	public static boolean noDisturb(Context context) {
@@ -231,11 +224,20 @@ public final class SettingUtil {
 	}
 
 
-	public static final String URL_SERVER_ADDRESS_NORMAL = "https://github.com/TommyLemon/ZBLibrary";
-	public static final String URL_SERVER_ADDRESS_TEST = "https://github.com/search?l=Java&q=%E6%A0%87%E5%87%86%E5%BA%93&type=Repositories&utf8=%E2%9C%93";
 
 	public static final String KEY_SERVER_ADDRESS_NORMAL = "KEY_SERVER_ADDRESS_NORMAL";
 	public static final String KEY_SERVER_ADDRESS_TEST = "KEY_SERVER_ADDRESS_TEST";
+
+	public static final String URL_SERVER_ADDRESS_NORMAL = "www.baidu.com";//正式服务器
+	public static final String URL_SERVER_ADDRESS_TEST = "https://github.com/TommyLemon/ZBLibrary";//测试服务器
+
+	/**获取当前服务器地址（根据isOnTestMode）
+	 * @param context
+	 * @return
+	 */
+	public static String getCurrentServerAddress(Context context) {
+		return getServerAddress(context, isOnTestMode);
+	}
 	/**获取服务器地址
 	 * @param context
 	 * @param isTest

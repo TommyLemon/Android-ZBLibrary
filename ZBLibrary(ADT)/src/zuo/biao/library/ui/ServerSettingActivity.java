@@ -15,10 +15,10 @@ limitations under the License.*/
 package zuo.biao.library.ui;
 
 import zuo.biao.library.R;
-import zuo.biao.library.MODEL.ModelAdapter;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnPageReturnListener;
 import zuo.biao.library.util.DataKeeper;
+import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -243,6 +243,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 			etServerSettingTest.setText(StringUtil.getTrimedString(testAddress));
 		} else if (v.getId() == R.id.tvServerSettingNormalSet) {
 			if (StringUtil.isNotEmpty(sharedPreferencesPath, true) && StringUtil.isNotEmpty(normalKey, true)) {
+				SettingUtil.putBoolean(context, SettingUtil.KEY_IS_ON_TEST_MODE, false);
 				DataKeeper.save(context, sharedPreferencesPath, pathMode, normalKey
 						, StringUtil.getNoBlankString(etServerSettingNormal));
 			} else {
@@ -252,6 +253,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 			onPageReturn();
 		} else if (v.getId() == R.id.tvServerSettingTestSet) {
 			if (StringUtil.isNotEmpty(sharedPreferencesPath, true) && StringUtil.isNotEmpty(testKey, true)) {
+				SettingUtil.putBoolean(context, SettingUtil.KEY_IS_ON_TEST_MODE, true);
 				DataKeeper.save(context, sharedPreferencesPath, pathMode, testKey
 						, StringUtil.getNoBlankString(etServerSettingTest));
 			} else {
