@@ -35,15 +35,15 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private static final String INTENT_NORMAL_ADDRESS = "INTENT_NORMAL_ADDRESS";
-	private static final String INTENT_TEST_ADDRESS = "INTENT_TEST_ADDRESS";
-	private static final String INTENT_SHARED_PREFERENCES_PATH = "INTENT_SHARED_PREFERENCES_PATH";
-	private static final String INTENT_PATH_MODE = "INTENT_PATH_MODE";
-	private static final String INTENT_NORMAL_KEY = "INTENT_NORMAL_KEY";
-	private static final String INTENT_TEST_KEY = "INTENT_TEST_KEY";
+	public static final String INTENT_NORMAL_ADDRESS = "INTENT_NORMAL_ADDRESS";
+	public static final String INTENT_TEST_ADDRESS = "INTENT_TEST_ADDRESS";
+	public static final String INTENT_SHARED_PREFERENCES_PATH = "INTENT_SHARED_PREFERENCES_PATH";
+	public static final String INTENT_PATH_MODE = "INTENT_PATH_MODE";
+	public static final String INTENT_NORMAL_KEY = "INTENT_NORMAL_KEY";
+	public static final String INTENT_TEST_KEY = "INTENT_TEST_KEY";
 
-	private static final String RESULT_NORMAL_ADDRESS = "RESULT_NORMAL_ADDRESS";
-	private static final String RESULT_TEST_ADDRESS = "RESULT_TEST_ADDRESS";
+	public static final String RESULT_NORMAL_ADDRESS = "RESULT_NORMAL_ADDRESS";
+	public static final String RESULT_TEST_ADDRESS = "RESULT_TEST_ADDRESS";
 
 	/**启动这个Activity的Intent
 	 * 通过setResult返回结果,而不是直接在这个界面保存设置
