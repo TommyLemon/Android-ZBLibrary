@@ -231,8 +231,8 @@ public final class SettingUtil {
 	}
 
 
-	public static final String URL_SERVER_ADDRESS_NORMAL = "http://syr.pobing.net/";
-	public static final String URL_SERVER_ADDRESS_TEST = "http://syr.pobing.net/craftsman_server/";
+	public static final String URL_SERVER_ADDRESS_NORMAL = "https://github.com/TommyLemon/ZBLibrary";
+	public static final String URL_SERVER_ADDRESS_TEST = "https://github.com/search?l=Java&q=%E6%A0%87%E5%87%86%E5%BA%93&type=Repositories&utf8=%E2%9C%93";
 
 	public static final String KEY_SERVER_ADDRESS_NORMAL = "KEY_SERVER_ADDRESS_NORMAL";
 	public static final String KEY_SERVER_ADDRESS_TEST = "KEY_SERVER_ADDRESS_TEST";

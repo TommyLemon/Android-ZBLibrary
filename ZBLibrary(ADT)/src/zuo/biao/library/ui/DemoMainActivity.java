@@ -12,25 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zuo.biao.library.MODEL;
+package zuo.biao.library.ui;
 
 import java.util.ArrayList;
 
 import zuo.biao.library.R;
+import zuo.biao.library.MODEL.ModelActivity;
+import zuo.biao.library.MODEL.ModelFragmentActivity;
+import zuo.biao.library.MODEL.ModelUseTimeRefresherActivity;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.manager.TimeRefresher;
-import zuo.biao.library.ui.BottomMenuWindow;
-import zuo.biao.library.ui.CutPictureActivity;
-import zuo.biao.library.ui.DatePickerWindow;
-import zuo.biao.library.ui.EditTextInfoActivity;
-import zuo.biao.library.ui.EditTextInfoWindow;
-import zuo.biao.library.ui.ItemOnlyDialog;
-import zuo.biao.library.ui.MyAlertDialog;
-import zuo.biao.library.ui.PlacePickerWindow;
-import zuo.biao.library.ui.SelectPictureActivity;
-import zuo.biao.library.ui.ServerSettingActivity;
-import zuo.biao.library.ui.TopMenuWindow;
-import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
@@ -41,6 +32,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -254,7 +246,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainServerSettingActivity).setOnClickListener(this);
+		//		findViewById(R.id.llDemoMainServerSettingActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelFragmentActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainModelUseTimeRefresherActivity).setOnClickListener(this);
@@ -264,6 +256,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		findViewById(R.id.llDemoMainEditTextInfoWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDatePickerWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainPlacePickerWindow).setOnClickListener(this);
+
+		
+		findViewById(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
 
 	}
 
@@ -308,14 +303,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//			editName(false);
 	//			break;
 	//		case R.id.llDemoMainServerSettingActivity:
-	//			toActivity(ServerSettingActivity.createIntent(context
-	//					, SettingUtil.getServerAddress(context, false)
-	//					, SettingUtil.getServerAddress(context, true)
-	//					, SettingUtil.APP_SETTING
-	//					, Context.MODE_PRIVATE
-	//					, SettingUtil.KEY_SERVER_ADDRESS_NORMAL
-	//					, SettingUtil.KEY_SERVER_ADDRESS_TEST
-	//					), REQUEST_TO_SERVER_SETTING);
+	//			showShortToast("请长按5-8s");
 	//			break;
 	//		case R.id.llDemoMainModelActivity:
 	//			toActivity(ModelActivity.createIntent(context, null));
@@ -373,13 +361,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		} else if (v.getId() ==  R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
 		} else if (v.getId() ==  R.id.llDemoMainServerSettingActivity) {
-			toActivity(ServerSettingActivity.createIntent(context
-					, SettingUtil.getServerAddress(context, false)
-					, SettingUtil.getServerAddress(context, true)
-					, SettingUtil.APP_SETTING
-					, Context.MODE_PRIVATE
-					, SettingUtil.KEY_SERVER_ADDRESS_NORMAL
-					, SettingUtil.KEY_SERVER_ADDRESS_TEST));
+			showShortToast("请长按5-8s");
 		} else if (v.getId() ==  R.id.llDemoMainModelActivity) {
 			toActivity(ModelActivity.createIntent(context, null));
 		} else if (v.getId() ==  R.id.llDemoMainModelFragmentActivity) {
@@ -400,6 +382,39 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+
+	private long touchDownTime = 0;
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			if (v.getId() == R.id.llDemoMainServerSettingActivity) {
+				touchDownTime = System.currentTimeMillis();
+				Log.i(TAG, "onTouch MotionEvent.ACTION: touchDownTime=" + touchDownTime);
+				return true;
+			}
+		case MotionEvent.ACTION_UP:
+			if (v.getId() == R.id.llDemoMainServerSettingActivity) {
+				long time = System.currentTimeMillis() - touchDownTime;
+				if (time < 8000 && time > 5000) {
+					toActivity(ServerSettingActivity.createIntent(context
+							, SettingUtil.getServerAddress(context, false)
+							, SettingUtil.getServerAddress(context, true)
+							, SettingUtil.APP_SETTING
+							, Context.MODE_PRIVATE
+							, SettingUtil.KEY_SERVER_ADDRESS_NORMAL
+							, SettingUtil.KEY_SERVER_ADDRESS_TEST));
+					return true;
+				}
+				showShortToast("请长按5-8s");
+			}
+			break;
+		default:
+			break;
+		}
+
+		return super.onTouch(v, event);
+	}
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
