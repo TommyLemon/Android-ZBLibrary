@@ -67,6 +67,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		isActivityAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
+		if (SettingUtil.isOnTestMode) {
+			showShortToast("测试服务器");
+		}
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
