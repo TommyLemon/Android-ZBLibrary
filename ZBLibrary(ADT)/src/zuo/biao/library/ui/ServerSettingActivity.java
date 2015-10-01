@@ -15,6 +15,7 @@ limitations under the License.*/
 package zuo.biao.library.ui;
 
 import zuo.biao.library.R;
+import zuo.biao.library.MODEL.ModelAdapter;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnPageReturnListener;
 import zuo.biao.library.util.DataKeeper;
@@ -190,18 +191,57 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+	//	@Override
+	//	public void onClick(View v) {
+	//		switch (v.getId()) {
+	//		case R.id.tvServerSettingReturn:
+	//			onPageReturn();
+	//			break;
+	//		case R.id.tvServerSettingForward:
+	//			etServerSettingNormal.setText(StringUtil.getTrimedString(normalAddress));
+	//			etServerSettingTest.setText(StringUtil.getTrimedString(testAddress));
+	//			break;
+	//
+	//		case R.id.tvServerSettingNormalSet:
+	//			if (StringUtil.isNotEmpty(sharedPreferencesPath, true) && StringUtil.isNotEmpty(normalKey, true)) {
+	//				DataKeeper.save(context, sharedPreferencesPath, pathMode, normalKey
+	//						, StringUtil.getNoBlankString(etServerSettingNormal));
+	//			} else {
+	//				setResult(RESULT_OK, new Intent().putExtra(RESULT_NORMAL_ADDRESS
+	//						, StringUtil.getNoBlankString(etServerSettingNormal)));
+	//			}
+	//			onPageReturn();
+	//			break;
+	//		case R.id.tvServerSettingTestSet:
+	//			if (StringUtil.isNotEmpty(sharedPreferencesPath, true) && StringUtil.isNotEmpty(testKey, true)) {
+	//				DataKeeper.save(context, sharedPreferencesPath, pathMode, testKey
+	//						, StringUtil.getNoBlankString(etServerSettingTest));
+	//			} else {
+	//				setResult(RESULT_OK, new Intent().putExtra(RESULT_TEST_ADDRESS
+	//						, StringUtil.getNoBlankString(etServerSettingTest)));
+	//			}
+	//			onPageReturn();
+	//			break;
+	//
+	//		case R.id.tvServerSettingNormalOpen:
+	//			toActivity(WebViewActivity.createIntent(context, "正式服务器", StringUtil.getNoBlankString(etServerSettingNormal)));
+	//			break;
+	//		case R.id.tvServerSettingTestOpen:
+	//			toActivity(WebViewActivity.createIntent(context, "测试服务器", StringUtil.getNoBlankString(etServerSettingTest)));
+	//			break;
+	//		default:
+	//			break;
+	//		}
+	//	}
+	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvServerSettingReturn:
+		if (v.getId() == R.id.tvServerSettingReturn) {
 			onPageReturn();
-			break;
-		case R.id.tvServerSettingForward:
+		} else if (v.getId() == R.id.tvServerSettingForward) {
 			etServerSettingNormal.setText(StringUtil.getTrimedString(normalAddress));
 			etServerSettingTest.setText(StringUtil.getTrimedString(testAddress));
-			break;
-
-		case R.id.tvServerSettingNormalSet:
+		} else if (v.getId() == R.id.tvServerSettingNormalSet) {
 			if (StringUtil.isNotEmpty(sharedPreferencesPath, true) && StringUtil.isNotEmpty(normalKey, true)) {
 				DataKeeper.save(context, sharedPreferencesPath, pathMode, normalKey
 						, StringUtil.getNoBlankString(etServerSettingNormal));
@@ -210,8 +250,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 						, StringUtil.getNoBlankString(etServerSettingNormal)));
 			}
 			onPageReturn();
-			break;
-		case R.id.tvServerSettingTestSet:
+		} else if (v.getId() == R.id.tvServerSettingTestSet) {
 			if (StringUtil.isNotEmpty(sharedPreferencesPath, true) && StringUtil.isNotEmpty(testKey, true)) {
 				DataKeeper.save(context, sharedPreferencesPath, pathMode, testKey
 						, StringUtil.getNoBlankString(etServerSettingTest));
@@ -220,19 +259,12 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 						, StringUtil.getNoBlankString(etServerSettingTest)));
 			}
 			onPageReturn();
-			break;
-
-		case R.id.tvServerSettingNormalOpen:
+		} else if (v.getId() == R.id.tvServerSettingNormalOpen) {
 			toActivity(WebViewActivity.createIntent(context, "正式服务器", StringUtil.getNoBlankString(etServerSettingNormal)));
-			break;
-		case R.id.tvServerSettingTestOpen:
-			toActivity(WebViewActivity.createIntent(context, "正式服务器", StringUtil.getNoBlankString(etServerSettingTest)));
-			break;
-		default:
-			break;
+		} else if (v.getId() == R.id.tvServerSettingTestOpen) {
+			toActivity(WebViewActivity.createIntent(context, "测试服务器", StringUtil.getNoBlankString(etServerSettingTest)));
 		}
 	}
-
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
