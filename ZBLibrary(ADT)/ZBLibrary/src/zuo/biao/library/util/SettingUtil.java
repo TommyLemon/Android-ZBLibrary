@@ -224,8 +224,10 @@ public final class SettingUtil {
 				&& TimeUtil.isNowInTimeArea(NO_DISTURB_START_TIME, NO_DISTURB_END_TIME);
 	}
 
-
-	public static final String IMAGE_BASE_URL = "http://shouyiren-authority.b0.upaiyun.com";
+	/**
+	 * 改为你的存图片的服务器地址
+	 */
+	public static final String IMAGE_BASE_URL = "http://demo.upaiyun.com";
 
 	public static final String KEY_SERVER_ADDRESS_NORMAL = "KEY_SERVER_ADDRESS_NORMAL";
 	public static final String KEY_SERVER_ADDRESS_TEST = "KEY_SERVER_ADDRESS_TEST";

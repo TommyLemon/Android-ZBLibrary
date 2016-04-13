@@ -14,24 +14,24 @@ limitations under the License.*/
 
 package zblibrary.demo.base;
 
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.BaseAdapter;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import zblibrary.demo.R;
+import zblibrary.demo.manager.HttpRequest;
+import zblibrary.demo.manager.ListDiskCacheManager;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.ui.XListView;
 import zuo.biao.library.ui.XListView.IXListViewListener;
 import zuo.biao.library.util.StringUtil;
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.BaseAdapter;
 
-import zblibrary.demo.R;
-import zblibrary.demo.manager.HttpRequest;
-import zblibrary.demo.manager.ListDiskCacheManager;
-
-/**基础http获取列表的android.support.v4.app.Fragment
+/**基础http获取列表的Activity
  * @author Lemon
  * @warn 1.不要在子类重复这个类中onCreateView中的代码;
  *       2.只使用lvBaseHttpListFragment为显示http数据的ListView，不要在子类中改变它

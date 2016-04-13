@@ -14,8 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.DEMO;
 
-import zuo.biao.library.base.BaseTabActivity;
-import zuo.biao.library.ui.WebViewActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +22,9 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import zuo.biao.library.base.BaseTabActivity;
+import zuo.biao.library.ui.WebViewActivity;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**带标签的FragmentActivity示例
@@ -137,7 +138,6 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final int RESULT_MODEL = 30;
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<

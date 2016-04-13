@@ -14,6 +14,17 @@ limitations under the License.*/
 
 package zblibrary.demo.manager;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.text.TextUtils;
+
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
@@ -25,25 +36,16 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONObject;
-
 import zblibrary.demo.application.DemoApplication;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.MD5Util;
 import zuo.biao.library.util.SSLUtil;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.text.TextUtils;
 
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-/**http请求类
+/**HTTP请求类
  * @author Lemon
+ * @use HttpRequest.getInstance().xxxMethod  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
  * @must getToken方法内demo_***改为服务器设定值
  */
 public class HttpRequest {

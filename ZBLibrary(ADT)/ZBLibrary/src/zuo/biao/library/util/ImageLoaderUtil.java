@@ -27,7 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
-/**图片加载管理类
+/**图片加载工具类
  * @author Lemon
  * @use ImageLoaderUtil.getInstance(context).loadImage(...)
  */

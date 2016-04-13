@@ -50,7 +50,8 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 	/**
 	 * @param context
-	 * @param limitLevel
+	 * @param packageName
+	 * @param maxLevel
 	 * @return
 	 */
 	public static Intent createIntent(Context context, String packageName, int maxLevel) {
@@ -58,6 +59,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	}
 	/**
 	 * @param context
+	 * @param packageName
 	 * @param minLevel
 	 * @param maxLevel
 	 * @return

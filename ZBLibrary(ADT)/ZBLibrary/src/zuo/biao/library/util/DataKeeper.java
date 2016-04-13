@@ -40,11 +40,11 @@ public class DataKeeper {
 	public static final String DELETE_SUCCEED = "删除成功";
 	public static final String DELETE_FAILED = "删除失败";
 
-	public static final String ROOT_SHARE_PREFS_ = "XHS_SHARE_PREFS_";
+	public static final String ROOT_SHARE_PREFS_ = "DEMO_SHARE_PREFS_";
 
 	//文件缓存<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名*/
-	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/zuo.biao.library/xhs#xihongshi/48/") : null;
+	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/zuo.biao.library/demo/48/") : null;
 	public static final String accountPath = fileRootPath + "account/";
 	public static final String audioPath = fileRootPath + "audio/";
 	public static final String videoPath = fileRootPath + "video/";

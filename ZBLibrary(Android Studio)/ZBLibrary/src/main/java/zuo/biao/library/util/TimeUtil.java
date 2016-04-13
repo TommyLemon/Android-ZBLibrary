@@ -475,7 +475,7 @@ public class TimeUtil {
 		return details[1] + "月" + details[2] + "日";
 	}
 	/**获取智能生日
-	 * @param birthday
+	 * @param birthdayDetails
 	 * @return
 	 */
 	public static String getSmartBirthday(int[] birthdayDetails) {
