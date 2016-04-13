@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <TextView
+            android:id="@+id/tvBottomTabTitle"
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="主页" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/flBottomTabFragmentContainer"
+        style="@style/match_match"
+        android:layout_weight="1"
+        android:background="@color/activity_bg" >
+    </FrameLayout>
+
+    <View style="@style/divider_horizontal_1px_gray" />
+
+    <LinearLayout
+        style="@style/ll_horizontal_match_wrap"
+        android:layout_height="@dimen/topbar_height"
+        android:background="@color/white" >
+
+        <LinearLayout
+            android:id="@+id/llBottomTabTab0"
+            style="@style/ll_vertical_match_match"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/topbar_bg" >
+
+            <ImageView
+                style="@style/img_btn"
+                android:src="@drawable/earth_light" />
+
+            <TextView
+                style="@style/text_micro"
+                android:text="主页" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomTabTab1"
+            style="@style/ll_vertical_match_match"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white" >
+
+            <ImageView
+                style="@style/img_btn"
+                android:src="@drawable/mail_light" />
+
+            <TextView
+                style="@style/text_micro"
+                android:text="消息" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomTabTab2"
+            style="@style/ll_vertical_match_match"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white" >
+
+            <ImageView
+                style="@style/img_btn"
+                android:src="@drawable/search_light" />
+
+            <TextView
+                style="@style/text_micro"
+                android:text="发现" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomTabTab3"
+            style="@style/ll_vertical_match_match"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white" >
+
+            <ImageView
+                style="@style/img_btn"
+                android:src="@drawable/setting_light" />
+
+            <TextView
+                style="@style/text_micro"
+                android:text="设置" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
