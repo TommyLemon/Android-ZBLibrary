@@ -132,9 +132,10 @@ public class CommonUtil {
 
 		intent = new Intent(Intent.ACTION_SENDTO); 
 		intent.setData(Uri.parse("mailto:"+ emailAddress));//缺少"mailto:"前缀导致找不到应用崩溃
+		intent.putExtra(Intent.EXTRA_TEXT, "内容");  //最近在MIUI7上无内容导致无法跳到编辑邮箱界面
 		toActivity(context, intent, -1);
 	}
-
+	
 	/**打开网站
 	 * @param context
 	 * @param webSite

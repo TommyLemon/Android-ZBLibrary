@@ -14,19 +14,21 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**数据存储工具类
+ * @must 1.必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名
+ * 		 2.必须在Application中init
  */
 @SuppressLint("DefaultLocale")
 public class DataKeeper {
@@ -38,20 +40,24 @@ public class DataKeeper {
 	public static final String DELETE_SUCCEED = "删除成功";
 	public static final String DELETE_FAILED = "删除失败";
 
-	public static final String ROOT_SHARE_PREFS_ = "ZBLIBRARY_SHARE_PREFS_";
+	public static final String ROOT_SHARE_PREFS_ = "XHS_SHARE_PREFS_";
 
-	//文件缓存
-	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/ZBLIBRARY/") : null;
+	//文件缓存<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	/**必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名*/
+	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/zuo.biao.library/xhs#xihongshi/48/") : null;
 	public static final String accountPath = fileRootPath + "account/";
 	public static final String audioPath = fileRootPath + "audio/";
 	public static final String videoPath = fileRootPath + "video/";
 	public static final String imagePath = fileRootPath + "image/";
 	public static final String tempPath = fileRootPath + "temp/";
-	//存储文件的类型
+	//文件缓存>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//存储文件的类型<<<<<<<<<<<<<<<<<<<<<<<<<
 	public static final int TYPE_FILE_TEMP = 0;								//保存保存临时文件
 	public static final int TYPE_FILE_IMAGE = 1;							//保存图片
 	public static final int TYPE_FILE_VIDEO = 2;							//保存视频
 	public static final int TYPE_FILE_AUDIO = 3;							//保存语音
+	//存储文件的类型>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//不能实例化
 	private DataKeeper() {}
@@ -106,7 +112,7 @@ public class DataKeeper {
 	 * 		若SDCard不存在返回null
 	 */
 	public static String storeFile(File file, String type) {
-		init();
+
 		if(!hasSDCard()) {
 			return null;
 		}
@@ -127,7 +133,7 @@ public class DataKeeper {
 	/** @return	存储文件的绝对路径名
 				若SDCard不存在返回null */
 	public static String storeFile(byte[] data, String suffix, String type) {
-		init();
+
 		if(!hasSDCard()) {
 			return null;
 		}
@@ -183,7 +189,7 @@ public class DataKeeper {
 
 	/** 获取一个文件缓存的路径  */
 	public static String getFileCachePath(int fileType, String fileName, String formSuffix) {
-		init();
+
 		switch (fileType) {
 		case TYPE_FILE_IMAGE:
 			return imagePath + fileName + "." + formSuffix; 
@@ -215,6 +221,43 @@ public class DataKeeper {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
+	
+	
+	//使用SharedPreferences保存 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**使用SharedPreferences保存
+	 * @param context
+	 * @param path
+	 * @param key
+	 * @param value
+	 */
+	public static void save(Context context, String path, String key, String value) {
+		save(context, path, Context.MODE_PRIVATE, key, value);
+	}
+	/**使用SharedPreferences保存
+	 * @param context
+	 * @param path
+	 * @param mode
+	 * @param key
+	 * @param value
+	 */
+	public static void save(Context context, String path, int mode, String key, String value) {
+		save(context, context == null ? null : context.getSharedPreferences(path, mode), key, value);
+	}
+	/**使用SharedPreferences保存
+	 * @param context
+	 * @param sdf
+	 * @param key
+	 * @param value
+	 */
+	public static void save(Context context, SharedPreferences sdf, String key, String value) {
+		if (sdf == null || StringUtil.isNotEmpty(key, false) == false || StringUtil.isNotEmpty(value, false) == false) {
+			Log.e(TAG, "save sdf == null || \n key = " + key + ";\n value = " + value + "\n >> return;");
+			return;
+		}
+		sdf.edit().remove(key).putString(key, value).commit();		
+	}
+
+	//使用SharedPreferences保存 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

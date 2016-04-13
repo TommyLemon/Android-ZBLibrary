@@ -14,6 +14,11 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import zuo.biao.library.R;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -23,8 +28,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -33,18 +40,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import zuo.biao.library.R;
-import zuo.biao.library.util.StringUtil;
-
 /**通用底部弹出菜单
  * @author lemon
  * @use
 	toActivity(BottomMenuWindow.createIntent);
 	>> onActivityResult方法内
-	data.getIntExtra(BottomMenuWindow.RESULT_POSITION) 可得到点击的(int) position
+	data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID) 可得到点击的(int) position
 	或
 	data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE) 可得到点击的(int) intentCode
  */
@@ -55,64 +56,56 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param names
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String title, String[] names) {
-		return createIntent(context, title, names, new ArrayList<Integer>());
+	public static Intent createIntent(Context context, String[] names) {
+		return createIntent(context, names, new ArrayList<Integer>());
 	}
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param nameList
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String title, ArrayList<String> nameList) {
-		return createIntent(context, title, nameList, null);
+	public static Intent createIntent(Context context, ArrayList<String> nameList) {
+		return createIntent(context, nameList, null);
 	}
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param names
 	 * @param intentCodes
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String title, String[] names, int[] intentCodes) {
+	public static Intent createIntent(Context context, String[] names, int[] intentCodes) {
 		return new Intent(context, BottomMenuWindow.class).
-				putExtra(INTENT_TITLE, title).
-				putExtra(INTENT_NAMES, names).
+				putExtra(INTENT_ITEMS, names).
 				putExtra(INTENT_INTENTCODES, intentCodes);
 	}
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param names
 	 * @param intentCodeList
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String title, String[] names, ArrayList<Integer> intentCodeList) {
+	public static Intent createIntent(Context context, String[] names, ArrayList<Integer> intentCodeList) {
 		return new Intent(context, BottomMenuWindow.class).
-				putExtra(INTENT_TITLE, title).
-				putExtra(INTENT_NAMES, names).
+				putExtra(INTENT_ITEMS, names).
 				putExtra(INTENT_INTENTCODES, intentCodeList);
 	}
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param nameList
 	 * @param intentCodeList
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String title,
+	public static Intent createIntent(Context context, 
 			ArrayList<String> nameList, ArrayList<Integer> intentCodeList) {
 		return new Intent(context, BottomMenuWindow.class).
-				putExtra(INTENT_TITLE, title).
-				putStringArrayListExtra(INTENT_NAMES, nameList).
+				putStringArrayListExtra(INTENT_ITEMS, nameList).
 				putIntegerArrayListExtra(INTENT_INTENTCODES, intentCodeList);
 	}
 
@@ -131,12 +124,12 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 	}
 
 	public static final String INTENT_TITLE = "INTENT_TITLE";
-	public static final String INTENT_NAMES = "INTENT_NAMES";
+	public static final String INTENT_ITEMS = "INTENT_ITEMS";
 	public static final String INTENT_INTENTCODES = "INTENT_INTENTCODES";
 
 	public static final String RESULT_TITLE = "RESULT_TITLE";
 	public static final String RESULT_NAME = "RESULT_NAME";
-	public static final String RESULT_POSITION = "RESULT_POSITION";
+	public static final String RESULT_ITEM_ID = "RESULT_ITEM_ID";
 	public static final String RESULT_INTENT_CODE = "RESULT_INTENT_CODE";
 
 	private TextView tvBottomMenuTitle;
@@ -155,8 +148,7 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 
 		llBottomMenuBg = findViewById(R.id.llBottomMenuBg);
 		tvBottomMenuCancel = findViewById(R.id.tvBottomMenuCancel);
-		llBottomMenuBg.setOnClickListener(this);
-		tvBottomMenuCancel.setOnClickListener(this);
+		
 
 		llBottomMenuMenuContainer = findViewById(R.id.llBottomMenuMenuContainer);
 
@@ -183,9 +175,9 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 			}
 		}
 
-		String[] menuItems = intent.getStringArrayExtra(INTENT_NAMES);
+		String[] menuItems = intent.getStringArrayExtra(INTENT_ITEMS);
 		if (menuItems == null || menuItems.length <= 0) {
-			nameList = intent.getStringArrayListExtra(INTENT_NAMES);
+			nameList = intent.getStringArrayListExtra(INTENT_ITEMS);
 		} else {
 			nameList = new ArrayList<String>(Arrays.asList(menuItems));
 		}
@@ -205,6 +197,16 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 		lvBottomMenu = (ListView) findViewById(R.id.lvBottomMenu);
 		lvBottomMenu.setAdapter(adapter);
 		lvBottomMenu.setOnItemClickListener(this);
+		
+		llBottomMenuBg.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				exit();
+				return true;
+			}
+		});
+		tvBottomMenuCancel.setOnClickListener(this);
 	}
 
 
@@ -224,9 +226,7 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() ==  R.id.llBottomMenuBg) {
-			exit();
-		} else if (v.getId() ==  R.id.tvBottomMenuCancel) {
+		if (v.getId() ==  R.id.tvBottomMenuCancel) {
 			exit();
 		}
 	}
@@ -236,7 +236,7 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 
 		Intent intent = new Intent()
 		.putExtra(RESULT_TITLE, StringUtil.getTrimedString(tvBottomMenuTitle))
-		.putExtra(RESULT_POSITION, position);
+		.putExtra(RESULT_ITEM_ID, position);
 		if (intentCodeList != null && intentCodeList.size() > position) {
 			intent.putExtra(RESULT_INTENT_CODE, intentCodeList.get(position));
 		}

@@ -14,62 +14,75 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import zuo.biao.library.R;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
-import android.util.Log;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
+import android.widget.TextView;
 
 /**基础底部弹出界面Activity
  * @author Lemon
- * @use extends BaseBottomWindow且调用setContentView(int layoutResID, BaseBottomWindow context, int backgroundViewResID)方法
+ * @warn 不要在子类重复这个类中onCreate中的代码
+ * @use extends BaseBottomWindow, 具体参考.ModelBottomWindow
  */
-public abstract class BaseBottomWindow extends Activity {
-	private static final String TAG = "BaseBottomWindow";
+public abstract class BaseBottomWindow extends BaseActivity implements OnClickListener {
+	//	private static final String TAG = "BaseBottomWindow";
 
-	protected BaseBottomWindow context = null;//在onCreate方法中赋值，不能在子Activity中创建
-	protected boolean isActivityAlive = false;//该Activity是否已被使用并未被销毁。 在onCreate方法中赋值为true，不能在子Activity中创建
+	public static final String INTENT_ITEMS = "INTENT_ITEMS";
+	public static final String INTENT_ITEM_IDS = "INTENT_ITEM_IDS";
 
-	private View vBg;//子Activity全局背景View
-	protected Animation animation;//界面进出动画
-	/**设置界面布局View
-	 * @param layoutResID - 子Activity全局View的R.layout.ID
-	 * @param context 
-	 * @param backgroundViewResID - 子Activity全局背景View的R.id.ID
-	 */
-	public void setContentView(int layoutResID, BaseBottomWindow context, int backgroundViewResID) {
-		setContentView(layoutResID);
+	public static final String RESULT_TITLE = "RESULT_TITLE";
+	public static final String RESULT_ITEM = "RESULT_ITEM";
+	public static final String RESULT_ITEM_ID = "RESULT_ITEM_ID";
 
-		animation = AnimationUtils.loadAnimation(context, R.anim.bottom_push_in_keyboard);
-		animation.setDuration(200);
 
-		//导致卡顿this改context也没用		vBg = LayoutInflater.from(this).inflate(layoutResID, null);
-		vBg = context.findViewById(backgroundViewResID);
-		vBg.startAnimation(animation);
-		//		vBg.setVisibility(View.VISIBLE);
-		//响应的是显示区域而不是半透明背景,不过这个功能非必需		vBg.setOnClickListener(l);
+	protected LayoutInflater inflater = null;//该Activity布局解释器
+	protected Resources resources = null;//该Activity资源管理器
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		inflater = getLayoutInflater();
+		resources = getResources();
 	}
 
-	public static final String INTENT_TITLE = "INTENT_TITLE";
-	
-	protected Intent intent = null;//可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
-	protected List<Handler> handlerList = new ArrayList<Handler>();
-	protected List<Runnable> runnableList = new ArrayList<Runnable>();
 
-	public abstract void initView();//UI显示方法，必须在setContentView后调用
-	public abstract void initData();//data数据方法，必须在setContentView后调用
-	public abstract void initListener();//listener事件监听方法，必须在setContentView后调用
 
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	protected View vBaseBottomWindowRoot;//子Activity全局背景View
+
+	@Nullable
+	protected TextView tvBaseBottomWindowTitle;
+
+	@Nullable
+	protected TextView tvBaseBottomWindowReturn;
+
+	protected Animation animation;//界面进出动画
+	/**
+	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
+	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
+	 */
+	@Override
+	public void initView() {// 必须调用
+		enterAnim = exitAnim = R.anim.null_anim;
+
+		vBaseBottomWindowRoot = findViewById(R.id.vBaseBottomWindowRoot);
+
+		tvBaseBottomWindowTitle = (TextView) findViewById(R.id.tvBaseBottomWindowTitle);
+		tvBaseBottomWindowReturn = (TextView) findViewById(R.id.tvBaseBottomWindowReturn);
+
+		vBaseBottomWindowRoot.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bottom_window_enter));
+	}
 
 	@SuppressLint("HandlerLeak")
 	public Handler exitHandler = new Handler(){
@@ -77,64 +90,107 @@ public abstract class BaseBottomWindow extends Activity {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			BaseBottomWindow.super.finish();
-			overridePendingTransition(R.anim.null_anim, R.anim.null_anim);
 		}
 	};
 
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	/**运行线程
-	 * @param threadName
-	 * @param runnable 
-	 * @return 
-	 */
-	public Handler runThread(String threadName, Runnable runnable) {
-		if (runnable == null) {
-			Log.e(TAG, "runThread  runnable == null >> return");
-			return null;
+
+
+
+
+
+
+
+
+
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void initData() {// 必须调用
+		intent = getIntent();
+
+		if (tvBaseBottomWindowTitle != null) {
+			tvBaseBottomWindowTitle.setVisibility(StringUtil.isNotEmpty(getTitleName(), true) ? View.VISIBLE : View.GONE);
+			tvBaseBottomWindowTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
-		HandlerThread handlerThread = new HandlerThread("" + threadName);
-		handlerThread.start();//创建一个HandlerThread并启动它
-		Handler handler = new Handler(handlerThread.getLooper());//使用HandlerThread的looper对象创建Handler
-		handler.post(runnable);//将线程post到Handler中
 
-		handlerList.add(handler);
-		runnableList.add(runnable);
-
-		return handler;
 	}
-	
+
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
+	@Nullable
+	protected abstract String getTitleName();
+
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+
+
+	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void initListener() {// 必须调用
+
+		if (tvBaseBottomWindowReturn != null) {
+			tvBaseBottomWindowReturn.setOnClickListener(this);
+		}
+
+//		if (vBaseBottomWindowRoot != null) {
+//			vBaseBottomWindowRoot.setOnClickListener(new OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					finish();
+//				}
+//			});
+//		}
+
+	}
+
+
+	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.tvBaseBottomWindowReturn) {
+			finish();
+		}
+	}
+
+
+	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	/**带动画退出,并使退出事件只响应一次
 	 */
 	@Override
 	public void finish() {
-		isActivityAlive = false;
+		vBaseBottomWindowRoot.setEnabled(false);
 
-		vBg.setEnabled(false);
-
-		animation = AnimationUtils.loadAnimation(context, R.anim.bottom_push_out_keyboard);
-		animation.setDuration(200);
-		vBg.startAnimation(animation);
-		vBg.setVisibility(View.GONE);
+		vBaseBottomWindowRoot.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bottom_window_exit));
+		vBaseBottomWindowRoot.setVisibility(View.GONE);
 
 		exitHandler.sendEmptyMessageDelayed(0, 200);
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		//里面的代码不需要重写，通过super.onDestroy();即可得到<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		isActivityAlive = false;
-		if (handlerList != null && runnableList != null) {
-			for (int i = 0; i < handlerList.size(); i++) {
-				try {
-					(handlerList.get(i)).removeCallbacks(runnableList.get(i));
-				} catch (Exception e) {
-					Log.e(TAG, "onDestroy try { handler.removeCallbacks(runnable);...  >> catch  : " + e.getMessage());
-				}
-			}
-		}
-		//里面的代码不需要重写，通过super.onDestroy();即可得到>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	}
+	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+	// 内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	// 内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 }

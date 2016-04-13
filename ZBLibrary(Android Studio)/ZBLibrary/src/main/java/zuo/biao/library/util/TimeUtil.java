@@ -14,7 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -135,7 +135,7 @@ public class TimeUtil {
 
 		
 		/**
-		 * @param level
+		 * @param type
 		 * @return
 		 */
 		public static boolean isContainType(int type) {
@@ -167,8 +167,33 @@ public class TimeUtil {
 	
 	public static final int[] minTimeDetails = {0, 0, 0};
 	public static final int[] maxTimeDetails = {23, 59, 59};
-	
+
+
+	/**获取时间,hh:mm:ss
+	 * @param date
+	 * @return
+	 */
+	public static String getTime(Date date) {
+		return date == null ? "" : getTime(date.getTime());
+	}
+	/**获取时间,hh:mm:ss
+	 * @param date
+	 * @return
+	 */
+	public static String getTime(long date) {
+		return new SimpleDateFormat("hh:mm:ss").format(new Date(date));
+	}
+
+
+
 	/**获取完整时间
+	 * @param date
+	 * @return
+	 */
+	public static String getWholeTime(Date date) {
+		return date == null ? "" : getWholeTime(date.getTime());
+	}
+	/**获取完整时间 yyyy年mm月dd日hh时mm分
 	 * @param date
 	 * @return
 	 */
@@ -214,7 +239,7 @@ public class TimeUtil {
 	}
 
 	public static String getSmartDate(Date date) {
-		return null;
+		return date == null ? "" : getSmartDate(date.getTime());
 	}
 	/**智能时间显示，12:30,昨天，前天...
 	 * @param date

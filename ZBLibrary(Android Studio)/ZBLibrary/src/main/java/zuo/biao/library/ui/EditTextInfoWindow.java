@@ -24,12 +24,12 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -81,11 +81,10 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.edit_text_info_window, this, R.id.llEditTextInfoBg);
+		setContentView(R.layout.edit_text_info_window);
 		//类相关初始化,建议使用<<<<<<<<<
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化,建议使用>>>>>>>>>
 
 		//必须调用<<<<<<<<<<<
@@ -103,9 +102,10 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	private TextView tvEditTextInfoPlace;
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
-	private TextView tvEditTextInfoInfoRemind;
+	private TextView tvEditTextInfoRemind;
 	@Override
 	public void initView() {//必须调用
+		super.initView();
 
 		tvEditTextInfoTitle = (TextView) findViewById(R.id.tvEditTextInfoTitle);
 
@@ -114,7 +114,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
-		tvEditTextInfoInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoInfoRemind);
+		tvEditTextInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoRemind);
 	}
 
 
@@ -160,6 +160,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	private int intentType = 0;
 	@Override
 	public void initData() {//必须调用
+		super.initData();
 
 		intent = getIntent();
 		packageName = intent.getStringExtra(INTENT_PACKAGE_NAME);
@@ -190,7 +191,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 			MaxLen = 60;
 			break;
 		case TYPE_PROFESSION:
-			tvEditTextInfoInfoRemind.setText("所属行业");
+			tvEditTextInfoRemind.setText("所属行业");
 			MaxLen = 15;
 		case TYPE_NOTE:
 			MaxLen = 100;
@@ -200,7 +201,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 			break;
 		}
 		etEditTextInfo.setMaxEms(MaxLen);
-		tvEditTextInfoInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
+		tvEditTextInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
 
 		if (intentType == TYPE_MAILADDRESS || intentType == TYPE_USUALADDRESS) {
 			tvEditTextInfoPlace.setVisibility(View.VISIBLE);
@@ -210,6 +211,11 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
+	@Override
+	@Nullable
+	protected String getTitleName() {
+		return getIntent().getStringExtra(INTENT_TITLE);
+	}
 
 	private void saveAndExit() {
 		String editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);
@@ -238,8 +244,9 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	private String inputedString;
 	@Override
 	public void initListener() {//必须调用
+		super.initListener();
 
-		findViewById(R.id.ivEditTextInfoReturn).setOnClickListener(this);
+		findViewById(R.id.tvEditTextInfoReturn).setOnClickListener(this);
 		findViewById(R.id.tvEditTextInfoForward).setOnClickListener(this);
 		tvEditTextInfoPlace.setOnClickListener(this);
 
@@ -284,7 +291,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ivEditTextInfoReturn) {
+		if (v.getId() == R.id.tvEditTextInfoReturn) {
 			finish();
 		} else if (v.getId() == R.id.tvEditTextInfoForward) {
 			saveAndExit();

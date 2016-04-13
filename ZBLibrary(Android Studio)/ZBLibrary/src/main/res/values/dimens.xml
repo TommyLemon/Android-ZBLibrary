@@ -5,11 +5,35 @@
     <dimen name="text_size_large">24sp</dimen>
     <dimen name="text_size_huge">21sp</dimen>
     <dimen name="text_size_big">19sp</dimen>
-    <dimen name="text_size_middle">17sp</dimen>
+    <dimen name="text_size_middle">16sp</dimen>
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_micro">12sp</dimen>
 
     <!-- textSize>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+
+    <!-- padding<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_huge">15dp</dimen>
+    <dimen name="padding_big">9dp</dimen>
+    <dimen name="padding_middle">6dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_micro">2dp</dimen>
+
+    <!-- padding>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+
+    <!-- margin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_huge">15dp</dimen>
+    <dimen name="margin_big">9dp</dimen>
+    <dimen name="margin_middle">6dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_micro">2dp</dimen>
+
+    <!-- margin>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
 
     <!-- topbar -->
@@ -48,7 +72,7 @@
     <!-- listView -->
 
     <dimen name="item_message">60dp</dimen>
-
+    <dimen name="lv_refresh_header_view_height">84dp</dimen>
     <!-- listView -->
 
 
@@ -67,6 +91,10 @@
 
     <!-- common item -->
 
+    <!-- content item <<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+    <dimen name="content_item_left_tv_padding_left">15dp</dimen>
+    <dimen name="content_item_right_img_padding_right">15dp</dimen>
+    <!-- content item >>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
     <!-- button -->
 

@@ -14,21 +14,19 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.util.ImageLoaderUtil;
+import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,94 +35,50 @@ import android.widget.TextView;
  * @author Lemon
  * @use new GridAdapter
  */
-public class GridAdapter extends BaseAdapter {
+public class GridAdapter extends BaseAdapter<KeyValueBean> {
 	private static final String TAG = "GridAdapter";
 
-	private Activity context;//一般Activity可改为使用该adapter的Activity名，便于在这个adapter里使用Activity里的方法
-	private List<KeyValueBean> list;//传进来的数据,这里的String类型可换成其他类型
 	private HashMap<Integer, Boolean> hashMap;//实现选中标记的列表，不需要可以删除
 	private int layoutRes;//item视图资源
 	private boolean hasCheck = false;//是否使用标记功能
-	private LayoutInflater inflater;//布局解释器,用来实例化列表的item的界面
-	public GridAdapter(Activity context, List<KeyValueBean> list) {     
-		this.context = context;
-		this.layoutRes = R.layout.grid_item;
-		
-		initList(list);//初始化数据，不需要选中标记功能可以删除，但这里要加上“this.list = list;”这句
-		inflater = LayoutInflater.from(context);
-	}   
-	public GridAdapter(Activity context, List<KeyValueBean> list, boolean hasCheck) {     
-		this.context = context;
-		this.layoutRes = R.layout.grid_item;
-		this.hasCheck = hasCheck;
-
-		initList(list);//初始化数据，不需要选中标记功能可以删除，但这里要加上“this.list = list;”这句
-		inflater = LayoutInflater.from(context);
-	}   
-	public GridAdapter(Activity context, List<KeyValueBean> list, int layoutRes, boolean hasCheck) {     
-		this.context = context;
+	public GridAdapter(Activity context, List<KeyValueBean> list) {
+		this(context, list, false);
+	}
+	public GridAdapter(Activity context, List<KeyValueBean> list, boolean hasCheck) {
+		this(context, list, R.layout.grid_item, hasCheck);
+	}
+	public GridAdapter(Activity context, List<KeyValueBean> list, int layoutRes, boolean hasCheck) {
+		super(context, list);
 		this.layoutRes = layoutRes;
 		this.hasCheck = hasCheck;
 
 		initList(list);//初始化数据，不需要选中标记功能可以删除，但这里要加上“this.list = list;”这句
-		inflater = LayoutInflater.from(context);
-	}   
-
-	public List<KeyValueBean> getList() {
-		return list;
 	}
+
 	//item标记功能，不需要可以删除<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	public boolean getItemChecked(int position) {   
+	public boolean getItemChecked(int position) {
 		if (hasCheck == false) {
 			Log.e(TAG, "<<< !!! hasCheck == false  >>>>> ");
 			return false;
 		}
-		return hashMap.get(position); 
-	}      
-	public void setItemChecked(int position, boolean isChecked) {   
+		return hashMap.get(position);
+	}
+	public void setItemChecked(int position, boolean isChecked) {
 		if (hasCheck == false) {
 			Log.e(TAG, "<<< !!! hasCheck == false >>>>> ");
 			return;
 		}
 		hashMap.put(position, isChecked);
 		refresh(null);
-	} 
+	}
 	//item标记功能，不需要可以删除>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	//建议使用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	public void addItem(KeyValueBean object) {
-		list.add(object);
-		refresh(list);
-	}
-	public void removeItem(int position) {
-		List<KeyValueBean> newList = new ArrayList<KeyValueBean>();
-		for (int i = 0; i < getCount(); i++) {
-			if (i != position) {
-				newList.add(list.get(i));
-			}
-		}
-		refresh(newList);
-	}
-	//建议使用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-	@Override
-	public int getCount() {  
-		return list.size();     
-	}
-	@Override
-	public KeyValueBean getItem(int position) {    
-		return list.get(position); 
-	}          
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}           
 
 	public int selectedCount = 0;
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final ViewHolder holder;
-		if (convertView == null) {
+		ViewHolder holder = convertView == null ? null : (ViewHolder) convertView.getTag();
+		if (holder == null) {
 			convertView = inflater.inflate(layoutRes, parent, false);
 
 			holder = new ViewHolder();
@@ -135,27 +89,15 @@ public class GridAdapter extends BaseAdapter {
 			}
 
 			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
 		}
 
-		final KeyValueBean cgb = getItem(position);
-		final String imageUrl = cgb.getKey();
-		final String name = cgb.getValue();
+		final KeyValueBean kvb = getItem(position);
+		final String name = kvb.getValue();
 
-		if (StringUtil.isNotEmpty(imageUrl, true) == false) { 
-			holder.ivHead.setBackgroundResource(R.color.alpha_3);
-		} else {
-//			ImageLoadUtils.loadImageFromUrl(imageUrl.endsWith(Util.IMAGE_URL_SUFFIX_SMALL)
-//					? imageUrl : imageUrl + Util.IMAGE_URL_SUFFIX_SMALL, holder.ivHead);
-		}
+		ImageLoaderUtil.loadImage(ImageLoaderUtil.TYPE_DEFAULT, holder.ivHead, ImageLoaderUtil.getSmallUri(kvb.getKey()));
 
-		if (name == null || "".equals(name.trim())) {
-			holder.tvName.setVisibility(View.GONE);
-		} else {
-			holder.tvName.setVisibility(View.VISIBLE);
-			holder.tvName.setText("" + name);
-		}
+		holder.tvName.setVisibility(StringUtil.isNotEmpty(name, true) ? View.VISIBLE : View.GONE);
+		holder.tvName.setText(StringUtil.getTrimedString(name));
 
 		if (hasCheck == true) {
 			holder.ivCheck.setVisibility(View.VISIBLE);
@@ -163,13 +105,8 @@ public class GridAdapter extends BaseAdapter {
 			holder.ivCheck.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (getItemChecked(position) == false) {
-						setItemChecked(position, true);
-						((BaseActivity) context).showShortToast("选择了第 " + String.valueOf(position) + " 个item name=" + name);
-					} else {
-						setItemChecked(position, false);
-						Log.i(TAG, "取消选择第 " + String.valueOf(position) + " 个item name=" + name);
-					}
+					setItemChecked(position, !getItemChecked(position));
+					Log.i(TAG, (getItemChecked(position) ? "" : "取消") + "选择第 " + position + " 个item name=" + name);
 				}
 			});
 		}
@@ -177,7 +114,7 @@ public class GridAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public class ViewHolder {  
+	public class ViewHolder {
 		public ImageView ivHead;
 		public TextView tvName;
 		public ImageView ivCheck;
@@ -187,6 +124,7 @@ public class GridAdapter extends BaseAdapter {
 	/**刷新列表，建议使用refresh(null)
 	 * @param list
 	 */
+	@Override
 	public void refresh(List<KeyValueBean> list) {
 		if (list != null && list.size() > 0) {
 			initList(list);
@@ -205,7 +143,6 @@ public class GridAdapter extends BaseAdapter {
 	/**标记List<String>中的值是否已被选中。
 	 * 不需要可以删除，但“this.list = list;”这句
 	 * 要放到constructor【这个adapter只有ModleAdapter(Context context, List<Object> list)这一个constructor】里去
-	 * @param hashMap
 	 * @param list
 	 * @return
 	 */

@@ -14,6 +14,10 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -26,18 +30,14 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnPageReturnListener;
-import zuo.biao.library.util.StringUtil;
 
 /**通用网页Activity
  * @author Lemon
  * @use toActivity或startActivity(WebViewActivity.createIntent)
  */
-public class WebViewActivity extends BaseActivity implements OnClickListener, OnPageReturnListener {
+public class WebViewActivity extends BaseActivity implements OnClickListener, OnFinishListener {
 	public static final String TAG = "WebViewActivity";
 
 	/**获取启动这个Activity的Intent
@@ -54,10 +54,10 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.web_view_activity, this);
+		setContentView(R.layout.web_view_activity, this);//传this是为了全局滑动返回
 		//类相关初始化
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化
 
 		initView();
@@ -69,13 +69,11 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private TextView tvWebViewTitle;
-	private TextView tvWebViewReturn;
 	private WebView wvWebView;
 	@Override
 	public void initView() {
 
 		tvWebViewTitle = (TextView) findViewById(R.id.tvWebViewTitle);
-		tvWebViewReturn = (TextView) findViewById(R.id.tvWebViewReturn);
 
 		wvWebView = (WebView) findViewById(R.id.wvWebView);
 	}
@@ -98,6 +96,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	public static final String INTENT_RETURN = "INTENT_RETURN";
 	public static final String INTENT_URL = "INTENT_URL";
 
+	@SuppressWarnings("unused")
 	private Handler webHandler = new Handler();
 	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
@@ -106,9 +105,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		intent = getIntent();
 		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
 			tvWebViewTitle.setText("" + StringUtil.getCurrentString());
-		}
-		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_RETURN), true)) {
-			tvWebViewReturn.setText("" + StringUtil.getCurrentString());
 		}
 
 		WebSettings webSettings = wvWebView.getSettings();
@@ -122,25 +118,14 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		}
 
 		wvWebView.requestFocus();
-		wvWebView.addJavascriptInterface(new Object() {
-			@SuppressWarnings("unused")
-			public void clickOnAndroid() {
-				webHandler.post(new Runnable() {
-					public void run() {
-						wvWebView.loadUrl("javascript:wave()");
-					}
-				});
-			}
-		}, "demo");
 		wvWebView.loadUrl(url);
-		//禁用跳转浏览器，但因无client导致不能点击
-		//		wvWebView.setWebViewClient(new WebViewClient(){
-		//			@Override
-		//			public boolean shouldOverrideUrlLoading(WebView view, String url){
-		//
-		//				return false;
-		//			}
-		//		});
+		wvWebView.setWebViewClient(new WebViewClient(){
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url){
+
+				return false;
+			}
+		});
 
 	}
 

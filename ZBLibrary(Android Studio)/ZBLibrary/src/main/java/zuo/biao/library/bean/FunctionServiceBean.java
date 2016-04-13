@@ -16,6 +16,9 @@ package zuo.biao.library.bean;
 
 import android.content.Intent;
 
+/**
+ * @author Lemon
+ */
 public class FunctionServiceBean {
 
 	private int bolongGroup;

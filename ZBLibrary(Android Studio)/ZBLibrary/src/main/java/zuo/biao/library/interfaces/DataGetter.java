@@ -14,6 +14,9 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
+/**数据获取回调
+ * @author Lemon
+ */
 public interface DataGetter {
 	Object getData();
 }

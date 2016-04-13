@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llDemoFragmentActivity"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <ImageView
+            android:id="@+id/tvDemoFragmentActivityReturn"
+            style="@style/topbar_return_img" />
+
+        <TextView
+            android:id="@+id/tvDemoFragmentActivityTitle"
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="标题" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/ll_vertical_match_match"
+        android:background="@color/activity_bg" >
+
+        <FrameLayout
+            android:id="@+id/flDemoFragmentActivityContainer"
+            style="@style/match_match" >
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

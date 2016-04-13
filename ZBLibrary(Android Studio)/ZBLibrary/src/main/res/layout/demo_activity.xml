@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llDemo"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <ImageView
+            android:id="@+id/tvDemoReturn"
+            style="@style/topbar_return_img" />
+
+        <TextView
+            android:id="@+id/tvDemoTitle"
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="标题" />
+
+        <ImageView
+            android:id="@+id/tvDemoForward"
+            android:src="@drawable/add"
+            style="@style/topbar_right_img"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/ll_vertical_match_match"
+        android:background="@color/activity_bg" >
+
+        <ListView
+            android:id="@+id/lvDemo"
+            style="@style/lv"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

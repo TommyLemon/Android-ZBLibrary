@@ -14,6 +14,13 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.bean.FunctionServiceBean;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -25,14 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.bean.FunctionServiceBean;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.StringUtil;
 
 /**通用自定义嵌入式菜单View
  * @author Lemon
@@ -178,8 +177,9 @@ public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，�
 			@Override
 			public void onClick(View v) {
 				if (isMoreButton) {
-					CommonUtil.toActivity(context, BottomMenuWindow.createIntent(context, "更多"
-							, moreMenuNameList, moreMenuIntentCodeList), toBottomMenuWindowRequestCode, false);
+					CommonUtil.toActivity(context, BottomMenuWindow.createIntent(context
+							, moreMenuNameList, moreMenuIntentCodeList)
+							.putExtra(BottomMenuWindow.INTENT_TITLE,  "更多"), toBottomMenuWindowRequestCode, false);
 				} else {
 					onBottomMenuItemClickListener.onBottomMenuItemClick(fsb.getIntentCode());
 				}

@@ -12,28 +12,20 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/common_item_distance" >
 
-        <LinearLayout
-            android:id="@+id/llMyAlertDialogTitlebar"
+        <TextView
+            android:id="@+id/tvMyAlertDialogTitle"
+            style="@style/text_huge_black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/common_item_left_tv_padding" >
-
-            <ImageView
-                android:id="@+id/ivMyAlertDialogIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvMyAlertDialogTitle"
-                style="@style/text_huge"
-                android:text="Title" />
-        </LinearLayout>
+            android:paddingTop="@dimen/common_item_left_tv_padding"
+            android:text="Title" />
 
         <TextView
             android:id="@+id/tvMyAlertDialogMessage"
             style="@style/text_middle"
+            android:textColor="@color/gray_4"
             android:layout_margin="@dimen/common_item_left_tv_padding"
             android:gravity="left|top" />
     </LinearLayout>

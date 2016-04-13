@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llWebView"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <TextView
+        <ImageView
             android:id="@+id/tvWebViewReturn"
-            style="@style/topbar_return_tv" />
+            style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvWebViewTitle"
             style="@style/topbar_title"
+            android:text="网页"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>

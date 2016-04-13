@@ -14,13 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
+import android.util.Log;
+import android.widget.TextView;
+
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.TextView;
 
 /**通用字符串(String)相关类,为null时返回""
  * @author Lemon
@@ -32,12 +33,42 @@ public class StringUtil {
 	public StringUtil() {
 	}
 
+	public static final String EMPTY = "无";
+	public static final String UNKNOWN = "未知";
+	public static final String UNLIMITED = "不限";
+
+	public static final String I = "我";
+	public static final String YOU = "你";
+	public static final String HE = "他";
+	public static final String SHE = "她";
+	public static final String IT = "它";
+
+	public static final String MALE = "男";
+	public static final String FEMALE = "女";
+
+	public static final String TODO = "未完成";
+	public static final String DONE = "已完成";
+
+	public static final String FAIL = "失败";
+	public static final String SUCCESS = "成功";
+
+	public static final String SUNDAY = "日";
+	public static final String MONDAY = "一";
+	public static final String TUESDAY = "二";
+	public static final String WEDNESDAY = "三";
+	public static final String THURSDAY = "四";
+	public static final String FRIDAY = "五";
+	public static final String SATURDAY = "六";
+
+	public static final String YUAN = "元";
+
+
 	private static String currentString = "";
 	/**获取刚传入处理后的string
 	 * @return
 	 */
 	public static String getCurrentString() {
-		return currentString;
+		return currentString == null ? "" : currentString;
 	}
 
 	//获取string,为null时返回"" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -51,16 +82,6 @@ public class StringUtil {
 			return "";
 		}
 		return getString(tv.getText().toString());
-	}
-	/**获取string,为null则返回""
-	 * @param et
-	 * @return
-	 */
-	public static String getString(EditText et) {
-		if (et == null || et.getText() == null) {
-			return "";
-		}
-		return getString(et.getText().toString());
 	}
 	/**获取string,为null则返回""
 	 * @param object
@@ -94,13 +115,6 @@ public class StringUtil {
 	 */
 	public static String getTrimedString(TextView tv) {
 		return getTrimedString(getString(tv));
-	}
-	/**获取去掉前后空格后的string,为null则返回""
-	 * @param et
-	 * @return
-	 */
-	public static String getTrimedString(EditText et) {
-		return getTrimedString(getString(et));
 	}
 	/**获取去掉前后空格后的string,为null则返回""
 	 * @param object
@@ -137,13 +151,6 @@ public class StringUtil {
 		return getNoBlankString(getString(tv));
 	}
 	/**获取去掉所有空格后的string,为null则返回""
-	 * @param et
-	 * @return
-	 */
-	public static String getNoBlankString(EditText et) {
-		return getNoBlankString(getString(et));
-	}
-	/**获取去掉所有空格后的string,为null则返回""
 	 * @param object
 	 * @return
 	 */
@@ -177,14 +184,6 @@ public class StringUtil {
 	 */
 	public static int getLength(TextView tv, boolean trim) {
 		return getLength(getString(tv), trim);
-	}
-	/**获取string的长度,为null则返回0
-	 * @param et
-	 * @param trim
-	 * @return
-	 */
-	public static int getLength(EditText et, boolean trim) {
-		return getLength(getString(et), trim);
 	}
 	/**获取string的长度,为null则返回0
 	 * @param object
@@ -226,20 +225,20 @@ public class StringUtil {
 		return isNotEmpty(getString(tv), trim);
 	}
 	/**判断字符是否非空
-	 * @param et
-	 * @param trim
-	 * @return
-	 */
-	public static boolean isNotEmpty(EditText et, boolean trim) {
-		return isNotEmpty(getString(et), trim);
-	}
-	/**判断字符是否非空
 	 * @param object
 	 * @param trim
 	 * @return
 	 */
 	public static boolean isNotEmpty(Object object, boolean trim) {
 		return isNotEmpty(getString(object), trim);
+	}
+	/**判断字符是否非空
+	 * @param cs
+	 * @param trim
+	 * @return
+	 */
+	public static boolean isNotEmpty(CharSequence cs, boolean trim) {
+		return isNotEmpty(getString(cs), trim);
 	}
 	/**判断字符是否非空
 	 * @param s
@@ -318,7 +317,7 @@ public class StringUtil {
 			Log.e(TAG, "isNumberOrAlpha  inputed == null >> return false;");
 			return false;
 		}
-		Pattern pNumber = Pattern.compile("[0-9]*"); 
+		Pattern pNumber = Pattern.compile("[0-9]*");
 		Matcher mNumber;
 		Pattern pAlpha = Pattern.compile("[a-zA-Z]");
 		Matcher mAlpha;
@@ -331,12 +330,36 @@ public class StringUtil {
 		}
 
 		currentString = inputed;
-
 		return true;
 	}
 
-	public static final String URL_STAFFIX = "http://";
-	public static final String URL_STAFFIXs = "https://";
+	/**判断字符类型是否是身份证号
+	 * @param idCard
+	 * @return
+	 */
+	public static boolean isIDCard(String idCard) {
+		if (isNumberOrAlpha(idCard) == false) {
+			return false;
+		}
+		idCard = getString(idCard);
+		if (idCard.length() == 15) {
+			Log.w(TAG, "isIDCard idCard.length() == 15 old IDCard");
+			currentString = idCard;
+			return true;
+		}
+		if (idCard.length() == 18) {
+			currentString = idCard;
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final String HTTP = "http";
+	public static final String URL_PREFIX = "http://";
+	public static final String URL_PREFIXs = "https://";
+	public static final String URL_STAFFIX = URL_PREFIX;
+	public static final String URL_STAFFIXs = URL_PREFIXs;
 	/**判断字符类型是否是网址
 	 * @param url
 	 * @return
@@ -344,15 +367,15 @@ public class StringUtil {
 	public static boolean isUrl(String url) {
 		if (isNotEmpty(url, true) == false) {
 			return false;
-		} else if (! url.startsWith(URL_STAFFIX) && ! url.startsWith(URL_STAFFIXs)) {
+		} else if (! url.startsWith(URL_PREFIX) && ! url.startsWith(URL_PREFIXs)) {
 			return false;
 		}
 
 		currentString = url;
-
 		return true;
 	}
 
+	public static final String FILE_PATH_PREFIX = "file://";
 	/**判断文件路径是否存在
 	 * @param path
 	 * @return
@@ -383,6 +406,13 @@ public class StringUtil {
 
 	//提取特殊字符<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**去掉string内所有非数字类型字符
+	 * @param tv
+	 * @return
+	 */
+	public static String getNumber(TextView tv) {
+		return getNumber(getString(tv));
+	}
 	/**去掉string内所有非数字类型字符
 	 * @param object
 	 * @return
@@ -423,11 +453,11 @@ public class StringUtil {
 	//校正（自动补全等）字符串<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**获取网址，自动补全
-	 * @param et
+	 * @param tv
 	 * @return
 	 */
-	public static String getCorrectUrl(EditText et) {
-		return getCorrectUrl(getString(et));
+	public static String getCorrectUrl(TextView tv) {
+		return getCorrectUrl(getString(tv));
 	}
 	/**获取网址，自动补全
 	 * @param url
@@ -444,20 +474,20 @@ public class StringUtil {
 		}
 
 		if (isUrl(url) == false) {
-			return URL_STAFFIX + url;
+			return URL_PREFIX + url;
 		}
 		return url;
 	}
 
 	/**获取去掉所有 空格 、"-" 、"+86" 后的phone
-	 * @param et
+	 * @param tv
 	 * @return
 	 */
-	public static String getCorrectPhone(EditText et) {
-		return getCorrectPhone(getString(et));
+	public static String getCorrectPhone(TextView tv) {
+		return getCorrectPhone(getString(tv));
 	}
 	/**获取去掉所有 空格 、"-" 、"+86" 后的phone
-	 * @param number
+	 * @param phone
 	 * @return
 	 */
 	public static String getCorrectPhone(String phone) {
@@ -475,11 +505,11 @@ public class StringUtil {
 
 
 	/**获取邮箱，自动补全
-	 * @param et
+	 * @param tv
 	 * @return
 	 */
-	public static String getCorrectEmail(EditText et) {
-		return getCorrectEmail(getString(et));
+	public static String getCorrectEmail(TextView tv) {
+		return getCorrectEmail(getString(tv));
 	}
 	/**获取邮箱，自动补全
 	 * @param email
@@ -496,6 +526,100 @@ public class StringUtil {
 		}
 
 		return email;
+	}
+
+
+	public static final int PRICE_FORMAT_DEFAULT = 0;
+	public static final int PRICE_FORMAT_PREFIX = 1;
+	public static final int PRICE_FORMAT_SUFFIX = 2;
+	public static final int PRICE_FORMAT_PREFIX_WITH_BLANK = 3;
+	public static final int PRICE_FORMAT_SUFFIX_WITH_BLANK = 4;
+	public static final String[] PRICE_FORMATS = {
+			"", "￥", "元", "￥ ", " 元"
+	};
+
+	/**获取价格，保留两位小数
+	 * @param price
+	 * @return
+	 */
+	public static String getPrice(String price) {
+		return getPrice(price, PRICE_FORMAT_DEFAULT);
+	}
+	/**获取价格，保留两位小数
+	 * @param price
+	 * @param formatType 添加单位（元）
+	 * @return
+	 */
+	public static String getPrice(String price, int formatType) {
+		if (isNotEmpty(price, true) == false) {
+			return getPrice(0, formatType);
+		}
+
+		//单独写到getCorrectPrice? <<<<<<<<<<<<<<<<<<<<<<
+		String correctPrice = "";
+		String s;
+		for (int i = 0; i < price.length(); i++) {
+			s = price.substring(i, i + 1);
+			if (".".equals(s) || isNumer(s)) {
+				correctPrice += s;
+			}
+		}
+		//单独写到getCorrectPrice? >>>>>>>>>>>>>>>>>>>>>>
+
+		Log.i(TAG, "getPrice  <<<<<<<<<<<<<<<<<< correctPrice =  " + correctPrice);
+		if (correctPrice.contains(".")) {
+//			if (correctPrice.startsWith(".")) {
+//				correctPrice = 0 + correctPrice;
+//			}
+			if (correctPrice.endsWith(".")) {
+				correctPrice = correctPrice.replaceAll(".", "");
+			}
+		}
+
+		Log.i(TAG, "getPrice correctPrice =  " + correctPrice + " >>>>>>>>>>>>>>>>");
+		return isNotEmpty(correctPrice, true) ? getPrice(new BigDecimal(0 + correctPrice), formatType) : getPrice(0, formatType);
+	}
+	/**获取价格，保留两位小数
+	 * @param price
+	 * @return
+	 */
+	public static String getPrice(BigDecimal price) {
+		return getPrice(price, PRICE_FORMAT_DEFAULT);
+	}
+	/**获取价格，保留两位小数
+	 * @param price
+	 * @return
+	 */
+	public static String getPrice(double price) {
+		return getPrice(price, PRICE_FORMAT_DEFAULT);
+	}
+	/**获取价格，保留两位小数
+	 * @param price
+	 * @param formatType 添加单位（元）
+	 * @return
+	 */
+	public static String getPrice(BigDecimal price, int formatType) {
+		return getPrice(price == null ? 0 : price.doubleValue(), formatType);
+	}
+	/**获取价格，保留两位小数
+	 * @param price
+	 * @param formatType 添加单位（元）
+	 * @return
+	 */
+	public static String getPrice(double price, int formatType) {
+		String s = new DecimalFormat("#########0.00").format(price);
+		switch (formatType) {
+			case PRICE_FORMAT_PREFIX:
+				return PRICE_FORMATS[PRICE_FORMAT_PREFIX] + s;
+			case PRICE_FORMAT_SUFFIX:
+				return s + PRICE_FORMATS[PRICE_FORMAT_SUFFIX];
+			case PRICE_FORMAT_PREFIX_WITH_BLANK:
+				return PRICE_FORMATS[PRICE_FORMAT_PREFIX_WITH_BLANK] + s;
+			case PRICE_FORMAT_SUFFIX_WITH_BLANK:
+				return s + PRICE_FORMATS[PRICE_FORMAT_SUFFIX_WITH_BLANK];
+			default:
+				return s;
+		}
 	}
 
 

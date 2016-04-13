@@ -14,19 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +25,18 @@ import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.CityDB;
 import zuo.biao.library.util.PlaceUtil;
 import zuo.biao.library.util.StringUtil;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**地址选择弹窗
  * @author Lemon
@@ -77,11 +76,10 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.container_window, this, R.id.llContainerWindowBg);
+		setContentView(R.layout.container_window);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		cityDB = CityDB.getInstance(context, StringUtil.getTrimedString(getIntent().getStringExtra(INTENT_PACKAGE_NAME)));
@@ -103,6 +101,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	private LinearLayout llContainerWindowContentContainer;
 	@Override
 	public void initView() {//必须调用
+		super.initView();
 
 		tvContainerWindowTitle = (TextView) findViewById(R.id.tvContainerWindowTitle);
 		tvContainerWindowTitle.setVisibility(View.VISIBLE);
@@ -136,7 +135,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isActivityAlive) {
+						if (isAlive) {
 							gridPickerView.setView(tabPosition, list, itemPositon);
 						}
 					}
@@ -170,6 +169,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	private GridPickerView gridPickerView;
 	@Override
 	public void initData() {//必须调用
+		super.initData();
 
 		minLevel = getIntent().getIntExtra(INTENT_MIN_LEVEL, 0);
 		maxLevel = getIntent().getIntExtra(INTENT_MAX_LEVEL, 2);
@@ -194,8 +194,8 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 			@Override
 			public void run() {
 				final ArrayList<GridPickerConfigBean> configList = new ArrayList<GridPickerConfigBean>();
-				configList.add(new GridPickerConfigBean(PlaceUtil.NAME_PROVINCE, "浙江", 10));
-				configList.add(new GridPickerConfigBean(PlaceUtil.NAME_CITY, "杭州", 0));
+				configList.add(new GridPickerConfigBean("", "浙江", 10));
+				configList.add(new GridPickerConfigBean("", "杭州", 0));
 
 				final ArrayList<String> selectedItemNameList = new ArrayList<String>();
 				for (GridPickerConfigBean gpcb : configList) {
@@ -207,7 +207,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 					@Override
 					public void run() {
-						if (isActivityAlive) {
+						if (isAlive) {
 							gridPickerView.init(configList, list);
 						}
 					}
@@ -216,6 +216,13 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 		});
 
 	}
+	
+	@Override
+	@Nullable
+	protected String getTitleName() {
+		return getIntent().getStringExtra(INTENT_TITLE);
+	}
+
 
 	private synchronized List<GridPickerItemBean> getList(int tabPosition, ArrayList<String> selectedItemList) {
 		int level = minLevel + tabPosition;
@@ -274,6 +281,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 	@Override
 	public void initListener() {//必须调用
+		super.initListener();
 
 		findViewById(R.id.tvContainerWindowReturn).setOnClickListener(this);
 		findViewById(R.id.tvContainerWindowSave).setOnClickListener(this);

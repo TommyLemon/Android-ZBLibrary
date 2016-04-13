@@ -14,27 +14,44 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import zuo.biao.library.interfaces.DataGetter;
-import zuo.biao.library.util.CommonUtil;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 
+import zuo.biao.library.interfaces.DataGetter;
+import zuo.biao.library.util.CommonUtil;
+
 /**基础自定义View,能规范代码格式以及省掉小部分代码。
  * @author Lemon
- * @use extends BaseView
+ * @param <T> T不能为基本类型。null ? View.GONE : View.VISIBLE
+ * @use extends BaseView<T>
  */
 public abstract class BaseView<T> implements DataGetter {
 
-	protected Activity context;//传入的上下文,可在子类直接使用
-	protected LayoutInflater inflater;//传入的布局解释器,可在子类直接使用
+	/**
+	 * 传入的Activity,可在子类直接使用
+	 */
+	protected Activity context;
+	/**
+	 * 传入的布局解释器,可在子类直接使用
+	 * 虽然context.getLayoutInflater()或LayoutInflater.from(context)都可获得inflater
+	 * ，但是在一个界面大量使用这种view（ListView,GridView等）时传一个公用的inflater能明显提高性能
+	 */
+	protected LayoutInflater inflater;
+	protected Resources resources;
 	public BaseView(Activity context, LayoutInflater inflater) {
 		this.context = context;
+		if (inflater == null) {
+			inflater = context.getLayoutInflater();
+		}
 		this.inflater = inflater;
+		this.resources = context.getResources();
 	}
 
 	/**数据改变回调接口
@@ -43,7 +60,7 @@ public abstract class BaseView<T> implements DataGetter {
 	public interface OnDataChangedListener {
 		void onDataChanged();
 	}
-	
+
 	public OnDataChangedListener onDataChangedListener;//数据改变回调监听类的实例
 	/**设置数据改变事件监听类
 	 * @param l
@@ -51,7 +68,7 @@ public abstract class BaseView<T> implements DataGetter {
 	public void setOnDataChangedListener(OnDataChangedListener l) {
 		onDataChangedListener = l;
 	}
-	
+
 	public OnTouchListener onTouchListener;//接触View回调监听类的实例
 	/**设置接触View事件监听类
 	 * @param l
@@ -67,7 +84,7 @@ public abstract class BaseView<T> implements DataGetter {
 	public void setOnClickListener(OnClickListener l) {
 		onClickListener = l;
 	}
-	
+
 	public OnLongClickListener onLongClickListener;//长按View回调监听类的实例
 	/**设置长按View事件监听类
 	 * @param l
@@ -77,29 +94,76 @@ public abstract class BaseView<T> implements DataGetter {
 	}
 
 
-	protected View convertView;//子类整个视图,可在子类直接使用
+	protected View findViewById(int id) {
+		return convertView.findViewById(id);
+	}
+
+	/**
+	 * 子类整个视图,可在子类直接使用
+	 * @must getView方法内对其赋值且不能为null
+	 */
+	protected View convertView = null;
 	/**获取View
-	 * @param parent - 这个View的父容器,可以为null
-	 * @return 
+	 * @return
 	 */
 	public abstract View getView();
 
+	/**获取convertView的宽度
+	 * @return
+	 */
+	public int getWidth() {
+		return convertView.getWidth();
+	}
 	/**获取convertView的高度
 	 * @return
 	 */
-	public int getViewHeight() {
-		return convertView == null ? 0 : convertView.getHeight();
+	public int getHeight() {
+		return convertView.getHeight();
 	}
 
 	/**设置并显示内容
+	 * @warn 只能在getView后使用
 	 * @param data - 传入的数据
 	 */
 	public abstract void setView(T data);
-	
+
+
+
+	public void setVisibility(int visibility) {
+		convertView.setVisibility(visibility);
+	}
+	/**设置背景
+	 * @param resId
+	 */
+	public void setBackground(int resId) {
+		if (resId > 0 && convertView != null) {
+			try {
+				convertView.setBackgroundResource(resId);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+
+	//resources方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	public String getString(int id) {
+		return resources.getString(id);
+	}
+	public int getColor(int id) {
+		return resources.getColor(id);
+	}
+	public Drawable getDrawable(int id) {
+		return resources.getDrawable(id);
+	}
+	public float getDimension(int id) {
+		return resources.getDimension(id);
+	}
+	//resources方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 	//show short toast 方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
-	 * @param context
-	 * @param string
+	 * @param stringResId
 	 */
 	public void showShortToast(int stringResId) {
 		CommonUtil.showShortToast(context, stringResId);
@@ -111,7 +175,7 @@ public abstract class BaseView<T> implements DataGetter {
 		CommonUtil.showShortToast(context, string);
 	}
 	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+
 
 	//启动新Activity方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -145,6 +209,6 @@ public abstract class BaseView<T> implements DataGetter {
 	}
 	//启动新Activity方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
-	
+
+
 }

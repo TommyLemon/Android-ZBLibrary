@@ -19,11 +19,8 @@ import zuo.biao.library.util.StringUtil;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**通用对话框类
@@ -31,16 +28,16 @@ import android.widget.TextView;
  * @use new MyAlertDialog(...).show();
  */
 public class MyAlertDialog extends Dialog implements android.view.View.OnClickListener {
-	private static final String TAG = "MyAlertDialog";  
+//	private static final String TAG = "MyAlertDialog";  
 
 	/** 
 	 * 自定义Dialog监听器 
 	 */  
-	public interface PriorityListener {  
+	public interface OnButtonClickListener {  
 		/** 
 		 * 回调函数，用于在Dialog的监听事件触发后刷新Activity的UI显示 
 		 */  
-		public void refreshPriorityUI(boolean isPositive);  
+		public void onButtonClick(int requestCode, boolean isPositive);  
 	}
 
 
@@ -51,25 +48,25 @@ public class MyAlertDialog extends Dialog implements android.view.View.OnClickLi
 	private String strPositive;
 	private String strNegative;
 	private boolean showNegativeButton = true;
-	private int imgResId;
-	private int backgroundResId;
-	private PriorityListener listener;
+	private int requestCode;
+	private OnButtonClickListener listener;
 
 	/** 
 	 * 带监听器参数的构造函数 
 	 */  
 	public MyAlertDialog(Context context, String title, String message, boolean showNegativeButton,
-			PriorityListener listener) {
+			int requestCode, OnButtonClickListener listener) {
 		super(context, R.style.MyDialog);
 
 		this.context = context;
 		this.title = title;
 		this.message = message;
 		this.showNegativeButton = showNegativeButton;
+		this.requestCode = requestCode;
 		this.listener = listener;  
 	}
 	public MyAlertDialog(Context context, String title, String message, boolean showNegativeButton,
-			String strPositive, PriorityListener listener) {
+			String strPositive, int requestCode, OnButtonClickListener listener) {
 		super(context, R.style.MyDialog);
 
 		this.context = context;
@@ -77,10 +74,11 @@ public class MyAlertDialog extends Dialog implements android.view.View.OnClickLi
 		this.message = message;
 		this.showNegativeButton = showNegativeButton;
 		this.strPositive = strPositive;
+		this.requestCode = requestCode;
 		this.listener = listener;  
 	}
 	public MyAlertDialog(Context context, String title, String message, 
-			String strPositive, String strNegative, PriorityListener listener) {
+			String strPositive, String strNegative, int requestCode, OnButtonClickListener listener) {
 		super(context, R.style.MyDialog);
 
 		this.context = context;
@@ -88,25 +86,10 @@ public class MyAlertDialog extends Dialog implements android.view.View.OnClickLi
 		this.message = message;
 		this.strPositive = strPositive;
 		this.strNegative = strNegative;
-		this.listener = listener;  
-	}
-	public MyAlertDialog(Context context, String title, String message, 
-			String strPositive, String strNegative, int imgResId, int backgroundResId, PriorityListener listener) {
-		super(context, R.style.MyDialog);
-
-		this.context = context;
-		this.title = title;
-		this.message = message;
-		this.strPositive = strPositive;
-		this.strNegative = strNegative;
-		this.imgResId = imgResId;
-		this.backgroundResId = backgroundResId;
+		this.requestCode = requestCode;
 		this.listener = listener;  
 	}
 
-
-	private LinearLayout llTitleBar;
-	private ImageView img;
 	private TextView tvTitle;
 	private TextView tvMessage;
 	private Button btnPositive;
@@ -117,35 +100,13 @@ public class MyAlertDialog extends Dialog implements android.view.View.OnClickLi
 		setContentView(R.layout.my_alert_dialog); 
 		setCanceledOnTouchOutside(true);
 
-		llTitleBar = (LinearLayout) findViewById(R.id.llMyAlertDialogTitlebar);
 		tvTitle = (TextView) findViewById(R.id.tvMyAlertDialogTitle);
-		img = (ImageView) findViewById(R.id.ivMyAlertDialogIcon);
 		tvMessage = (TextView) findViewById(R.id.tvMyAlertDialogMessage);
 		btnPositive = (Button) findViewById(R.id.btnMyAlertDialogPositive);
 		btnNegative = (Button) findViewById(R.id.btnMyAlertDialogNegative);
 
-		if (StringUtil.isNotEmpty(title, true)) {
-
-			llTitleBar.setVisibility(View.VISIBLE);
-			tvTitle.setText("" + StringUtil.getCurrentString());
-
-			if (imgResId > 0) {
-				try {
-					img.setImageResource(imgResId);
-				} catch (Exception e) {
-					Log.i(TAG, "img.setImageResource(imgResId); >>> catch (Exception e)  " + e.getMessage());
-				}
-			}
-			if (backgroundResId > 0) {
-				try {
-					llTitleBar.setBackgroundResource(backgroundResId);
-				} catch (Exception e) {
-					Log.i(TAG, "llTitleBar.setBackgroundResource(backgroundResId); >>> catch (Exception e)  " + e.getMessage());
-				}
-			}
-		} else {
-			llTitleBar.setVisibility(View.GONE);
-		}
+		tvTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
+		tvTitle.setText("" + StringUtil.getCurrentString());
 
 		if (StringUtil.isNotEmpty(strPositive, true)) {
 			btnPositive.setText(StringUtil.getCurrentString());
@@ -167,9 +128,9 @@ public class MyAlertDialog extends Dialog implements android.view.View.OnClickLi
 	@Override
 	public void onClick(final View v) {
 		if (v.getId() ==  R.id.btnMyAlertDialogPositive) {
-			listener.refreshPriorityUI(true);
+			listener.onButtonClick(requestCode, true);
 		} else if (v.getId() ==  R.id.btnMyAlertDialogNegative) {
-			listener.refreshPriorityUI(false);
+			listener.onButtonClick(requestCode, false);
 		}
 
 		dismiss();

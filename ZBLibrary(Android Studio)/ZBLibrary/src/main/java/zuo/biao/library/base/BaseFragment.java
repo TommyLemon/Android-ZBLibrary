@@ -14,26 +14,35 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import zuo.biao.library.R;
+import zuo.biao.library.util.Log;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 /**基础android.support.v4.app.Fragment，通过继承可获取或使用 里面创建的 组件 和 方法
  * @author Lemon
- * @use extends BaseActivity
+ * @use extends BaseFragment
  */
 public abstract class BaseFragment extends Fragment {
-	//	private static final String TAG = "BaseFragment";
+	private static final String TAG = "BaseFragment";
 
 	protected View view = null;//该fragment全局视图，不能在子Fragment中创建
 	protected BaseFragmentActivity context = null;//在onCreateView方法中赋值，不能在子Fragment中创建
-	protected boolean isActivityAlive = false;//添加该fragment的Activity是否已被使用并未被销毁，在onCreateView方法中赋值为true，不能在子Fragment中创建
+	protected boolean isAlive = false;//添加该fragment是否已被使用并未被销毁，在onCreateView方法中赋值为true，不能在子Fragment中创建
+	protected boolean isRunning = false;//添加该fragment是否在运行，不能在子Fragment中创建
 
 	protected int RESULT_OK = Activity.RESULT_OK;
 	protected int RESULT_CANCELED = Activity.RESULT_CANCELED;
+	protected Bundle argument = null;//可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
 	protected Intent intent = null;//可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+
+	public static final String INTENT_TITLE = BaseFragmentActivity.INTENT_TITLE;
+	public static final String INTENT_ID = BaseFragmentActivity.INTENT_ID;
+	public static final String RESULT_DATA = BaseFragmentActivity.RESULT_DATA;
 
 	public abstract void initView();//UI显示方法，必须调用
 	public abstract void initData();//data数据方法，必须调用
@@ -46,6 +55,10 @@ public abstract class BaseFragment extends Fragment {
 	 */
 	public View findViewById(final int id) {
 		return view.findViewById(id);
+	}
+
+	public Intent getIntent() {
+		return context.getIntent();
 	}
 
 	public void runOnUiThread(Runnable runnable) {
@@ -83,32 +96,52 @@ public abstract class BaseFragment extends Fragment {
 
 	//启动新Activity方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	/**打开新的Activity,向左滑入效果
+	/**打开新的Activity，向左滑入效果
 	 * @param intent
 	 */
 	public void toActivity(final Intent intent) {
-		context.toActivity(intent);
+		toActivity(intent, true);
 	}
-	/**打开新的Activity,向左滑入效果
+	/**打开新的Activity
 	 * @param intent
+	 * @param showAnimation
 	 */
 	public void toActivity(final Intent intent, final boolean showAnimation) {
-		context.toActivity(intent, showAnimation);
+		toActivity(intent, -1, showAnimation);
 	}
-	/**打开新的Activity,向左滑入效果
+	/**打开新的Activity，向左滑入效果
 	 * @param intent
 	 * @param requestCode
 	 */
 	public void toActivity(final Intent intent, final int requestCode) {
-		context.toActivity(intent, requestCode);
+		toActivity(intent, requestCode, true);
 	}
 	/**打开新的Activity
 	 * @param intent
 	 * @param requestCode
-	 * @param showAnimation true-向左滑入效果;false-无动画
+	 * @param showAnimation
 	 */
 	public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
-		context.toActivity(intent, requestCode, showAnimation);
+		if (isAlive == false || intent == null) {
+			Log.e(TAG, "toActivity  isAlive == false || intent == null >> return;");
+			return;
+		}
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				if (requestCode < 0) {
+					startActivity(intent);
+				} else {
+					startActivityForResult(intent, requestCode);
+				}
+				if (showAnimation) {
+					context.overridePendingTransition(R.anim.right_push_in, R.anim.hold);
+				} else {
+					context.overridePendingTransition(R.anim.null_anim, R.anim.null_anim);
+				}
+			}
+		});
 	}
 	//启动新Activity方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -118,7 +151,7 @@ public abstract class BaseFragment extends Fragment {
 	 * @param stringResId
 	 */
 	public void showShortToast(final int stringResId) {
-		context.showProgressDialog(stringResId);
+		context.showShortToast(stringResId);
 	}
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
 	 * @param string
@@ -145,12 +178,22 @@ public abstract class BaseFragment extends Fragment {
 		return context.runThread(threadName, runnable);
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		isRunning = true;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		isRunning = false;
+	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		//里面的代码不需要重写，通过super.onDestroy();即可得到<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		isActivityAlive = false;
-		//里面的代码不需要重写，通过super.onDestroy();即可得到>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		isRunning = false;
+		isAlive = false;
 	}
 }

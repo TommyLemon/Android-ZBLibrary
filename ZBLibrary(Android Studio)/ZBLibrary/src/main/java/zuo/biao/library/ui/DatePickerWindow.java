@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -92,10 +93,10 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.container_window, this, R.id.llContainerWindowBg);
+		setContentView(R.layout.container_window);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -114,6 +115,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	private LinearLayout llContainerWindowContentContainer;
 	@Override
 	public void initView() {//必须调用
+		super.initView();
 
 		tvContainerWindowTitle = (TextView) findViewById(R.id.tvContainerWindowTitle);
 		tvContainerWindowTitle.setVisibility(View.VISIBLE);
@@ -152,7 +154,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isActivityAlive) {
+						if (isAlive) {
 							gridPickerView.setView(tabPosition, list);
 						}
 					}
@@ -192,6 +194,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	private ArrayList<GridPickerConfigBean> configList;
 	@Override
 	public void initData() {//必须调用
+		super.initData();
 
 		//		minDate = getIntent().getLongExtra(INTENT_MIN_DATE, 0);
 		//		maxDate = getIntent().getLongExtra(INTENT_MAX_DATE, 0);
@@ -248,7 +251,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 					@Override
 					public void run() {
-						if (isActivityAlive) {
+						if (isAlive) {
 							gridPickerView.init(configList, list);
 						}
 					}
@@ -258,6 +261,11 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 	}
 
+	@Override
+	@Nullable
+	protected String getTitleName() {
+		return getIntent().getStringExtra(INTENT_TITLE);
+	}
 
 
 	private synchronized List<GridPickerItemBean> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
@@ -367,6 +375,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 	@Override
 	public void initListener() {//必须调用
+		super.initListener();
 
 		findViewById(R.id.tvContainerWindowReturn).setOnClickListener(this);
 		findViewById(R.id.tvContainerWindowSave).setOnClickListener(this);

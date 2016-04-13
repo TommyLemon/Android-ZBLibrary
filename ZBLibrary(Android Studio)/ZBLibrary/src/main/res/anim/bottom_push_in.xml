@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--从屏幕右边偏离2%位置开始进入，到达终点后有超出在返回终点的动态效果  -->
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="300"
+    android:duration="240"
     android:fromYDelta="100%p"
     android:interpolator="@android:anim/decelerate_interpolator"
-    android:startOffset="200"
     android:toYDelta="0%p" />

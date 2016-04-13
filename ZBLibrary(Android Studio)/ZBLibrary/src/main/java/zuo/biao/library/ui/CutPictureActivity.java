@@ -41,7 +41,7 @@ public class CutPictureActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -130,7 +130,7 @@ public class CutPictureActivity extends BaseActivity {
 		int picWidth = intent.getIntExtra(INTENT_CUT_WIDTH, 0);
 		int picHeight = intent.getIntExtra(INTENT_CUT_HEIGHT, 0);
 		if (StringUtil.isNotEmpty(originalPicturePath, true) == false || (picWidth <= 0 && picHeight <= 0)) {
-			showShortToast("图片不存在！");
+			showShortToast("图片不存在，请先选择图片");
 			finish();
 			return;
 		}

@@ -56,7 +56,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 		setContentView(R.layout.select_picture_activity);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -179,7 +179,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 		toActivity(new Intent(context, BottomMenuWindow.class)
 		.putExtra(BottomMenuWindow.INTENT_TITLE, "选择图片")
-		.putExtra(BottomMenuWindow.INTENT_NAMES, new String[]{"拍照", "图库"})
+		.putExtra(BottomMenuWindow.INTENT_ITEMS, new String[]{"拍照", "图库"})
 		, REQUEST_TO_BOTTOM_MENU, false);
 	}
 
@@ -206,7 +206,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 			switch (requestCode) {
 			case REQUEST_TO_BOTTOM_MENU:
 				if (data != null) {
-					switch (data.getIntExtra(BottomMenuWindow.RESULT_POSITION, -1)) {
+					switch (data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1)) {
 					case 0:
 						selectPicFromCamera();//照相
 						return;

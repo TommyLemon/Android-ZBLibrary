@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llEditTextInfo"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <TextView
-            android:id="@+id/ivEditTextInfoReturn"
-            style="@style/topbar_return_tv" />
+        <ImageView
+            android:id="@+id/tvEditTextInfoReturn"
+            style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvEditTextInfoTitle"
@@ -50,7 +51,7 @@
     <View style="@style/divider_horizontal_1px" />
 
     <TextView
-        android:id="@+id/tvEditTextInfoInfoRemind"
+        android:id="@+id/tvEditTextInfoRemind"
         style="@style/content_item_remind_tv"
         android:text="限15个字（或30个字符）" />
 

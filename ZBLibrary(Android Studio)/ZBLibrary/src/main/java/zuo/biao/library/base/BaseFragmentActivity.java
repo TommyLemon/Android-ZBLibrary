@@ -14,14 +14,21 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.manager.ThreadManager;
+import zuo.biao.library.ui.EditTextManager;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.StringUtil;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
@@ -32,61 +39,72 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnPageReturnListener;
-import zuo.biao.library.ui.EditTextManager;
-
 /**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法;用于FragmentActivity
  * @author Lemon
- * @use extends BaseActivity
+ * @use extends BaseFragmentActivity
  */
 public abstract class BaseFragmentActivity extends FragmentActivity implements OnGestureListener, OnTouchListener {
 	private static final String TAG = "BaseFragmentActivity";
 
-	protected View view = null;//activity的主界面View，即contentView
 	protected BaseFragmentActivity context = null;//在onCreate方法中赋值，不能在子Activity中创建
 	protected FragmentManager fragmentManager = null;//在onCreate方法中赋值，不能在子Activity中创建
-	protected boolean isActivityAlive = false;//该FragmentActivity是否已被使用并未被销毁，在onCreate方法中赋值为true，不能在子Activity中创建
+	protected View view = null;//activity的主界面View，即contentView
+	protected boolean isAlive = false;//该FragmentActivity是否已被使用并未被销毁，在onCreate方法中赋值为true，不能在子Activity中创建
+	protected boolean isRunning = false;//添加该fragment是否在运行，不能在子Fragment中创建
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//setContentView方法必须写在子Activity的onCreate的方法内
 
 		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
+		threadNameList = new ArrayList<String>();
 	}
 
 	//滑动返回<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	private OnPageReturnListener onPageReturnListener;
+	private OnFinishListener onFinishListener;
 	private GestureDetector gestureDetector;
-	public void setContentView(int layoutResID, OnPageReturnListener listener) {
+	public void setContentView(int layoutResID, OnFinishListener listener) {
 		super.setContentView(layoutResID);
 
-		onPageReturnListener = listener;
+		onFinishListener = listener;
 		view = LayoutInflater.from(this).inflate(layoutResID, null);
 		view.setOnTouchListener(this);
 	};
 	//滑动返回>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	public static final String INTENT_TITLE = "INTENT_TITLE";
 
-	protected Intent intent = null;//可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+	public static final String INTENT_TITLE = "INTENT_TITLE";
+	public static final String INTENT_ID = "INTENT_ID";
+	public static final String RESULT_DATA = "RESULT_DATA";
+
+	/**
+	 * 用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+	 */
+	protected Intent intent = null;
+	/**
+	 * 用于activity，fragment等之前的intent传值
+	 */
+	protected Bundle bundle = null;
+
 	protected int enterAnim = R.anim.fade;//退出时之前的界面进入动画,可在finish();前通过改变它的值来改变动画效果
 	protected int exitAnim = R.anim.right_push_out;//退出时该界面动画,可在finish();前通过改变它的值来改变动画效果
 
 	protected ProgressDialog progressDialog = null;//进度弹窗
 	protected View toGetWindowTokenView = null;//activity退出时隐藏软键盘需要，需要在调用finish方法前赋值
 
-	protected List<Handler> handlerList = new ArrayList<Handler>();
-	protected List<Runnable> runnableList = new ArrayList<Runnable>();
-
-	public abstract void initView();//UI显示方法，必须在setContentView后调用
-	public abstract void initData();//data数据方法，必须在setContentView后调用
-	public abstract void initListener();//listener事件监听方法，必须在setContentView后调用
+	/**
+	 * UI显示方法，必须在setContentView后调用
+	 */
+	public abstract void initView();
+	/**
+	 * data数据方法，必须在setContentView后调用
+	 */
+	public abstract void initData();
+	/**
+	 * listener事件监听方法，必须在setContentView后调用
+	 */
+	public abstract void initListener();
 
 
 	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -111,7 +129,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	 * @param dialogMessage 信息
 	 */
 	public void showProgressDialog(final String dialogTitle, final String dialogMessage){
-		if (isActivityAlive == false) {
+		if (isAlive == false) {
 			return;
 		}
 		runOnUiThread(new Runnable() {
@@ -140,7 +158,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	/** 隐藏加载进度
 	 */
 	public void dismissProgressDialog() {
-		if(isActivityAlive && progressDialog != null && progressDialog.isShowing() == true){
+		if(isAlive && progressDialog != null && progressDialog.isShowing() == true){
 
 			runOnUiThread(new Runnable() {
 				@Override
@@ -181,7 +199,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	 * @param showAnimation
 	 */
 	public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
-		if (isActivityAlive == false) {
+		if (isAlive == false || intent == null) {
+			Log.e(TAG, "toActivity  isAlive == false || intent == null >> return;");
 			return;
 		}
 		runOnUiThread(new Runnable() {
@@ -226,7 +245,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	 * @param isForceDismissProgressDialog
 	 */
 	public void showShortToast(final String string, final boolean isForceDismissProgressDialog) {
-		if (isActivityAlive == false) {
+		if (isAlive == false) {
 			return;
 		}
 		runOnUiThread(new Runnable() {
@@ -242,37 +261,32 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	}
 	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
+	/**
+	 * 线程名列表
+	 */
+	protected List<String> threadNameList;
 	/**运行线程
-	 * @param threadName
+	 * @param name
 	 * @param runnable
 	 * @return
 	 */
-	public Handler runThread(String threadName, Runnable runnable) {
-		if (runnable == null) {
-			Log.e(TAG, "runThread  runnable == null >> return");
+	public Handler runThread(String name, Runnable runnable) {
+		name = StringUtil.getTrimedString(name);
+		Handler handler = ThreadManager.getInstance().runThread(name, runnable);
+		if (handler == null) {
+			Log.e(TAG, "runThread handler == null >> return null;");
 			return null;
 		}
-		HandlerThread handlerThread = new HandlerThread("" + threadName);
-		handlerThread.start();//创建一个HandlerThread并启动它
-		Handler handler = new Handler(handlerThread.getLooper());//使用HandlerThread的looper对象创建Handler
-		handler.post(runnable);//将线程post到Handler中
 
-		handlerList.add(handler);
-		runnableList.add(runnable);
-
+		threadNameList.add(name);
 		return handler;
-	}
-
-	public void onPageReturn() {
-		finish();
 	}
 
 	@Override
 	public void finish() {
 		super.finish();//必须写在最前才能显示自定义动画
 		//里面的代码不需要重写，通过super.finish();即可得到<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		if (isActivityAlive == false) {
+		if (isAlive == false) {
 			return;
 		}
 		runOnUiThread(new Runnable() {
@@ -295,22 +309,28 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		isRunning = true;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		isRunning = false;
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		//里面的代码不需要重写，通过super.onDestroy();即可得到<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		dismissProgressDialog();
-		isActivityAlive = false;
-		if (handlerList != null && runnableList != null) {
-			for (int i = 0; i < handlerList.size(); i++) {
-				try {
-					(handlerList.get(i)).removeCallbacks(runnableList.get(i));
-				} catch (Exception e) {
-					Log.e(TAG, "onDestroy try { handler.removeCallbacks(runnable);...  >> catch  : " + e.getMessage());
-				}
-			}
-		}
+		isRunning = false;
+		isAlive = false;
+		ThreadManager.getInstance().destroyThread(threadNameList);
 		//里面的代码不需要重写，通过super.onDestroy();即可得到>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
+
 
 
 	//点击返回键事件<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -330,8 +350,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (onPageReturnListener != null) {
-				onPageReturnListener.onPageReturn();
+			if (onFinishListener != null) {
+				onFinishListener.finish();
 				return true;
 			}
 			break;
@@ -369,7 +389,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-		if (onPageReturnListener != null) {
+		if (onFinishListener != null) {
 
 			float maxDragHeight = getResources().getDimension(R.dimen.page_drag_max_height);
 			float distanceY = e2.getRawY() - e1.getRawY();
@@ -378,7 +398,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 				float minDragWidth = getResources().getDimension(R.dimen.page_drag_min_width);
 				float distanceX = e2.getRawX() - e1.getRawX();
 				if (distanceX > minDragWidth) {
-					onPageReturnListener.onPageReturn();
+					onFinishListener.finish();
 					return true;
 				}
 			}
@@ -397,5 +417,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements O
 	}
 
 	//滑动返回>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 }

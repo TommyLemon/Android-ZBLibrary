@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="activity_bg">#f0f0ed</color>
+    <color name="activity_bg">#f7f8f8</color>
     <color name="topbar_bg">#33cc99</color>
     <color name="topbar_bg_white">#ffffffff</color>
     <color name="topbar_bg_black">#272e2a</color>
@@ -21,7 +21,6 @@
     <color name="pink">#ff6666</color>
     <color name="yellow">#ffd400</color>
 
-    <!-- add by tommy -->
     <color name="alpha_complete">#0000</color>
     <color name="alpha_9">#9000</color>
     <color name="alpha_6">#6000</color>
@@ -33,7 +32,7 @@
     <color name="white_alpha_6">#bbdddddd</color>
     <color name="black">#000000</color>
     <color name="black_slight">#666666</color>
-    <color name="blue">#195fcf</color>
+    <color name="blue">#009ed3</color>
     <color name="blue_btn">#2c6ed2</color>
     <color name="blue_sky">#62c8f9</color>
     <color name="orangered">#ff5900</color>
@@ -54,7 +53,6 @@
     <color name="button_selected">#ff419de4</color>
     <color name="green_btn">#33b422</color>
     <color name="orange_btn">#e87a22</color>
-    <!-- add by tommy -->
 
     <color name="btn_blue_normal">#34dbaf</color>
     <color name="btn_blue_pressed">#36c197</color>

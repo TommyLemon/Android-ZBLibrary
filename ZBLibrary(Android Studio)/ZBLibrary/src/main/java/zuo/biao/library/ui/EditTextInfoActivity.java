@@ -20,7 +20,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnPageReturnListener;
+import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -49,7 +49,7 @@ import android.widget.TextView;
  * @use toActivity或startActivityForResult(EditTextInfoActivity.createIntent) > onActivityResult方法内data.getStringExtra(
  * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
  */
-public class EditTextInfoActivity extends BaseActivity implements OnClickListener, OnPageReturnListener {
+public class EditTextInfoActivity extends BaseActivity implements OnClickListener, OnFinishListener {
 	public static final String TAG = "EditTextInfoActivity";
 
 	/**
@@ -81,10 +81,10 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.edit_text_info_activity, this);
+		setContentView(R.layout.edit_text_info_activity, this);//传this是为了全局滑动返回
 		//类相关初始化,建议使用<<<<<<<<<
 		context = this;
-		isActivityAlive = true;
+		isAlive = true;
 		//类相关初始化,建议使用>>>>>>>>>
 
 		//必须调用<<<<<<<<<<<
@@ -103,7 +103,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
-	private TextView tvEditTextInfoInfoRemind;
+	private TextView tvEditTextInfoRemind;
 	private ListView lvEditTextInfo;
 	//	private XListView lvEditTextInfo;
 	@Override
@@ -114,7 +114,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
-		tvEditTextInfoInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoInfoRemind);
+		tvEditTextInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoRemind);
 
 		lvEditTextInfo = (ListView) findViewById(R.id.lvEditTextInfo);
 	}
@@ -190,23 +190,23 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		}
 
 		if (intentType == TYPE_NICK) {
-			tvEditTextInfoInfoRemind.setText("限10个字（或20个字符）");
+			tvEditTextInfoRemind.setText("限10个字（或20个字符）");
 			MaxLen = 20;
 			//			etEditTextInfo.setMaxEms(10);
 			//etEditTextInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
 		} else if (intentType == TYPE_PHONE) {
-			tvEditTextInfoInfoRemind.setText("只能填电话号码哦");
+			tvEditTextInfoRemind.setText("只能填电话号码哦");
 			MaxLen = 11;
 			//etEditTextInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
 		} else if (intentType == TYPE_PROFESSION) {
 			hasList = true;
-			tvEditTextInfoInfoRemind.setText("所属行业");
+			tvEditTextInfoRemind.setText("所属行业");
 			MaxLen = 30;
 			//			etEditTextInfo.setFocusable(false);
 			//			etEditTextInfo.setFocusableInTouchMode(false);
 			//			etEditTextInfo.setEnabled(false);
 		} else {
-			tvEditTextInfoInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
+			tvEditTextInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
 		}
 		etEditTextInfo.setMaxEms(MaxLen);
 
@@ -238,8 +238,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 					@Override
 					public void run() {
 						Log.i(TAG, "runOnUiThread run ");
-						if (isActivityAlive == true) {//isActivityAlive已在baseFragment中新建
-							Log.i(TAG, "isActivityAlive == true");
+						if (isAlive == true) {//isAlive已在baseFragment中新建
+							Log.i(TAG, "isAlive == true");
 							dismissProgressDialog();
 							if (hasList) {
 								setList(list);
@@ -284,7 +284,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initListener() {//必须调用
 
-		findViewById(R.id.ivEditTextInfoReturn).setOnClickListener(this);
+		findViewById(R.id.tvEditTextInfoReturn).setOnClickListener(this);
 		tvEditTextInfoForward.setOnClickListener(this);
 
 		searchHandler = new Handler(new Callback() {
@@ -419,8 +419,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//Library内switch方法中case R.id.idx:报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() ==  R.id.ivEditTextInfoReturn) {
-			onPageReturn();
+		if (v.getId() ==  R.id.tvEditTextInfoReturn) {
+			finish();
 		} else if (v.getId() ==  R.id.tvEditTextInfoForward) {
 			if (hasUrl == false) {
 				saveAndExit();

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llEditTextInfoBg"
-    style="@style/bottom_window_page"
-    android:layout_gravity="bottom" >
+    android:id="@+id/vBaseBottomWindowRoot"
+    style="@style/bottom_window_page" >
 
     <RelativeLayout
         style="@style/topbar_bg"
@@ -54,9 +53,9 @@
                 android:gravity="center|left"
                 android:hint="请在这里输入"
                 android:maxLength="30"
-                android:textCursorDrawable="@drawable/edit_cusor"
                 android:paddingRight="10dp"
                 android:textColor="@color/black"
+                android:textCursorDrawable="@drawable/edit_cusor"
                 android:textSize="17sp" >
 
                 <requestFocus />
@@ -75,7 +74,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvEditTextInfoInfoRemind"
+        android:id="@+id/tvEditTextInfoRemind"
         style="@style/content_item_remind_tv"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -90,7 +89,7 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/ivEditTextInfoReturn"
+            android:id="@+id/tvEditTextInfoReturn"
             style="@style/bottom_menu_btn_cancel"
             android:layout_weight="1" />
 

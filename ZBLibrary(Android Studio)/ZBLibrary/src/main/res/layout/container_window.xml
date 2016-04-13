@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llContainerWindowBg"
+    android:id="@+id/vBaseBottomWindowRoot"
     style="@style/bottom_window_page"
     android:layout_gravity="bottom" >
 

@@ -44,6 +44,13 @@ public class EditTextManager {
 	public static void hideKeyboard(Context context, View toGetWindowTokenView){
 		showKeyboard(context, null, toGetWindowTokenView, false);
 	}
+	/**显示输入框
+	 * @param context
+	 * @param et
+	 */
+	public static void showKeyboard(Context context, EditText et){
+		showKeyboard(context, et, true);
+	}
 	/**显示/隐藏输入框
 	 * @param context
 	 * @param et
@@ -51,6 +58,14 @@ public class EditTextManager {
 	 */
 	public static void showKeyboard(Context context, EditText et, boolean show){
 		showKeyboard(context, et, null, show);
+	}
+	/**显示输入框
+	 * @param context
+	 * @param et
+	 * @param toGetWindowTokenView(为null时toGetWindowTokenView = et) 包含et的父View，键盘根据toGetWindowTokenView的位置来弹出/隐藏
+	 */
+	public static void showKeyboard(Context context, EditText et, View toGetWindowTokenView) {
+		showKeyboard(context, et, toGetWindowTokenView, true);
 	}
 	/**显示/隐藏输入框
 	 * @param context
@@ -75,7 +90,7 @@ public class EditTextManager {
 		}
 
 		if (show == false) {
-			imm.hideSoftInputFromWindow(toGetWindowTokenView.getWindowToken(), 0); 
+			imm.hideSoftInputFromWindow(toGetWindowTokenView.getWindowToken(), 0);
 			if (et != null) {
 				et.clearFocus();
 			}
@@ -85,7 +100,7 @@ public class EditTextManager {
 				et.setFocusableInTouchMode(true);
 				et.requestFocus();
 				imm.toggleSoftInputFromWindow(toGetWindowTokenView.getWindowToken()
-						, InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
+						, InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 			}
 		}
 	}
@@ -171,38 +186,38 @@ public class EditTextManager {
 
 		String inputed = StringUtil.getTrimedString(et);
 		switch (type) {
-		case TYPE_VERIFY:
-			if (type == TYPE_VERIFY && inputed.length() < 4) {
-				return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "验证码不能小于4位");
-			}
-			break;
-		case TYPE_PASSWORD:
-			if (inputed.length() < 6) {
-				return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "密码不能小于6位");
-			}
-			if (StringUtil.isNumberOrAlpha(inputed) == false) {
-				return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "密码只能含有字母或数字");
-			}
-			break;
-		case TYPE_PHONE:
-			if (inputed.length() != 11) {
-				return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "请输入11位手机号");
-			}
-			if (StringUtil.isPhone(inputed) == false) {
-				Toast.makeText(context, "您输入的手机号格式不对哦~", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			break;
-		case TYPE_MAIL:
-			if (StringUtil.isEmail(inputed) == false) {
-				return showInputedError(context, "您输入的邮箱格式不对哦~");
-			}
-			break;
-		default:
-			if (StringUtil.isNotEmpty(inputed, true) == false || inputed.equals(StringUtil.getTrimedString(et.getHint()))) {
-				return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : StringUtil.getTrimedString(et));
-			}
-			break;
+			case TYPE_VERIFY:
+				if (type == TYPE_VERIFY && inputed.length() < 4) {
+					return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "验证码不能小于4位");
+				}
+				break;
+			case TYPE_PASSWORD:
+				if (inputed.length() < 6) {
+					return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "密码不能小于6位");
+				}
+				if (StringUtil.isNumberOrAlpha(inputed) == false) {
+					return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "密码只能含有字母或数字");
+				}
+				break;
+			case TYPE_PHONE:
+				if (inputed.length() != 11) {
+					return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : "请输入11位手机号");
+				}
+				if (StringUtil.isPhone(inputed) == false) {
+					Toast.makeText(context, "您输入的手机号格式不对哦~", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+				break;
+			case TYPE_MAIL:
+				if (StringUtil.isEmail(inputed) == false) {
+					return showInputedError(context, "您输入的邮箱格式不对哦~");
+				}
+				break;
+			default:
+				if (StringUtil.isNotEmpty(inputed, true) == false || inputed.equals(StringUtil.getTrimedString(et.getHint()))) {
+					return showInputedError(context, et, StringUtil.isNotEmpty(errorRemind, true) ? errorRemind : StringUtil.getTrimedString(et));
+				}
+				break;
 		}
 
 		et.setHintTextColor(oringinalHintColor);

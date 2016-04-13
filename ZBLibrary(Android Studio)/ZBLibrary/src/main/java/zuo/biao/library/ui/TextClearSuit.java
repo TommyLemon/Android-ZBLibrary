@@ -86,10 +86,12 @@ public class TextClearSuit {
 			inputedString = tv.getText().toString();
 		}
 
+		clearView.setVisibility(StringUtil.isNotEmpty(tv, false) ? View.VISIBLE : View.GONE);
 		clearView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				tv.setText("");
+				tv.requestFocus();
 			}
 		});
 		tv.addTextChangedListener(new TextWatcher() {

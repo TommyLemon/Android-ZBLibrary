@@ -9,8 +9,6 @@
         <TextView
             android:id="@+id/ivDemoMainReturn"
             style="@style/topbar_return_tv"
-            android:drawableLeft="@drawable/null_drawable"
-            android:paddingLeft="@dimen/common_item_left_tv_padding"
             android:text="退出" />
 
         <TextView
@@ -58,13 +56,12 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainMyAlertDialog"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
-                    android:text="MyAlertDialog"/>
+                    android:text="MyAlertDialog" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
@@ -73,8 +70,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainItemOnlyDialog"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -96,8 +92,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainSelectPictureActivity"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -111,8 +106,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainCutPictureActivity"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -126,8 +120,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainWebViewActivity"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -141,8 +134,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainEditTextInfoActivity"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -155,14 +147,13 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
-                android:id="@+id/llDemoMainModelActivity"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                android:id="@+id/llDemoMainDemoActivity"
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
-                    android:text="ModelActivity" />
+                    android:text="DemoActivity" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
@@ -170,14 +161,27 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
-                android:id="@+id/llDemoMainModelFragmentActivity"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                android:id="@+id/llDemoMainDemoFragmentActivity"
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
-                    android:text="ModelFragmentActivity" />
+                    android:text="DemoFragmentActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
+                android:id="@+id/llDemoMainDemoTabActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="DemoTabActivity" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
@@ -194,8 +198,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainTopMenuWindow"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -209,8 +212,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainBottomMenuWindow"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -224,8 +226,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainEditTextInfoWindow"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -239,8 +240,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainDatePickerWindow"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
@@ -254,8 +254,7 @@
 
             <LinearLayout
                 android:id="@+id/llDemoMainPlacePickerWindow"
-                style="@style/content_item"
-                android:background="@drawable/bg_white_to_gray" >
+                style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"

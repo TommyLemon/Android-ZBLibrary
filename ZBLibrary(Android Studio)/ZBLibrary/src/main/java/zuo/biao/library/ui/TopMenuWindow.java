@@ -105,13 +105,13 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 	
-	private boolean isActivityAlive;
+	private boolean isAlive;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_menu_window);
 
-		isActivityAlive = true;
+		isAlive = true;
 
 		init();
 	}
@@ -190,7 +190,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (isActivityAlive) {
+			if (isAlive) {
 				finish();
 				return true;
 			}
@@ -202,7 +202,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	@Override
 	public void finish() {
-		isActivityAlive = false;
+		isAlive = false;
 
 		llTopMenuWindowBg.setEnabled(false);
 
