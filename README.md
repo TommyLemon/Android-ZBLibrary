@@ -30,3 +30,7 @@
 ## 欢迎Fork，欢迎Star
 
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
+
+## 下载试用
+
+http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk
