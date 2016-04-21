@@ -8,8 +8,7 @@
         android:id="@+id/ivUserViewHead"
         style="@style/img_fitXY"
         android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@color/alpha_1"/>
+        android:layout_height="60dp"/>
 
     <LinearLayout
         style="@style/ll_vertical_match_match"

@@ -175,7 +175,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			CommonUtil.copyText(context, Constant.APP_DEVELOPER_WEBSITE);
 			return true;
 		case R.id.llAboutWeibo:
-			CommonUtil.copyText(context, Constant.APP_OFFICIAL_WEIBO);
+			CommonUtil.copyText(context, Constant.APP_OFFICIAL_BLOG);
 			return true;
 		case R.id.llAboutContactUs:
 			CommonUtil.copyText(context, Constant.APP_OFFICIAL_EMAIL);

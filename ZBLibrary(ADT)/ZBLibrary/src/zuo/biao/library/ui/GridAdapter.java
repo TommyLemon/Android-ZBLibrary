@@ -94,7 +94,7 @@ public class GridAdapter extends BaseAdapter<KeyValueBean> {
 		final KeyValueBean kvb = getItem(position);
 		final String name = kvb.getValue();
 
-		ImageLoaderUtil.loadImage(ImageLoaderUtil.TYPE_DEFAULT, holder.ivHead, ImageLoaderUtil.getSmallUri(kvb.getKey()));
+		ImageLoaderUtil.loadImage(holder.ivHead, kvb.getKey());
 
 		holder.tvName.setVisibility(StringUtil.isNotEmpty(name, true) ? View.VISIBLE : View.GONE);
 		holder.tvName.setText(StringUtil.getTrimedString(name));

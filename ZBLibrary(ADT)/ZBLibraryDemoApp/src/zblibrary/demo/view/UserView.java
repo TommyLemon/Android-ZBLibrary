@@ -79,7 +79,7 @@ public class UserView extends BaseView<User> {
 		}
 		this.data = data;
 
-		ImageLoaderUtil.loadImage(ivUserViewHead, data.getHead());//没有测试用的small图片 ImageLoaderUtil.getSmallUri(data.getHead()));
+		ImageLoaderUtil.loadImage(ivUserViewHead, data.getHead(), ImageLoaderUtil.TYPE_OVAL);//没有测试用的small图片 ImageLoaderUtil.getSmallUri(data.getHead()));
 		tvUserViewName.setText(StringUtil.getTrimedString(data.getName()));
 		tvUserViewNumber.setText(StringUtil.getNoBlankString(data.getPhone()));
 	}

@@ -18,14 +18,24 @@ import zuo.biao.library.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**图片加载工具类
  * @author Lemon
@@ -46,36 +56,38 @@ public class ImageLoaderUtil {
 		}
 		imageLoader = ImageLoader.getInstance();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-				.defaultDisplayImageOptions(getOption(0))
-						// .threadPoolSize(5)
-						// //.threadPriority(Thread.MIN_PRIORITY + 3)
-				.tasksProcessingOrder(QueueProcessingType.LIFO)
-						// .discCacheSize((int)(Runtime.getRuntime().maxMemory()/2))
-						// .discCache(new UnlimitedDiscCache(getCachePath()))
-						// .memoryCacheSize(2 * 1024 * 1024)
-						// .memoryCacheExtraOptions(147, 147)
-						// .writeDebugLogs()
-						// .httpConnectTimeout(5000)
-						// .httpReadTimeout(20000)
-				.diskCacheExtraOptions(ScreenUtil.getScreenWidth(context), ScreenUtil.getScreenHeight(context), null)
-				.threadPriority(Thread.NORM_PRIORITY - 2)
-				.denyCacheImageMultipleSizesInMemory()
-				.diskCacheSize(50 * 1024 * 1024) // 50 Mb
-						// .displayer(new RoundedBitmapDisplayer(5))
-				.build();
+		.defaultDisplayImageOptions(getOption(0))
+		// .threadPoolSize(5)
+		// //.threadPriority(Thread.MIN_PRIORITY + 3)
+		.tasksProcessingOrder(QueueProcessingType.LIFO)
+		// .discCacheSize((int)(Runtime.getRuntime().maxMemory()/2))
+		// .discCache(new UnlimitedDiscCache(getCachePath()))
+		// .memoryCacheSize(2 * 1024 * 1024)
+		// .memoryCacheExtraOptions(147, 147)
+		// .writeDebugLogs()
+		// .httpConnectTimeout(5000)
+		// .httpReadTimeout(20000)
+		.diskCacheExtraOptions(ScreenUtil.getScreenWidth(context), ScreenUtil.getScreenHeight(context), null)
+		.threadPriority(Thread.NORM_PRIORITY - 2)
+		.denyCacheImageMultipleSizesInMemory()
+		.diskCacheSize(50 * 1024 * 1024) // 50 Mb
+		// .displayer(new RoundedBitmapDisplayer(5))
+		.build();
 
 		imageLoader.init(config);
 	}
 
+
 	/**加载图片
 	 * 加载小图应再调用该方法前使用getSmallUri处理uri
+	 * type = TYPE_DEFAULT
 	 * @param iv
-	 * @param uri
+	 * @param uri 网址url或本地路径path
 	 */
 	public static void loadImage(ImageView iv, String uri) {
 		loadImage(iv, uri, TYPE_DEFAULT);
 	}
-
+	
 	public static final int TYPE_DEFAULT = 0;
 	public static final int TYPE_ROUND_CORNER = 1;
 	public static final int TYPE_OVAL = 2;
@@ -85,52 +97,42 @@ public class ImageLoaderUtil {
 	 * @param iv
 	 * @param uri 网址url或本地路径path
 	 */
-	public static void loadImage(int type, ImageView iv, String uri) {
+	public static void loadImage(final ImageView iv, String uri, final int type) {
 		if (iv == null) {// || iv.getWidth() <= 0) {
 			Log.i(TAG, "loadImage  iv == null >> return;");
 			return;
 		}
-		switch (type) {
-			case TYPE_ROUND_CORNER:
-				loadImage(iv, uri, 10);
-				break;
-			case TYPE_OVAL:
-				loadImage(iv, uri, iv.getMeasuredWidth() / 2);
-				break;
-			default:
-				loadImage(iv, uri, 0);
-				break;
-		}
-	}
-
-	public static String IMAGEVIEW_KEY_URL = "IMAGEVIEW_KEY_URL";
-	public static String IMAGEVIEW_KEY_STATE = "IMAGEVIEW_KEY_STATE";
-	public static int IMAGEVIEW_STATE_ISSHOW = 1;
-	public static int IMAGEVIEW_STATE_NOTSHOW = 2;
-
-	/**加载图片
-	 * 加载小图应再调用该方法前使用getSmallUri处理uri
-	 * @param iv
-	 * @param uri 网址url或本地路径path
-	 * @param cornerRadiusSize 图片圆角大小
-	 */
-	public static void loadImage(ImageView iv, String uri, int cornerRadiusSize) {
 		Log.i(TAG, "loadImage  iv" + (iv == null ? "==" : "!=") + "null; uri=" + uri);
-		if (iv == null) {
-			return;
-		}
 
 		uri = getCorrectUri(uri);
-		try {
-			if (imageLoader == null) {
-				Log.e(TAG, "\n\n\n\n\n !!!! <<< loadImage  imageLoader == null !!!   >>>>> 必须调用init方法!!! \n\n\n\n");
-				imageLoader = ImageLoader.getInstance();
+
+		//新的加载图片
+		imageLoader.displayImage(uri, iv, new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String imageUri, View arg1) {
 			}
-			Log.i(TAG, "loadImage imageLoader.displayImage uri=" + uri);
-			imageLoader.displayImage(uri, iv, getOption(cornerRadiusSize));
-		} catch (Exception e) {
-			Log.e(TAG, "loadImage try { if ((int) TagUtil.getTag(....  >> } catch (Exception e) {\n" + e.getMessage());
-		}
+			@Override
+			public void onLoadingFailed(String imageUri, View arg1, FailReason arg2) {
+			}
+			@Override
+			public void onLoadingComplete(String imageUri, View arg1, Bitmap loadedImage) {
+				switch (type) {
+				case TYPE_OVAL:
+					iv.setImageBitmap(toRoundCorner(loadedImage, loadedImage.getWidth()/2));
+					break;
+				case TYPE_ROUND_CORNER:
+					iv.setImageBitmap(toRoundCorner(loadedImage, 10));
+					break;
+				default:
+					iv.setImageBitmap(loadedImage);
+					break;
+				}
+			}
+			@Override
+			public void onLoadingCancelled(String imageUri, View arg1) {
+			}
+		});
+
 	}
 
 
@@ -139,10 +141,7 @@ public class ImageLoaderUtil {
 	public static final String URL_PREFIX = StringUtil.URL_PREFIX;
 	public static final String URL_PREFIXs = StringUtil.URL_PREFIXs;
 
-	/**
-	 * TODO 改为小图地址的前缀
-	 */
-	public static String URL_SUFFIX_SMALL = "!normal";
+	public static String URL_SUFFIX_SMALL = "!common";
 	/**获取可用的uri
 	 * @param uri
 	 * @return
@@ -150,22 +149,22 @@ public class ImageLoaderUtil {
 	@SuppressLint("DefaultLocale")
 	public static String getCorrectUri(String uri) {
 		Log.i(TAG, "<<<<  getCorrectUri  uri = " + uri);
-//		if (StringUtil.isNotEmpty(uri, true) == false) {
-//			Log.e(TAG, "getCorrectUri  StringUtil.isNotEmpty(uri, true) == false >> return null;");
-//			return null;
-//		}
+		//		if (StringUtil.isNotEmpty(uri, true) == false) {
+		//			Log.e(TAG, "getCorrectUri  StringUtil.isNotEmpty(uri, true) == false >> return null;");
+		//			return null;
+		//		}
 		uri = StringUtil.getNoBlankString(changeUrl(uri));
 
 		if (uri.toLowerCase().startsWith(HTTP)) {
 			//TODO
 		} else {
-//			String path = uri.startsWith(FILE_PATH_PREFIX) ? uri : FILE_PATH_PREFIX + uri;
+			//			String path = uri.startsWith(FILE_PATH_PREFIX) ? uri : FILE_PATH_PREFIX + uri;
 			uri = uri.startsWith(FILE_PATH_PREFIX) ? uri : FILE_PATH_PREFIX + uri;
-//			if (path.startsWith("/")) {
-//				path = FILE_PATH_PREFIX + uri;
-//			}
-//			Log.i(TAG, "getCorrectUri  uri.toLowerCase().startsWith(HTTP) == false >>  uri = " + uri);
-//			uri = StringUtil.isFilePathExist(path) ? path : URL_PREFIX + uri;
+			//			if (path.startsWith("/")) {
+			//				path = FILE_PATH_PREFIX + uri;
+			//			}
+			//			Log.i(TAG, "getCorrectUri  uri.toLowerCase().startsWith(HTTP) == false >>  uri = " + uri);
+			//			uri = StringUtil.isFilePathExist(path) ? path : URL_PREFIX + uri;
 		}
 
 		Log.i(TAG, "getCorrectUri  return uri = " + uri + " >>>>> ");
@@ -208,8 +207,8 @@ public class ImageLoaderUtil {
 		if(defaultImageResId > 0) {
 			try {
 				builder.showImageForEmptyUri(defaultImageResId)
-						.showImageOnLoading(defaultImageResId)
-						.showImageOnFail(defaultImageResId);
+				.showImageOnLoading(defaultImageResId)
+				.showImageOnFail(defaultImageResId);
 			} catch (Exception e) {
 				Log.e(TAG, "getOption  try {builder.showImageForEmptyUri(defaultImageResId) ..." +
 						" >> } catch (Exception e) { \n" + e.getMessage());
@@ -248,4 +247,22 @@ public class ImageLoaderUtil {
 		return isLocalPath || uri.endsWith(URL_SUFFIX_SMALL)
 				? uri : uri + URL_SUFFIX_SMALL;
 	}
+	
+	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		final int color = 0xff424242;
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		final RectF rectF = new RectF(rect);
+		final float roundPx = pixels;
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		return output;
+	}
+	
 }
