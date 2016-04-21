@@ -158,7 +158,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			toActivity(WebViewActivity.createIntent(context, "开发者", Constant.APP_DEVELOPER_WEBSITE));
 			break;
 		case R.id.llAboutWeibo:
-			toActivity(WebViewActivity.createIntent(context, "微博", Constant.APP_OFFICIAL_WEIBO));
+			toActivity(WebViewActivity.createIntent(context, "博客", Constant.APP_OFFICIAL_BLOG));
 			break;
 		case R.id.llAboutContactUs:
 			CommonUtil.sendEmail(context, Constant.APP_OFFICIAL_EMAIL);
