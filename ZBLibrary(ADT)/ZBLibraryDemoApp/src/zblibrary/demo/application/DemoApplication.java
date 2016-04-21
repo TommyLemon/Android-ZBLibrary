@@ -18,7 +18,7 @@ import java.io.File;
 
 import zblibrary.demo.constant.Constant;
 import zblibrary.demo.model.User;
-import zblibrary.demo.utils.DataUtil;
+import zblibrary.demo.util.DataUtil;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.SettingUtil;

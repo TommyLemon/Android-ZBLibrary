@@ -125,7 +125,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 	@Override
 	public void httpGetList(final int pageNum) {
-		//		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
+		//需要配置服务器地址		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
 
 		//仅测试用<<<<<<<<<<<
 		new Handler().postDelayed(new Runnable() {
@@ -244,16 +244,22 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	}
 
 
+	/**获取图片地址，仅供测试用
+	 * @param userId
+	 * @return
+	 */
 	private String getPictureUrl(int userId) {
 		switch (userId%6) {
 		case 0:
-			return "http://common.cnblogs.com/images/icon_weibo_24.png";
-		case 1:
-			return "http://common.cnblogs.com/images/wechat.png";
-		case 2:
 			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
-		case 3:
+		case 1:
+			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
+		case 2:
 			return "https://www.baidu.com/img/bd_logo1.png";
+		case 3:
+			return "http://common.cnblogs.com/images/icon_weibo_24.png";
+		case 4:
+			return "http://common.cnblogs.com/images/wechat.png";
 		case 5:
 			return "http://images2015.cnblogs.com/blog/660067/201604/660067-20160404191409609-2089759742.png";
 		}

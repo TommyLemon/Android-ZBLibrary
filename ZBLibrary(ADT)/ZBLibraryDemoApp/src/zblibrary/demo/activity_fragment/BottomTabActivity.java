@@ -82,6 +82,7 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 	private View[] llBottomTabTabs;
 	@Override
 	public void initView() {// 必须调用
+		exitAnim = R.anim.bottom_push_out;
 
 		tvBottomTabTitle = (TextView) findViewById(R.id.tvBottomTabTitle);
 		

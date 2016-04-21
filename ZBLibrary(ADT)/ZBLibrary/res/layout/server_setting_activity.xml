@@ -5,9 +5,9 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <TextView
-            android:id="@+id/tvServerSettingReturn"
-            style="@style/topbar_return_tv" />
+        <ImageView
+            android:id="@+id/ivServerSettingReturn"
+            style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvServerSettingTitle"

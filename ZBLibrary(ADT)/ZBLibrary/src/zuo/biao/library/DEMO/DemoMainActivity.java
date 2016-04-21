@@ -72,10 +72,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
-		if (SettingUtil.isOnTestMode) {
-			showShortToast("测试服务器");
-		}
-
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -359,12 +355,15 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		} else if (v.getId() ==  R.id.llDemoMainCutPictureActivity) {
 			cutPicture(picturePath);
 		} else if (v.getId() ==  R.id.llDemoMainWebViewActivity) {
-			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
+			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器网址" : "正式服务器网址"
+				, SettingUtil.getCurrentServerAddress(context)));
 		} else if (v.getId() ==  R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
 		} else if (v.getId() ==  R.id.llDemoMainServerSettingActivity) {
 			toActivity(ServerSettingActivity.createIntent(context
-					, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST));
+					, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST
+					, SettingUtil.APP_SETTING, Context.MODE_PRIVATE
+					, SettingUtil.KEY_SERVER_ADDRESS_NORMAL, SettingUtil.KEY_SERVER_ADDRESS_TEST));
 		} else if (v.getId() ==  R.id.llDemoMainDemoActivity) {
 			toActivity(DemoActivity.createIntent(context, 0));
 		} else if (v.getId() ==  R.id.llDemoMainDemoFragmentActivity) {
@@ -395,83 +394,91 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	private static final int REQUEST_TO_SELECT_PICTURE = 20;
 	private static final int REQUEST_TO_CUT_PICTURE = 21;
 	private static final int REQUEST_TO_EDIT_TEXT_INFO = 22;
-	private static final int REQUEST_TO_TOP_MENU = 23;
-	private static final int REQUEST_TO_BOTTOM_MENU = 24;
-	private static final int REQUEST_TO_DATE_PICKER = 25;
-	private static final int REQUEST_TO_PLACE_PICKER = 26;
+	private static final int REQUEST_TO_SERVER_SETTING = 23;
+	private static final int REQUEST_TO_TOP_MENU = 30;
+	private static final int REQUEST_TO_BOTTOM_MENU = 31;
+	private static final int REQUEST_TO_DATE_PICKER = 32;
+	private static final int REQUEST_TO_PLACE_PICKER = 33;
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-			case REQUEST_TO_SELECT_PICTURE:
-				if (data != null) {
-					cutPicture(data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH));
-				}
-				break;
-			case REQUEST_TO_CUT_PICTURE://返回的结果
-				if (data != null) {
-					setPicture(data.getStringExtra(CutPictureActivity.RESULT_PICTURE_PATH));
-				}
-				break;
-			case REQUEST_TO_EDIT_TEXT_INFO:
-				if (data != null) {
-					svDemoMain.smoothScrollTo(0, 0);
-					tvDemoMainHeadName.setText(StringUtil.getTrimedString(
-							data.getStringExtra(EditTextInfoWindow.RESULT_VALUE)));
-				}
-				break;
-			case REQUEST_TO_TOP_MENU:
-				if (data != null) {
-					switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
-					case 0:
-						showItemOnlyDialog();
-						break;
-					case 1:
-						selectPicture();
-						break;
-					default:
-						break;
-					}
-				}
-				break;
-			case REQUEST_TO_BOTTOM_MENU:
-				if (data != null) {
-					int selectedPosition = data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1);
-					if (selectedPosition >= 0 && selectedPosition < topbarColorResIds.length) {
-						rlDemoMainTopbar.setBackgroundResource(topbarColorResIds[selectedPosition]);
-					}
-				}
-				break;
-			case REQUEST_TO_DATE_PICKER:
-				if (data != null) {
-					//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
-					//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
-					//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
-					//							? "null" : selectedPositionList.size()));
-
-					ArrayList<Integer> dateList = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
-					if (dateList != null && dateList.size() >= 3) {
-						showShortToast("选择的日期为" + dateList.get(0) + "-" + dateList.get(1) + "-" + dateList.get(2));
-					}
-				}
-				break;
-			case REQUEST_TO_PLACE_PICKER:
-				if (data != null) {
-					ArrayList<String> placeList = data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
-					if (placeList != null) {
-						String place = "";
-						for (String s : placeList) {
-							place += StringUtil.getTrimedString(s);
-						}
-						showShortToast("选择的地区为: " + place);
-					}
-				}
-				break;
-			default:
-				break;
-			}
+		if (resultCode != RESULT_OK) {
+			return;
 		}
+		switch (requestCode) {
+		case REQUEST_TO_SELECT_PICTURE:
+			if (data != null) {
+				cutPicture(data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH));
+			}
+			break;
+		case REQUEST_TO_CUT_PICTURE://返回的结果
+			if (data != null) {
+				setPicture(data.getStringExtra(CutPictureActivity.RESULT_PICTURE_PATH));
+			}
+			break;
+		case REQUEST_TO_EDIT_TEXT_INFO:
+			if (data != null) {
+				svDemoMain.smoothScrollTo(0, 0);
+				tvDemoMainHeadName.setText(StringUtil.getTrimedString(
+						data.getStringExtra(EditTextInfoWindow.RESULT_VALUE)));
+			}
+			break;
+		case REQUEST_TO_SERVER_SETTING:
+			if (data != null) {
+				//TODO
+			}
+			break;
+		case REQUEST_TO_TOP_MENU:
+			if (data != null) {
+				switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
+				case 0:
+					showItemOnlyDialog();
+					break;
+				case 1:
+					selectPicture();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+		case REQUEST_TO_BOTTOM_MENU:
+			if (data != null) {
+				int selectedPosition = data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1);
+				if (selectedPosition >= 0 && selectedPosition < topbarColorResIds.length) {
+					rlDemoMainTopbar.setBackgroundResource(topbarColorResIds[selectedPosition]);
+				}
+			}
+			break;
+		case REQUEST_TO_DATE_PICKER:
+			if (data != null) {
+				//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
+				//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
+				//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
+				//							? "null" : selectedPositionList.size()));
+
+				ArrayList<Integer> dateList = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
+				if (dateList != null && dateList.size() >= 3) {
+					showShortToast("选择的日期为" + dateList.get(0) + "-" + (dateList.get(1) + 1) + "-" + dateList.get(2));
+				}
+			}
+			break;
+		case REQUEST_TO_PLACE_PICKER:
+			if (data != null) {
+				ArrayList<String> placeList = data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
+				if (placeList != null) {
+					String place = "";
+					for (String s : placeList) {
+						place += StringUtil.getTrimedString(s);
+					}
+					showShortToast("选择的地区为: " + place);
+				}
+			}
+			break;
+		default:
+			break;
+		}
+
 	}
 
 

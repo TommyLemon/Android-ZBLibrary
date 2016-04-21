@@ -145,7 +145,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 			@Override
 			public void onClick(View v) {
-				toActivity(WebViewActivity.createIntent(context, "baidu", "www.baidu.com"));				
+				toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));				
 			}
 		});
 		//示例代码>>>>>>>>

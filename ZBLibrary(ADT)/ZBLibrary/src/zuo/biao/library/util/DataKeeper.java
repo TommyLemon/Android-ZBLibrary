@@ -43,7 +43,7 @@ public class DataKeeper {
 	public static final String ROOT_SHARE_PREFS_ = "DEMO_SHARE_PREFS_";
 
 	//文件缓存<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	/**必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名*/
+	/**TODO 必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名*/
 	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/zuo.biao.library/demo/48/") : null;
 	public static final String accountPath = fileRootPath + "account/";
 	public static final String audioPath = fileRootPath + "audio/";
@@ -153,11 +153,9 @@ public class DataKeeper {
 			out.write(data, 0, data.length);
 			out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			path = null;
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			path = null;
 		}

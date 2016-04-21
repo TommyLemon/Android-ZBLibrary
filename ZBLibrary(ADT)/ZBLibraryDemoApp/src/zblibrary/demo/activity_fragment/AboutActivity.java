@@ -8,6 +8,7 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.SettingUtil;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,9 +21,35 @@ import android.view.View.OnLongClickListener;
  * @author Lemon
  */
 public class AboutActivity extends BaseActivity implements OnClickListener, OnLongClickListener {
-//	private static final String TAG = "AboutActivity";
+	//	private static final String TAG = "AboutActivity";
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	public static final String INTENT_IS_EXIT_BY_DOUBLE_CLICK = "INTENT_IS_EXIT_BY_DOUBLE_CLICK";
+
+	/**启动这个Activity的Intent
+	 * isExitByDoubleClick = true
+	 * @param context
+	 * @param isExitByDoubleClick
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		return createIntent(context, true);
+	}
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @param isExitByDoubleClick
+	 * @return
+	 */
+	public static Intent createIntent(Context context, boolean isExitByDoubleClick) {
+		return new Intent(context, AboutActivity.class).putExtra(INTENT_IS_EXIT_BY_DOUBLE_CLICK, isExitByDoubleClick);
+	}
+
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	
+	
+	private boolean isExitByDoubleClick = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +59,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
+		intent = getIntent();
+		isExitByDoubleClick = intent.getBooleanExtra(INTENT_IS_EXIT_BY_DOUBLE_CLICK, isExitByDoubleClick);
+		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -112,9 +142,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			break;
 		case R.id.llAboutBottomTabActivity:
-			toActivity(BottomTabActivity.createIntent(context));
+			startActivity(BottomTabActivity.createIntent(context));
+			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			break;
-			
+
 		case R.id.llAboutShare:
 			CommonUtil.shareInfo(context, getString(R.string.share_app) + "\n 点击链接直接查看ZBLibrary\n" + Constant.APP_DOWNLOAD_WEBSITE);
 			break;
@@ -155,21 +186,23 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		return false;
 	}
 
-	
+
 	private long firstTime = 0;//第一次返回按钮计时
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		switch(keyCode){
 		case KeyEvent.KEYCODE_BACK:
-			long secondTime = System.currentTimeMillis();
-			if(secondTime - firstTime > 2000){
-				showShortToast("再按一次退出");
-				firstTime = secondTime;
-			} else {//完全退出
-				moveTaskToBack(false);//应用退到后台
-				System.exit(0);
+			if (isExitByDoubleClick) {
+				long secondTime = System.currentTimeMillis();
+				if(secondTime - firstTime > 2000){
+					showShortToast("再按一次退出");
+					firstTime = secondTime;
+				} else {//完全退出
+					moveTaskToBack(false);//应用退到后台
+					System.exit(0);
+				}
+				return true;
 			}
-			return true;
 		}
 
 		return super.onKeyUp(keyCode, event);

@@ -139,7 +139,10 @@ public class ImageLoaderUtil {
 	public static final String URL_PREFIX = StringUtil.URL_PREFIX;
 	public static final String URL_PREFIXs = StringUtil.URL_PREFIXs;
 
-	public static String URL_SUFFIX_SMALL = "!common";
+	/**
+	 * TODO 改为小图地址的前缀
+	 */
+	public static String URL_SUFFIX_SMALL = "!normal";
 	/**获取可用的uri
 	 * @param uri
 	 * @return

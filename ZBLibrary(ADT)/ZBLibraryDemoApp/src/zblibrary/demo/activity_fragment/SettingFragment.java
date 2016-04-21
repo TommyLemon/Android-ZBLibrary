@@ -19,7 +19,6 @@ import zuo.biao.library.base.BaseFragment;
 import zuo.biao.library.base.BaseFragmentActivity;
 import zuo.biao.library.ui.MyAlertDialog;
 import zuo.biao.library.ui.MyAlertDialog.OnButtonClickListener;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,7 +146,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 				toActivity(SettingActivity.createIntent(context));
 				break;
 			case R.id.llSettingAbout:
-				toActivity(new Intent(context, AboutActivity.class));
+				toActivity(AboutActivity.createIntent(context, false));
 				break;
 			case R.id.llSettingLogout:
 				new MyAlertDialog(context, "退出登录", "确定退出登录？", true, 0, this).show();

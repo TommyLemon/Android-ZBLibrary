@@ -260,6 +260,9 @@
         <item name="android:scaleType">centerInside</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="img_fitXY" parent="wrap_wrap">
+        <item name="android:scaleType">fitXY</item>
+    </style>
 
     <style name="btn_bottom">
         <item name="android:layout_width">fill_parent</item>

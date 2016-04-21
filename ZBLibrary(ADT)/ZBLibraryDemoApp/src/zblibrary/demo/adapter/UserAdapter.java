@@ -16,22 +16,18 @@ package zblibrary.demo.adapter;
 
 import java.util.List;
 
-import zblibrary.demo.R;
 import zblibrary.demo.base.BaseHttpAdapter;
 import zblibrary.demo.model.User;
-import zuo.biao.library.util.ImageLoaderUtil;
-import zuo.biao.library.util.StringUtil;
+import zblibrary.demo.view.UserView;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /**用户adapter
  * @author Lemon
  */
 public class UserAdapter extends BaseHttpAdapter<User> {
-//	private static final String TAG = "UserAdapter";
+	//	private static final String TAG = "UserAdapter";
 
 	public UserAdapter(Activity context, List<User> list) {
 		super(context, list);
@@ -40,31 +36,17 @@ public class UserAdapter extends BaseHttpAdapter<User> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = convertView == null ? null : (ViewHolder) convertView.getTag();
-		if (holder == null) {
-			convertView = inflater.inflate(R.layout.user_item, parent, false);
-			holder = new ViewHolder();
+		UserView userView = convertView == null ? null : (UserView) convertView.getTag();
+		if (convertView == null) {
+			userView = new UserView(context, inflater);
+			convertView = userView.getView();
 
-			holder.ivUserItemHead = (ImageView) convertView.findViewById(R.id.ivUserItemHead);
-			holder.tvUserItemName = (TextView) convertView.findViewById(R.id.tvUserItemName);
-			holder.tvUserItemNumber = (TextView) convertView.findViewById(R.id.tvUserItemNumber);
-
-			convertView.setTag(holder);
+			convertView.setTag(userView);
 		}
 
-		final User data = getItem(position);
-
-		ImageLoaderUtil.loadImage(holder.ivUserItemHead, data.getHead());//没有测试用的small图片 ImageLoaderUtil.getSmallUri(data.getHead()));
-		holder.tvUserItemName.setText(StringUtil.getTrimedString(data.getName()));
-		holder.tvUserItemNumber.setText(StringUtil.getNoBlankString(data.getPhone()));
+		userView.setView(getItem(position));
 
 		return super.getView(position, convertView, parent);
-	}
-	
-	class ViewHolder {
-		public ImageView ivUserItemHead;
-		public TextView tvUserItemName;
-		public TextView tvUserItemNumber;
 	}
 
 }

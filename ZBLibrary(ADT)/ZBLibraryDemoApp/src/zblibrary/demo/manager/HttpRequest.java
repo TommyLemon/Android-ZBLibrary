@@ -59,13 +59,13 @@ public class HttpRequest {
 		 * @param resultCode 服务器返回结果码
 		 * @param resultData 服务器返回的Json串
 		 */
-		public void onHttpRequestSuccess(int requestCode, int resultCode, String resultData);
+		void onHttpRequestSuccess(int requestCode, int resultCode, String resultData);
 
 		/**
 		 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
 		 * @param exception OKHTTP中请求异常
 		 */
-		public void onHttpRequestError(int requestCode, Exception exception);
+		void onHttpRequestError(int requestCode, Exception exception);
 	}
 
 	
@@ -77,7 +77,7 @@ public class HttpRequest {
 		this.context = context;
 
 		try {
-			//初始化自签名，demo.cer（这里demo.cer是空文件）为服务器生成的自签名证书，存放于assets目录下，如果不需要自签名可删除
+			//TODO 初始化自签名，demo.cer（这里demo.cer是空文件）为服务器生成的自签名证书，存放于assets目录下，如果不需要自签名可删除
 			socketFactory = SSLUtil.getSSLSocketFactory(context.getAssets().open("demo.cer"));
 		} catch (Exception e) {
 			Log.e(TAG, "private HttpRequest()  try {" +
@@ -126,7 +126,10 @@ public class HttpRequest {
 	public static final String KEY_ADD = "add";
 	public static final String KEY_DELETE = "delete";
 
-	private static final String URL_GET_USER = URL_BASE + "user/info";
+	/**
+	 * TODO 该为你自己服务器获取用户的地址
+	 */
+	private static final String URL_GET_USER = URL_BASE + "user/infomation";
 
 	/**获取用户
 	 * @param userId
@@ -371,7 +374,7 @@ public class HttpRequest {
 			token += "=";
 			token += paramList.get(i).value;
 		}
-		token += "demo_***";//这里的demo_***改为服务器设定值
+		token += "demo_***";//TODO 这里的demo_***改为你自己服务器的设定值
 		return MD5Util.MD5(token);
 	}
 

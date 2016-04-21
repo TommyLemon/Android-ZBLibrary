@@ -14,6 +14,9 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import zuo.biao.library.interfaces.DataGetter;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -24,15 +27,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 
-import zuo.biao.library.interfaces.DataGetter;
-import zuo.biao.library.util.CommonUtil;
-
 /**基础自定义View,能规范代码格式以及省掉小部分代码。
  * @author Lemon
  * @param <T> T不能为基本类型。null ? View.GONE : View.VISIBLE
  * @use extends BaseView<T>
  */
 public abstract class BaseView<T> implements DataGetter {
+	private static final String TAG = "BaseView";
 
 	/**
 	 * 传入的Activity,可在子类直接使用
@@ -140,7 +141,8 @@ public abstract class BaseView<T> implements DataGetter {
 			try {
 				convertView.setBackgroundResource(resId);
 			} catch (Exception e) {
-				// TODO: handle exception
+				Log.e(TAG, "setBackground   try { convertView.setBackgroundResource(resId);" +
+						" \n >> } catch (Exception e) { \n" + e.getMessage());
 			}
 		}
 	}

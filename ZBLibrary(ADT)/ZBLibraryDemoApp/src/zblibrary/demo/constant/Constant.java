@@ -18,7 +18,7 @@ import android.os.Environment;
 
 /**常量类
  * @author Lemon
- * @warn 修改里面所有常量
+ * @warn TODO 修改里面所有常量
  */
 public class Constant {
 

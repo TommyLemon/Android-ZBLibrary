@@ -160,7 +160,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 			@Override
 			public void run() {
 
-				list = getContactList(userId);
+				list = getList(userId);
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -182,7 +182,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 	 * @param userId
 	 * @return
 	 */
-	protected List<KeyValueBean> getContactList(long userId) {
+	protected List<KeyValueBean> getList(long userId) {
 		List<KeyValueBean> list = new ArrayList<KeyValueBean>();
 		for (int i = 0; i < 64; i++) {
 			list.add(new KeyValueBean("联系人" + i + userId, String.valueOf(1311736568 + i*i + userId)));
@@ -247,7 +247,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 			if (list == null) {
 				list = new ArrayList<>();
 			}
-			list.addAll(getContactList(userId));
+			list.addAll(getList(userId));
 			adapter.refresh(list);
 
 			lvDemo.smoothScrollToPosition(formerCout);

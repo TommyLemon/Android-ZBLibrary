@@ -225,15 +225,24 @@ public final class SettingUtil {
 	}
 
 	/**
-	 * 改为你的存图片的服务器地址
+	 * TODO 改为你的存图片的服务器地址
 	 */
 	public static final String IMAGE_BASE_URL = "http://demo.upaiyun.com";
 
 	public static final String KEY_SERVER_ADDRESS_NORMAL = "KEY_SERVER_ADDRESS_NORMAL";
 	public static final String KEY_SERVER_ADDRESS_TEST = "KEY_SERVER_ADDRESS_TEST";
 
+	/**
+	 * TODO 改为你的正式服务器地址
+	 */
 	public static final String URL_SERVER_ADDRESS_NORMAL_HTTP = "http://www.baidu.com/";//正式服务器
+	/**
+	 * TODO 改为你的正式服务器地址
+	 */
 	public static final String URL_SERVER_ADDRESS_NORMAL_HTTPS = "https://www.baidu.com/";//正式服务器
+	/**
+	 * TODO 改为你的测试服务器地址,如果有的话
+	 */
 	public static final String URL_SERVER_ADDRESS_TEST = "https://github.com/TommyLemon/Android-ZBLibrary";//测试服务器
 
 	/**获取当前服务器地址（根据isOnTestMode）
@@ -252,7 +261,7 @@ public final class SettingUtil {
 		return isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : getServerAddress(context, isOnTestMode);
 	}
 	/**获取服务器地址
-	 * isHttps = true
+	 * isHttps = false
 	 * @param context
 	 * @param isTest
 	 * @return

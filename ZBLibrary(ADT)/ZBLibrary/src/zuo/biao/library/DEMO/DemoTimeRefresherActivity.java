@@ -145,7 +145,7 @@ implements OnClickListener, OnFinishListener, OnTimeRefreshListener {
 	@Override
 	public void initListener() {//必须调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoTimeRefresherReturn).setOnClickListener(this);
+		findViewById(R.id.ivDemoTimeRefresherReturn).setOnClickListener(this);
 		findViewById(R.id.ivDemoTimeRefresherForward).setOnClickListener(this);
 
 		tvDemoTimeRefresherCount.setOnClickListener(this);
@@ -203,7 +203,7 @@ implements OnClickListener, OnFinishListener, OnTimeRefreshListener {
 	private String number;
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvDemoTimeRefresherReturn) {
+		if (v.getId() == R.id.ivDemoTimeRefresherReturn) {
 			finish();
 		} else if (v.getId() == R.id.ivDemoTimeRefresherForward) {
 			clear();
