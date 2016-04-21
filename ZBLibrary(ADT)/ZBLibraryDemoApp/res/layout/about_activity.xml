@@ -130,7 +130,7 @@
                     <TextView
                         style="@style/content_item_rt_tv"
                         android:layout_weight="1"
-                        android:text="weibo.com/5225556360" />
+                        android:text="my.oschina.net/u/2437072" />
 
                     <ImageView
                         style="@style/content_item_rt_img"
