@@ -27,9 +27,11 @@ import zuo.biao.library.ui.ItemOnlyDialog;
 import zuo.biao.library.ui.MyAlertDialog;
 import zuo.biao.library.ui.PlacePickerWindow;
 import zuo.biao.library.ui.SelectPictureActivity;
+import zuo.biao.library.ui.ServerSettingActivity;
 import zuo.biao.library.ui.TopMenuWindow;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.DataKeeper;
+import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
@@ -70,6 +72,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
+		if (SettingUtil.isOnTestMode) {
+			showShortToast("测试服务器");
+		}
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -94,7 +100,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void initView() {//必须调用
 		exitAnim = R.anim.bottom_push_out;
-		
+
 		rlDemoMainTopbar = findViewById(R.id.rlDemoMainTopbar);
 		ivDemoMainMenu = findViewById(R.id.ivDemoMainMenu);
 
@@ -244,9 +250,11 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainServerSettingActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
 
 		findViewById(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
@@ -259,8 +267,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//@Override
-	//public void onClick(View v) {//直接调用不会显示v被点击效果
-	//	switch (v.getId()) {
+	//	public void onClick(View v) {//直接调用不会显示v被点击效果
+	//		switch (v.getId()) {
 	//		case R.id.ivDemoMainReturn:
 	//			enterAnim = R.anim.fade;
 	//			exitAnim = R.anim.bottom_push_out;
@@ -296,11 +304,18 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//		case R.id.llDemoMainEditTextInfoActivity:
 	//			editName(false);
 	//			break;
+	//		case R.id.llDemoMainServerSettingActivity:
+	//			toActivity(ServerSettingActivity.createIntent(context
+	//					, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST));
+	//			break;
 	//		case R.id.llDemoMainDemoActivity:
 	//			toActivity(DemoActivity.createIntent(context, null));
 	//			break;
 	//		case R.id.llDemoMainDemoFragmentActivity:
 	//			toActivity(DemoFragmentActivity.createIntent(context, null));
+	//			break;
+	//		case R.id.llDemoMainDemoTimeRefresherActivity:
+	//			toActivity(DemoTimeRefresherActivity.createIntent(context));
 	//			break;
 	//		case R.id.llDemoMainTopMenuWindow:
 	//			showTopMenu();
@@ -313,15 +328,15 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//			break;
 	//		case R.id.llDemoMainDatePickerWindow:
 	//			toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
-	//					, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
+	//			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
 	//			break;
 	//		case R.id.llDemoMainPlacePickerWindow:
 	//			toActivity(PlacePickerWindow.createIntent(context, 2), REQUEST_TO_PLACE_PICKER, false);
 	//			break;
 	//		default:
 	//			break;
+	//		}
 	//	}
-	//}
 	//Library内switch方法中case R.id.idx:报错
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
@@ -347,12 +362,17 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
 		} else if (v.getId() ==  R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
+		} else if (v.getId() ==  R.id.llDemoMainServerSettingActivity) {
+			toActivity(ServerSettingActivity.createIntent(context
+					, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST));
 		} else if (v.getId() ==  R.id.llDemoMainDemoActivity) {
 			toActivity(DemoActivity.createIntent(context, 0));
 		} else if (v.getId() ==  R.id.llDemoMainDemoFragmentActivity) {
 			toActivity(DemoFragmentActivity.createIntent(context, null));
 		} else if (v.getId() ==  R.id.llDemoMainDemoTabActivity) {
 			toActivity(DemoTabActivity.createIntent(context).putExtra(DemoTabActivity.INTENT_TITLE, "Yes!"));
+		} else if (v.getId() ==  R.id.llDemoMainDemoTimeRefresherActivity) {
+			toActivity(DemoTimeRefresherActivity.createIntent(context));
 		} else if (v.getId() ==  R.id.llDemoMainTopMenuWindow) {
 			showTopMenu();
 		} else if (v.getId() ==  R.id.llDemoMainBottomMenuWindow) {

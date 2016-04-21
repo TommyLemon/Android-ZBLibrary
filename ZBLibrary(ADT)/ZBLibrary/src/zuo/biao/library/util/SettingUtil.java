@@ -234,7 +234,7 @@ public final class SettingUtil {
 
 	public static final String URL_SERVER_ADDRESS_NORMAL_HTTP = "http://www.baidu.com/";//正式服务器
 	public static final String URL_SERVER_ADDRESS_NORMAL_HTTPS = "https://www.baidu.com/";//正式服务器
-	public static final String URL_SERVER_ADDRESS_TEST = "http://www.baidu.com/test";//测试服务器
+	public static final String URL_SERVER_ADDRESS_TEST = "https://github.com/TommyLemon/Android-ZBLibrary";//测试服务器
 
 	/**获取当前服务器地址（根据isOnTestMode）
 	 * @param context

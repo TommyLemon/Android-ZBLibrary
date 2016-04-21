@@ -63,8 +63,7 @@
             android:name="zblibrary.demo.activity_fragment.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        
-        
+
         <!-- ZBLibrary <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
         <activity
@@ -72,7 +71,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
-       <!-- demo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+        <!-- demo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
         <activity
             android:name="zuo.biao.library.DEMO.DemoMainActivity"
             android:screenOrientation="portrait" >
@@ -93,7 +92,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
-        <!-- demo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+        <activity
+            android:name="zuo.biao.library.DEMO.DemoTimeRefresherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <!-- demo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
 
         <!-- ui >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
@@ -120,6 +124,11 @@
             android:name="zuo.biao.library.ui.EditTextInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustPan|adjustUnspecified" >
+        </activity>
+        <activity
+            android:name="zuo.biao.library.ui.ServerSettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="zuo.biao.library.ui.TopMenuWindow"
@@ -151,12 +160,7 @@
             android:theme="@style/Window"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
-        <activity android:name="zuo.biao.library.ui.ServerSettingActivity" >
-        </activity>
         <!-- ui <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
-
-
-        <!-- ZBLibrary >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
     </application>
 

@@ -147,6 +147,20 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
+                android:id="@+id/llDemoMainServerSettingActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="ServerSettingActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
                 android:id="@+id/llDemoMainDemoActivity"
                 style="@style/content_item_white" >
 
@@ -182,6 +196,20 @@
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
                     android:text="DemoTabActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
+                android:id="@+id/llDemoMainDemoTimeRefresherActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="DemoTimeRefresherActivity" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
