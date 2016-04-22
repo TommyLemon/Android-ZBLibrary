@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
@@ -32,7 +33,7 @@ import zuo.biao.library.util.StringUtil;
  * @author Lemon
  * @use toActivity(ServerSettingActivity.createIntent(...));
  */
-public class ServerSettingActivity extends BaseActivity implements OnClickListener {
+public class ServerSettingActivity extends BaseActivity implements OnClickListener, OnFinishListener {
 	//	private static final String TAG = "ServerSettingActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -103,7 +104,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.server_setting_activity);
+		setContentView(R.layout.server_setting_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
 		isAlive = true;

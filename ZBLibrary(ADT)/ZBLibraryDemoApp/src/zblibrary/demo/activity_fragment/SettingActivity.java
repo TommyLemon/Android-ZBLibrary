@@ -88,7 +88,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingVoice); 
 		ivSettings[1] = (ImageView) findViewById(R.id.ivSettingVibrate); 
 
-		ivSettings[2] = (ImageView) findViewById(R.id.ivSettingBoot); 
+		ivSettings[2] = (ImageView) findViewById(R.id.ivSettingNoDisturb); 
 
 		ivSettings[3] = (ImageView) findViewById(R.id.ivSettingTestMode); 
 		ivSettings[4] = (ImageView) findViewById(R.id.ivSettingFirstStart);

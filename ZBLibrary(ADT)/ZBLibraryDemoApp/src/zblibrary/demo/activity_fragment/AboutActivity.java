@@ -68,8 +68,13 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		initListener();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
+		if (SettingUtil.isFistStart) {
+			showShortToast("第一次启动应用");
+			SettingUtil.putBoolean(context, SettingUtil.KEY_IS_FIRST_START, false);
+		}
+		
 		if (SettingUtil.isOnTestMode) {
-			CommonUtil.showShortToast(context, "测试服务器\n" + HttpRequest.URL_BASE);
+			showShortToast("测试服务器\n" + HttpRequest.URL_BASE);
 		}
 	}
 

@@ -39,10 +39,6 @@ public final class SettingUtil {
 	public static final String KEY_VIBRATE = "KEY_VIBRATE";//开启震动
 	public static final String KEY_NO_DISTURB = "KEY_NO_DISTURB";//夜间防打扰
 
-	public static final String KEY_START_WHEN_BOOT = "KEY_START_WHEN_BOOT";//开机启动应用
-	public static final String KEY_ALLWAYS_SHOW_IN_NOTIFICATION_BAR = "KEY_ALLWAYS_SHOW_IN_NOTIFICATION_BAR";//常驻通知栏
-	public static final String KEY_SHOW_FLOATING_WINDOW = "KEY_SHOW_FLOATING_WINDOW";//显示悬浮窗
-
 	public static final String KEY_IS_ON_TEST_MODE = "KEY_IS_ON_TEST_MODE";//测试模式
 	public static final String KEY_IS_FIRST_START = "KEY_IS_FIRST_START";//第一次打开应用
 
@@ -50,10 +46,6 @@ public final class SettingUtil {
 		KEY_VOICE,
 		KEY_VIBRATE,
 		KEY_NO_DISTURB,
-
-		KEY_START_WHEN_BOOT,
-		KEY_ALLWAYS_SHOW_IN_NOTIFICATION_BAR,
-		KEY_SHOW_FLOATING_WINDOW,
 
 		KEY_IS_ON_TEST_MODE,
 		KEY_IS_FIRST_START,
@@ -63,10 +55,6 @@ public final class SettingUtil {
 	public static boolean vibrate = true;//开启震动
 	public static boolean noDisturb = false;//夜间防打扰
 
-	public static boolean startWhenBoot = true;//开机启动应用
-	public static boolean allwaysShowInNotificationBar = true;//常驻通知栏
-	public static boolean showFloatingWindow = true;//显示悬浮窗
-
 	public static boolean isOnTestMode = false;//测试模式
 	public static boolean isFistStart = true;//第一次打开应用
 
@@ -74,10 +62,6 @@ public final class SettingUtil {
 		voice,//开启通知声
 		vibrate,//开启震动
 		noDisturb,//夜间防打扰
-
-		startWhenBoot,//开机启动应用
-		allwaysShowInNotificationBar,//常驻通知栏
-		showFloatingWindow,//显示悬浮窗
 
 		isOnTestMode,//测试模式
 		isFistStart,//第一次打开应用
@@ -91,10 +75,6 @@ public final class SettingUtil {
 		voice = getBoolean(context, KEY_VOICE, voice);
 		vibrate = getBoolean(context, KEY_VIBRATE, vibrate);
 		noDisturb = getBoolean(context, KEY_NO_DISTURB, noDisturb);
-
-		startWhenBoot = getBoolean(context, KEY_START_WHEN_BOOT, startWhenBoot);
-		allwaysShowInNotificationBar = getBoolean(context, KEY_ALLWAYS_SHOW_IN_NOTIFICATION_BAR, allwaysShowInNotificationBar);
-		showFloatingWindow = getBoolean(context, KEY_SHOW_FLOATING_WINDOW, showFloatingWindow);
 
 		isOnTestMode = getBoolean(context, KEY_IS_ON_TEST_MODE, isOnTestMode);
 		isFistStart = getBoolean(context, KEY_IS_FIRST_START, isFistStart);
@@ -202,10 +182,6 @@ public final class SettingUtil {
 				voice,
 				vibrate,
 				noDisturb,
-
-				startWhenBoot,
-				allwaysShowInNotificationBar,
-				showFloatingWindow,
 
 				isOnTestMode,
 				isFistStart,
