@@ -46,7 +46,7 @@ import zuo.biao.library.util.StringUtil;
 /**HTTP请求类
  * @author Lemon
  * @use HttpRequest.getInstance().xxxMethod  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
- * @must getToken方法内demo_***改为服务器设定值
+ * @must 解决getToken，getResponseCode，getResponseData中的TODO
  */
 public class HttpRequest {
 	private static final String TAG = "HttpRequest";
@@ -296,8 +296,9 @@ public class HttpRequest {
 				StringBuffer sb = new StringBuffer();
 				sb.append(StringUtil.getNoBlankString(url));
 				if (paramList != null) {
+					Parameter parameter;
 					for (int i = 0; i < paramList.size(); i++) {
-						Parameter parameter = paramList.get(i);
+						parameter = paramList.get(i);
 						sb.append(i <= 0 ? "?" : "&");
 						sb.append(parameter.key);
 						sb.append("=");
@@ -364,15 +365,18 @@ public class HttpRequest {
 	 * @return
 	 */
 	public String getToken(List<Parameter> paramList) {
+		if (paramList == null) {
+			return "";
+		}
+		
 		String token = "";
-		if (paramList == null)
-			return token;
+		Parameter p;
 		for (int i = 0; i < paramList.size(); i++) {
-			if (i != 0)
+			if (i > 0) {
 				token += "&";
-			token += paramList.get(i).key;
-			token += "=";
-			token += paramList.get(i).value;
+			}
+			p = paramList.get(i);
+			token += (p.key + "=" + p.value);
 		}
 		token += "demo_***";//TODO 这里的demo_***改为你自己服务器的设定值
 		return MD5Util.MD5(token);
@@ -413,7 +417,7 @@ public class HttpRequest {
 	 */
 	private int getResponseCode(JSONObject object) {
 		try {
-			return object.getInt("result");
+			return object.getInt("result");//TODO result 改为你服务器设定的key
 		} catch (Exception e) {
 			Log.e(TAG, "getResponseCode  try { return object.getInt(result);"
 					+ "} catch (Exception e) {\n" + e.getMessage());
@@ -426,7 +430,7 @@ public class HttpRequest {
 	 */
 	private String getResponseData(JSONObject object) {
 		try {
-			return object.getString("data");
+			return object.getString("data");//TODO data 改为你服务器设定的key
 		} catch (Exception e) {
 			Log.e(TAG, "httpPost  getResponseData  try { return object.getString(data);"
 					+ "} catch (Exception e) {\n" + e.getMessage());

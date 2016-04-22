@@ -281,7 +281,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 					showShortToast("请长按5-8秒");
 				} else {
 					toActivity(ServerSettingActivity.createIntent(context
-							, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST
+							, SettingUtil.getServerAddress(context, false), SettingUtil.getServerAddress(context, true)
 							, SettingUtil.APP_SETTING, Context.MODE_PRIVATE
 							, SettingUtil.KEY_SERVER_ADDRESS_NORMAL, SettingUtil.KEY_SERVER_ADDRESS_TEST));
 					return true;
@@ -296,79 +296,73 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	}
 
 
-	//@Override
-	//		public void onClick(View v) {//直接调用不会显示v被点击效果
-	//			switch (v.getId()) {
-	//			case R.id.ivDemoMainReturn:
-	//				enterAnim = R.anim.fade;
-	//				exitAnim = R.anim.bottom_push_out;
-	//				finish();
-	//				break;
-	//			case R.id.ivDemoMainMenu:
-	//				showTopMenu();
-	//				break;
-	//	
-	//			case R.id.ivDemoMainHead:
-	//				selectPicture();
-	//				break;
-	//			case R.id.tvDemoMainHeadName:
-	//				editName(true);
-	//				break;
-	//	
-	//			case R.id.llDemoMainItemOnlyDialog:
-	//				showItemOnlyDialog();
-	//				break;
-	//			case R.id.llDemoMainMyAlertDialog:
-	//				showMyAlertDialog();
-	//				break;
-	//	
-	//			case R.id.llDemoMainSelectPictureActivity:
-	//				selectPicture();
-	//				break;
-	//			case R.id.llDemoMainCutPictureActivity:
-	//				cutPicture(picturePath);
-	//				break;
-	//			case R.id.llDemoMainWebViewActivity:
-	//				toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
-	//				break;
-	//			case R.id.llDemoMainEditTextInfoActivity:
-	//				editName(false);
-	//				break;
-	//			case R.id.llDemoMainServerSettingActivity:
-	//				toActivity(ServerSettingActivity.createIntent(context
-	//						, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST
-	//						, SettingUtil.APP_SETTING, Context.MODE_PRIVATE
-	//						, SettingUtil.KEY_SERVER_ADDRESS_NORMAL, SettingUtil.KEY_SERVER_ADDRESS_TEST));
-	//				break;
-	//			case R.id.llDemoMainDemoActivity:
-	//				toActivity(DemoActivity.createIntent(context, null));
-	//				break;
-	//			case R.id.llDemoMainDemoFragmentActivity:
-	//				toActivity(DemoFragmentActivity.createIntent(context, null));
-	//				break;
-	//			case R.id.llDemoMainDemoTimeRefresherActivity:
-	//				toActivity(DemoTimeRefresherActivity.createIntent(context));
-	//				break;
-	//			case R.id.llDemoMainTopMenuWindow:
-	//				showTopMenu();
-	//				break;
-	//			case R.id.llDemoMainBottomMenuWindow:
-	//				toActivity(BottomMenuWindow.createIntent(context, "选择颜色", topbarColorNames), REQUEST_TO_BOTTOM_MENU, false);
-	//				break;
-	//			case R.id.llDemoMainEditTextInfoWindow:
-	//				editName(true);
-	//				break;
-	//			case R.id.llDemoMainDatePickerWindow:
-	//				toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
-	//				, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
-	//				break;
-	//			case R.id.llDemoMainPlacePickerWindow:
-	//				toActivity(PlacePickerWindow.createIntent(context, 2), REQUEST_TO_PLACE_PICKER, false);
-	//				break;
-	//			default:
-	//				break;
+	//		    @Override
+	//			public void onClick(View v) {//直接调用不会显示v被点击效果
+	//				switch (v.getId()) {
+	//				case R.id.ivDemoMainReturn:
+	//					enterAnim = R.anim.fade;
+	//					exitAnim = R.anim.bottom_push_out;
+	//					finish();
+	//					break;
+	//				case R.id.ivDemoMainMenu:
+	//					showTopMenu();
+	//					break;
+	//		
+	//				case R.id.ivDemoMainHead:
+	//					selectPicture();
+	//					break;
+	//				case R.id.tvDemoMainHeadName:
+	//					editName(true);
+	//					break;
+	//		
+	//				case R.id.llDemoMainItemOnlyDialog:
+	//					showItemOnlyDialog();
+	//					break;
+	//				case R.id.llDemoMainMyAlertDialog:
+	//					showMyAlertDialog();
+	//					break;
+	//		
+	//				case R.id.llDemoMainSelectPictureActivity:
+	//					selectPicture();
+	//					break;
+	//				case R.id.llDemoMainCutPictureActivity:
+	//					cutPicture(picturePath);
+	//					break;
+	//				case R.id.llDemoMainWebViewActivity:
+	//					toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
+	//					break;
+	//				case R.id.llDemoMainEditTextInfoActivity:
+	//					editName(false);
+	//					break;
+	//				case R.id.llDemoMainDemoActivity:
+	//					toActivity(DemoActivity.createIntent(context, null));
+	//					break;
+	//				case R.id.llDemoMainDemoFragmentActivity:
+	//					toActivity(DemoFragmentActivity.createIntent(context, null));
+	//					break;
+	//				case R.id.llDemoMainDemoTimeRefresherActivity:
+	//					toActivity(DemoTimeRefresherActivity.createIntent(context));
+	//					break;
+	//				case R.id.llDemoMainTopMenuWindow:
+	//					showTopMenu();
+	//					break;
+	//				case R.id.llDemoMainBottomMenuWindow:
+	//					toActivity(BottomMenuWindow.createIntent(context, "选择颜色", topbarColorNames), REQUEST_TO_BOTTOM_MENU, false);
+	//					break;
+	//				case R.id.llDemoMainEditTextInfoWindow:
+	//					editName(true);
+	//					break;
+	//				case R.id.llDemoMainDatePickerWindow:
+	//					toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
+	//					, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
+	//					break;
+	//				case R.id.llDemoMainPlacePickerWindow:
+	//					toActivity(PlacePickerWindow.createIntent(context, 2), REQUEST_TO_PLACE_PICKER, false);
+	//					break;
+	//				default:
+	//					break;
+	//				}
 	//			}
-	//		}
 	//Library内switch方法中case R.id.idx:报错
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
@@ -386,7 +380,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 			showItemOnlyDialog();
 		} else if (v.getId() == R.id.llDemoMainMyAlertDialog) {
 			showMyAlertDialog();
-			
+
 		} else if (v.getId() == R.id.llDemoMainSelectPictureActivity) {
 			selectPicture();
 		} else if (v.getId() == R.id.llDemoMainCutPictureActivity) {
@@ -396,12 +390,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 				, SettingUtil.getCurrentServerAddress(context)));
 		} else if (v.getId() == R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
-		} else if (v.getId() == R.id.llDemoMainServerSettingActivity) {
-			toActivity(ServerSettingActivity.createIntent(context
-					, SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP, SettingUtil.URL_SERVER_ADDRESS_TEST
-					, SettingUtil.APP_SETTING, Context.MODE_PRIVATE
-					, SettingUtil.KEY_SERVER_ADDRESS_NORMAL, SettingUtil.KEY_SERVER_ADDRESS_TEST));
-			
+
 		} else if (v.getId() == R.id.llDemoMainDemoActivity) {
 			toActivity(DemoActivity.createIntent(context, 0));
 		} else if (v.getId() == R.id.llDemoMainDemoFragmentActivity) {
@@ -410,7 +399,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 			toActivity(DemoTabActivity.createIntent(context).putExtra(DemoTabActivity.INTENT_TITLE, "Yes!"));
 		} else if (v.getId() == R.id.llDemoMainDemoTimeRefresherActivity) {
 			toActivity(DemoTimeRefresherActivity.createIntent(context));
-			
+
 		} else if (v.getId() == R.id.llDemoMainTopMenuWindow) {
 			showTopMenu();
 		} else if (v.getId() == R.id.llDemoMainBottomMenuWindow) {

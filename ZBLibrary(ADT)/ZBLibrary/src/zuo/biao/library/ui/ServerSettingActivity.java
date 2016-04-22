@@ -258,8 +258,8 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 		if (v.getId() == R.id.ivServerSettingReturn) {
 			finish();
 		} else if (v.getId() == R.id.tvServerSettingForward) {
-			etServerSettingNormal.setText(StringUtil.getTrimedString(normalAddress));
-			etServerSettingTest.setText(StringUtil.getTrimedString(testAddress));
+			etServerSettingNormal.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP));
+			etServerSettingTest.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_TEST));
 		} else if (v.getId() == R.id.tvServerSettingNormalSet) {
 			saveAndExit(false);
 		} else if (v.getId() == R.id.tvServerSettingTestSet) {

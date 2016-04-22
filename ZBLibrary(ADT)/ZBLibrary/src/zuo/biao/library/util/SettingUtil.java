@@ -221,14 +221,15 @@ public final class SettingUtil {
 	 */
 	public static final String URL_SERVER_ADDRESS_TEST = "https://github.com/TommyLemon/Android-ZBLibrary";//测试服务器
 
-	/**获取当前服务器地址（根据isOnTestMode）
+	/**获取当前服务器地址
+	 * isHttps = false
 	 * @param context
 	 * @return
 	 */
 	public static String getCurrentServerAddress(Context context) {
 		return getCurrentServerAddress(context, false);
 	}
-	/**获取当前服务器地址（根据isOnTestMode）
+	/**获取当前服务器地址
 	 * @param context
 	 * @param isHttps
 	 * @return
@@ -252,9 +253,10 @@ public final class SettingUtil {
 	 */
 	public static String getServerAddress(Context context, boolean isTest, boolean isHttps) {
 		SharedPreferences sdf = context == null ? null : context.getSharedPreferences(APP_SETTING, Context.MODE_PRIVATE);
-		return sdf == null ? null : sdf.getString(isTest ? KEY_SERVER_ADDRESS_TEST : KEY_SERVER_ADDRESS_NORMAL 
-				, isTest ? URL_SERVER_ADDRESS_TEST
-						: (isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : URL_SERVER_ADDRESS_NORMAL_HTTP));
+		return sdf == null ? null : sdf.getString(
+				isTest ? KEY_SERVER_ADDRESS_TEST : KEY_SERVER_ADDRESS_NORMAL 
+				, isTest ? URL_SERVER_ADDRESS_TEST : (
+						isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : URL_SERVER_ADDRESS_NORMAL_HTTP));
 	}
 
 
