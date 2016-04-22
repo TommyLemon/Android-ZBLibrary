@@ -1,13 +1,5 @@
 package zblibrary.demo.activity_fragment;
 
-import zblibrary.demo.R;
-import zblibrary.demo.constant.Constant;
-import zblibrary.demo.manager.HttpRequest;
-import zuo.biao.library.DEMO.DemoMainActivity;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.SettingUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +8,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+
+import zblibrary.demo.R;
+import zblibrary.demo.constant.Constant;
+import zblibrary.demo.manager.HttpRequest;
+import zuo.biao.library.DEMO.DemoMainActivity;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.SettingUtil;
 
 /**关于主界面
  * @author Lemon
@@ -30,7 +31,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	/**启动这个Activity的Intent
 	 * isExitByDoubleClick = true
 	 * @param context
-	 * @param isExitByDoubleClick
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {

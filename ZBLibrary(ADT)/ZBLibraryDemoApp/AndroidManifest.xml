@@ -56,10 +56,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="zblibrary.demo.test.TestMainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name="zblibrary.demo.activity_fragment.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
