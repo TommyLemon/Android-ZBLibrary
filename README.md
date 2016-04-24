@@ -27,7 +27,7 @@
 ![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414224942285-829679484.jpg)
 ![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414225005238-568632622.jpg)
 
-## 欢迎Fork，欢迎Star
+## 欢迎Star，欢迎Fork
 
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
 
