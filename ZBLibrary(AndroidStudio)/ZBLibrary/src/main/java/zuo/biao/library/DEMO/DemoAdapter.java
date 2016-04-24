@@ -37,7 +37,7 @@ import android.widget.Toast;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * 适用于listView,gridView
  * @author Lemon
- * @use new DemoAdapter
+ * @use new DemoAdapter(),具体参考.DemoActivity(setList方法内)
  */
 public class DemoAdapter extends BaseAdapter<KeyValueBean> {
 	private static final String TAG = "DemoAdapter";
@@ -83,7 +83,7 @@ public class DemoAdapter extends BaseAdapter<KeyValueBean> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = convertView == null ? null : (ViewHolder) convertView.getTag();
 		if (holder == null) {
-			//TODO model_item改为你需要的
+			//TODO demo_item改为你所需要的layout文件
 			convertView = inflater.inflate(R.layout.demo_item, parent, false);
 			holder = new ViewHolder();
 
@@ -135,15 +135,15 @@ public class DemoAdapter extends BaseAdapter<KeyValueBean> {
 //
 //	@Override
 //	public View getView(final int position, View convertView, ViewGroup parent) {
-//		DemoView modelView = convertView == null ? null : (DemoView) convertView.getTag();
+//		DemoView demoView = convertView == null ? null : (DemoView) convertView.getTag();
 //		if (convertView == null) {
-//			modelView = new DemoView(context, inflater);
-//			convertView = modelView.getView();
+//			demoView = new DemoView(context, inflater);
+//			convertView = demoView.getView();
 //
-//			convertView.setTag(modelView);
+//			convertView.setTag(demoView);
 //		}
 //
-//		modelView.setView(getItem(position));
+//		demoView.setView(getItem(position));
 //
 //		return convertView;
 //	}

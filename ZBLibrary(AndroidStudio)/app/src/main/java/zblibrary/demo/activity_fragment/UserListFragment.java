@@ -35,7 +35,7 @@ import zuo.biao.library.util.Json;
 
 /**用户列表界面fragment
  * @author Lemon
- * @use new UserListFragment,详细使用见zuo.biao.library.DEMO.DemoFragmentActivity(initData方法内)
+ * @use new UserListFragment(),详细使用见.DemoFragmentActivity(initData方法内)
  * @must 查看 .HttpRequest 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */

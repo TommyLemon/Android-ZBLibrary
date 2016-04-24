@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 
 /**列表缓存类
  * @author Lemon
+ * @use new ListDiskCache(...).xxx  ,具体参考.ListDiskCacheManager(saveList方法内)
  */
 public class ListDiskCache<T> {
 	public static final String TAG = "ListDiskCache";

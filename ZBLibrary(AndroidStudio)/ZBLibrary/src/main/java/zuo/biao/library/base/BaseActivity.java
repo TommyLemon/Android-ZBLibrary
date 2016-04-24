@@ -40,14 +40,27 @@ import android.widget.Toast;
 
 /**基础Activity，通过继承可获取或使用 里面创建的 组件 和 方法;不能用于FragmentActivity
  * @author Lemon
+ * @use extends BaseActivity, 具体参考.DemoActivity
  */
 public abstract class BaseActivity extends Activity implements OnGestureListener, OnTouchListener {
 	private static final String TAG = "BaseActivity";//用于打印日志（log）的类的标记
 
-	protected BaseActivity context = null;//在onCreate方法中赋值，不能在子Activity中创建
-	protected View view = null;//activity的主界面View，即contentView
-	protected boolean isAlive = false;//该Activity是否已被使用并未被销毁。 在onCreate方法中赋值为true，不能在子Activity中创建
-	protected boolean isRunning = false;//添加该fragment是否在运行，不能在子Fragment中创建
+	/**
+	 * 在onCreate方法中赋值，不能在子Activity中创建
+	 */
+	protected BaseActivity context = null;
+	/**
+	 * activity的主界面View，即contentView
+	 */
+	protected View view = null;
+	/**
+	 * 该Activity是否已被使用并未被销毁。 在onCreate方法中赋值为true，不能在子Activity中创建
+	 */
+	protected boolean isAlive = false;
+	/**
+	 * 添加该fragment是否在运行，不能在子Fragment中创建
+	 */
+	protected boolean isRunning = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,23 +87,41 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	public static final String INTENT_ID = "INTENT_ID";
 	public static final String RESULT_DATA = "RESULT_DATA";
 
-	protected Intent intent = null;//可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
-	protected int enterAnim = R.anim.fade;//退出时之前的界面进入动画,可在finish();前通过改变它的值来改变动画效果
-	protected int exitAnim = R.anim.right_push_out;//退出时该界面动画,可在finish();前通过改变它的值来改变动画效果
-
-	protected ProgressDialog progressDialog = null;//进度弹窗
-	protected View toGetWindowTokenView = null;//activity退出时隐藏软键盘需要，需要在调用finish方法前赋值
+	/**
+	 * 可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+	 */
+	protected Intent intent = null;
+	/**
+	 * 退出时之前的界面进入动画,可在finish();前通过改变它的值来改变动画效果
+	 */
+	protected int enterAnim = R.anim.fade;
+	/**
+	 * 退出时该界面动画,可在finish();前通过改变它的值来改变动画效果
+	 */
+	protected int exitAnim = R.anim.right_push_out;
 
 	/**
-	 * UI显示方法，必须在setContentView后调用
+	 * 进度弹窗
+	 */
+	protected ProgressDialog progressDialog = null;
+	/**
+	 * activity退出时隐藏软键盘需要，需要在调用finish方法前赋值
+	 */
+	protected View toGetWindowTokenView = null;
+	
+	
+	
+
+	/**
+	 * UI显示方法，必须在子类onCreate方法内setContentView后调用
 	 */
 	public abstract void initView();
 	/**
-	 * data数据方法，必须在setContentView后调用
+	 * data数据方法，必须在子类onCreate方法内setContentView后调用
 	 */
 	public abstract void initData();
 	/**
-	 * listener事件监听方法，必须在setContentView后调用
+	 * listener事件监听方法，必须在子类onCreate方法内setContentView后调用
 	 */
 	public abstract void initListener();
 
@@ -101,9 +132,9 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	 */
 	public void showProgressDialog(int stringResId){
 		try {
-			showProgressDialog(null, context.getResources().getString(stringResId));
+			showProgressDialog(null, getString(stringResId));
 		} catch (Exception e) {
-			Log.e(TAG, "showProgressDialog  showProgressDialog(null, context.getResources().getString(stringResId));");
+			Log.e(TAG, "showProgressDialog  showProgressDialog(null, getString(stringResId));");
 		}
 	}
 	/**展示加载进度条,无标题

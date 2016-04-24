@@ -32,7 +32,7 @@ import android.widget.TextView;
 /**基础底部弹出界面Activity
  * @author Lemon
  * @warn 不要在子类重复这个类中onCreate中的代码
- * @use extends BaseBottomWindow, 具体参考.ModelBottomWindow
+ * @use extends BaseBottomWindow, 具体参考.DemoBottomWindow
  */
 public abstract class BaseBottomWindow extends BaseActivity implements OnClickListener {
 	//	private static final String TAG = "BaseBottomWindow";

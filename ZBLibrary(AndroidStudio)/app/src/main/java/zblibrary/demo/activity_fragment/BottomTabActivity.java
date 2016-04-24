@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 /**应用主页
  * @author Lemon
- * @use BottomTabActivity.createIntent, 具体参考.DemoFragmentActivity
+ * @use BottomTabActivity.createIntent(...)
  */
 public class BottomTabActivity extends BaseFragmentActivity implements OnFinishListener {
 	private static final String TAG = "BottomTabActivity";

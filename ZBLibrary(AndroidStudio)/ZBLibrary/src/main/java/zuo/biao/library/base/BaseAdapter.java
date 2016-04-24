@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 /**基础Adapter
  * @author Lemon
  * @param <T> model(JavaBean)类名
- * @use extends BaseAdapter<T>
+ * @use extends BaseAdapter<T>, 具体参考.DemoAdapter
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	//	private static final String TAG = "BaseAdapter";

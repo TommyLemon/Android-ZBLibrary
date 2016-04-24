@@ -17,6 +17,7 @@ package zuo.biao.library.DEMO;
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.KeyValueBean;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,8 +32,8 @@ import android.widget.TextView;
  * @author Lemon
  * @use
 	DemoView demoView = new DemoView(context, inflater);
-	adapter中使用convertView = demoView.getView();//[具体见.ModelAdapter]
-    或  其它类中使用  containerView.addView(demoView.getConvertView());
+	adapter中使用convertView = demoView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
+    或  其它类中使用  containerView.addView(demoView.getView());
 	demoView.setView(object);
 	demoView.setOnDataChangedListener(onDataChangedListener);object = demoView.getData();//非必需
 	demoView.setOnClickListener(onClickListener);//非必需
@@ -49,8 +50,10 @@ public class DemoView extends BaseView<KeyValueBean> implements OnClickListener 
 	public ImageView ivModelViewHead;
 	public TextView tvModelViewName;
 	public TextView tvModelViewNumber;
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView() {
+		//TODO demo_view改为你所需要的layout文件
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<

@@ -14,16 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.base;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.interfaces.OnReachViewBorderListener;
-import zuo.biao.library.ui.XListView;
-import zuo.biao.library.ui.XListView.IXListViewListener;
-import zuo.biao.library.util.StringUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -31,9 +21,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import zblibrary.demo.R;
 import zblibrary.demo.manager.HttpRequest;
 import zblibrary.demo.manager.ListDiskCacheManager;
+import zuo.biao.library.base.BaseFragment;
+import zuo.biao.library.base.BaseFragmentActivity;
+import zuo.biao.library.interfaces.OnReachViewBorderListener;
+import zuo.biao.library.ui.XListView;
+import zuo.biao.library.ui.XListView.IXListViewListener;
+import zuo.biao.library.util.StringUtil;
 
 /**基础http获取列表的android.support.v4.app.Fragment
  * @author Lemon
@@ -54,7 +54,6 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
-	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
@@ -68,6 +67,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
+	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);

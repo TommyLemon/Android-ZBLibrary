@@ -31,8 +31,8 @@ import android.widget.TextView;
  * @author Lemon
  * @use
 	UserView userView = new UserView(context, inflater);
-	adapter中使用convertView = userView.getView();//[具体见.DemoAdapter]
-    或  其它类中使用  containerView.addView(userView.getConvertView());
+	adapter中使用convertView = userView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
+    或  其它类中使用  containerView.addView(userView.getView());
 	userView.setView(object);
 	userView.setOnDataChangedListener(onDataChangedListener);object = userView.getData();//非必需
 	userView.setOnClickListener(onClickListener);//非必需

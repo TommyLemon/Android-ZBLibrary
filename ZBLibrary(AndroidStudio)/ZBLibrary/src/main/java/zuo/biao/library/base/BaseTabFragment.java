@@ -39,7 +39,7 @@ import android.widget.TextView;
  * 目前只有顶部tab这一种形式，以后将增加底部tab
  * @author Lemon
  * @warn 不要在子类重复这个类中onCreate中的代码
- * @use extends BaseTabFragment, 具体参考.ModelTabFragment
+ * @use extends BaseTabFragment, 具体参考.DemoTabFragment
  * @must 在子类onCreateView中调用initView();initData();initListener();
  */
 public abstract class BaseTabFragment extends BaseFragment implements OnClickListener, OnTabSelectedListener {

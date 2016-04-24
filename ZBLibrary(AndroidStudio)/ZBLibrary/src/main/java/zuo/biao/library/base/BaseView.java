@@ -30,7 +30,7 @@ import android.view.View.OnTouchListener;
 /**基础自定义View,能规范代码格式以及省掉小部分代码。
  * @author Lemon
  * @param <T> T不能为基本类型。null ? View.GONE : View.VISIBLE
- * @use extends BaseView<T>
+ * @use extends BaseView<T>, 具体参考.DemoView
  */
 public abstract class BaseView<T> implements DataGetter {
 	private static final String TAG = "BaseView";
