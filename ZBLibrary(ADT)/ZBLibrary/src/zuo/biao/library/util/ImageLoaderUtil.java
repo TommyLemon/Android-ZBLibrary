@@ -39,7 +39,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**图片加载工具类
  * @author Lemon
- * @use ImageLoaderUtil.getInstance(context).loadImage(...)
+ * @use ImageLoaderUtil.loadImage(...)
  */
 public class ImageLoaderUtil {
 	private static final String TAG = "ImageLoaderUtil";
@@ -248,6 +248,11 @@ public class ImageLoaderUtil {
 				? uri : uri + URL_SUFFIX_SMALL;
 	}
 	
+	/**将图片改为圆角类型
+	 * @param bitmap
+	 * @param pixels
+	 * @return
+	 */
 	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);

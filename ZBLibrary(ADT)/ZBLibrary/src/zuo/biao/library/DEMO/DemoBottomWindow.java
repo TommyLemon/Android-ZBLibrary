@@ -27,7 +27,7 @@ import android.view.View.OnClickListener;
 /**底部弹出窗口界面示例
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
- * @use toActivity(DemoBottomWindow.createIntent);
+ * @use toActivity(DemoBottomWindow.createIntent(...));
  *      然后在onActivityResult方法内获取data.getStringExtra(DemoBottomWindow.RESULT_CONTACT_INFO);
  */
 public class DemoBottomWindow extends BaseBottomWindow implements OnClickListener {
@@ -46,6 +46,7 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//TODO demo_bottom_window改为你所需要的layout文件
 		setContentView(R.layout.demo_bottom_window);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;

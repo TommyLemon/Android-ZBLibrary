@@ -35,7 +35,7 @@ import android.widget.ListView;
 /**fragment示例
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
- * @use new ModelFragmentFragment,详细使用见zuo.biao.library.DEMO.DemoFragmentActivity(initData方法内)
+ * @use new DemoFragment(),具体参考.DemoFragmentActivity(initData方法内)
  */
 public class DemoFragment extends BaseFragment {
 	private static final String TAG = "DemoFragment";
@@ -51,8 +51,8 @@ public class DemoFragment extends BaseFragment {
 	private long userId = 0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//必须使用<<<<<<<<<<<<<<<<<<
-		//TODO model_fragment改为你需要的
+		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
+		//TODO demo_fragment改为你所需要的layout文件
 		view = inflater.inflate(R.layout.demo_fragment, container, false);
 		context = (BaseFragmentActivity) getActivity();
 		isAlive = true;

@@ -28,7 +28,7 @@ import android.widget.ImageView;
 
 /**设置fragment
  * @author Lemon
- * @use new SettingFragment,详细使用见zuo.biao.library.DEMO.DemoFragmentActivity(initData方法内)
+ * @use new SettingFragment(),详细使用见.DemoFragmentActivity(initData方法内)
  */
 public class SettingFragment extends BaseFragment implements OnClickListener, OnButtonClickListener {
 //	private static final String TAG = "SettingFragment";

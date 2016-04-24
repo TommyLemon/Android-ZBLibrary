@@ -25,28 +25,55 @@ import android.view.View;
 
 /**基础android.support.v4.app.Fragment，通过继承可获取或使用 里面创建的 组件 和 方法
  * @author Lemon
- * @use extends BaseFragment
+ * @use extends BaseFragment, 具体参考.DemoFragment
  */
 public abstract class BaseFragment extends Fragment {
 	private static final String TAG = "BaseFragment";
 
-	protected View view = null;//该fragment全局视图，不能在子Fragment中创建
-	protected BaseFragmentActivity context = null;//在onCreateView方法中赋值，不能在子Fragment中创建
-	protected boolean isAlive = false;//添加该fragment是否已被使用并未被销毁，在onCreateView方法中赋值为true，不能在子Fragment中创建
-	protected boolean isRunning = false;//添加该fragment是否在运行，不能在子Fragment中创建
+	/**
+	 * 该fragment全局视图，不能在子Fragment中创建
+	 */
+	protected View view = null;
+	/**
+	 * 在onCreateView方法中赋值，不能在子Fragment中创建
+	 */
+	protected BaseFragmentActivity context = null;
+	/**
+	 * 添加该fragment是否已被使用并未被销毁，在onCreateView方法中赋值为true，不能在子Fragment中创建
+	 */
+	protected boolean isAlive = false;
+	/**
+	 * 添加该fragment是否在运行，不能在子Fragment中创建
+	 */
+	protected boolean isRunning = false;
 
 	protected int RESULT_OK = Activity.RESULT_OK;
 	protected int RESULT_CANCELED = Activity.RESULT_CANCELED;
-	protected Bundle argument = null;//可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
-	protected Intent intent = null;//可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+	/**
+	 * 可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
+	 */
+	protected Bundle argument = null;
+	/**
+	 * 可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+	 */
+	protected Intent intent = null;
 
 	public static final String INTENT_TITLE = BaseFragmentActivity.INTENT_TITLE;
 	public static final String INTENT_ID = BaseFragmentActivity.INTENT_ID;
 	public static final String RESULT_DATA = BaseFragmentActivity.RESULT_DATA;
 
-	public abstract void initView();//UI显示方法，必须调用
-	public abstract void initData();//data数据方法，必须调用
-	public abstract void initListener();//listener事件监听方法，必须调用
+	/**
+	 * UI显示方法，必须在子类onCreateView方法内调用
+	 */
+	public abstract void initView();
+	/**
+	 * data数据方法，必须在子类onCreateView方法内调用
+	 */
+	public abstract void initData();
+	/**
+	 * listener事件监听方法，必须在子类onCreateView方法内调用
+	 */
+	public abstract void initListener();
 
 
 	/**通过id查找并获取控件

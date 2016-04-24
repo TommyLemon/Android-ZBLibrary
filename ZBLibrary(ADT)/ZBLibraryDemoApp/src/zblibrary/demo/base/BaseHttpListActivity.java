@@ -69,7 +69,7 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 	 */
 	public abstract void setList(List<T> list);//abstract是为了调用子类中的该方法
 
-	//可以不是BaseHttpListAdapter，这样更灵活;写在子类中更清晰灵活
+	//可以不是BaseHttpAdapter，这样更灵活;写在子类中更清晰灵活
 	//	private BaseAdapter adapter;//private BaseHttpAdapter<T> adapter;
 	/**设置列表适配器
 	 * 直接调用可满足大部分情况下的需求。但由于setList中不同情况下可能需要插入其它代码

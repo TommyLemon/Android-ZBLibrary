@@ -30,7 +30,7 @@ import zuo.biao.library.ui.WebViewActivity;
 /**带标签的Fragment示例
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
- * @use new DemoTabFragment();
+ * @use new DemoTabFragment(),具体参考.DemoFragmentActivity(initData方法内)
  */
 public class DemoTabFragment extends BaseTabFragment implements OnClickListener {
 //	private static final String TAG = "DemoTabFragment";

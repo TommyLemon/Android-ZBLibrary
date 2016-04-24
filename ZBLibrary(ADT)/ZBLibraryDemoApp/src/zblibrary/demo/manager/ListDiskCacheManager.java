@@ -29,6 +29,7 @@ import android.content.SharedPreferences.Editor;
 
 /**列表缓存管理类
  * @author Lemon
+ * @use ListDiskCacheManager.getInstance().xxx  ,具体参考.BaseHttpListActivity(onHttpRequestSuccess方法内)
  */
 public class ListDiskCacheManager {
 	private static final String TAG = "ListDiskCacheManager";
