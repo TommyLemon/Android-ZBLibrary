@@ -191,7 +191,7 @@ public class ImageLoaderUtil {
 	 */
 	private static DisplayImageOptions getOption(int cornerRadiusSize) {
 		return getOption(cornerRadiusSize, cornerRadiusSize <= 0
-				? R.drawable.image_miss_not_round : R.drawable.image_miss);
+				? R.drawable.square_alpha : R.drawable.oval_alpha);
 	}
 	/**获取配置
 	 * @param cornerRadiusSize
