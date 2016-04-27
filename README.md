@@ -38,4 +38,4 @@
 
 
 ##相关推荐
-[零门槛！用ZBLibrary写自定义View，就是这么简单！](http://my.oschina.net/u/2437072/blog/666625)
+[零门槛！ZBLibrary仿微信朋友圈自定义View，就是这么简单！](http://my.oschina.net/u/2437072/blog/666625)
