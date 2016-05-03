@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llBaseTabRootView"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <ImageView
+            android:id="@+id/ivBaseTabReturn"
+            style="@style/topbar_return_img" />
+
+        <TextView
+            android:id="@+id/tvBaseTabTitle"
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="标题" />
+
+        <LinearLayout
+            android:id="@+id/llBaseTabTopRightButtonContainer"
+            style="@style/ll_horizontal_wrap_wrap"
+            android:layout_alignParentRight="true" >
+        </LinearLayout>
+    </RelativeLayout>
+
+    <zuo.biao.library.ui.XListView
+        android:id="@+id/lvBaseHttpList"
+        style="@style/lv" />
+
+</LinearLayout>
