@@ -54,7 +54,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState, R.layout.demo_tab_fragment);
 		//		needReload = true;
-		
+
 		argument = getArguments();
 		if (argument != null) {
 			city = argument.getString(ARGUMENT_CITY);
@@ -99,7 +99,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	@Override
 	public void initData() {//必须在onCreate方法内调用
 		super.initData();
-		
+
 		tvDemoTabLeft.setText(StringUtil.isNotEmpty(city, true) ? StringUtil.getTrimedString(city) : "杭州");
 	}
 

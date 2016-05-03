@@ -14,10 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.base;
 
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,10 +22,17 @@ import zblibrary.demo.R;
 import zblibrary.demo.manager.HttpRequest;
 import zblibrary.demo.manager.ListDiskCacheManager;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.ui.XListView;
 import zuo.biao.library.ui.XListView.IXListViewListener;
 import zuo.biao.library.util.StringUtil;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.BaseAdapter;
 
 /**基础http获取列表的Activity
  * @author Lemon
@@ -43,8 +46,80 @@ import zuo.biao.library.util.StringUtil;
  *       initView();initData();initListener(); return view;
  */
 public abstract class BaseHttpListActivity<T> extends BaseActivity implements
-		HttpRequest.OnHttpResponseListener, IXListViewListener {
+HttpRequest.OnHttpResponseListener, IXListViewListener {
 	private static final String TAG = "BaseHttpListActivity";
+
+
+
+	/**
+	 * @param savedInstanceState
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
+	 *       initView();initData();initListener();
+	 */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		onCreate(savedInstanceState, 0);
+	}
+	/**
+	 * @param savedInstanceState
+	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, int layoutResID) {
+		onCreate(savedInstanceState, layoutResID, null);
+	}
+	/**
+	 * @param savedInstanceState
+	 * @param listener this - 滑动返回 ; null - 没有滑动返回
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, OnFinishListener listener) {
+		onCreate(savedInstanceState, 0, listener);
+	}
+	/**
+	 * 该界面底层容器
+	 */
+	protected ViewGroup view = null;
+	/**
+	 * @param savedInstanceState
+	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
+	 * @param listener this - 滑动返回 ; null - 没有滑动返回
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnFinishListener listener) {
+		super.onCreate(savedInstanceState);
+		super.setContentView(layoutResID <= 0 ? R.layout.base_http_list_activity : layoutResID, listener);
+		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
+		context = this;
+		isAlive = true;
+		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
+
+	}
+
+	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void setContentView(int layoutResID) {
+	}
+	@Override
+	public void setContentView(View view) {
+	}
+	@Override
+	public void setContentView(View view, LayoutParams params) {
+	}
+	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 
@@ -95,7 +170,6 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 	}
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
 
 
@@ -210,6 +284,7 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 		});
 	}
 
+
 	/**
 	 * http获取列表，在非UI线程中
 	 */
@@ -219,6 +294,47 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 	 * 将Json串转为List，在非UI线程中
 	 */
 	public abstract List<T> parseArray(String json);
+
+
+
+	/**
+	 * 数据列表
+	 */
+	public List<T> list;
+	/**
+	 * 新数据列表
+	 */
+	private List<T> newList = null;
+	/**处理列表
+	 * @param newList_ 新数据列表
+	 * @return
+	 */
+	public void handleList(List<T> newList_) {
+		this.newList = newList_;
+		if (newList == null) {
+			newList = new ArrayList<>();
+		}
+
+		if (pageNum <= HttpRequest.PAGE_NUM_0) {
+			saveCacheStart = 0;
+			list = newList;
+			if (list != null && list.size() > 0) {
+				isToLoadCache = false;
+			}
+		} else {
+			saveCacheStart = list == null ? 0 : list.size();
+			if (newList.size() <= 0) {
+				isServerHaveMore = false;
+			} else {
+				if (list == null) {
+					list = new ArrayList<>();
+				}
+				list.addAll(newList);
+			}
+		}
+
+	}
+
 
 
 	/**
@@ -234,13 +350,29 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 	@Nullable
 	public abstract String getCacheGroup();
 	/**
-	 * 获取缓存数据的id，在非UI线程中
+	 * 获取缓存数据的id，在非UI线程中s
 	 * @param data
-	 * @return "" + data.getId(); //不用Long是因为订单Order的id超出Long的最大值
+	 * @return "" + data.getId(); //不用long是因为某些数据(例如订单)的id超出long的最大值
 	 */
 	@Nullable
 	public abstract String getCacheId(T data);
 
+
+
+	private int saveCacheStart;
+	/**保存缓存
+	 */
+	public void saveCache() {
+		LinkedHashMap<String, T> map = new LinkedHashMap<>();
+		for (T data : newList) {
+			if (data != null) {
+				map.put(getCacheId(data), data);//map.put(null, data);不会崩溃
+			}
+		}
+
+		ListDiskCacheManager.getInstance().saveList(getCacheClass(), getCacheGroup(), map
+				, saveCacheStart, newList.size());
+	}
 
 	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -262,11 +394,6 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 	}
 
 	/**
-	 * 数据列表
-	 */
-	protected List<T> list;
-	private int saveCacheStart;
-	/**
 	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
 	 * @param resultCode 服务器返回结果码
 	 * @param json 服务器返回的Json串，用parseArray方法解析
@@ -278,27 +405,7 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 			@Override
 			public void run() {
 
-				List<T> newList = parseArray(json);
-				if (newList == null) {
-					newList = new ArrayList<>();
-				}
-				if (pageNum <= HttpRequest.PAGE_NUM_0) {
-					saveCacheStart = 0;
-					list = newList;
-					if (list != null && list.size() > 0) {
-						isToLoadCache = false;
-					}
-				} else {
-					saveCacheStart = list == null ? 0 : list.size();
-					if (newList.size() <= 0) {
-						isServerHaveMore = false;
-					} else {
-						if (list == null) {
-							list = new ArrayList<>();
-						}
-						list.addAll(newList);
-					}
-				}
+				handleList(parseArray(json));
 
 				runOnUiThread(new Runnable() {
 
@@ -310,22 +417,12 @@ public abstract class BaseHttpListActivity<T> extends BaseActivity implements
 					}
 				});
 
-
 				if (isToSaveCache) {
-					LinkedHashMap<String, T> map = new LinkedHashMap<>();
-					for (T data : newList) {
-						if (data != null) {
-							map.put(getCacheId(data), data);//map.put(null, data);不会崩溃
-						}
-					}
-
-					ListDiskCacheManager.getInstance().saveList(getCacheClass(), getCacheGroup(), map
-							, saveCacheStart, newList.size());
+					saveCache();
 				}
 			}
 		});
 	}
-
 
 	/**里面只有stopLoadData();showShortToast(R.string.get_failed); 不能满足需求时可重写该方法
 	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求

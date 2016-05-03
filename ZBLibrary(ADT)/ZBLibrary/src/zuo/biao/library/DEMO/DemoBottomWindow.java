@@ -119,7 +119,7 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	public void initListener() {//必须调用
 		super.initListener();
 
-		findViewById(R.id.tvModelBottomWindowForward).setOnClickListener(this);
+		findViewById(R.id.tvDemoBottomWindowForward).setOnClickListener(this);
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -128,7 +128,7 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	//	@Override
 	//	public void onClick(View v) {
 	//		switch (v.getId()) {
-	//		case R.id.tvModelBottomWindowForward:
+	//		case R.id.tvDemoBottomWindowForward:
 	//			saveAndExit();
 	//			break;
 	//		default:
@@ -139,7 +139,7 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvModelBottomWindowForward) {
+		if (v.getId() == R.id.tvDemoBottomWindowForward) {
 			saveAndExit();
 		} else {
 			super.onClick(v);

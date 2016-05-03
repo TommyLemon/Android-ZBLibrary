@@ -17,18 +17,13 @@
 
         <ImageView
             android:id="@+id/tvDemoForward"
-            android:src="@drawable/add"
-            style="@style/topbar_right_img"/>
+            style="@style/topbar_right_img"
+            android:src="@drawable/add" />
     </RelativeLayout>
 
-    <LinearLayout
-        style="@style/ll_vertical_match_match"
-        android:background="@color/activity_bg" >
-
-        <ListView
-            android:id="@+id/lvDemo"
-            style="@style/lv"
-            android:layout_weight="1"/>
-    </LinearLayout>
+    <ListView
+        android:id="@+id/lvDemo"
+        style="@style/lv"
+        android:layout_weight="1" />
 
 </LinearLayout>

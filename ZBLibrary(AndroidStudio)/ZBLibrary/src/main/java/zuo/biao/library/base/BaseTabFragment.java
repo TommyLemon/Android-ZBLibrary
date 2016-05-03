@@ -23,6 +23,7 @@ import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**基础带标签的Fragment
@@ -46,13 +48,6 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	private static final String TAG = "BaseTabFragment";
 
 	/**
-	 * 用于activity，fragment等之前的intent传值
-	 */
-	protected Bundle bundle = null;
-
-
-
-	/**
 	 * tab被选中监听类的实例
 	 */
 	private OnTabSelectedListener onTabSelectedListener;
@@ -64,62 +59,13 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 		this.onTabSelectedListener = onTabSelectedListener;
 	}
 
-	/**获取导航栏标题名
-	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTitleName();
-
-	/**获取导航栏返回按钮名
-	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTopReturnButtonName();
-
-
-	private List<View> topRightButtonList = new ArrayList<>();
-	/**添加右上方导航栏按钮
-	 * @must 在super.initData前调用
-	 * @param topRightButton 不会在这个类设置监听,需要自行设置
-	 */
-	public <V extends View> V addTopRightButton(V topRightButton) {
-		if (topRightButton != null) {
-			topRightButtonList.add(topRightButton);
-		}
-		return topRightButton;
-	}
-	/**新建右上方导航栏按钮
-	 * @param context
-	 * @param name
-	 * @return
-	 */
-	@SuppressLint({ "NewApi", "InflateParams" })
-	public TextView newTopRightButton(Context context, String name) {
-		TextView topRightButton = (TextView) LayoutInflater.from(context).inflate(R.layout.top_right_button, null);
-		topRightButton.setText(name);
-		return topRightButton;
-	}
-
-	/**获取标签名称数组
-	 * @return
-	 */
-	protected abstract String[] getTabNames();
-
-	/**获取新的Fragment
-	 * @param position
-	 * @return
-	 */
-	protected abstract Fragment getFragment(int position);
-
+	
 	/**
-	 * 需要（屏幕左边向右）划动关闭界面方式
+	 * 用于activity，fragment等之前的intent传值
 	 */
-	protected boolean enableOarFinish = true;
-	/**
-	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
-	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
-	 */
-	protected boolean needReload = false;
+	protected Bundle bundle = null;
+
+
 	/**
 	 * FragmentManager
 	 */
@@ -132,7 +78,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @param savedInstanceState
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
+	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
 	 *       initView();initData();initListener(); return view;
 	 */
 	@Override
@@ -146,7 +92,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
+	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
 	 *       initView();initData();initListener(); return view;
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
@@ -159,6 +105,9 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 		return view;
 	}
+
+
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -196,6 +145,11 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	}
 
+	/**
+	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
+	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
+	 */
+	protected boolean needReload = false;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -208,10 +162,8 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 			fragments[position] = getFragment(position);
 		}
 
-		// 用全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = context.getSupportFragmentManager()
-				.beginTransaction();
-		// lemon 防止切换成活动圈后点击其它标签要等切换回活动后才切换
+		//全局的fragmentTransaction因为already committed 崩溃
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.hide(fragments[currentPosition]);
 		if (!fragments[position].isAdded()) {
 			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragments[position]);
@@ -220,6 +172,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 		this.currentPosition = position;
 	};
+
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -290,10 +243,89 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	}
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
+	@Nullable
+	protected abstract String getTitleName();
+
+	/**获取导航栏返回按钮名
+	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 */
+	@Nullable
+	protected abstract String getTopReturnButtonName();
+
+	
+	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	@Nullable
+	private List<View> topRightButtonList = new ArrayList<>();
+	/**添加右上方导航栏按钮
+	 * @must 在super.initData前调用
+	 * @param topRightButton 不会在这个类设置监听,需要自行设置
+	 */
+	public <V extends View> V addTopRightButton(V topRightButton) {
+		if (topRightButton != null) {
+			topRightButtonList.add(topRightButton);
+		}
+		return topRightButton;
+	}
+	/**新建右上方导航栏按钮
+	 * @param context
+	 * @param drawable
+	 * @return
+	 */
+	public ImageView newTopRightImageView(Context context, int drawable) {
+		return newTopRightImageView(context, context.getResources().getDrawable(drawable));
+	}
+	/**新建右上方导航栏按钮
+	 * @param context
+	 * @param drawable
+	 * @return
+	 */
+	@SuppressLint({ "NewApi", "InflateParams" })
+	public ImageView newTopRightImageView(Context context, Drawable drawable) {
+		ImageView topRightButton = (ImageView) LayoutInflater.from(context).inflate(R.layout.top_right_iv, null);
+		topRightButton.setImageDrawable(drawable);
+		return topRightButton;
+	}
+	/**新建右上方导航栏按钮
+	 * @param context
+	 * @param name
+	 * @return
+	 */
+	@SuppressLint({ "NewApi", "InflateParams" })
+	public TextView newTopRightTextView(Context context, String name) {
+		TextView topRightButton = (TextView) LayoutInflater.from(context).inflate(R.layout.top_right_tv, null);
+		topRightButton.setText(name);
+		return topRightButton;
+	}
+	
+	//top right button >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	
+	/**获取标签名称数组
+	 * @return
+	 */
+	protected abstract String[] getTabNames();
+
+	/**获取新的Fragment
+	 * @param position
+	 * @return
+	 */
+	protected abstract Fragment getFragment(int position);
+
+
+	/**获取Tab(或Fragment)的数量
+	 * @return
+	 */
 	public int getCount() {
 		return topTabView == null ? 0 : topTabView.getCount();
 	}
 
+	/**获取当前Tab(或Fragment)的位置
+	 * @return
+	 */
 	public int getCurrentPosition() {
 		return currentPosition;
 	}

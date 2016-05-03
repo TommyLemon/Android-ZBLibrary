@@ -35,8 +35,8 @@ import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**activity示例；如果是FragmentActivity应该继承BaseFragmentActivity
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoActivity.createIntent(...));
  */
 public class DemoActivity extends BaseActivity implements OnClickListener, OnFinishListener {
@@ -150,11 +150,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 			tvDemoTitle.setText(StringUtil.getCurrentString());
 		}
 		
-		showShortToast("userid=" + userId);
-		
 		showProgressDialog(R.string.loading);
-
-		userId = getIntent().getLongExtra(INTENT_USER_ID, 0);
 
 		runThread(TAG + "initData", new Runnable() {
 			@Override

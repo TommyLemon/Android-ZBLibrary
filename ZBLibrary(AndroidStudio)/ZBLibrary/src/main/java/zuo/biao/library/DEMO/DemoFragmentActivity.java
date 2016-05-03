@@ -27,8 +27,8 @@ import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragmentActivity示例
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoFragmentActivity.createIntent(...));
  */
 public class DemoFragmentActivity extends BaseFragmentActivity implements OnClickListener, OnFinishListener {

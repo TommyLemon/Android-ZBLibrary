@@ -24,7 +24,7 @@
         <View style="@style/divider_vertical_1px" />
 
         <TextView
-            android:id="@+id/tvModelBottomWindowForward"
+            android:id="@+id/tvDemoBottomWindowForward"
             style="@style/bottom_menu_btn_save"
             android:layout_weight="1" />
     </LinearLayout>

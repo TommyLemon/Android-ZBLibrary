@@ -23,6 +23,7 @@ import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**基础带标签的Fragment
@@ -270,12 +272,31 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	}
 	/**新建右上方导航栏按钮
 	 * @param context
+	 * @param drawable
+	 * @return
+	 */
+	public ImageView newTopRightImageView(Context context, int drawable) {
+		return newTopRightImageView(context, context.getResources().getDrawable(drawable));
+	}
+	/**新建右上方导航栏按钮
+	 * @param context
+	 * @param drawable
+	 * @return
+	 */
+	@SuppressLint({ "NewApi", "InflateParams" })
+	public ImageView newTopRightImageView(Context context, Drawable drawable) {
+		ImageView topRightButton = (ImageView) LayoutInflater.from(context).inflate(R.layout.top_right_iv, null);
+		topRightButton.setImageDrawable(drawable);
+		return topRightButton;
+	}
+	/**新建右上方导航栏按钮
+	 * @param context
 	 * @param name
 	 * @return
 	 */
 	@SuppressLint({ "NewApi", "InflateParams" })
-	public TextView newTopRightButton(Context context, String name) {
-		TextView topRightButton = (TextView) LayoutInflater.from(context).inflate(R.layout.top_right_button, null);
+	public TextView newTopRightTextView(Context context, String name) {
+		TextView topRightButton = (TextView) LayoutInflater.from(context).inflate(R.layout.top_right_tv, null);
 		topRightButton.setText(name);
 		return topRightButton;
 	}

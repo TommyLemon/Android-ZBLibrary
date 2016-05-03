@@ -14,6 +14,8 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
+import android.util.Log;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
@@ -35,12 +37,12 @@ public class IPUtil {
 
 					InetAddress inetAddress = ipAddr.nextElement();
 					// ipv4地址
-//					if (!inetAddress.isLoopbackAddress()
+					if (!inetAddress.isLoopbackAddress()) {
 //							&& InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) {
-//
-//						Log.i(TAG, "IPUtil.getIPV4  ipv4 = " + inetAddress.getHostAddress());
-//						return inetAddress.getHostAddress();
-//					}
+
+						Log.i(TAG, "IPUtil.getIPV4  ipv4 = " + inetAddress.getHostAddress());
+						return inetAddress.getHostAddress();
+					}
 				}
 			}
 		} catch (Exception ex) {

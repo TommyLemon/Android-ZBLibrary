@@ -14,11 +14,11 @@
             <TextView
                 android:id="@+id/tvDemoTabLeft"
                 style="@style/topbar_left_btn"
-                android:maxWidth="120dp"
-                android:singleLine="true"
                 android:layout_height="@dimen/topbar_height"
                 android:drawableRight="@drawable/down2_small"
                 android:gravity="left|center_vertical"
+                android:maxWidth="120dp"
+                android:singleLine="true"
                 android:text="杭州" />
 
             <LinearLayout

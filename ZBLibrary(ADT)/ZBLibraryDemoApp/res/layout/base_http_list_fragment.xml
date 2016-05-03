@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <zuo.biao.library.ui.XListView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lvBaseHttpList"
-    style="@style/lv"
-    android:background="@color/activity_bg" />
+    style="@style/lv" />

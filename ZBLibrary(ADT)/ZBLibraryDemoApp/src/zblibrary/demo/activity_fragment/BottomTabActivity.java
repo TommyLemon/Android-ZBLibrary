@@ -78,6 +78,7 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+	@SuppressWarnings("unused")
 	private View rlBottomTabTopbar;
 	private TextView tvBottomTabTitle;	
 	private View[] llBottomTabTabs;
@@ -142,7 +143,7 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 		}
 
 		// 用全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.hide(fragments[currentPosition]);
 		if (!fragments[position].isAdded()) {
 			fragmentTransaction.add(R.id.flBottomTabFragmentContainer, fragments[position]);

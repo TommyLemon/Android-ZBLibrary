@@ -71,7 +71,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<
-		topRightButton = addTopRightButton(newTopRightButton(context, "了解"));
+		topRightButton = addTopRightButton(newTopRightTextView(context, "了解"));
 		//示例代码>>>>>>>>
 
 		super.initView();

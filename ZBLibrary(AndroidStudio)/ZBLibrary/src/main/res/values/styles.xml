@@ -693,7 +693,7 @@
     </style>
 
     <style name="topbar_right_img" parent="topbar_right_btn">
-        <item name="android:textSize">30sp</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <!-- topbar menu <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->

@@ -246,7 +246,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 		});
 	}
 
-	
+
 	/**
 	 * http获取列表，在非UI线程中
 	 */
@@ -257,8 +257,8 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 	 */
 	public abstract List<T> parseArray(String json);
 
-	
-	
+
+
 	/**
 	 * 数据列表
 	 */
@@ -294,10 +294,10 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 				list.addAll(newList);
 			}
 		}
-		
+
 	}
 
-	
+
 
 	/**
 	 * 获取需要缓存的类
@@ -314,28 +314,26 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 	/**
 	 * 获取缓存数据的id，在非UI线程中s
 	 * @param data
-	 * @return "" + data.getId(); //不用Long是因为订单Order的id超出Long的最大值
+	 * @return "" + data.getId(); //不用long是因为某些数据(例如订单)的id超出long的最大值
 	 */
 	@Nullable
 	public abstract String getCacheId(T data);
 
-	
-	
+
+
 	private int saveCacheStart;
 	/**保存缓存
 	 */
 	public void saveCache() {
-		if (isToSaveCache) {
-			LinkedHashMap<String, T> map = new LinkedHashMap<>();
-			for (T data : newList) {
-				if (data != null) {
-					map.put(getCacheId(data), data);//map.put(null, data);不会崩溃
-				}
+		LinkedHashMap<String, T> map = new LinkedHashMap<>();
+		for (T data : newList) {
+			if (data != null) {
+				map.put(getCacheId(data), data);//map.put(null, data);不会崩溃
 			}
+		}
 
-			ListDiskCacheManager.getInstance().saveList(getCacheClass(), getCacheGroup(), map
-					, saveCacheStart, newList.size());
-		}		
+		ListDiskCacheManager.getInstance().saveList(getCacheClass(), getCacheGroup(), map
+				, saveCacheStart, newList.size());
 	}
 
 	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -381,7 +379,9 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 					}
 				});
 
-				saveCache();
+				if (isToSaveCache) {
+					saveCache();
+				}
 			}
 		});
 	}

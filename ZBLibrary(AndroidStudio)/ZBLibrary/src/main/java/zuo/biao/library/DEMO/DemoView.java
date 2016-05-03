@@ -28,14 +28,14 @@ import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**通用自定义View模板，当View比较庞大复杂且使用次数>=2时建议使用
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use
 	DemoView demoView = new DemoView(context, inflater);
 	adapter中使用convertView = demoView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
     或  其它类中使用  containerView.addView(demoView.getView());
-	demoView.setView(object);
-	demoView.setOnDataChangedListener(onDataChangedListener);object = demoView.getData();//非必需
+	demoView.setView(data);
+	demoView.setOnDataChangedListener(onDataChangedListener);data = demoView.getData();//非必需
 	demoView.setOnClickListener(onClickListener);//非必需
 	...
  */

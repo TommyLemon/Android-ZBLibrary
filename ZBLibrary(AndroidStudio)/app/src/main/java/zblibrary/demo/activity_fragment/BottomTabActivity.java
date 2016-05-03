@@ -16,6 +16,7 @@ package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
 import zuo.biao.library.DEMO.DemoFragment;
+import zuo.biao.library.DEMO.DemoTabFragment;
 import zuo.biao.library.base.BaseFragmentActivity;
 import zuo.biao.library.interfaces.OnFinishListener;
 import android.content.Context;
@@ -58,7 +59,7 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		super.setContentView(R.layout.bottom_tab_activity, this);
+		setContentView(R.layout.bottom_tab_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
 		isAlive = true;
@@ -77,15 +78,17 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-
+	@SuppressWarnings("unused")
+	private View rlBottomTabTopbar;
 	private TextView tvBottomTabTitle;	
 	private View[] llBottomTabTabs;
 	@Override
 	public void initView() {// 必须调用
 		exitAnim = R.anim.bottom_push_out;
 
+		rlBottomTabTopbar = findViewById(R.id.rlBottomTabTopbar);
 		tvBottomTabTitle = (TextView) findViewById(R.id.tvBottomTabTitle);
-		
+
 		llBottomTabTabs = new View[4];
 		llBottomTabTabs[0] = findViewById(R.id.llBottomTabTab0);
 		llBottomTabTabs[1] = findViewById(R.id.llBottomTabTab1);
@@ -101,22 +104,22 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 	protected Fragment getFragment(int position) {
 		bundle = new Bundle();
 		switch (position) {
-			case 1:
-				return new DemoFragment();
-			case 2:
-				return new DemoFragment();
-			case 3:
-				return new SettingFragment();
-			default:
-				UserListFragment fragment = new UserListFragment();
-				bundle.putInt(UserListFragment.ARGUMENT_RANGE, UserListFragment.RANGE_ALL);
-				return fragment;
+		case 1:
+			return new DemoFragment();
+		case 2:
+			return new DemoTabFragment();
+		case 3:
+			return new SettingFragment();
+		default:
+			UserListFragment fragment = new UserListFragment();
+			bundle.putInt(UserListFragment.ARGUMENT_RANGE, UserListFragment.RANGE_ALL);
+			return fragment;
 		}
 	};
-	
-	
+
+
 	private static final String[] TABS = {"主页", "消息", "发现", "设置"};
-	
+
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -125,19 +128,22 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 			Log.i(TAG, "onSelectFragment currentPosition == position >> return;	");
 			return;
 		}
+
+		//导致切换时闪屏，建议去掉BottomTabActivity中的topbar，在fragment中显示topbar
+		//		rlBottomTabTopbar.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
 		
 		tvBottomTabTitle.setText(TABS[position]);
-		
+
 		for (int i = 0; i < llBottomTabTabs.length; i++) {
 			llBottomTabTabs[i].setBackgroundResource(i == position ? R.color.topbar_bg : R.color.white);
 		}
-		
+
 		if (fragments[position] == null) {
 			fragments[position] = getFragment(position);
 		}
 
 		// 用全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.hide(fragments[currentPosition]);
 		if (!fragments[position].isAdded()) {
 			fragmentTransaction.add(R.id.flBottomTabFragmentContainer, fragments[position]);

@@ -76,14 +76,14 @@ public class DemoFragment extends BaseFragment {
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private ListView lvModelFragment;
+	private ListView lvDemoFragment;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreateView方法内调用
 
 		//示例代码<<<<<<<<<<<<<<
 
-		lvModelFragment = (ListView) view.findViewById(R.id.lvModelFragment);
+		lvDemoFragment = (ListView) view.findViewById(R.id.lvDemoFragment);
 
 		//示例代码>>>>>>>>>>>>>>
 	}
@@ -97,15 +97,15 @@ public class DemoFragment extends BaseFragment {
 	 */
 	private void setList(List<KeyValueBean> list) {
 		if (list == null || list.size() <= 0) {
-			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvModelFragment.setAdapter(null); return;");
+			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvDemoFragment.setAdapter(null); return;");
 			adapter = null;
-			lvModelFragment.setAdapter(null);
+			lvDemoFragment.setAdapter(null);
 			return;
 		}
 
 		if (adapter == null) {
 			adapter = new DemoAdapter(context, list);
-			lvModelFragment.setAdapter(adapter);
+			lvDemoFragment.setAdapter(adapter);
 		} else {
 			adapter.refresh(list);
 		}
@@ -184,7 +184,7 @@ public class DemoFragment extends BaseFragment {
 	public void initListener() {//必须在onCreateView方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
-		lvModelFragment.setOnItemClickListener(new OnItemClickListener() {
+		lvDemoFragment.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				toActivity(DemoActivity.createIntent(context, position), REQUEST_TO_DEMO);
