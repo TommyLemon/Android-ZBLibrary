@@ -25,8 +25,8 @@ import android.view.View.OnClickListener;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**底部弹出窗口界面示例
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
+ * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoBottomWindow.createIntent(...));
  *      然后在onActivityResult方法内获取data.getStringExtra(DemoBottomWindow.RESULT_CONTACT_INFO);
  */

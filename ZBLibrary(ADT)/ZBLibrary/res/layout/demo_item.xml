@@ -5,19 +5,21 @@
     android:background="@drawable/bg_item_to_alpha" >
 
     <ImageView
-        android:id="@+id/ivHead"
+        android:id="@+id/ivDemoItemHead"
         style="@style/content_item_lf_img"
-        android:padding="6dp"
-        android:src="@drawable/add" />
+        android:layout_height="30dp"
+        android:background="@color/alpha_1"
+        android:layout_marginRight="6dp"
+        android:layout_width="30dp"/>
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvDemoItemName"
         style="@style/content_item_lf_tv"
         android:layout_weight="1"
         android:text="item" />
 
     <TextView
-        android:id="@+id/tvNumber"
+        android:id="@+id/tvDemoItemNumber"
         style="@style/content_item_rt_tv"
         android:text="right text" />
 

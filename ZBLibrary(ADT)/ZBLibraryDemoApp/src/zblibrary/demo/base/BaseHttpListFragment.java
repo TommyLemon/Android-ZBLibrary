@@ -56,7 +56,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 	 * @param savedInstanceState
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
+	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
 	 *       initView();initData();initListener(); return view;
 	 */
 	@Override
@@ -70,7 +70,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
+	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
 	 *       initView();initData();initListener(); return view;
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {

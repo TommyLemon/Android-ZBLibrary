@@ -47,7 +47,6 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 , OnTabSelectedListener, OnFinishListener {
 	private static final String TAG = "BaseTabActivity";
 
-
 	/**
 	 * tab被选中监听类的实例
 	 */
@@ -60,70 +59,58 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 		this.onTabSelectedListener = onTabSelectedListener;
 	}
 
-	/**获取导航栏标题名
-	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTitleName();
-
-	/**获取导航栏返回按钮名
-	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTopReturnButtonName();
 
 
-	private List<View> topRightButtonList = new ArrayList<>();
-	/**添加右上方导航栏按钮
-	 * @must 在super.initData前调用
-	 * @param topRightButton 不会在这个类设置监听,需要自行设置
-	 */
-	public <V extends View> V addTopRightButton(V topRightButton) {
-		if (topRightButton != null) {
-			topRightButtonList.add(topRightButton);
-		}
-		return topRightButton;
-	}
-	/**新建右上方导航栏按钮
-	 * @param context
-	 * @param name
-	 * @return
-	 */
-	@SuppressLint({ "NewApi", "InflateParams" })
-	public TextView newTopRightButton(Context context, String name) {
-		TextView topRightButton = (TextView) LayoutInflater.from(context).inflate(R.layout.top_right_button, null);
-		topRightButton.setText(name);
-		return topRightButton;
-	}
-
-	/**获取标签名称数组
-	 * @return
-	 */
-	protected abstract String[] getTabNames();
-
-	/**获取新的Fragment
-	 * @param position
-	 * @return
-	 */
-	protected abstract Fragment getFragment(int position);
 
 	/**
-	 * 需要（屏幕左边向右）划动关闭界面方式
+	 * @param savedInstanceState
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
+	 *       initView();initData();initListener();
 	 */
-	protected boolean enableOarFinish = true;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		onCreate(savedInstanceState, 0);
+	}
 	/**
-	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
-	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
+	 * @param savedInstanceState
+	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_tab_activity
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
+	 *       initView();initData();initListener();
 	 */
-	protected boolean needReload = false;
+	protected void onCreate(Bundle savedInstanceState, int layoutResID) {
+		onCreate(savedInstanceState, layoutResID, null);
+	}
+	/**
+	 * @param savedInstanceState
+	 * @param listener this - 滑动返回 ; null - 没有滑动返回
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, OnFinishListener listener) {
+		onCreate(savedInstanceState, 0, listener);
+	}
 	/**
 	 * 该界面底层容器
 	 */
-	protected ViewGroup view;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected ViewGroup view = null;
+	/**
+	 * @param savedInstanceState
+	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_tab_activity
+	 * @param listener this - 滑动返回 ; null - 没有滑动返回
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnFinishListener listener) {
 		super.onCreate(savedInstanceState);
-		super.setContentView(R.layout.base_tab_activity, this);
+		super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, listener);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
 		isAlive = true;
@@ -182,6 +169,11 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 
 	}
 
+	/**
+	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
+	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
+	 */
+	protected boolean needReload = false;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -195,7 +187,7 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 		}
 
 		//全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.hide(fragments[currentPosition]);
 		if (!fragments[position].isAdded()) {
 			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragments[position]);
@@ -204,6 +196,7 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 
 		this.currentPosition = position;
 	};
+
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -274,10 +267,70 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 
 	}
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
+	@Nullable
+	protected abstract String getTitleName();
+
+	/**获取导航栏返回按钮名
+	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 */
+	@Nullable
+	protected abstract String getTopReturnButtonName();
+
+	
+	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	@Nullable
+	private List<View> topRightButtonList = new ArrayList<>();
+	/**添加右上方导航栏按钮
+	 * @must 在super.initData前调用
+	 * @param topRightButton 不会在这个类设置监听,需要自行设置
+	 */
+	public <V extends View> V addTopRightButton(V topRightButton) {
+		if (topRightButton != null) {
+			topRightButtonList.add(topRightButton);
+		}
+		return topRightButton;
+	}
+	/**新建右上方导航栏按钮
+	 * @param context
+	 * @param name
+	 * @return
+	 */
+	@SuppressLint({ "NewApi", "InflateParams" })
+	public TextView newTopRightButton(Context context, String name) {
+		TextView topRightButton = (TextView) LayoutInflater.from(context).inflate(R.layout.top_right_button, null);
+		topRightButton.setText(name);
+		return topRightButton;
+	}
+	
+	//top right button >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	
+	/**获取标签名称数组
+	 * @return
+	 */
+	protected abstract String[] getTabNames();
+
+	/**获取新的Fragment
+	 * @param position
+	 * @return
+	 */
+	protected abstract Fragment getFragment(int position);
+
+
+	/**获取Tab(或Fragment)的数量
+	 * @return
+	 */
 	public int getCount() {
 		return topTabView == null ? 0 : topTabView.getCount();
 	}
 
+	/**获取当前Tab(或Fragment)的位置
+	 * @return
+	 */
 	public int getCurrentPosition() {
 		return currentPosition;
 	}

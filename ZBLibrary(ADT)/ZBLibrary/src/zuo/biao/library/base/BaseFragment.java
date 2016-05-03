@@ -157,6 +157,7 @@ public abstract class BaseFragment extends Fragment {
 			@Override
 			public void run() {
 
+				//fragment中使用context.startActivity会导致在fragment中不能正常接收onActivityResult
 				if (requestCode < 0) {
 					startActivity(intent);
 				} else {

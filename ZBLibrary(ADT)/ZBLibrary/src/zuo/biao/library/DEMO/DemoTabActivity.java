@@ -50,7 +50,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState, this);
 
 		//		needReload = true;
 
@@ -99,8 +99,9 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 	}
 
 	@Override
+	@Nullable
 	protected String getTitleName() {
-		return "标题";
+		return "账单";
 	}
 
 	@Override
@@ -111,7 +112,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 	@Override
 	protected String[] getTabNames() {
-		return new String[] {"你", "我", "他"};
+		return new String[] {"全部", "收入", "支出"};
 	}
 
 	@Override
@@ -137,7 +138,6 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final int RESULT_MODEL = 30;
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<

@@ -57,11 +57,14 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	public int getCount() {
 		return list.size();
 	}
+	/**获取item数据
+	 * @warn 处于性能考虑，这里不判断position，应在adapter外判断
+	 */
 	@Override
 	public T getItem(int position) {
 		return list.get(position);
 	}
-	/**返回item的id，如果不能满足需求可在子类重写
+	/**获取item的id，如果不能满足需求可在子类重写
 	 * @param position
 	 * @return position
 	 */
