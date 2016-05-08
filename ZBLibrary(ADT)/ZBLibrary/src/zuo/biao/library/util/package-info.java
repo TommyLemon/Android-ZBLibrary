@@ -13,10 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 
 /**
- * 通用操作类所在包
+ * 通用操作类所在包，里面所有方法都是static
  */
 /**
  * @author Lemon
- *
+ * @use 通用使用方法：XXUtil.xxMethod(...)
  */
 package zuo.biao.library.util;

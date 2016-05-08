@@ -20,7 +20,7 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseFragment;
 import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.bean.Entry;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,7 +95,7 @@ public class DemoFragment extends BaseFragment {
 	 * @author author
 	 * @param list
 	 */
-	private void setList(List<KeyValueBean> list) {
+	private void setList(List<Entry<String, String>> list) {
 		if (list == null || list.size() <= 0) {
 			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvDemoFragment.setAdapter(null); return;");
 			adapter = null;
@@ -125,7 +125,7 @@ public class DemoFragment extends BaseFragment {
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private List<KeyValueBean> list;
+	private List<Entry<String, String>> list;
 	//示例代码>>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreateView方法内调用
@@ -160,10 +160,10 @@ public class DemoFragment extends BaseFragment {
 	 * @param userId
 	 * @return
 	 */
-	protected List<KeyValueBean> getList(long userId) {
-		list = new ArrayList<KeyValueBean>();
+	protected List<Entry<String, String>> getList(long userId) {
+		list = new ArrayList<Entry<String, String>>();
 		for (int i = 0; i < 64; i++) {
-			list.add(new KeyValueBean("联系人" + i , String.valueOf(1311736568 + i*i)));
+			list.add(new Entry<String, String>("联系人" + i , String.valueOf(1311736568 + i*i)));
 		}
 		return list;
 	}

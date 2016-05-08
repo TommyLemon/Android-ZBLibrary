@@ -18,7 +18,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
-import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.bean.Entry;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.view.View;
@@ -33,11 +33,11 @@ import android.widget.TextView;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use new DemoAdapter(...),具体参考.DemoActivity(setList方法内)
  */
-public class DemoAdapter extends BaseAdapter<KeyValueBean> {
+public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 //	private static final String TAG = "DemoAdapter";
 
 
-	public DemoAdapter(Activity context, List<KeyValueBean> list) {
+	public DemoAdapter(Activity context, List<Entry<String, String>> list) {
 		super(context, list);
 	}
 
@@ -58,11 +58,10 @@ public class DemoAdapter extends BaseAdapter<KeyValueBean> {
 			convertView.setTag(holder);
 		}
 
-		final KeyValueBean ckvb = getItem(position);
+		final Entry<String, String> data = getItem(position);
 
-
-		holder.tvDemoItemName.setText(StringUtil.getTrimedString(ckvb.getValue()));
-		holder.tvDemoItemNumber.setText(StringUtil.getNoBlankString(ckvb.getKey()));
+		holder.tvDemoItemName.setText(StringUtil.getTrimedString(data.getValue()));
+		holder.tvDemoItemNumber.setText(StringUtil.getNoBlankString(data.getKey()));
 
 		return convertView;
 	}

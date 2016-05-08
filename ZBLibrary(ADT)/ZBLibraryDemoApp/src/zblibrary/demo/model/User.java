@@ -14,22 +14,24 @@ limitations under the License.*/
 
 package zblibrary.demo.model;
 
-import java.io.Serializable;
+import zuo.biao.library.base.BaseModel;
+import zuo.biao.library.util.StringUtil;
 
 /**用户类
  * @author Lemon
  */
-public class User implements Serializable {
+public class User extends BaseModel {
 
-	private static final long serialVersionUID = 9022684467723310334L;
-	
-	
+	private static final long serialVersionUID = 1L;
+
+
 	private long id;
 	private String head; //头像
 	private String name; //名字
 	private String phone; //电话号码
-	
 
+	/**默认构造方法，JSON等解析时必须要有
+	 */
 	public User() {
 		//default
 	}
@@ -51,8 +53,8 @@ public class User implements Serializable {
 		this.phone = phone;
 		this.head = head;
 	}
-	
-	
+
+
 	public long getId() {
 		return id;
 	}
@@ -76,6 +78,11 @@ public class User implements Serializable {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	@Override
+	public boolean isCorrect() {
+		return id > 0 && StringUtil.isNotEmpty(head, true);
 	}
 
 }

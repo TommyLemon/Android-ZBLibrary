@@ -19,6 +19,7 @@ import android.view.View;
 /**到达（接触到）View的某个边界的监听回调
  * 一般用于一个（ViewGroup）parent内的（View）child接触到parent的事件监听
  * @author Lemon
+ * @use implements OnReachViewBorderListener
  */
 public interface OnReachViewBorderListener {
     static final int TYPE_TOP = 0;

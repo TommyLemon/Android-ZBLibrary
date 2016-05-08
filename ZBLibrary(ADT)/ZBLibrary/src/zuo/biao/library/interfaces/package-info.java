@@ -17,6 +17,6 @@ limitations under the License.*/
  */
 /**
  * @author Lemon
- *
+ * @use 通用使用方法：implements XXInterface
  */
 package zuo.biao.library.interfaces;

@@ -18,25 +18,27 @@ import java.util.ArrayList;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.ui.AlertDialog;
+import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
 import zuo.biao.library.ui.CutPictureActivity;
 import zuo.biao.library.ui.DatePickerWindow;
 import zuo.biao.library.ui.EditTextInfoActivity;
 import zuo.biao.library.ui.EditTextInfoWindow;
-import zuo.biao.library.ui.ItemOnlyDialog;
-import zuo.biao.library.ui.MyAlertDialog;
+import zuo.biao.library.ui.ItemDialog;
+import zuo.biao.library.ui.ItemDialog.OnDialogItemClickListener;
 import zuo.biao.library.ui.PlacePickerWindow;
 import zuo.biao.library.ui.SelectPictureActivity;
 import zuo.biao.library.ui.ServerSettingActivity;
 import zuo.biao.library.ui.TopMenuWindow;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.DataKeeper;
+import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -49,7 +51,7 @@ import android.widget.TextView;
 /**demo主页
  * @author Lemon
  */
-public class DemoMainActivity extends BaseActivity implements OnClickListener {
+public class DemoMainActivity extends BaseActivity implements OnClickListener, OnDialogButtonClickListener, OnDialogItemClickListener {
 	private static final String TAG = "DemoMainActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -84,8 +86,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private String[] topbarColorNames = {"灰色", "蓝色", "黄色"};
-	private int[] topbarColorResIds = {R.color.gray, R.color.blue,R.color.yellow};
+	private static final String[] TOPBAR_COLOR_NAMES = {"灰色", "蓝色", "黄色"};
+	private static final int[] TOPBAR_COLOR_RESIDS = {R.color.gray, R.color.blue,R.color.yellow};
 
 	private View rlDemoMainTopbar;
 	private View ivDemoMainMenu;
@@ -109,29 +111,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 
 	/**显示列表选择弹窗
 	 */
-	private void showItemOnlyDialog() {
-		new ItemOnlyDialog(context, topbarColorNames, "选择颜色", new ItemOnlyDialog.PriorityListener() {
-
-			@Override
-			public void refreshPriorityUI(int position) {
-
-				rlDemoMainTopbar.setBackgroundResource(topbarColorResIds[position]);
-			}
-		}).show();
-	}
-
-	/**显示对话框弹窗
-	 */
-	private void showMyAlertDialog() {
-		new MyAlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, new MyAlertDialog.OnButtonClickListener() {
-
-			@Override
-			public void onButtonClick(int requestCode, boolean isPositive) {
-				if (isPositive) {
-					rlDemoMainTopbar.setBackgroundResource(R.color.red);
-				}
-			}
-		}).show();
+	private void showItemDialog() {
+		new ItemDialog(context, TOPBAR_COLOR_NAMES, "选择颜色", DIALOG_SET_TOPBAR, this).show();
 	}
 
 	/**显示顶部菜单
@@ -159,12 +140,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		}
 		this.picturePath = path;
 
-		intent = new Intent(context, CutPictureActivity.class);
-		intent.putExtra(CutPictureActivity.INTENT_ORIGINAL_PICTURE_PATH, picturePath);
-		intent.putExtra(CutPictureActivity.INTENT_CUTTED_PICTURE_PATH, DataKeeper.fileRootPath + DataKeeper.imagePath);
-		intent.putExtra(CutPictureActivity.INTENT_CUTTED_PICTURE_NAME, "photo" + System.currentTimeMillis());
-		intent.putExtra(CutPictureActivity.INTENT_CUT_HEIGHT, 200);
-		toActivity(intent, REQUEST_TO_CUT_PICTURE);
+		toActivity(CutPictureActivity.createIntent(context, path
+				, DataKeeper.fileRootPath + DataKeeper.imagePath, "photo" + System.currentTimeMillis(), 200)
+				, REQUEST_TO_CUT_PICTURE);
 	}
 
 	/**显示图片
@@ -179,11 +157,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		this.picturePath = path;
 
 		svDemoMain.smoothScrollTo(0, 0);
-		try {
-			ivDemoMainHead.setImageDrawable(new BitmapDrawable(getResources(), picturePath));
-		} catch (Exception e) {
-			showShortToast("设置图片失败了，再试一次吧^_^");
-		}
+		ImageLoaderUtil.loadImage(ivDemoMainHead, path);
 	}
 
 	/**编辑图片名称
@@ -240,8 +214,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		ivDemoMainHead.setOnClickListener(this);
 		tvDemoMainHeadName.setOnClickListener(this);
 
-		findViewById(R.id.llDemoMainItemOnlyDialog).setOnClickListener(this);
-		findViewById(R.id.llDemoMainMyAlertDialog).setOnClickListener(this);
+		findViewById(R.id.llDemoMainItemDialog).setOnClickListener(this);
+		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
 		findViewById(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
@@ -261,6 +235,37 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 
 	}
 
+
+	@Override
+	public void onDialogButtonClick(int requestCode, boolean isPositive) {
+		if (isPositive == false) {
+			return;
+		}
+
+		rlDemoMainTopbar.setBackgroundResource(R.color.red);
+	}
+	
+	
+	private static final int DIALOG_SET_TOPBAR = 1;
+	
+	@Override
+	public void onDialogItemClick(int requestCode, int position, String item) {
+		if (position < 0) {
+			position = 0;
+		}
+		switch (requestCode) {
+		case DIALOG_SET_TOPBAR:
+			if (position >= TOPBAR_COLOR_RESIDS.length) {
+				position = TOPBAR_COLOR_RESIDS.length - 1;
+			}
+			rlDemoMainTopbar.setBackgroundResource(TOPBAR_COLOR_RESIDS[position]);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -316,10 +321,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 	//					break;
 	//		
 	//				case R.id.llDemoMainItemOnlyDialog:
-	//					showItemOnlyDialog();
+	//					showItemDialog();
 	//					break;
 	//				case R.id.llDemoMainMyAlertDialog:
-	//					showMyAlertDialog();
+	//					new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
 	//					break;
 	//		
 	//				case R.id.llDemoMainSelectPictureActivity:
@@ -376,10 +381,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 			selectPicture();
 		} else if (v.getId() == R.id.tvDemoMainHeadName) {
 			editName(true);
-		} else if (v.getId() == R.id.llDemoMainItemOnlyDialog) {
-			showItemOnlyDialog();
-		} else if (v.getId() == R.id.llDemoMainMyAlertDialog) {
-			showMyAlertDialog();
+		} else if (v.getId() == R.id.llDemoMainItemDialog) {
+			showItemDialog();
+		} else if (v.getId() == R.id.llDemoMainAlertDialog) {
+			new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
 
 		} else if (v.getId() == R.id.llDemoMainSelectPictureActivity) {
 			selectPicture();
@@ -403,7 +408,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		} else if (v.getId() == R.id.llDemoMainTopMenuWindow) {
 			showTopMenu();
 		} else if (v.getId() == R.id.llDemoMainBottomMenuWindow) {
-			toActivity(BottomMenuWindow.createIntent(context, topbarColorNames)
+			toActivity(BottomMenuWindow.createIntent(context, TOPBAR_COLOR_NAMES)
 					.putExtra(BottomMenuWindow.INTENT_TITLE, "选择颜色"), REQUEST_TO_BOTTOM_MENU, false);
 		} else if (v.getId() == R.id.llDemoMainEditTextInfoWindow) {
 			editName(true);
@@ -460,7 +465,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 			if (data != null) {
 				switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
 				case 0:
-					showItemOnlyDialog();
+					showItemDialog();
 					break;
 				case 1:
 					selectPicture();
@@ -473,8 +478,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener {
 		case REQUEST_TO_BOTTOM_MENU:
 			if (data != null) {
 				int selectedPosition = data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1);
-				if (selectedPosition >= 0 && selectedPosition < topbarColorResIds.length) {
-					rlDemoMainTopbar.setBackgroundResource(topbarColorResIds[selectedPosition]);
+				if (selectedPosition >= 0 && selectedPosition < TOPBAR_COLOR_RESIDS.length) {
+					rlDemoMainTopbar.setBackgroundResource(TOPBAR_COLOR_RESIDS[selectedPosition]);
 				}
 			}
 			break;

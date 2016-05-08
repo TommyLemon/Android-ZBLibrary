@@ -1,4 +1,4 @@
-package zuo.biao.library.util;
+package zuo.biao.library.manager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.bean.City;
+import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.text.TextUtils;
 
+/**地区管理类
+ * @author Lemon
+ * @use CityDB.getInstance(...).xxMethod(...)
+ */
 public class CityDB {
     public static final String CITY_DB_NAME = "city.db";
     private static final String CITY_TABLE_NAME = "city";

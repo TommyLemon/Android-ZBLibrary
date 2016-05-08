@@ -55,13 +55,13 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
-                android:id="@+id/llDemoMainMyAlertDialog"
+                android:id="@+id/llDemoMainAlertDialog"
                 style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
-                    android:text="MyAlertDialog" />
+                    android:text="AlertDialog" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
@@ -69,13 +69,13 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
-                android:id="@+id/llDemoMainItemOnlyDialog"
+                android:id="@+id/llDemoMainItemDialog"
                 style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
-                    android:text="ItemOnlyDialog" />
+                    android:text="ItemDialog" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>

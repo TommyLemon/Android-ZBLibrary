@@ -16,6 +16,7 @@ package zuo.biao.library.interfaces;
 
 /**数据获取回调
  * @author Lemon
+ * @use implements DataGetter
  */
 public interface DataGetter {
 	Object getData();

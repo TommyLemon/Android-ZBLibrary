@@ -14,12 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-
 import java.io.File;
 
 import zuo.biao.library.R;
@@ -27,6 +21,12 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.StringUtil;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 
 /**通用获取裁剪单张照片Activity
  * @author Lemon
@@ -36,6 +36,54 @@ import zuo.biao.library.util.StringUtil;
 public class CutPictureActivity extends BaseActivity {
 	private static final String TAG = "CutPictureActivity";
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	public static final String INTENT_ORIGINAL_PICTURE_PATH = "INTENT_ORIGINAL_PICTURE_PATH";
+	public static final String INTENT_CUTTED_PICTURE_PATH = "INTENT_CUTTED_PICTURE_PATH";
+	public static final String INTENT_CUTTED_PICTURE_NAME = "INTENT_CUTTED_PICTURE_NAME";
+
+	public static final String INTENT_CUT_WIDTH = "INTENT_CUT_WIDTH";
+	public static final String INTENT_CUT_HEIGHT = "INTENT_CUT_HEIGHT";
+
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @param originalPath
+	 * @param cuttedPath
+	 * @param cuttedName
+	 * @param cuttedSize
+	 * @return
+	 */
+	public static Intent createIntent(Context context, String originalPath
+			, String cuttedPath, String cuttedName, int cuttedSize) {
+		return createIntent(context, originalPath, cuttedPath, cuttedName, cuttedSize, cuttedSize);
+	}
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @param originalPath
+	 * @param cuttedPath
+	 * @param cuttedName
+	 * @param cuttedWidth
+	 * @param cuttedHeight
+	 * @return
+	 */
+	public static Intent createIntent(Context context, String originalPath
+			, String cuttedPath, String cuttedName, int cuttedWidth, int cuttedHeight) {
+		Intent intent = new Intent(context, CutPictureActivity.class);
+		intent.putExtra(INTENT_ORIGINAL_PICTURE_PATH, originalPath);
+		intent.putExtra(INTENT_CUTTED_PICTURE_PATH, cuttedPath);
+		intent.putExtra(INTENT_CUTTED_PICTURE_NAME, cuttedName);
+		intent.putExtra(INTENT_CUT_WIDTH, cuttedWidth);
+		intent.putExtra(INTENT_CUT_HEIGHT, cuttedHeight);
+		return intent;
+	}
+
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	private String originalPicturePath;
+	private String cuttedPicturePath;
+	private String cuttedPictureName;
+	private int cuttedWidth;
+	private int cuttedHeight;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,6 +92,26 @@ public class CutPictureActivity extends BaseActivity {
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
+		intent = getIntent();
+
+		originalPicturePath = intent.getStringExtra(INTENT_ORIGINAL_PICTURE_PATH);
+		cuttedWidth = intent.getIntExtra(INTENT_CUT_WIDTH, 0);
+		cuttedHeight = intent.getIntExtra(INTENT_CUT_HEIGHT, 0);
+		if (cuttedWidth <= 0) {
+			cuttedWidth = cuttedHeight;
+		}
+		if (cuttedHeight <= 0) {
+			cuttedHeight = cuttedWidth;
+		}
+
+		if (StringUtil.isNotEmpty(originalPicturePath, true) == false || cuttedWidth <= 0) {
+			Log.e(TAG, "onCreate  StringUtil.isNotEmpty(originalPicturePath, true)" +
+					" == false || cuttedWidth <= 0 >> finish(); return;");
+			showShortToast("图片不存在，请先选择图片");
+			finish();
+			return;
+		}
+		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initData();
 		initView();
@@ -62,8 +130,6 @@ public class CutPictureActivity extends BaseActivity {
 
 
 	/**照片裁剪
-	 * @param context
-	 * @param requestCode
 	 * @param path
 	 * @param width
 	 * @param height
@@ -72,9 +138,7 @@ public class CutPictureActivity extends BaseActivity {
 		startPhotoZoom(Uri.fromFile(new File(path)), width, height);
 	}
 	/**照片裁剪
-	 * @param context
-	 * @param requestCode
-	 * @param fromFile
+	 * @param fileUri
 	 * @param width
 	 * @param height
 	 */
@@ -111,37 +175,11 @@ public class CutPictureActivity extends BaseActivity {
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	public static final String INTENT_ORIGINAL_PICTURE_PATH = "INTENT_ORIGINAL_PICTURE_PATH";
-	public static final String INTENT_CUTTED_PICTURE_PATH = "INTENT_CUTTED_PICTURE_PATH";
-	public static final String INTENT_CUTTED_PICTURE_NAME = "INTENT_CUTTED_PICTURE_NAME";
 
-	public static final String INTENT_CUT_WIDTH = "INTENT_CUT_WIDTH";
-	public static final String INTENT_CUT_HEIGHT = "INTENT_CUT_HEIGHT";
-
-	private String originalPicturePath = "";
-	private String cuttedPicturePath = "";
-	private String cuttedPictureName = "";
 	@Override
 	public void initData() {//必须调用
 
-		intent = getIntent();
-
-		originalPicturePath = intent.getStringExtra(INTENT_ORIGINAL_PICTURE_PATH);
-		int picWidth = intent.getIntExtra(INTENT_CUT_WIDTH, 0);
-		int picHeight = intent.getIntExtra(INTENT_CUT_HEIGHT, 0);
-		if (StringUtil.isNotEmpty(originalPicturePath, true) == false || (picWidth <= 0 && picHeight <= 0)) {
-			showShortToast("图片不存在，请先选择图片");
-			finish();
-			return;
-		}
-		if (picHeight <= 0) {
-			picHeight = picWidth;
-		}
-		if (picWidth <= 0) {
-			picWidth = picHeight;
-		}
-
-		startPhotoZoom(originalPicturePath, picWidth, picHeight);
+		startPhotoZoom(originalPicturePath, cuttedWidth, cuttedHeight);
 	}
 
 
