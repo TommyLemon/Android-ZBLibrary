@@ -3,7 +3,7 @@
 
 封装层级少，简单高效兼容性好。Android Studio、Eclipse多平台支持。
 
-OKHttp、图片加载、自动缓存以及各种Base、Demo、UI、Util直接用。一句话就能实现全局滑动返回。
+OKHttp、图片加载、自动缓存以及各种Base、Demo、UI、Util直接用。一句话实现全局滑动返回。
 
 BaseHttpListActivity，几行代码搞定http请求列表 加载和缓存；
 
