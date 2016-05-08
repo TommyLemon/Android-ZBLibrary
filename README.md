@@ -6,11 +6,8 @@
 OKHttp、图片加载、自动缓存以及各种Base、Demo、UI、Util直接用。一句话实现全局滑动返回。
 
 BaseHttpListActivity，几行代码搞定http请求列表 加载和缓存；
-
 BaseView，自定义View竟然如此简单；
-
 万能的Entry<K, V>，两个变量的Model/JavaBean再也不用写了；
-
 100多个常用style，一行搞定View属性，一键统一配置UI...
 
 点击右边链接查看如何使用[http://my.oschina.net/u/2437072/blog/665241](http://my.oschina.net/u/2437072/blog/665241)
