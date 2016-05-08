@@ -14,6 +14,15 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseView;
+import zuo.biao.library.bean.Entry;
+import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.util.ScreenUtil;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
@@ -28,22 +37,12 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.GridPickerConfigBean;
-import zuo.biao.library.bean.GridPickerItemBean;
-import zuo.biao.library.util.ScreenUtil;
-import zuo.biao.library.util.StringUtil;
-
 /**网格选择器View
  * @author Lemon
  * @use 参考 .ModelView
  * @must 调用init方法
  */
-public class GridPickerView extends BaseView<List<GridPickerItemBean>> {
+public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	private static final String TAG = "GridPickerView";
 
 	/**tabs切换和gridView的内容切换
@@ -147,20 +146,20 @@ public class GridPickerView extends BaseView<List<GridPickerItemBean>> {
 	}
 
 	
-	public List<GridPickerItemBean> getList() {
+	public List<Entry<Boolean, String>> getList() {
 		return adapter == null ? null : adapter.getList();
 	}
 
 
 	@Override
-	public void setView(List<GridPickerItemBean> l){/*do nothing,必须init**/}
+	public void setView(List<Entry<Boolean, String>> l){/*do nothing,必须init**/}
 
 
 	/**初始化，必须使用且只能使用一次
 	 * @param configList
 	 * @param lastList
 	 */
-	public final void init(ArrayList<GridPickerConfigBean> configList, List<GridPickerItemBean> lastList) {
+	public final void init(ArrayList<GridPickerConfigBean> configList, List<Entry<Boolean, String>> lastList) {
 		if (configList == null || configList.size() <= 0) {
 			Log.e(TAG, "initTabs  (configList == null || configList.size() <= 0 " +
 					">> selectedItemPostionList = new ArrayList<Integer>(); return;");
@@ -234,7 +233,7 @@ public class GridPickerView extends BaseView<List<GridPickerItemBean>> {
 	 * @param tabPosition
 	 * @param list
 	 */
-	public void setView(final int tabPosition, List<GridPickerItemBean> list) {
+	public void setView(final int tabPosition, List<Entry<Boolean, String>> list) {
 		setView(tabPosition, list, getSelectedItemPosition(tabPosition));
 	}
 	/**
@@ -242,9 +241,9 @@ public class GridPickerView extends BaseView<List<GridPickerItemBean>> {
 	 * @param list
 	 * @param itemPosition
 	 */
-	public void setView(final int tabPosition, List<GridPickerItemBean> list, int itemPosition) {//GridView
+	public void setView(final int tabPosition, List<Entry<Boolean, String>> list, int itemPosition) {//GridView
 		if (configList == null || configList.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<GridPickerItemBean> list, final int itemPosition) {" +
+			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Boolean, String>> list, final int itemPosition) {" +
 					" >> configList == null || configList.size() <= 0 >> return;");
 			return;
 		}
@@ -254,7 +253,7 @@ public class GridPickerView extends BaseView<List<GridPickerItemBean>> {
 		}
 
 		if (list == null || list.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<GridPickerItemBean> list, final int itemPosition) {" +
+			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Boolean, String>> list, final int itemPosition) {" +
 					" >> list == null || list.size() <= 0 >> return;");
 			return;
 		}

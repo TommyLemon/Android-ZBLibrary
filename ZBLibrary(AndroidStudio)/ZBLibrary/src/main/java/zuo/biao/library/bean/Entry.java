@@ -34,6 +34,9 @@ public class Entry<K, V> extends BaseModel {
 	public Entry() {
 		//default
 	}
+	public Entry(K key) {
+		this(key, null);
+	}
 	public Entry(K key, V value) {
 		this.key = key;
 		this.value = value;
@@ -57,6 +60,6 @@ public class Entry<K, V> extends BaseModel {
 	@Override
 	public boolean isCorrect() {
 		return key != null;
-	}
+	};
 	
 }

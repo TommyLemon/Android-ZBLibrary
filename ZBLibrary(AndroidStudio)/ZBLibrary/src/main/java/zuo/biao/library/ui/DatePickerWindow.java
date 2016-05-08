@@ -14,6 +14,17 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseBottomWindow;
+import zuo.biao.library.bean.Entry;
+import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
+import zuo.biao.library.util.StringUtil;
+import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,18 +38,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseBottomWindow;
-import zuo.biao.library.bean.GridPickerConfigBean;
-import zuo.biao.library.bean.GridPickerItemBean;
-import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
-import zuo.biao.library.util.StringUtil;
-import zuo.biao.library.util.TimeUtil;
 
 /**日期选择窗口
  * @author Lemon
@@ -128,7 +127,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 		llContainerWindowContentContainer = (LinearLayout) findViewById(R.id.llContainerWindowContentContainer);
 	}
 
-	private List<GridPickerItemBean> list;
+	private List<Entry<Boolean, String>> list;
 	private Handler getListHandler;
 	private Runnable getListRunnable;
 	private void setPickerView(final int tabPosition) {
@@ -268,35 +267,35 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	}
 
 
-	private synchronized List<GridPickerItemBean> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
+	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
 		int level = 0 + tabPosition;
 		if (selectedItemList == null || selectedItemList.size() != 3 || TimeUtil.isContainLevel(level) == false) {
 			return null;
 		}
 
-		list = new ArrayList<GridPickerItemBean>();
+		list = new ArrayList<Entry<Boolean, String>>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(selectedItemList.get(0), selectedItemList.get(1) - 1, 1);
 		switch (level) {
 		case TimeUtil.LEVEL_YEAR:
 			for (int i = 0; i < maxDateDetails[0] - minDateDetails[0]; i++) {
-				list.add(new GridPickerItemBean(String.valueOf(i + 1 + minDateDetails[0]), true));
+				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1 + minDateDetails[0])));
 			}
 			break;
 		case TimeUtil.LEVEL_MONTH:
 			for (int i = 0; i < 12; i++) {
-				list.add(new GridPickerItemBean(String.valueOf(i + 1), true));
+				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1)));
 			}
 			break;
 		case TimeUtil.LEVEL_DAY:
 			for (int i = calendar.get(Calendar.DAY_OF_WEEK) - 1; i < 7; i++) {
-				list.add(new GridPickerItemBean(TimeUtil.Day.getDayNameOfWeek(i), false));
+				list.add(new Entry<Boolean, String>(false, TimeUtil.Day.getDayNameOfWeek(i)));
 			}
 			for (int i = 0; i < calendar.get(Calendar.DAY_OF_WEEK) - 1; i++) {
-				list.add(new GridPickerItemBean(TimeUtil.Day.getDayNameOfWeek(i), false));
+				list.add(new Entry<Boolean, String>(false, TimeUtil.Day.getDayNameOfWeek(i)));
 			}
 			for (int i = 0; i < calendar.getActualMaximum(Calendar.DATE); i++) {
-				list.add(new GridPickerItemBean(String.valueOf(i + 1), true));
+				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1)));
 			}
 			break;
 			//		case TimeUtil.LEVEL_HOUR:

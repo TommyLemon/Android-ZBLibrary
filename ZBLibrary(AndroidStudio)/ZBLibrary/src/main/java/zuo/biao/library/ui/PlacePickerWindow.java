@@ -19,8 +19,8 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseBottomWindow;
+import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
-import zuo.biao.library.bean.GridPickerItemBean;
 import zuo.biao.library.manager.CityDB;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.PlaceUtil;
@@ -115,7 +115,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	}
 
 
-	private List<GridPickerItemBean> list;
+	private List<Entry<Boolean, String>> list;
 	private Handler getListHandler;
 	private Runnable getListRunnable;
 	private void setPickerView(final int tabPosition, final int itemPositon) {
@@ -224,13 +224,13 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	}
 
 
-	private synchronized List<GridPickerItemBean> getList(int tabPosition, ArrayList<String> selectedItemList) {
+	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<String> selectedItemList) {
 		int level = minLevel + tabPosition;
 		if (selectedItemList == null || selectedItemList.size() <= 0 || PlaceUtil.isContainLevel(level) == false) {
 			return null;
 		}
 
-		list = new ArrayList<GridPickerItemBean>();
+		list = new ArrayList<Entry<Boolean, String>>();
 		List<String> cityNameList = null;
 		switch (level) {
 		case PlaceUtil.LEVEL_PROVINCE:
@@ -251,7 +251,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 		if (cityNameList != null) {
 			for (String name : cityNameList) {
-				list.add(new GridPickerItemBean(name));
+				list.add(new Entry<Boolean, String>(true, name));
 			}
 		}
 		return list;
