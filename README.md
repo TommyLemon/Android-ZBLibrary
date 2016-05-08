@@ -1,6 +1,5 @@
 # ZBLibrary-Android快速开发框架
 坐标标准库ZBLibrary，是一个MVP架构的Android快速开发框架，提供一套开发标准（UI,Data,Listener）以及模板和工具类并规范代码。
-
 封装层级少，简单高效兼容性好。Android Studio、Eclipse多平台支持。
 
 OKHttp、图片加载、自动缓存以及各种Base、Demo、UI、Util直接用。一句话实现全局滑动返回。
