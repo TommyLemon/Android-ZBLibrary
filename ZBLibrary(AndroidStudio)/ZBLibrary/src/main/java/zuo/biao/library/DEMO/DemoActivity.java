@@ -19,7 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
@@ -108,7 +108,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 	 * @author author
 	 * @param list
 	 */
-	private void setList(List<KeyValueBean> list) {
+	private void setList(List<Entry<String, String>> list) {
 		if (list == null || list.size() <= 0) {
 			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvDemo.setAdapter(null); return;");
 			adapter = null;
@@ -139,7 +139,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private List<KeyValueBean> list;
+	private List<Entry<String, String>> list;
 	//示例代码>>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
@@ -178,10 +178,10 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 	 * @param userId
 	 * @return
 	 */
-	protected List<KeyValueBean> getList(long userId) {
-		List<KeyValueBean> list = new ArrayList<KeyValueBean>();
+	protected List<Entry<String, String>> getList(long userId) {
+		List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
 		for (int i = 0; i < 64; i++) {
-			list.add(new KeyValueBean("联系人" + i + userId, String.valueOf(1311736568 + i*i + userId)));
+			list.add(new Entry<String, String>("联系人" + i + userId, String.valueOf(1311736568 + i*i + userId)));
 		}
 		return list;
 	}

@@ -17,8 +17,8 @@ package zblibrary.demo.activity_fragment;
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseFragment;
 import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.ui.MyAlertDialog;
-import zuo.biao.library.ui.MyAlertDialog.OnButtonClickListener;
+import zuo.biao.library.ui.AlertDialog;
+import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +30,7 @@ import android.widget.ImageView;
  * @author Lemon
  * @use new SettingFragment(),详细使用见.DemoFragmentActivity(initData方法内)
  */
-public class SettingFragment extends BaseFragment implements OnClickListener, OnButtonClickListener {
+public class SettingFragment extends BaseFragment implements OnClickListener, OnDialogButtonClickListener {
 //	private static final String TAG = "SettingFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -119,7 +119,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 
 
 	@Override
-	public void onButtonClick(int requestCode, boolean isPositive) {
+	public void onDialogButtonClick(int requestCode, boolean isPositive) {
 		if (! isPositive) {
 			return;
 		}
@@ -149,7 +149,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 				toActivity(AboutActivity.createIntent(context, false));
 				break;
 			case R.id.llSettingLogout:
-				new MyAlertDialog(context, "退出登录", "确定退出登录？", true, 0, this).show();
+				new AlertDialog(context, "退出登录", "确定退出登录？", true, 0, this).show();
 				break;
 			default:
 				break;

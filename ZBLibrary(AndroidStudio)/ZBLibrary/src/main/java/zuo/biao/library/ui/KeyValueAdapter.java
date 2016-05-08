@@ -18,7 +18,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
-import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.bean.Entry;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.view.View;
@@ -29,13 +29,13 @@ import android.widget.TextView;
  * @author Lemon
  * @use new KeyValueAdapter
  */
-public class KeyValueAdapter extends BaseAdapter<KeyValueBean> {
+public class KeyValueAdapter extends BaseAdapter<Entry<String, String>> {
 
 	private int layoutRes;//布局id
-	public KeyValueAdapter(Activity context, List<KeyValueBean> list) {     
+	public KeyValueAdapter(Activity context, List<Entry<String, String>> list) {     
 		this(context, list, R.layout.key_value_item);
 	}   
-	public KeyValueAdapter(Activity context, List<KeyValueBean> list, int layoutRes) {     
+	public KeyValueAdapter(Activity context, List<Entry<String, String>> list, int layoutRes) {     
 		super(context, list);
 		
 		this.layoutRes = layoutRes;
@@ -54,9 +54,10 @@ public class KeyValueAdapter extends BaseAdapter<KeyValueBean> {
 			convertView.setTag(holder);
 		}
 
-		final KeyValueBean ckvb = getItem(position);
-		holder.tvKey.setText(StringUtil.getTrimedString(ckvb.getKey()));
-		holder.tvValue.setText(StringUtil.getTrimedString(ckvb.getValue()));
+		final Entry<String, String> data = getItem(position);
+		
+		holder.tvKey.setText(StringUtil.getTrimedString(data.getKey()));
+		holder.tvValue.setText(StringUtil.getTrimedString(data.getValue()));
 
 		return convertView;
 	}

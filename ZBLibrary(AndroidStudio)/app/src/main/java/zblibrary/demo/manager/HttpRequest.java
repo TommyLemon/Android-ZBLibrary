@@ -102,6 +102,9 @@ public class HttpRequest {
 
 	//user<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**
+	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
+	 */
 	public static final int PAGE_NUM_0 = 0;
 	public static final String KEY_PAGE_NUM = "pageNum";
 	

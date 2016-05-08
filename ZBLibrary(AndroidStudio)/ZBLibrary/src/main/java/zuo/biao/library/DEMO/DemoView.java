@@ -16,7 +16,7 @@ package zuo.biao.library.DEMO;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.bean.Entry;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
@@ -39,7 +39,7 @@ import android.widget.TextView;
 	demoView.setOnClickListener(onClickListener);//非必需
 	...
  */
-public class DemoView extends BaseView<KeyValueBean> implements OnClickListener {
+public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
 	private static final String TAG = "DemoView";
 
 	public DemoView(Activity context, LayoutInflater inflater) {
@@ -67,17 +67,17 @@ public class DemoView extends BaseView<KeyValueBean> implements OnClickListener 
 
 
 
-	private KeyValueBean data;//传进来的数据
+	private Entry<String, String> data;//传进来的数据
 	@Override
-	public KeyValueBean getData() {
+	public Entry<String, String> getData() {
 		return data;
 	}
 
 	@Override
-	public void setView(KeyValueBean data){
+	public void setView(Entry<String, String> data){
 		if (data == null) {
-			Log.e(TAG, "setView data == null >> return; ");
-			return;
+			Log.e(TAG, "setView data == null >> data = new Entry<>(); ");
+			data = new Entry<>();
 		}
 		this.data = data;
 
@@ -93,7 +93,7 @@ public class DemoView extends BaseView<KeyValueBean> implements OnClickListener 
 	/**刷新界面，refresh符合习惯
 	 * @param data
 	 */
-	public void refresh(final KeyValueBean data) {
+	public void refresh(final Entry<String, String> data) {
 		setView(data);
 	}
 

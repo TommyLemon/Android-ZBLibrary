@@ -16,6 +16,7 @@ package zuo.biao.library.interfaces;
 
 /**关闭界面的接口
  * @author Lemon
+ * @use implements OnFinishListener
  */
 public interface OnFinishListener {
 

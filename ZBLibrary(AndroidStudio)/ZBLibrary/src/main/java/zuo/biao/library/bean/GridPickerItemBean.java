@@ -14,37 +14,28 @@ limitations under the License.*/
 
 package zuo.biao.library.bean;
 
-/**
+/**网格选择器JavaBean
  *@author Lemon
  *@date 2015-7-20 上午3:34:55
  */
-public class GridPickerItemBean {
+@SuppressWarnings("serial")
+public class GridPickerItemBean extends Entry<Boolean, String> {
 
-	private String value;
-	private boolean enabled = true;
-	
+	public GridPickerItemBean() {
+		this(null);
+	}
 	public GridPickerItemBean(String value) {
 		this(value, true);
 	}
 	public GridPickerItemBean(String value, boolean enabled) {
-		this.enabled = enabled;
-		this.value = value;
+		super(enabled, value);
 	}
 	
 	public boolean getEnabled() {
-		return enabled;
+		return getKey();
 	}
 	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+		setKey(enabled);
 	}
-	
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	
 	
 }

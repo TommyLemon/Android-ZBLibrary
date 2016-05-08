@@ -30,6 +30,7 @@ import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.base.BaseHttpListFragment;
 import zblibrary.demo.manager.HttpRequest;
 import zblibrary.demo.model.User;
+import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.Json;
 
@@ -126,7 +127,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 	@Override
 	public void httpGetList(final int pageNum) {
-		//需要配置服务器地址		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
+		//实际使用时用这个，需要配置服务器地址		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
 
 		//仅测试用<<<<<<<<<<<
 		new Handler().postDelayed(new Runnable() {
@@ -174,7 +175,6 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 	@Override
 	public void initListener() {//必须调用
-
 		super.initListener();
 
 		lvBaseHttpList.setOnItemClickListener(this);
@@ -192,10 +192,9 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		}
 		
 		User user = adapter.getItem(position);	
-		if (user == null) {
-			user = new User();
+		if (BaseModel.isCorrect(user)) {
+			toActivity(WebViewActivity.createIntent(context, user.getName(), user.getHead()));
 		}
-		toActivity(WebViewActivity.createIntent(context, user.getName(), user.getHead()));
 	}
 
 
@@ -227,7 +226,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 
 
-	/**示例方法：获取列表
+	/**获取列表, 仅供测试用
 	 * @author lemon
 	 * @param range 
 	 * @param pageNum 
@@ -239,7 +238,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		int userId;
 		for (int i = 0; i < 10; i++) {
 			userId = i + pageNum*10;
-			list.add(new User(i, "联系人" + userId, String.valueOf(1311736568 + (i + range)*(pageNum + range)), getPictureUrl(userId)));
+			list.add(new User(i + 1, "联系人" + userId, String.valueOf(1311736568 + (i + range)*(pageNum + range)), getPictureUrl(userId)));
 		}
 		return list;
 	}
@@ -250,7 +249,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	 * @return
 	 */
 	private String getPictureUrl(int userId) {
-		switch (userId%6) {
+		switch (userId % 6) {
 		case 0:
 			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
 		case 1:

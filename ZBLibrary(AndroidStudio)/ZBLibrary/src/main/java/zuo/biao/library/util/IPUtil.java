@@ -14,13 +14,13 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import android.util.Log;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
-//import org.apache.http.conn.util.InetAddressUtils;
+import org.apache.http.conn.util.InetAddressUtils;
+
+import android.util.Log;
 
 /**获取ip地址
  * @author Lemon
@@ -37,8 +37,8 @@ public class IPUtil {
 
 					InetAddress inetAddress = ipAddr.nextElement();
 					// ipv4地址
-					if (!inetAddress.isLoopbackAddress()) {
-//							&& InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) {
+					if (!inetAddress.isLoopbackAddress()
+							&& InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) {
 
 						Log.i(TAG, "IPUtil.getIPV4  ipv4 = " + inetAddress.getHostAddress());
 						return inetAddress.getHostAddress();

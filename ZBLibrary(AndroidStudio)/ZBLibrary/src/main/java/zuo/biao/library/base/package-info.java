@@ -16,7 +16,7 @@ limitations under the License.*/
  * 基础类所在包
  */
 /**
- * @author lemon
- *
+ * @author Lemon
+ * @use 通用使用方法：extends XXBase
  */
 package zuo.biao.library.base;

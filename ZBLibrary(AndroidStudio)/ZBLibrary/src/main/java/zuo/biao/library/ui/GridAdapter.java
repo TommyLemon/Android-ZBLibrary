@@ -19,7 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
-import zuo.biao.library.bean.KeyValueBean;
+import zuo.biao.library.bean.Entry;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -30,24 +30,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**通用网格Adapter
- * 适用于gridView
+/**通用网格Adapter(url, name)
+ * *适用于gridView
  * @author Lemon
- * @use new GridAdapter
+ * @use new GridAdapter(...)
  */
-public class GridAdapter extends BaseAdapter<KeyValueBean> {
+public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	private static final String TAG = "GridAdapter";
 
 	private HashMap<Integer, Boolean> hashMap;//实现选中标记的列表，不需要可以删除
 	private int layoutRes;//item视图资源
 	private boolean hasCheck = false;//是否使用标记功能
-	public GridAdapter(Activity context, List<KeyValueBean> list) {
+	public GridAdapter(Activity context, List<Entry<String, String>> list) {
 		this(context, list, false);
 	}
-	public GridAdapter(Activity context, List<KeyValueBean> list, boolean hasCheck) {
+	public GridAdapter(Activity context, List<Entry<String, String>> list, boolean hasCheck) {
 		this(context, list, R.layout.grid_item, hasCheck);
 	}
-	public GridAdapter(Activity context, List<KeyValueBean> list, int layoutRes, boolean hasCheck) {
+	public GridAdapter(Activity context, List<Entry<String, String>> list, int layoutRes, boolean hasCheck) {
 		super(context, list);
 		this.layoutRes = layoutRes;
 		this.hasCheck = hasCheck;
@@ -91,7 +91,7 @@ public class GridAdapter extends BaseAdapter<KeyValueBean> {
 			convertView.setTag(holder);
 		}
 
-		final KeyValueBean kvb = getItem(position);
+		final Entry<String, String> kvb = getItem(position);
 		final String name = kvb.getValue();
 
 		ImageLoaderUtil.loadImage(holder.ivHead, kvb.getKey());
@@ -125,7 +125,7 @@ public class GridAdapter extends BaseAdapter<KeyValueBean> {
 	 * @param list
 	 */
 	@Override
-	public void refresh(List<KeyValueBean> list) {
+	public void refresh(List<Entry<String, String>> list) {
 		if (list != null && list.size() > 0) {
 			initList(list);
 		}
@@ -147,7 +147,7 @@ public class GridAdapter extends BaseAdapter<KeyValueBean> {
 	 * @return
 	 */
 	@SuppressLint("UseSparseArrays")
-	private void initList(List<KeyValueBean> list) {
+	private void initList(List<Entry<String, String>> list) {
 		this.list = list;
 		if (hasCheck == true) {
 			hashMap = new HashMap<Integer, Boolean>();

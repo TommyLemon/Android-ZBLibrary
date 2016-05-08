@@ -12,44 +12,40 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zuo.biao.library.bean;
+package zuo.biao.library.base;
 
 import java.io.Serializable;
 
-/**通用key-value结构数据存储(内存中) 类
+/**基础Model
+ * *isCorrect可以用于BaseModel子类的数据校验
+ * *implements Serializable 是为了网络传输字节流转换
  * @author Lemon
- * @use new KeyValueBean
+ * @use extends BaseModel
  */
-public class KeyValueBean implements Serializable {
+public abstract class BaseModel implements Serializable {
 
+	/**
+	 * default, 怎么设置子类都有warning
+	 */
 	private static final long serialVersionUID = 1L;
-	
-	private String key;
-	private String value;
 
-	public KeyValueBean() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public KeyValueBean(String key) {
-		this.key = key;
-	}
-	public KeyValueBean(String key, String value) {
-		this.key = key;
-		this.value = value;
+	//对子类不起作用
+	//	/**默认构造方法，JSON等解析时必须要有
+	//	 */
+	//	public BaseModel() {
+	//	}
+
+	/**数据正确性校验
+	 * @param data
+	 * @return
+	 */
+	public static boolean isCorrect(BaseModel data) {
+		return data != null && data.isCorrect();
 	}
 
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
+	/**数据正确性校验
+	 * @return
+	 */
+	public abstract boolean isCorrect();
 
 }

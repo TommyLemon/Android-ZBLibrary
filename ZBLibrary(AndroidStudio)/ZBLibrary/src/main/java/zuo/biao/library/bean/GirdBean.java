@@ -16,12 +16,16 @@ package zuo.biao.library.bean;
 
 /**通用图片-名称类
  * @author Lemon
- * @use new GirdBean
+ * @use new GirdBean(...)
  */
 public class GirdBean {
 
 	private int imageResId;
 	private String name;
+	
+	public GirdBean() {
+		// default
+	}
 	
 	public GirdBean(int imageResId, String name) {
 		this.imageResId = imageResId;
