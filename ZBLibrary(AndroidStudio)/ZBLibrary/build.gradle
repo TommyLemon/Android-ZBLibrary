@@ -27,4 +27,5 @@ dependencies {
     compile files('libs/fastjson-1.1.39.jar')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/universal-image-loader-1.9.4.jar')
+    compile files('libs/okhttp-2.1.0.jar')
 }
