@@ -44,7 +44,7 @@ import com.squareup.okhttp.Response;
 
 /**HTTP请求管理类
  * @author Lemon
- * @use HttpManager.getInstance().xxxMethod  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
+ * @use HttpManager.getInstance().xxxMethod(...)  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
  * @must 解决getToken，getResponseCode，getResponseData中的TODO
  */
 public class HttpManager {

@@ -391,7 +391,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		} else if (v.getId() == R.id.llDemoMainCutPictureActivity) {
 			cutPicture(picturePath);
 		} else if (v.getId() == R.id.llDemoMainWebViewActivity) {
-			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器网址" : "正式服务器网址"
+			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
 				, SettingUtil.getCurrentServerAddress(context)));
 		} else if (v.getId() == R.id.llDemoMainEditTextInfoActivity) {
 			editName(false);
