@@ -47,7 +47,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 	public static final String INTENT_USER_ID = "INTENT_USER_ID";
 
 	public static final String RESULT_CLICKED_ITEM = "RESULT_CLICKED_ITEM";
-	
+
 	/**启动这个Activity的Intent
 	 * @param context
 	 * @param userId
@@ -56,7 +56,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 	public static Intent createIntent(Context context, long userId) {
 		return new Intent(context, DemoActivity.class).putExtra(INTENT_USER_ID, userId);
 	}
-	
+
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -73,7 +73,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 
 		intent = getIntent();
 		userId = intent.getLongExtra(INTENT_USER_ID, userId);
-		
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -149,7 +149,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
 			tvDemoTitle.setText(StringUtil.getCurrentString());
 		}
-		
+
 		showProgressDialog(R.string.loading);
 
 		runThread(TAG + "initData", new Runnable() {
@@ -218,25 +218,13 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//			case R.id.tvDemoReturn:
-	//				finish();
-	//				break;
-	//			case R.id.ivDemoForward:
-	//				toActivity(WebViewActivity.createIntent(context, "了解", "www.baidu.com"));
-	//				break;
-	//			default:
-	//				break;
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvDemoReturn) {
+		switch (v.getId()) {
+		case R.id.tvDemoReturn:
 			finish();
-		} else if (v.getId() == R.id.tvDemoForward) {
+			break;
+		case R.id.tvDemoForward:
 			int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
 
 			userId = 2 * (userId + 1);
@@ -247,6 +235,9 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 			adapter.refresh(list);
 
 			lvDemo.smoothScrollToPosition(formerCout);
+			break;
+		default:
+			break;
 		}
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>

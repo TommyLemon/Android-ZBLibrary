@@ -98,7 +98,7 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 		return getIntent().getStringExtra(INTENT_TITLE);
 	}
 
-	
+
 	private void saveAndExit() {
 		setResult(RESULT_OK, new Intent().putExtra(RESULT_DATA, TAG + " saved"));
 		finish();		
@@ -125,24 +125,15 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//		case R.id.tvDemoBottomWindowForward:
-	//			saveAndExit();
-	//			break;
-	//		default:
-	//			super.onClick(v);
-	//			break;
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvDemoBottomWindowForward) {
+		switch (v.getId()) {
+		case R.id.tvDemoBottomWindowForward:
 			saveAndExit();
-		} else {
+			break;
+		default:
 			super.onClick(v);
+			break;
 		}
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>

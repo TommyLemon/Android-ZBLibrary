@@ -244,10 +244,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 		rlDemoMainTopbar.setBackgroundResource(R.color.red);
 	}
-	
-	
+
+
 	private static final int DIALOG_SET_TOPBAR = 1;
-	
+
 	@Override
 	public void onDialogItemClick(int requestCode, int position, String item) {
 		if (position < 0) {
@@ -264,8 +264,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		}
 	}
-	
-	
+
+
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -300,123 +300,76 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		return super.onTouch(v, event);
 	}
 
-
-	//		    @Override
-	//			public void onClick(View v) {//直接调用不会显示v被点击效果
-	//				switch (v.getId()) {
-	//				case R.id.ivDemoMainReturn:
-	//					enterAnim = R.anim.fade;
-	//					exitAnim = R.anim.bottom_push_out;
-	//					finish();
-	//					break;
-	//				case R.id.ivDemoMainMenu:
-	//					showTopMenu();
-	//					break;
-	//		
-	//				case R.id.ivDemoMainHead:
-	//					selectPicture();
-	//					break;
-	//				case R.id.tvDemoMainHeadName:
-	//					editName(true);
-	//					break;
-	//		
-	//				case R.id.llDemoMainItemOnlyDialog:
-	//					showItemDialog();
-	//					break;
-	//				case R.id.llDemoMainMyAlertDialog:
-	//					new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
-	//					break;
-	//		
-	//				case R.id.llDemoMainSelectPictureActivity:
-	//					selectPicture();
-	//					break;
-	//				case R.id.llDemoMainCutPictureActivity:
-	//					cutPicture(picturePath);
-	//					break;
-	//				case R.id.llDemoMainWebViewActivity:
-	//					toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
-	//					break;
-	//				case R.id.llDemoMainEditTextInfoActivity:
-	//					editName(false);
-	//					break;
-	//				case R.id.llDemoMainDemoActivity:
-	//					toActivity(DemoActivity.createIntent(context, null));
-	//					break;
-	//				case R.id.llDemoMainDemoFragmentActivity:
-	//					toActivity(DemoFragmentActivity.createIntent(context, null));
-	//					break;
-	//				case R.id.llDemoMainDemoTimeRefresherActivity:
-	//					toActivity(DemoTimeRefresherActivity.createIntent(context));
-	//					break;
-	//				case R.id.llDemoMainTopMenuWindow:
-	//					showTopMenu();
-	//					break;
-	//				case R.id.llDemoMainBottomMenuWindow:
-	//					toActivity(BottomMenuWindow.createIntent(context, "选择颜色", topbarColorNames), REQUEST_TO_BOTTOM_MENU, false);
-	//					break;
-	//				case R.id.llDemoMainEditTextInfoWindow:
-	//					editName(true);
-	//					break;
-	//				case R.id.llDemoMainDatePickerWindow:
-	//					toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
-	//					, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
-	//					break;
-	//				case R.id.llDemoMainPlacePickerWindow:
-	//					toActivity(PlacePickerWindow.createIntent(context, 2), REQUEST_TO_PLACE_PICKER, false);
-	//					break;
-	//				default:
-	//					break;
-	//				}
-	//			}
-	//Library内switch方法中case R.id.idx:报错
+	
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
-		if (v.getId() == R.id.ivDemoMainReturn) {
+		switch (v.getId()) {
+		case R.id.ivDemoMainReturn:
 			enterAnim = R.anim.fade;
 			exitAnim = R.anim.bottom_push_out;
 			finish();
-		} else if (v.getId() == R.id.ivDemoMainMenu) {
+			break;     
+		case R.id.ivDemoMainMenu:
 			showTopMenu();
-		} else if (v.getId() == R.id.ivDemoMainHead) {
+			break;     
+			
+		case R.id.ivDemoMainHead:
 			selectPicture();
-		} else if (v.getId() == R.id.tvDemoMainHeadName) {
+			break;     
+		case R.id.tvDemoMainHeadName:
 			editName(true);
-		} else if (v.getId() == R.id.llDemoMainItemDialog) {
+			break;    
+			
+		case R.id.llDemoMainItemDialog:
 			showItemDialog();
-		} else if (v.getId() == R.id.llDemoMainAlertDialog) {
+			break;    
+		case R.id.llDemoMainAlertDialog:
 			new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
-
-		} else if (v.getId() == R.id.llDemoMainSelectPictureActivity) {
+			break;   
+			
+		case R.id.llDemoMainSelectPictureActivity:
 			selectPicture();
-		} else if (v.getId() == R.id.llDemoMainCutPictureActivity) {
+			break;   
+		case R.id.llDemoMainCutPictureActivity:
 			cutPicture(picturePath);
-		} else if (v.getId() == R.id.llDemoMainWebViewActivity) {
+			break;  
+		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
 				, SettingUtil.getCurrentServerAddress(context)));
-		} else if (v.getId() == R.id.llDemoMainEditTextInfoActivity) {
+			break;   
+		case R.id.llDemoMainEditTextInfoActivity:
 			editName(false);
-
-		} else if (v.getId() == R.id.llDemoMainDemoActivity) {
+			break;   
+		case R.id.llDemoMainDemoActivity:
 			toActivity(DemoActivity.createIntent(context, 0));
-		} else if (v.getId() == R.id.llDemoMainDemoFragmentActivity) {
+			break;     
+		case R.id.llDemoMainDemoFragmentActivity:
 			toActivity(DemoFragmentActivity.createIntent(context, null));
-		} else if (v.getId() == R.id.llDemoMainDemoTabActivity) {
+			break;  
+		case R.id.llDemoMainDemoTabActivity:
 			toActivity(DemoTabActivity.createIntent(context).putExtra(DemoTabActivity.INTENT_TITLE, "Yes!"));
-		} else if (v.getId() == R.id.llDemoMainDemoTimeRefresherActivity) {
+			break; 
+		case R.id.llDemoMainDemoTimeRefresherActivity:
 			toActivity(DemoTimeRefresherActivity.createIntent(context));
-
-		} else if (v.getId() == R.id.llDemoMainTopMenuWindow) {
+			break;   
+			
+		case R.id.llDemoMainTopMenuWindow:
 			showTopMenu();
-		} else if (v.getId() == R.id.llDemoMainBottomMenuWindow) {
+			break;  
+		case R.id.llDemoMainBottomMenuWindow:
 			toActivity(BottomMenuWindow.createIntent(context, TOPBAR_COLOR_NAMES)
 					.putExtra(BottomMenuWindow.INTENT_TITLE, "选择颜色"), REQUEST_TO_BOTTOM_MENU, false);
-		} else if (v.getId() == R.id.llDemoMainEditTextInfoWindow) {
+			break; 
+		case R.id.llDemoMainEditTextInfoWindow:
 			editName(true);
-		} else if (v.getId() == R.id.llDemoMainDatePickerWindow) {
+			break;  
+		case R.id.llDemoMainDatePickerWindow:
 			toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
 			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
-		} else if (v.getId() == R.id.llDemoMainPlacePickerWindow) {
+			break;  
+		case R.id.llDemoMainPlacePickerWindow:
 			toActivity(PlacePickerWindow.createIntent(context, getPackageName(), 2), REQUEST_TO_PLACE_PICKER, false);
+			break;
 		}
 	}
 

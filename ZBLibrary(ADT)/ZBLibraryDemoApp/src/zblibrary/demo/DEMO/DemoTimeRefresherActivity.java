@@ -174,53 +174,32 @@ implements OnClickListener, OnFinishListener, OnTimeRefreshListener {
 
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//		case R.id.tvDemoTimeRefresherReturn:
-	//			onPageReturn();
-	//			break;
-	//		case R.id.ivDemoTimeRefresherForward:
-	//			clear();
-	//			break;
-	//		case R.id.tvDemoTimeRefresherCount:
-	//			stopOrContinu();
-	//			break;
-	//		case R.id.ibtnDemoTimeRefresher:
-	//			clear();
-	//
-	//			number = StringUtil.getNumber(etDemoTimeRefresher);
-	//			if (StringUtil.isNotEmpty(number, true)) {
-	//				TimeRefresher.getInstance().addTimeRefreshListener(TAG
-	//						, 0 + Integer.valueOf(number), this);
-	//			}
-	//			break;
-	//		default:
-	//			break;
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx会报错
-	private String number;
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ivDemoTimeRefresherReturn) {
+		switch (v.getId()) {
+		case R.id.ivDemoTimeRefresherReturn:
 			finish();
-		} else if (v.getId() == R.id.ivDemoTimeRefresherForward) {
+			break;
+		case R.id.ivDemoTimeRefresherForward:
 			clear();
-		} else if (v.getId() == R.id.tvDemoTimeRefresherCount) {
+			break;
+		case R.id.tvDemoTimeRefresherCount:
 			stopOrContinu();
-		} else if (v.getId() == R.id.ibtnDemoTimeRefresher) {
+			break;
+		case R.id.ibtnDemoTimeRefresher:
 			clear();
 			isToStop = false;
 
-			number = StringUtil.getNumber(etDemoTimeRefresher);
+			String number = StringUtil.getNumber(etDemoTimeRefresher);
 			if (StringUtil.isNotEmpty(number, true)) {
 				TimeRefresher.getInstance().addTimeRefreshListener(TAG
 						, 0 + Integer.valueOf(number), this);
 			}
+			break;
+		default:
+			break;
 		}
 	}
-
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
