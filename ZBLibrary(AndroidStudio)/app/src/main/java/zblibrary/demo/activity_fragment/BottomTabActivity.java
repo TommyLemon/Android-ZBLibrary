@@ -15,8 +15,8 @@ limitations under the License.*/
 package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
-import zuo.biao.library.DEMO.DemoFragment;
-import zuo.biao.library.DEMO.DemoTabFragment;
+import zblibrary.demo.DEMO.DemoFragment;
+import zblibrary.demo.DEMO.DemoTabFragment;
 import zuo.biao.library.base.BaseFragmentActivity;
 import zuo.biao.library.interfaces.OnFinishListener;
 import android.content.Context;

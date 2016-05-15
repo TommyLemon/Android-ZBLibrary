@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zuo.biao.library.DEMO;
+package zblibrary.demo.DEMO;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseFragmentActivity;
 import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.util.StringUtil;
@@ -39,7 +39,7 @@ public class DemoFragmentActivity extends BaseFragmentActivity implements OnClic
 	//示例代码<<<<<<<<
 	public static final String INTENT_USER_ID = "INTENT_USER_ID";
 	//示例代码>>>>>>>>
-	
+
 	/**启动这个Activity的Intent
 	 * @param context
 	 * @param title
@@ -116,7 +116,7 @@ public class DemoFragmentActivity extends BaseFragmentActivity implements OnClic
 		bundle.putLong(DemoFragment.ARGUMENT_USER_ID, intent.getLongExtra(INTENT_USER_ID, 0));
 		demoFragment = new DemoFragment();
 		demoFragment.setArguments(bundle);
-		
+
 		fragmentManager
 		.beginTransaction()
 		.add(R.id.flDemoFragmentActivityContainer, demoFragment)
@@ -148,21 +148,14 @@ public class DemoFragmentActivity extends BaseFragmentActivity implements OnClic
 
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//		case R.id.tvDemoFragmentActivityReturn:
-	//			finish();
-	//			break;
-	//		default:
-	//			break;
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() ==  R.id.tvDemoFragmentActivityReturn) {
+		switch (v.getId()) {
+		case R.id.tvDemoFragmentActivityReturn:
 			finish();
+			break;
+		default:
+			break;
 		}
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>

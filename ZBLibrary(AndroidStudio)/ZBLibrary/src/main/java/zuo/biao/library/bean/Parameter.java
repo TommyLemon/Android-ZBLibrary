@@ -12,11 +12,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-/**
- * 管理类所在包
- */
-/**
+package zuo.biao.library.bean;
+
+/**Http请求参数类
  * @author Lemon
- * @use 通用使用方法：XXManager.getInstance().xxMethod(...)或new XXManager(...).xxMethod(...)
  */
-package zuo.biao.library.manager;
+public class Parameter extends Entry<String, Object> {
+	
+	private static final long serialVersionUID = 1L;
+
+	public Parameter(String key, Object value) {
+		super(key, value);
+	}
+	
+}

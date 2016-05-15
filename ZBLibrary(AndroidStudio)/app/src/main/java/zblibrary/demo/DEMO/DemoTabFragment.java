@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zuo.biao.library.DEMO;
+package zblibrary.demo.DEMO;
 
 import java.util.ArrayList;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseTabFragment;
 import zuo.biao.library.ui.PlacePickerWindow;
 import zuo.biao.library.util.PlaceUtil;
@@ -155,28 +155,18 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//		case R.id.tvDemoTabLeft:
-	//			toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 1, 2)
-	//					, REQUEST_TO_PLACE_PICKER, false);
-	//			break;
-	//		case R.id.tvDemoTabRight:
-	//			showShortToast(StringUtil.getTrimedString((TextView) v));
-	//			break;
-	//		default:
-	//			super.onClick(v);
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx:报错
 	@Override
-	public void onClick(View v) {//直接调用不会显示v被点击效果
-		if (v.getId() == R.id.tvDemoTabLeft) {
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tvDemoTabLeft:
 			toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 2)
 					, REQUEST_TO_PLACE_PICKER, false);
-		} else if (v.getId() == R.id.tvDemoTabRight) {
+			break;
+		case R.id.tvDemoTabRight:
 			showShortToast(StringUtil.getTrimedString((TextView) v));
+			break;
+		default:
+			super.onClick(v);
 		}
 	}
 

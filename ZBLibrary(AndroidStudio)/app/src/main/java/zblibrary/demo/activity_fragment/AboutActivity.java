@@ -1,5 +1,14 @@
 package zblibrary.demo.activity_fragment;
 
+import zblibrary.demo.R;
+import zblibrary.demo.DEMO.DemoMainActivity;
+import zblibrary.demo.application.DemoApplication;
+import zblibrary.demo.constant.Constant;
+import zblibrary.demo.util.HttpRequest;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.SettingUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,15 +17,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-
-import zblibrary.demo.R;
-import zblibrary.demo.constant.Constant;
-import zblibrary.demo.manager.HttpRequest;
-import zuo.biao.library.DEMO.DemoMainActivity;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.SettingUtil;
+import android.widget.TextView;
 
 /**关于主界面
  * @author Lemon
@@ -80,9 +81,11 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	private TextView tvAboutAppInfo;
 	@Override
 	public void initView() {
 
+		tvAboutAppInfo = (TextView) findViewById(R.id.tvAboutAppInfo);
 	}
 
 
@@ -102,6 +105,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void initData() {
 
+		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
+				+ "\n" + DemoApplication.getInstance().getAppVersion());
+		
 	}
 
 

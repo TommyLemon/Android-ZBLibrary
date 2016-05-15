@@ -14,6 +14,16 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zblibrary.demo.adapter.UserAdapter;
+import zblibrary.demo.model.User;
+import zblibrary.demo.util.HttpRequest;
+import zuo.biao.library.base.BaseHttpListFragment;
+import zuo.biao.library.base.BaseModel;
+import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.Json;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,17 +32,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import zblibrary.demo.adapter.UserAdapter;
-import zblibrary.demo.base.BaseHttpListFragment;
-import zblibrary.demo.manager.HttpRequest;
-import zblibrary.demo.model.User;
-import zuo.biao.library.base.BaseModel;
-import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.Json;
 
 /**用户列表界面fragment
  * @author Lemon

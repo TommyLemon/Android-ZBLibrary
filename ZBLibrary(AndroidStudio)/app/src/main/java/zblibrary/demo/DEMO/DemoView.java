@@ -12,9 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zuo.biao.library.DEMO;
+package zblibrary.demo.DEMO;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.Entry;
 import android.annotation.SuppressLint;
@@ -47,9 +47,9 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 	}
 
 
-	public ImageView ivModelViewHead;
-	public TextView tvModelViewName;
-	public TextView tvModelViewNumber;
+	public ImageView ivDemoViewHead;
+	public TextView tvDemoViewName;
+	public TextView tvDemoViewNumber;
 	@SuppressLint("InflateParams")
 	@Override
 	public View getView() {
@@ -57,9 +57,9 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivModelViewHead = (ImageView) findViewById(R.id.ivModelViewHead);
-		tvModelViewName = (TextView) findViewById(R.id.tvModelViewName);
-		tvModelViewNumber = (TextView) findViewById(R.id.tvModelViewNumber);
+		ivDemoViewHead = (ImageView) findViewById(R.id.ivDemoViewHead);
+		tvDemoViewName = (TextView) findViewById(R.id.tvDemoViewName);
+		tvDemoViewNumber = (TextView) findViewById(R.id.tvDemoViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
 		return convertView;
@@ -81,12 +81,12 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		}
 		this.data = data;
 
-		tvModelViewName.setText("" + data.getKey());
-		tvModelViewNumber.setText("" + data.getValue());
+		tvDemoViewName.setText("" + data.getKey());
+		tvDemoViewNumber.setText("" + data.getValue());
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivModelViewHead.setOnClickListener(this);
-		tvModelViewName.setOnClickListener(this);
+		ivDemoViewHead.setOnClickListener(this);
+		tvDemoViewName.setOnClickListener(this);
 		//示例代码>>>>>>>>>>>>>>>>
 	}
 
@@ -103,24 +103,16 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 			onClickListener.onClick(v);
 			return;
 		}
-		//		switch (v.getId()) {
-		//		case R.id.tvModelViewName:
-		//			data.setKey("New " + data.getKey());
-		//			refresh(data);
-		//			if (onDataChangedListener != null) {
-		//				onDataChangedListener.onDataChanged();
-		//			}
-		//			break;
-		//		default:
-		//			break;
-		//		}
-		//Library内switch方法中case R.id.idx会报错
-		if (v.getId() == R.id.tvModelViewName) {
+		switch (v.getId()) {
+		case R.id.tvDemoViewName:
 			data.setKey("New " + data.getKey());
 			refresh(data);
 			if (onDataChangedListener != null) {
 				onDataChangedListener.onDataChanged();
 			}
+			break;
+		default:
+			break;
 		}
 	}
 

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World!</string>
     <string name="app_name">坐标标准库</string>
+    <string name="app_version">3.0</string>
+    <string name="share_app">我发现了一款很好用的Android快速开发框架，叫 Android－ZBLibrary ，快去GitHub上看看吧~</string>
     <string name="page_return">返回</string>
     <string name="remind">提示</string>
     <string name="update">更新</string>
+    <string name="initializing">正在初始化，请稍侯……</string>
     <string name="logging">正在登录，请稍侯……</string>
     <string name="loading">正在加载，请稍后...</string>
     <string name="get_failed">获取失败，请检查网络后重试</string>

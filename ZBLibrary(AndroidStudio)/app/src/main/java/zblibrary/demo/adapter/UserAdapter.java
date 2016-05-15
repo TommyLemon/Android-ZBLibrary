@@ -16,9 +16,9 @@ package zblibrary.demo.adapter;
 
 import java.util.List;
 
-import zblibrary.demo.base.BaseHttpAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.view.UserView;
+import zuo.biao.library.base.BaseHttpAdapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;

@@ -14,58 +14,45 @@ limitations under the License.*/
 
 package zblibrary.demo.application;
 
-import java.io.File;
-
-import zblibrary.demo.constant.Constant;
+import zblibrary.demo.manager.DataManager;
 import zblibrary.demo.model.User;
-import zblibrary.demo.util.DataUtil;
-import zuo.biao.library.util.DataKeeper;
-import zuo.biao.library.util.ImageLoaderUtil;
-import zuo.biao.library.util.SettingUtil;
+import zuo.biao.library.base.BaseApplication;
 import zuo.biao.library.util.StringUtil;
-import android.app.Application;
 import android.util.Log;
 
 /**Application
  * @author Lemon
  */
-public class DemoApplication extends Application {
+public class DemoApplication extends BaseApplication {
 	private static final String TAG = "DemoApplication";
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		context = this;
-
-		DataKeeper.init();
-		SettingUtil.init(this);
-
-		File appFile = new File(Constant.BASE_FILE_PATH);
-		if (!appFile.exists() || (appFile.exists() && appFile.isFile())) {
-			appFile.mkdirs();
-		}
-		
-		ImageLoaderUtil.init(getApplicationContext());
-	}
-	
 	private static DemoApplication context;
 	public static DemoApplication getInstance() {
 		return context;
 	}
 	
-	/**获取版本号(显示给用户看的)
-	 * @return
-	 */
-	public String getVersion() {
-		return "2.0";
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		context = this;
+
 	}
 
+	
+	/**获取当前用户id
+	 * @return
+	 */
+	public long getCurrentUserId() {
+		currentUser = getCurrentUser();
+		Log.d(TAG, "getCurrentUserId  currentUserId = " + (currentUser == null ? "null" : currentUser.getId()));
+		return currentUser == null ? 0 : currentUser.getId();
+	}
 
 
 	private static User currentUser = null;
 	public User getCurrentUser() {
 		if (currentUser == null) {
-			currentUser = DataUtil.getCurrentUser(context);
+			currentUser = DataManager.getInstance().getCurrentUser();
 		}
 		return currentUser;
 	}
@@ -82,7 +69,7 @@ public class DemoApplication extends Application {
 		}
 
 		currentUser = user;
-		DataUtil.saveCurrentUser(context, currentUser);
+		DataManager.getInstance().saveCurrentUser(currentUser);
 	}
 
 	/**判断是否为当前用户
@@ -90,19 +77,9 @@ public class DemoApplication extends Application {
 	 * @return
 	 */
 	public boolean isCurrentUser(long userId) {
-		return DataUtil.isCurrentUser(context, userId);
+		return DataManager.getInstance().isCurrentUser(userId);
 	}
 
-	/**获取当前用户id
-	 * @return
-	 */
-	public long getCurrentUserId() {
-		if (currentUser == null) {
-			currentUser = getCurrentUser();
-		}
-		Log.d(TAG, "getCurrentUserId  currentUserId = " + (currentUser == null ? "null" : currentUser.getId()));
-		return currentUser == null ? 0 : currentUser.getId();
-	}
 
-	
+
 }

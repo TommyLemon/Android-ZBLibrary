@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.base;
+package zuo.biao.library.base;
 
 import android.app.Activity;
 import android.view.View;
@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 
 /**基础http列表Adapter，可实现预加载
