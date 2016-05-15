@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.constant;
 
-import android.os.Environment;
 
 /**常量类
  * @author Lemon
@@ -29,13 +28,5 @@ public class Constant {
 	public static final String APP_DOWNLOAD_WEBSITE = "https://github.com/TommyLemon/ZBLibrary";
 
 	public static final String APP_DEVELOPER_WEBSITE = "https://github.com/TommyLemon";
-
-
-	//图片域名
-    public static final String IMAGE_BASE_URL = "http://zblibrary.demo.image";
-
-	// 应用文件目录
-	public static final String BASE_FILE_PATH = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/zblibrary-demo";
 
 }

@@ -185,7 +185,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 		if (StringUtil.isNotEmpty(sharedPreferencesPath, true)
 				&& StringUtil.isNotEmpty(isTest ? testKey : normalKey, true)) {
 			SettingUtil.putBoolean(context, SettingUtil.KEY_IS_ON_TEST_MODE, isTest);
-			DataKeeper.save(context, sharedPreferencesPath, pathMode, isTest ? testKey : normalKey
+			DataKeeper.save(sharedPreferencesPath, pathMode, isTest ? testKey : normalKey
 					, StringUtil.getNoBlankString(isTest ? etServerSettingTest : etServerSettingNormal));
 			showShortToast("已保存并切换至" + SERVER_NAMES[SettingUtil.isOnTestMode ? 1 : 0]
 					+ "，请不要退出登录。重启后生效");

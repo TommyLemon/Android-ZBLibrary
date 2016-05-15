@@ -14,26 +14,23 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Environment;
-import android.util.Log;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**数据存储工具类
- * @must 1.必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名
- * 		 2.必须在Application中init
- */
-@SuppressLint("DefaultLocale")
-public class DataKeeper {
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Environment;
 
-	public static final String TAG = "DataKeeper";
+/**数据存储工具类
+ * @must 1.将fileRootPath中的包名（这里是zblibrary.demo）改为你的应用包名
+ * 		 2.在Application中调用init方法
+ */
+public class DataKeeper {
+	private static final String TAG = "DataKeeper";
 
 	public static final String SAVE_SUCCEED = "保存成功";
 	public static final String SAVE_FAILED = "保存失败";
@@ -43,8 +40,8 @@ public class DataKeeper {
 	public static final String ROOT_SHARE_PREFS_ = "DEMO_SHARE_PREFS_";
 
 	//文件缓存<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	/**TODO 必须将fileRootPath中的包名（这里是zuo.biao.library）改为你的应用包名*/
-	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/zuo.biao.library/demo/48/") : null;
+	/**TODO 必须将fileRootPath中的包名（这里是zblibrary.demo）改为你的应用包名*/
+	public static final String fileRootPath = getSDPath() != null ? (getSDPath() + "/zblibrary.demo/") : null;
 	public static final String accountPath = fileRootPath + "account/";
 	public static final String audioPath = fileRootPath + "audio/";
 	public static final String videoPath = fileRootPath + "video/";
@@ -57,18 +54,19 @@ public class DataKeeper {
 	public static final int TYPE_FILE_IMAGE = 1;							//保存图片
 	public static final int TYPE_FILE_VIDEO = 2;							//保存视频
 	public static final int TYPE_FILE_AUDIO = 3;							//保存语音
+
 	//存储文件的类型>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//不能实例化
 	private DataKeeper() {}
 
-	public static SharedPreferences getDefaultSharedPreferences(Context context) {
-		return context == null ? null : context.getSharedPreferences(ROOT_SHARE_PREFS_, Context.MODE_PRIVATE);
-	}
-
+	private static Context context;
 	//获取context，获取存档数据库引用
-	public static void init() {
-		Log.i(TAG, "root path: " + fileRootPath);
+	public static void init(Context context_) {
+		context = context_;
+		
+		Log.i(TAG, "init fileRootPath = " + fileRootPath);
+		
 		//判断SD卡存在
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 			if(fileRootPath != null) {
@@ -95,7 +93,11 @@ public class DataKeeper {
 			}
 		}
 	}
+	
 
+	public static SharedPreferences getRootSharedPreferences() {
+		return context.getSharedPreferences(ROOT_SHARE_PREFS_, Context.MODE_PRIVATE);
+	}
 
 	//**********外部存储缓存***************
 	/**
@@ -124,14 +126,15 @@ public class DataKeeper {
 			in.read(data, 0, data.length);
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "storeFile  try { FileInputStream in = new FileInputStream(file); ... >>" +
+					" } catch (IOException e) {\n" + e.getMessage());
 		}
 		return storeFile(data, suffix, type);
 	}
 
 	/** @return	存储文件的绝对路径名
 				若SDCard不存在返回null */
+	@SuppressLint("DefaultLocale")
 	public static String storeFile(byte[] data, String suffix, String type) {
 
 		if(!hasSDCard()) {
@@ -153,10 +156,12 @@ public class DataKeeper {
 			out.write(data, 0, data.length);
 			out.close();
 		} catch (FileNotFoundException e) {
+			Log.e(TAG, "storeFile  try { FileInputStream in = new FileInputStream(file); ... >>" +
+					" } catch (FileNotFoundException e) {\n" + e.getMessage() + "\n\n >> path = null;");
 			path = null;
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "storeFile  try { FileInputStream in = new FileInputStream(file); ... >>" +
+					" } catch (IOException e) {\n" + e.getMessage() + "\n\n >> path = null;");
 			path = null;
 		}
 		return path;
@@ -229,8 +234,8 @@ public class DataKeeper {
 	 * @param key
 	 * @param value
 	 */
-	public static void save(Context context, String path, String key, String value) {
-		save(context, path, Context.MODE_PRIVATE, key, value);
+	public static void save(String path, String key, String value) {
+		save(path, Context.MODE_PRIVATE, key, value);
 	}
 	/**使用SharedPreferences保存
 	 * @param context
@@ -239,8 +244,8 @@ public class DataKeeper {
 	 * @param key
 	 * @param value
 	 */
-	public static void save(Context context, String path, int mode, String key, String value) {
-		save(context, context == null ? null : context.getSharedPreferences(path, mode), key, value);
+	public static void save(String path, int mode, String key, String value) {
+		save(context.getSharedPreferences(path, mode), key, value);
 	}
 	/**使用SharedPreferences保存
 	 * @param context
@@ -248,7 +253,7 @@ public class DataKeeper {
 	 * @param key
 	 * @param value
 	 */
-	public static void save(Context context, SharedPreferences sdf, String key, String value) {
+	public static void save(SharedPreferences sdf, String key, String value) {
 		if (sdf == null || StringUtil.isNotEmpty(key, false) == false || StringUtil.isNotEmpty(value, false) == false) {
 			Log.e(TAG, "save sdf == null || \n key = " + key + ";\n value = " + value + "\n >> return;");
 			return;

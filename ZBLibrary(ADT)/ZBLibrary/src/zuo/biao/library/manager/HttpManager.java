@@ -12,18 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.manager;
-
-import android.content.Context;
-import android.os.AsyncTask;
-import android.text.TextUtils;
-
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import org.json.JSONObject;
+package zuo.biao.library.manager;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -36,20 +25,30 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import zblibrary.demo.application.DemoApplication;
+import org.json.JSONObject;
+
+import zuo.biao.library.base.BaseApplication;
+import zuo.biao.library.bean.Parameter;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.MD5Util;
 import zuo.biao.library.util.SSLUtil;
-import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.text.TextUtils;
 
-/**HTTP请求类
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+/**HTTP请求管理类
  * @author Lemon
- * @use HttpRequest.getInstance().xxxMethod  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
+ * @use HttpManager.getInstance().xxxMethod  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
  * @must 解决getToken，getResponseCode，getResponseData中的TODO
  */
-public class HttpRequest {
-	private static final String TAG = "HttpRequest";
+public class HttpManager {
+	private static final String TAG = "HttpManager";
 
 	/**网络请求回调接口
 	 */
@@ -68,135 +67,42 @@ public class HttpRequest {
 		void onHttpRequestError(int requestCode, Exception exception);
 	}
 
-	
+	public HttpManager() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	private Context context;
-	private static HttpRequest httpRequest;// 单例
+	private static HttpManager instance;// 单例
 	private static SSLSocketFactory socketFactory;// 单例
-	private HttpRequest(Context context) {
+	public HttpManager(Context context) {
 		this.context = context;
 
 		try {
 			//TODO 初始化自签名，demo.cer（这里demo.cer是空文件）为服务器生成的自签名证书，存放于assets目录下，如果不需要自签名可删除
 			socketFactory = SSLUtil.getSSLSocketFactory(context.getAssets().open("demo.cer"));
 		} catch (Exception e) {
-			Log.e(TAG, "private HttpRequest()  try {" +
+			Log.e(TAG, "HttpManager  try {" +
 					"  socketFactory = SSLUtil.getSSLSocketFactory(context.getAssets().open(\"demo.cer\"));\n" +
 					"\t\t} catch (Exception e) {\n" + e.getMessage());
 		}
 	}
-
-	public synchronized static HttpRequest getInstance() {
-		if (null == httpRequest) {
-			httpRequest = new HttpRequest(DemoApplication.getInstance());
+	
+	public synchronized static HttpManager getInstance() {
+		if (instance == null) {
+			instance = new HttpManager(BaseApplication.getInstance());
 		}
-		return httpRequest;
+		return instance;
 	}
 	
 	
-
-
-	/**基础URL，这里服务器设置可切换*/
-	public static final String URL_BASE = SettingUtil.getCurrentServerAddress(DemoApplication.getInstance());
-
-
-	//user<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+	
 	/**
 	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
 	 */
 	public static final int PAGE_NUM_0 = 0;
-	public static final String KEY_PAGE_NUM = "pageNum";
-	
-	public static final String KEY_RANGE = "range";
-
-	public static final String KEY_ID = "id";
-	public static final String KEY_USER_ID = "userId";
-	public static final String KEY_CURRENT_USER_ID = "currentUserId";
-
-	public static final String KEY_NAME = "name";
-	public static final String KEY_PHONE = "phone";
-	public static final String KEY_AUTH_CODE = "authCode";
-
-	public static final String KEY_SEX = "sex";
-	public static final int SEX_MAIL = 1;
-	public static final int SEX_FEMAIL = 2;
-	public static final int SEX_ALL = 3;
-
-
-	public static final String KEY_TYPE = "type";
-	public static final String KEY_FLAG = "flag";
-	public static final String KEY_ADD = "add";
-	public static final String KEY_DELETE = "delete";
-
-	/**
-	 * TODO 该为你自己服务器获取用户的地址
-	 */
-	private static final String URL_GET_USER = URL_BASE + "user/infomation";
-
-	/**获取用户
-	 * @param userId
-	 * @param requestCode
-	 * @param listener
-	 */
-	public void getUser(long userId, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<Parameter>();
-		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
-		addExistParameter(paramList, KEY_USER_ID, userId);
-		httpPost(paramList, URL_GET_USER, requestCode, listener);
-	}
-	public static final int RESULT_GET_USER_SUCCEED = 100;
-
-	public static final int USER_LIST_RANGE_ALL = 0;
-	public static final int USER_LIST_RANGE_RECOMMEND = 1;
-	/**获取用户列表
-	 * @param range
-	 * @param pageNum
-	 * @param requestCode
-	 * @param listener
-	 */
-	public void getUserList(int range, int pageNum, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<Parameter>();
-		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
-		addExistParameter(paramList, KEY_RANGE, range);
-		addExistParameter(paramList, KEY_PAGE_NUM, pageNum);
-
-		httpGet(paramList, URL_GET_USER, requestCode, listener);
-	}
-	public static final int RESULT_GET_USER_LIST_SUCCEED = 110;
-
-
-
-	//user>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
 	
 	
 	
-
-
-
-	
-	
-	//公共模块 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-	/**value为空时不添加
-	 * @param list
-	 * @param key
-	 * @param value
-	 */
-	private void addExistParameter(List<Parameter> list, String key, Object value) {
-		if (list == null) {
-			list = new ArrayList<>();
-		}
-		if (StringUtil.isNotEmpty(key, true) && StringUtil.isNotEmpty(value, true) ) {
-			list.add(new Parameter(key, value));
-		}
-	}
-
 
 	/**
 	 * @param paramList
@@ -215,7 +121,7 @@ public class HttpRequest {
 	 *
 	 * @param listener
 	 */
-	private void httpPost(final List<Parameter> paramList, final String url,
+	public void post(final List<Parameter> paramList, final String url,
 			final int requestCode, final OnHttpResponseListener listener) {
 
 		new AsyncTask<Void, Void, Exception>() {
@@ -233,7 +139,7 @@ public class HttpRequest {
 				FormEncodingBuilder fBuilder = new FormEncodingBuilder();
 				if (paramList != null) {
 					for (Parameter p : paramList) {
-						fBuilder.add(p.key, p.value);
+						fBuilder.add(StringUtil.getTrimedString(p.key), StringUtil.getTrimedString(p.value));
 					}
 				}
 
@@ -281,7 +187,7 @@ public class HttpRequest {
 	 *
 	 * @param listener
 	 */
-	private void httpGet(final List<Parameter> paramList, final String url,
+	public void get(final List<Parameter> paramList, final String url,
 			final int requestCode, final OnHttpResponseListener listener) {
 
 		new AsyncTask<Void, Void, Exception>() {
@@ -303,9 +209,9 @@ public class HttpRequest {
 					for (int i = 0; i < paramList.size(); i++) {
 						parameter = paramList.get(i);
 						sb.append(i <= 0 ? "?" : "&");
-						sb.append(parameter.key);
+						sb.append(StringUtil.getTrimedString(parameter.key));
 						sb.append("=");
-						sb.append(parameter.value);
+						sb.append(StringUtil.getTrimedString(parameter.value));
 					}
 				}
 
@@ -470,28 +376,8 @@ public class HttpRequest {
 
 	//httpGet/httpPost 内调用方法 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
 
-
-
-	public static class Parameter {
-		public final String key;
-		public final String value;
-
-		public Parameter(String key, String value) {
-			super();
-			this.key = StringUtil.getNoBlankString(key);
-			this.value = StringUtil.getNoBlankString(value);
-		}
-
-		/**
-		 * @author lemon
-		 * @param key
-		 * @param value
-		 */
-		public Parameter(String key, Object value) {
-			this(key, StringUtil.getTrimedString(value));
-		}
-	}
 
 
 	public class HttpHead extends CookieHandler {
@@ -527,6 +413,7 @@ public class HttpRequest {
 
 	}
 	
-	//公共模块 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
+	
+
 }

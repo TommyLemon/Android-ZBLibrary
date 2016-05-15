@@ -12,76 +12,113 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.base;
-
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+package zuo.biao.library.base;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import zblibrary.demo.R;
-import zblibrary.demo.manager.HttpRequest;
-import zblibrary.demo.manager.ListDiskCacheManager;
-import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.base.BaseFragmentActivity;
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
+import zuo.biao.library.manager.HttpManager;
+import zuo.biao.library.manager.ListDiskCacheManager;
 import zuo.biao.library.ui.XListView;
 import zuo.biao.library.ui.XListView.IXListViewListener;
 import zuo.biao.library.util.StringUtil;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.BaseAdapter;
 
-/**基础http获取列表的android.support.v4.app.Fragment
+/**基础http获取列表的Activity
  * @author Lemon
  * @warn 1.不要在子类重复这个类中onCreateView中的代码;
- *       2.只使用lvBaseHttpList为显示http数据的ListView，不要在子类中改变它
+ *       2.只使用lvBaseHttpListFragment为显示http数据的ListView，不要在子类中改变它
+ *       3.如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
+ *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
  * @param <T> model(JavaBean)类名
- * @use extends BaseHttpListFragment, 具体参考.DemoHttpListFragment
+ * @use extends BaseHttpListActivity, 具体参考.DemoHttpListActivity
  * @must 在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
  *       initView();initData();initListener(); return view;
  */
-public abstract class BaseHttpListFragment<T> extends BaseFragment implements
-HttpRequest.OnHttpResponseListener, IXListViewListener {
-	private static final String TAG = "BaseHttpListFragment";
+public abstract class BaseHttpListActivity<T> extends BaseActivity implements
+HttpManager.OnHttpResponseListener, IXListViewListener {
+	private static final String TAG = "BaseHttpListActivity";
+
+
 
 	/**
-	 * @warn 如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
-	 *       否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
-	 * @param inflater
-	 * @param container
 	 * @param savedInstanceState
 	 * @return
-	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
-	 *       initView();initData();initListener(); return view;
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
+	 *       initView();initData();initListener();
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return onCreateView(inflater, container, savedInstanceState, 0);
+	protected void onCreate(Bundle savedInstanceState) {
+		onCreate(savedInstanceState, 0);
 	}
 	/**
-	 * @param inflater
-	 * @param container
 	 * @param savedInstanceState
-	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
+	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
 	 * @return
-	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
-	 *       initView();initData();initListener(); return view;
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
+	 *       initView();initData();initListener();
 	 */
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
-		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_http_list_fragment : layoutResID, container, false);
-		context = (BaseFragmentActivity) getActivity();
+	protected void onCreate(Bundle savedInstanceState, int layoutResID) {
+		onCreate(savedInstanceState, layoutResID, null);
+	}
+	/**
+	 * @param savedInstanceState
+	 * @param listener this - 滑动返回 ; null - 没有滑动返回
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, OnFinishListener listener) {
+		onCreate(savedInstanceState, 0, listener);
+	}
+	/**
+	 * 该界面底层容器
+	 */
+	protected ViewGroup view = null;
+	/**
+	 * @param savedInstanceState
+	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
+	 * @param listener this - 滑动返回 ; null - 没有滑动返回
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreate中的代码;
+	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
+	 *       initView();initData();initListener();
+	 */
+	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnFinishListener listener) {
+		super.onCreate(savedInstanceState);
+		super.setContentView(layoutResID <= 0 ? R.layout.base_http_list_activity : layoutResID, listener);
+		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
+		context = this;
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
-		return view;
 	}
+
+	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void setContentView(int layoutResID) {
+	}
+	@Override
+	public void setContentView(View view) {
+	}
+	@Override
+	public void setContentView(View view, LayoutParams params) {
+	}
+	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 
@@ -179,8 +216,8 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 		}
 		isLoading = true;
 
-		if (pageNum_ <= HttpRequest.PAGE_NUM_0) {
-			pageNum_ = HttpRequest.PAGE_NUM_0;
+		if (pageNum_ <= HttpManager.PAGE_NUM_0) {
+			pageNum_ = HttpManager.PAGE_NUM_0;
 			isServerHaveMore = true;
 			loadCacheStart = 0;//使用则可像网络正常情况下的重载，不使用则在网络异常情况下不重载（导致重载后加载数据下移）
 		} else {
@@ -204,7 +241,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 					return;
 				}
 
-				if (pageNum <= HttpRequest.PAGE_NUM_0) {
+				if (pageNum <= HttpManager.PAGE_NUM_0) {
 					list = newList;
 				} else {
 					if (list == null) {
@@ -220,7 +257,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 					public void run() {
 						if (isAlive) {
 							setList(list);
-							if (pageNum <= HttpRequest.PAGE_NUM_0) {
+							if (pageNum <= HttpManager.PAGE_NUM_0) {
 								loadData(pageNum, false);
 							}
 						}
@@ -237,7 +274,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (pageNum <= HttpRequest.PAGE_NUM_0) {
+				if (pageNum <= HttpManager.PAGE_NUM_0) {
 					lvBaseHttpList.stopRefresh();
 				} else {
 					lvBaseHttpList.stopLoadMore(isServerHaveMore);
@@ -277,7 +314,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 			newList = new ArrayList<>();
 		}
 
-		if (pageNum <= HttpRequest.PAGE_NUM_0) {
+		if (pageNum <= HttpManager.PAGE_NUM_0) {
 			saveCacheStart = 0;
 			list = newList;
 			if (list != null && list.size() > 0) {
@@ -399,7 +436,7 @@ HttpRequest.OnHttpResponseListener, IXListViewListener {
 
 	@Override
 	public void onRefresh() {
-		loadData(HttpRequest.PAGE_NUM_0);
+		loadData(HttpManager.PAGE_NUM_0);
 	}
 	@Override
 	public void onLoadMore() {

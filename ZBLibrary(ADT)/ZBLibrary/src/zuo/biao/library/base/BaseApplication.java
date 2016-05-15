@@ -1,42 +1,64 @@
 package zuo.biao.library.base;
 
 import zuo.biao.library.R;
+import zuo.biao.library.util.DataKeeper;
+import zuo.biao.library.util.ImageLoaderUtil;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.SettingUtil;
 import android.app.Application;
 
-/**Application示例
+/**基础Application
  * @author Lemon
- * @use extends BaseApplication
+ * @must 调用init方法且只能调用一次，如果extends BaseApplication会自动调用
+ * @use extends BaseApplication 或 在你的Application的onCreate方法中BaseApplication.init(this);
  */
 public class BaseApplication extends Application {
-	//	private static final String TAG = "BaseApplication";
+	private static final String TAG = "BaseApplication";
 
-	private static BaseApplication baseApplication;
-	public static BaseApplication getApplication() {
-		return baseApplication;
+	public BaseApplication() {
 	}
-
+	
+	private static Application instance;
+	public static Application getInstance() {
+		return instance;
+	}
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		baseApplication = this;
-
-		System.out.println("项目启动");
+		Log.d(TAG, "项目启动 >>>>>>>>>>>>>>>>>>>> \n\n");
+		
+		init(this);
 	}
 
+	/**初始化方法
+	 * @param application
+	 * @must 必须调用
+	 */
+	public static void init(Application application) {
+		instance = application;
+		if (instance == null) {
+			Log.e(TAG, "\n\n\n\n\n !!!!!! 调用BaseApplication中的init方法，instance不能为null !!!" +
+					"\n <<<<<< init  instance == null ！！！ >>>>>>>> \n\n\n\n");
+		}
+		
+		DataKeeper.init(instance);
+		SettingUtil.init(instance);
+		ImageLoaderUtil.init(instance);
+	}
 
+	/**获取应用名
+	 * @return
+	 */
 	public String getAppName() {
 		return getResources().getString(R.string.app_name);
 	}
-
-	/**
-	 * 应用包名，在AndroidManifest文件内申明
+	/**获取应用版本名(显示给用户看的)
+	 * @return
 	 */
-	public static String PACKAGE_NAME = "zuo.biao.library";
-
-	/**
-	 * 作为launcher的activity是否活着（已启动且未被销毁）
-	 */
-	public static boolean isMainActivityAlive = false;
+	public String getAppVersion() {
+		return getResources().getString(R.string.app_version);
+	}
 
 
 }

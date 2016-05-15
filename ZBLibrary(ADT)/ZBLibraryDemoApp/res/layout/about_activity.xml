@@ -26,9 +26,10 @@
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/tvAboutAppInfo"
                     style="@style/text_big_black"
                     android:layout_marginBottom="30dp"
-                    android:text="坐标标准库\n2.0" />
+                    android:text="坐标标准库\n3.0" />
 
                 <LinearLayout
                     android:id="@+id/llAboutZBLibraryMainActivity"

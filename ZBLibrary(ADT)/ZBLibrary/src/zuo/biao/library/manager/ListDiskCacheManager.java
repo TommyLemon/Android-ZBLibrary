@@ -12,13 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.manager;
+package zuo.biao.library.manager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import zblibrary.demo.application.DemoApplication;
+import zuo.biao.library.base.BaseApplication;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.Json;
 import zuo.biao.library.util.Log;
@@ -44,7 +44,7 @@ public class ListDiskCacheManager {
 	private static ListDiskCacheManager manager;
 	public static synchronized ListDiskCacheManager getInstance() {
 		if (manager == null) {
-			manager = new ListDiskCacheManager(DemoApplication.getInstance());
+			manager = new ListDiskCacheManager(BaseApplication.getInstance());
 		}
 		return manager;
 	}
