@@ -14,7 +14,7 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseBottomWindow;
 import android.content.Context;
 import android.content.Intent;

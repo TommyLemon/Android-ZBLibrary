@@ -16,7 +16,7 @@ package zblibrary.demo.DEMO;
 
 import java.util.ArrayList;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseTabFragment;
 import zuo.biao.library.ui.PlacePickerWindow;
 import zuo.biao.library.util.PlaceUtil;

@@ -16,7 +16,7 @@ package zblibrary.demo.DEMO;
 
 import java.util.List;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.util.StringUtil;

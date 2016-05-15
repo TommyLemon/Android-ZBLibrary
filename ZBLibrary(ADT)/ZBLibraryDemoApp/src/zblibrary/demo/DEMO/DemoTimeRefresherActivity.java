@@ -14,7 +14,7 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnFinishListener;
 import zuo.biao.library.manager.TimeRefresher;
@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 /**时间刷新器使用activity示例
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import zuo.biao.library.R;的文件路径（这里是zuo.biao.library）为所在应用包名
+ * @warn 复制到其它工程内使用时务必修改import zblibrary.demo.R;的文件路径（这里是zuo.biao.library）为所在应用包名
  * @use toActivity(DemoTimeRefresherActivity.createIntent(...));
  */
 public class DemoTimeRefresherActivity extends BaseActivity 

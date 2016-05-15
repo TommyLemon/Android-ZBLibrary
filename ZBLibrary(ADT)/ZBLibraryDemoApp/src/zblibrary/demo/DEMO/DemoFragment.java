@@ -17,7 +17,7 @@ package zblibrary.demo.DEMO;
 import java.util.ArrayList;
 import java.util.List;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseFragment;
 import zuo.biao.library.base.BaseFragmentActivity;
 import zuo.biao.library.bean.Entry;

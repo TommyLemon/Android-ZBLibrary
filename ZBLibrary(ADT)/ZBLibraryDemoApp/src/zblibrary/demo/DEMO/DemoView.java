@@ -14,7 +14,7 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.R;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.Entry;
 import android.annotation.SuppressLint;
