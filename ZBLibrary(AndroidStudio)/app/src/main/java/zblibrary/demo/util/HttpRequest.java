@@ -32,7 +32,7 @@ public class HttpRequest {
 //	private static final String TAG = "HttpRequest";
 
 
-	/**value为空时不添加
+	/**添加请求参数，value为空时不添加
 	 * @param list
 	 * @param key
 	 * @param value
@@ -52,6 +52,8 @@ public class HttpRequest {
 	public static final String URL_BASE = SettingUtil.getCurrentServerAddress(DemoApplication.getInstance());
 	public static final String KEY_PAGE_NUM = "pageNum";
 
+	
+	
 
 	//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -79,21 +81,16 @@ public class HttpRequest {
 	public static final String KEY_ADD = "add";
 	public static final String KEY_DELETE = "delete";
 
-	/**
-	 * TODO 该为你自己服务器获取用户的地址
-	 */
-	private static final String URL_GET_USER = URL_BASE + "user/infomation";
-
 	/**获取用户
 	 * @param userId
 	 * @param requestCode
 	 * @param listener
 	 */
 	public static void getUser(long userId, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<Parameter>();
+		List<Parameter> paramList = new ArrayList<>();
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_USER_ID, userId);
-		HttpManager.getInstance().post(paramList, URL_GET_USER, requestCode, listener);
+		HttpManager.getInstance().post(paramList, URL_BASE + "user/infomation", requestCode, listener);
 	}
 	public static final int RESULT_GET_USER_SUCCEED = 100;
 
@@ -106,12 +103,12 @@ public class HttpRequest {
 	 * @param listener
 	 */
 	public static void getUserList(int range, int pageNum, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<Parameter>();
+		List<Parameter> paramList = new ArrayList<>();
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_RANGE, range);
 		addExistParameter(paramList, KEY_PAGE_NUM, pageNum);
 
-		HttpManager.getInstance().get(paramList, URL_GET_USER, requestCode, listener);
+		HttpManager.getInstance().get(paramList, URL_BASE + "user/list", requestCode, listener);
 	}
 	public static final int RESULT_GET_USER_LIST_SUCCEED = 110;
 
