@@ -27,7 +27,8 @@ import android.content.SharedPreferences;
 
 /**列表缓存类
  * @author Lemon
- * @use new ListDiskCache(...).xxx  ,具体参考.ListDiskCacheManager(saveList方法内)
+ * @param <T> 缓存的数据类
+ * @use new ListDiskCache<T>(context, clazz, path).xxxMethod(...);具体参考.ListDiskCacheManager
  */
 public class ListDiskCache<T> {
 	public static final String TAG = "ListDiskCache";
@@ -59,15 +60,15 @@ public class ListDiskCache<T> {
 	/**保存
 	 * @param map
 	 */
-	public void saveList(Map<Long, T> map) {
+	public void saveList(Map<String, T> map) {
 		if (map == null) {
 			Log.e(TAG, "saveList  map == null >> return;");
 			return;
 		}
-		Set<Long> keySet = map.keySet();
+		Set<String> keySet = map.keySet();
 		if (keySet != null) {
-			for (long id: keySet) {
-				save("" + id, map.get(id));
+			for (String id: keySet) {
+				save(id, map.get(id));
 			}
 		}
 	}
@@ -137,8 +138,20 @@ public class ListDiskCache<T> {
 		Map<String, String> map = getMap();
 		return map == null ? null : map.keySet();
 	}
+
+	/**ROOT
+	 * 获取列表
+	 * @param start < 0 ? all : [start, end] 
+	 * @param end
+	 * @return
+	 */
+	public List<T> getValueList(int start, int end) {
+		List<T> list = getAllValueList();
+		return start < 0 || start > end || list == null || end >= list.size() ? list : list.subList(start, end);
+	}
 	/**ROOT
 	 * 获取列表,顺序由keyList指定
+	 * @param keyList
 	 * @return
 	 */
 	public List<T> getValueList(List<String> keyList) {
@@ -178,7 +191,7 @@ public class ListDiskCache<T> {
 	/**删除
 	 * @param key
 	 */
-	public void delete(String key) {
+	public void remove(String key) {
 		if (StringUtil.isNotEmpty(key, true) == false) {
 			Log.e(TAG, "deleteGroup  context == null " +
 					" || StringUtil.isNotEmpty(groupName, true) == fal >> return;");
@@ -187,13 +200,6 @@ public class ListDiskCache<T> {
 
 		sp.edit().remove(StringUtil.getTrimedString(key)).commit();
 	}
-
-
-
-
-	//相关>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
 
 
 }
