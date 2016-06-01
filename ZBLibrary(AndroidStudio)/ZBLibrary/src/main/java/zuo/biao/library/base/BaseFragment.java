@@ -37,7 +37,7 @@ public abstract class BaseFragment extends Fragment {
 	/**
 	 * 在onCreateView方法中赋值，不能在子Fragment中创建
 	 */
-	protected BaseFragmentActivity context = null;
+	protected BaseActivity context = null;
 	/**
 	 * 添加该fragment是否已被使用并未被销毁，在onCreateView方法中赋值为true，不能在子Fragment中创建
 	 */
@@ -58,9 +58,9 @@ public abstract class BaseFragment extends Fragment {
 	 */
 	protected Intent intent = null;
 
-	public static final String INTENT_TITLE = BaseFragmentActivity.INTENT_TITLE;
-	public static final String INTENT_ID = BaseFragmentActivity.INTENT_ID;
-	public static final String RESULT_DATA = BaseFragmentActivity.RESULT_DATA;
+	public static final String INTENT_TITLE = BaseActivity.INTENT_TITLE;
+	public static final String INTENT_ID = BaseActivity.INTENT_ID;
+	public static final String RESULT_DATA = BaseActivity.RESULT_DATA;
 
 	/**
 	 * UI显示方法，必须在子类onCreateView方法内调用

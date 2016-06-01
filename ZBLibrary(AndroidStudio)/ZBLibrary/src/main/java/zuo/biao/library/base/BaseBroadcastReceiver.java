@@ -14,17 +14,16 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.annotation.Nullable;
 
 /**基础广播接收器
  * @author Lemon

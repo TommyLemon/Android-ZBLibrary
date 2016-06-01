@@ -31,9 +31,9 @@ public class City implements Serializable {
         this.province = province;
         this.city = city;
 //        this.number = number;
-        this.firstPY = firstPY;
-        this.allPY = allPY;
-        this.allFristPY = allFristPY;
+//        this.firstPY = firstPY;
+//        this.allPY = allPY;
+//        this.allFristPY = allFristPY;
         this.latitude = lat;
         this.longitude = lon;
     }

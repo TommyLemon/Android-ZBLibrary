@@ -19,7 +19,7 @@ import java.util.List;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.base.BaseFragmentActivity;
+import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.bean.Entry;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,7 +54,7 @@ public class DemoFragment extends BaseFragment {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
 		//TODO demo_fragment改为你所需要的layout文件
 		view = inflater.inflate(R.layout.demo_fragment, container, false);
-		context = (BaseFragmentActivity) getActivity();
+		context = (BaseActivity) getActivity();
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 

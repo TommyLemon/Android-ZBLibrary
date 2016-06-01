@@ -17,8 +17,8 @@ package zblibrary.demo.activity_fragment;
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoFragment;
 import zblibrary.demo.DEMO.DemoTabFragment;
-import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +33,7 @@ import android.widget.TextView;
  * @author Lemon
  * @use BottomTabActivity.createIntent(...)
  */
-public class BottomTabActivity extends BaseFragmentActivity implements OnFinishListener {
+public class BottomTabActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "BottomTabActivity";
 
 
@@ -230,6 +230,14 @@ public class BottomTabActivity extends BaseFragmentActivity implements OnFinishL
 		}
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			
+			return;
+		}		
+		finish();
+	}
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

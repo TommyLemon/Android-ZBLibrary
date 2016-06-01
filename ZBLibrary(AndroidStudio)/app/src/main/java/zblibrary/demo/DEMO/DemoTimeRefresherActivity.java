@@ -16,7 +16,7 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.TimeRefresher;
 import zuo.biao.library.manager.TimeRefresher.OnTimeRefreshListener;
 import zuo.biao.library.util.StringUtil;
@@ -34,7 +34,7 @@ import android.widget.TextView;
  * @use toActivity(DemoTimeRefresherActivity.createIntent(...));
  */
 public class DemoTimeRefresherActivity extends BaseActivity 
-implements OnClickListener, OnFinishListener, OnTimeRefreshListener {
+implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	private static final String TAG = "DemoTimeRefresherActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -170,6 +170,17 @@ implements OnClickListener, OnFinishListener, OnTimeRefreshListener {
 		showShortToast("stop");
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			clear();
+			return;
+		}	
+		
+		finish();
+	}
+	
+	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -178,10 +189,10 @@ implements OnClickListener, OnFinishListener, OnTimeRefreshListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ivDemoTimeRefresherReturn:
-			finish();
+			onDragBottom(false);
 			break;
 		case R.id.ivDemoTimeRefresherForward:
-			clear();
+			onDragBottom(true);
 			break;
 		case R.id.tvDemoTimeRefresherCount:
 			stopOrContinu();

@@ -73,7 +73,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
 		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_http_list_fragment : layoutResID, container, false);
-		context = (BaseFragmentActivity) getActivity();
+		context = (BaseActivity) getActivity();
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 

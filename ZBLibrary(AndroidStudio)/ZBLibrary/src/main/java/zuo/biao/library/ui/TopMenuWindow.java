@@ -187,17 +187,8 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			if (isAlive) {
-				finish();
-				return true;
-			}
-		default:
-			break;
-		}
-		return super.onKeyDown(keyCode, event);
+	public void onBackPressed() {
+		finish();
 	}
 
 	@Override

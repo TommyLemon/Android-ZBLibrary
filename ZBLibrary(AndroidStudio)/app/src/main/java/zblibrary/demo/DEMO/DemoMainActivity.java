@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.AlertDialog;
 import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
@@ -51,7 +52,8 @@ import android.widget.TextView;
 /**demo主页
  * @author Lemon
  */
-public class DemoMainActivity extends BaseActivity implements OnClickListener, OnDialogButtonClickListener, OnDialogItemClickListener {
+public class DemoMainActivity extends BaseActivity implements OnClickListener, OnBottomDragListener
+, OnDialogButtonClickListener, OnDialogItemClickListener {
 	private static final String TAG = "DemoMainActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -69,7 +71,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.demo_main_activity);
+		setContentView(R.layout.demo_main_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
 		isAlive = true;
@@ -265,6 +267,15 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		}
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			showTopMenu();
+			return;
+		}	
+		
+		finish();
+	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -305,12 +316,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
 		case R.id.ivDemoMainReturn:
-			enterAnim = R.anim.fade;
-			exitAnim = R.anim.bottom_push_out;
-			finish();
+			onDragBottom(false);
 			break;     
 		case R.id.ivDemoMainMenu:
-			showTopMenu();
+			onDragBottom(true);
 			break;     
 			
 		case R.id.ivDemoMainHead:

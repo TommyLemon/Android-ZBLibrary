@@ -30,7 +30,7 @@ public final class SettingUtil {
 	public static final boolean isReleased = false;//应用已发布
 
 	/**建议改成你自己项目的路径*/
-	public static final String APP_SETTING = "CRAFT_SHARE_PREFS_" + "APP_SETTING";
+	public static final String APP_SETTING = "SHARE_PREFS_" + "APP_SETTING";
 
 	private SettingUtil() {/*不能实例化**/}
 
@@ -56,7 +56,7 @@ public final class SettingUtil {
 	public static boolean noDisturb = false;//夜间防打扰
 
 	public static boolean isOnTestMode = false;//测试模式
-	public static boolean isFistStart = true;//第一次打开应用
+	public static boolean isFirstStart = true;//第一次打开应用
 
 	public static final boolean[] defaultValues = {
 		voice,//开启通知声
@@ -64,7 +64,7 @@ public final class SettingUtil {
 		noDisturb,//夜间防打扰
 
 		isOnTestMode,//测试模式
-		isFistStart,//第一次打开应用
+		isFirstStart,//第一次打开应用
 	};
 
 	/**初始化
@@ -77,7 +77,7 @@ public final class SettingUtil {
 		noDisturb = getBoolean(context, KEY_NO_DISTURB, noDisturb);
 
 		isOnTestMode = getBoolean(context, KEY_IS_ON_TEST_MODE, isOnTestMode);
-		isFistStart = getBoolean(context, KEY_IS_FIRST_START, isFistStart);
+		isFirstStart = getBoolean(context, KEY_IS_FIRST_START, isFirstStart);
 	}
 
 	/**恢复默认
@@ -184,7 +184,7 @@ public final class SettingUtil {
 				noDisturb,
 
 				isOnTestMode,
-				isFistStart,
+				isFirstStart,
 		};
 	}
 

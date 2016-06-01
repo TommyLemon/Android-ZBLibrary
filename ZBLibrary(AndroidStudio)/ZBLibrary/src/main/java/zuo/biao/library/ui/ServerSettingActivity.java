@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
@@ -33,7 +33,7 @@ import zuo.biao.library.util.StringUtil;
  * @author Lemon
  * @use toActivity(ServerSettingActivity.createIntent(...));
  */
-public class ServerSettingActivity extends BaseActivity implements OnClickListener, OnFinishListener {
+public class ServerSettingActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	//	private static final String TAG = "ServerSettingActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -221,6 +221,18 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			etServerSettingNormal.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP));
+			etServerSettingTest.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_TEST));
+			return;
+		}	
+		
+		finish();
+	}
+
+	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -256,10 +268,9 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.ivServerSettingReturn) {
-			finish();
+			onDragBottom(false);
 		} else if (v.getId() == R.id.tvServerSettingForward) {
-			etServerSettingNormal.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP));
-			etServerSettingTest.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_TEST));
+			onDragBottom(true);
 		} else if (v.getId() == R.id.tvServerSettingNormalSet) {
 			saveAndExit(false);
 		} else if (v.getId() == R.id.tvServerSettingTestSet) {
