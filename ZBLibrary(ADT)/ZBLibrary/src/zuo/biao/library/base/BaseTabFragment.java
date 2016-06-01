@@ -98,7 +98,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
 		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, container, false);
-		context = (BaseFragmentActivity) getActivity();
+		context = (BaseActivity) getActivity();
 		fragmentManager = context.getSupportFragmentManager();
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>

@@ -16,7 +16,7 @@ package zuo.biao.library.ui;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -37,7 +36,7 @@ import android.widget.TextView;
  * @author Lemon
  * @use toActivity或startActivity(WebViewActivity.createIntent)
  */
-public class WebViewActivity extends BaseActivity implements OnClickListener, OnFinishListener {
+public class WebViewActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	public static final String TAG = "WebViewActivity";
 
 	/**获取启动这个Activity的Intent
@@ -148,6 +147,17 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		findViewById(R.id.tvWebViewReturn).setOnClickListener(this);
 
 	}
+	
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			if (wvWebView.canGoForward()) {
+				wvWebView.goForward();
+			}
+			return;
+		}		
+		onBackPressed();
+	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -158,12 +168,13 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		}
 	}
 	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && wvWebView.canGoBack()) {
+	public void onBackPressed() {
+		if (wvWebView.canGoBack()) {
 			wvWebView.goBack();
-			return true;
+			return;
 		}
-		return super.onKeyUp(keyCode, event);
+		
+		super.onBackPressed();
 	}
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

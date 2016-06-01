@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import android.content.Context;
@@ -19,7 +18,7 @@ import android.widget.ImageView;
  * @author Lemon
  * @use toActivity(SettingActivity.createIntent(...));
  */
-public class SettingActivity extends BaseActivity implements OnClickListener, OnFinishListener {
+public class SettingActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	private static final String TAG = "SettingActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -48,7 +47,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 	 * @param phoneList
 	 * @return
 	 */
-	public static Intent createIntent(BaseFragmentActivity context, ArrayList<String> phoneList) {
+	public static Intent createIntent(BaseActivity context, ArrayList<String> phoneList) {
 		return new Intent(context, SettingActivity.class).putExtra(INTENT_PHONE_LIST, phoneList);
 	}
 
@@ -194,6 +193,16 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 		}
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			SettingUtil.restoreDefault(context);
+			initData();
+			return;
+		}	
+		
+		finish();
+	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -201,11 +210,10 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tvSettingReturn:
-			finish();
+			onDragBottom(false);
 			break;
 		case R.id.ivSettingForward:
-			SettingUtil.restoreDefault(context);
-			initData();
+			onDragBottom(true);
 			break;
 		default:
 			break;

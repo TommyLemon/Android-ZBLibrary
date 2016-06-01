@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.TopTabView;
 import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
 import zuo.biao.library.util.StringUtil;
@@ -45,8 +45,8 @@ import android.widget.TextView;
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
  * @must 在子类onCreate中调用initView();initData();initListener();
  */
-public abstract class BaseTabActivity extends BaseFragmentActivity implements OnClickListener
-, OnTabSelectedListener, OnFinishListener {
+public abstract class BaseTabActivity extends BaseActivity implements OnClickListener
+, OnTabSelectedListener, OnBottomDragListener {
 	private static final String TAG = "BaseTabActivity";
 
 	/**
@@ -94,7 +94,7 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, OnFinishListener listener) {
+	protected void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
 		onCreate(savedInstanceState, 0, listener);
 	}
 	/**
@@ -110,7 +110,7 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnFinishListener listener) {
+	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, listener);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
@@ -402,10 +402,8 @@ public abstract class BaseTabActivity extends BaseFragmentActivity implements On
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ivBaseTabReturn) {
-			finish();
-		} else if (v.getId() == R.id.tvBaseTabReturn) {
-			finish();
+		if (v.getId() == R.id.ivBaseTabReturn || v.getId() == R.id.tvBaseTabReturn) {
+			onDragBottom(false);
 		}
 	}
 

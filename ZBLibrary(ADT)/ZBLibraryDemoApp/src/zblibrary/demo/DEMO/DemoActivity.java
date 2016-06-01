@@ -20,7 +20,7 @@ import java.util.List;
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.bean.Entry;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -34,12 +34,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
-/**activity示例；如果是FragmentActivity应该继承BaseFragmentActivity
+/**activity示例；如果是FragmentActivity应该继承BaseActivity
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoActivity.createIntent(...));
  */
-public class DemoActivity extends BaseActivity implements OnClickListener, OnFinishListener {
+public class DemoActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	private static final String TAG = "DemoActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -214,17 +214,9 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvDemoReturn:
-			finish();
-			break;
-		case R.id.tvDemoForward:
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
 			int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
 
 			userId = 2 * (userId + 1);
@@ -235,6 +227,24 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnFin
 			adapter.refresh(list);
 
 			lvDemo.smoothScrollToPosition(formerCout);
+			
+			return;
+		}	
+		
+		finish();
+	}
+	
+	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	//示例代码<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tvDemoReturn:
+			onDragBottom(false);
+			break;
+		case R.id.tvDemoForward:
+			onDragBottom(true);
 			break;
 		default:
 			break;

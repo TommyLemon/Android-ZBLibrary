@@ -16,8 +16,8 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoBroadcastReceiver.OnHeadsetConnectionChangedListener;
-import zuo.biao.library.base.BaseFragmentActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +32,7 @@ import android.widget.TextView;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoFragmentActivity.createIntent(...));
  */
-public class DemoFragmentActivity extends BaseFragmentActivity implements OnClickListener, OnFinishListener, OnHeadsetConnectionChangedListener {
+public class DemoFragmentActivity extends BaseActivity implements OnClickListener, OnBottomDragListener, OnHeadsetConnectionChangedListener {
 	//	private static final String TAG = "DemoFragmentActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -156,6 +156,15 @@ public class DemoFragmentActivity extends BaseFragmentActivity implements OnClic
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			
+			return;
+		}	
+		
+		finish();
+	}
 	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -165,7 +174,7 @@ public class DemoFragmentActivity extends BaseFragmentActivity implements OnClic
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tvDemoFragmentActivityReturn:
-			finish();
+			onDragBottom(false);
 			break;
 		default:
 			break;

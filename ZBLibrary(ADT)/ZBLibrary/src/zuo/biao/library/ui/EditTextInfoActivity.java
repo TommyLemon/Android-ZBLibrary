@@ -20,7 +20,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -49,7 +49,7 @@ import android.widget.TextView;
  * @use toActivity或startActivityForResult(EditTextInfoActivity.createIntent) > onActivityResult方法内data.getStringExtra(
  * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
  */
-public class EditTextInfoActivity extends BaseActivity implements OnClickListener, OnFinishListener {
+public class EditTextInfoActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	public static final String TAG = "EditTextInfoActivity";
 
 	/**
@@ -262,6 +262,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 			//				intent.putExtra(RESULT_KEY, StringUtil.getTrimedString(etEditTextInfo));
 			intent.putExtra(RESULT_VALUE, editedValue);
 			setResult(RESULT_OK, intent);
+			
+			exitAnim = R.anim.left_push_out;
 			finish();
 		}
 	}
@@ -388,6 +390,14 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			saveAndExit();
+			return;
+		}		
+		finish();
+	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -419,11 +429,11 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//Library内switch方法中case R.id.idx:报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() ==  R.id.tvEditTextInfoReturn) {
-			finish();
+		if (v.getId() == R.id.tvEditTextInfoReturn) {
+			onDragBottom(false);
 		} else if (v.getId() ==  R.id.tvEditTextInfoForward) {
 			if (hasUrl == false) {
-				saveAndExit();
+				onDragBottom(true);
 			} else {
 				Message msg = new Message();
 				msg.obj = inputedString;

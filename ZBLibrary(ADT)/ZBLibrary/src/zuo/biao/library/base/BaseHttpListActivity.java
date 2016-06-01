@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.manager.ListDiskCacheManager;
@@ -80,7 +80,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, OnFinishListener listener) {
+	protected void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
 		onCreate(savedInstanceState, 0, listener);
 	}
 	/**
@@ -96,7 +96,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnFinishListener listener) {
+	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(layoutResID <= 0 ? R.layout.base_http_list_activity : layoutResID, listener);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<

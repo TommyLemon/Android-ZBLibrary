@@ -38,14 +38,14 @@
 
     <!-- topbar -->
 
-    <dimen name="distance_topbar">13dp</dimen>
     <dimen name="topbar_height">50dp</dimen>
-    <dimen name="bottombar_height">48dp</dimen>
-    <dimen name="page_drag_min_width">80dp</dimen>
-    <dimen name="page_drag_max_height">100dp</dimen>
-    <dimen name="page_drag_height">78dp</dimen>
     <dimen name="topbar_padding_left">5dp</dimen>
     <dimen name="topbar_padding_right">5dp</dimen>
+    <dimen name="distance_topbar">13dp</dimen>
+    <dimen name="bottombar_height">48dp</dimen>
+    <dimen name="bottom_drag_min_width">80dp</dimen>
+    <dimen name="bottom_drag_max_height">100dp</dimen>
+    <dimen name="bottom_drag_height">78dp</dimen>
     <!-- topbar -->
 
 

@@ -18,16 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnFinishListener;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.ThreadManager;
 import zuo.biao.library.ui.EditTextManager;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
@@ -38,23 +40,27 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Toast;
 
-/**基础Activity，通过继承可获取或使用 里面创建的 组件 和 方法;不能用于FragmentActivity
+/**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法
  * @author Lemon
- * @use extends BaseActivity, 具体参考.DemoActivity
+ * @use extends BaseActivity, 具体参考 .DemoActivity 和 .DemoFragmentActivity
  */
-public abstract class BaseActivity extends Activity implements OnGestureListener, OnTouchListener {
-	private static final String TAG = "BaseActivity";//用于打印日志（log）的类的标记
+public abstract class BaseActivity extends FragmentActivity implements OnGestureListener, OnTouchListener {
+	private static final String TAG = "BaseActivity";
 
 	/**
 	 * 在onCreate方法中赋值，不能在子Activity中创建
 	 */
 	protected BaseActivity context = null;
 	/**
+	 * 在onCreate方法中赋值，不能在子Activity中创建
+	 */
+	protected FragmentManager fragmentManager = null;
+	/**
 	 * activity的主界面View，即contentView
 	 */
 	protected View view = null;
 	/**
-	 * 该Activity是否已被使用并未被销毁。 在onCreate方法中赋值为true，不能在子Activity中创建
+	 * 该FragmentActivity是否已被使用并未被销毁，在onCreate方法中赋值为true，不能在子Activity中创建
 	 */
 	protected boolean isAlive = false;
 	/**
@@ -66,31 +72,37 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
 		threadNameList = new ArrayList<String>();
 	}
 
-	//滑动返回<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	private OnFinishListener onFinishListener;
+	//底部滑动实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	private OnBottomDragListener onBottomDragListener;
 	private GestureDetector gestureDetector;
-	public void setContentView(int layoutResID, OnFinishListener listener) {
+	public void setContentView(int layoutResID, OnBottomDragListener listener) {
 		super.setContentView(layoutResID);
 
-		onFinishListener = listener;
+		onBottomDragListener = listener;
 		view = LayoutInflater.from(this).inflate(layoutResID, null);
 		view.setOnTouchListener(this);
-	};
-	//滑动返回>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	}
+	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 	public static final String INTENT_TITLE = "INTENT_TITLE";
 	public static final String INTENT_ID = "INTENT_ID";
 	public static final String RESULT_DATA = "RESULT_DATA";
 
 	/**
-	 * 可用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
+	 * 用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
 	 */
 	protected Intent intent = null;
+	/**
+	 * 用于activity，fragment等之前的intent传值
+	 */
+	protected Bundle bundle = null;
+
 	/**
 	 * 退出时之前的界面进入动画,可在finish();前通过改变它的值来改变动画效果
 	 */
@@ -125,16 +137,15 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	 */
 	public abstract void initListener();
 
-
 	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**展示加载进度条,无标题
 	 * @param stringResId
 	 */
 	public void showProgressDialog(int stringResId){
 		try {
-			showProgressDialog(null, getString(stringResId));
+			showProgressDialog(null, context.getResources().getString(stringResId));
 		} catch (Exception e) {
-			Log.e(TAG, "showProgressDialog  showProgressDialog(null, getString(stringResId));");
+			Log.e(TAG, "showProgressDialog  showProgressDialog(null, context.getResources().getString(stringResId));");
 		}
 	}
 	/**展示加载进度条,无标题
@@ -189,8 +200,6 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 		}
 	}
 	//显示与关闭进度弹窗方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
 
 	//启动新Activity方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -266,7 +275,7 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	 * @param isForceDismissProgressDialog
 	 */
 	public void showShortToast(final String string, final boolean isForceDismissProgressDialog) {
-		if (isAlive == false || StringUtil.isNotEmpty(string, true) == false) {
+		if (isAlive == false) {
 			return;
 		}
 		runOnUiThread(new Runnable() {
@@ -281,7 +290,6 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 		});
 	}
 	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
 	/**
 	 * 线程名列表
@@ -303,7 +311,6 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 		threadNameList.add(name);
 		return handler;
 	}
-
 
 	@Override
 	public void finish() {
@@ -331,7 +338,6 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 		//里面的代码不需要重写，通过super.finish();即可得到>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -356,7 +362,8 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	}
 
 
-	//点击返回键事件<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	//手机返回键和菜单键实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private boolean isOnKeyLongPress = false;
 	@Override
@@ -364,6 +371,7 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 		isOnKeyLongPress = true;
 		return true;
 	}
+
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (isOnKeyLongPress) {
@@ -373,8 +381,14 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (onFinishListener != null) {
-				onFinishListener.finish();
+			if (onBottomDragListener != null) {
+				onBottomDragListener.onDragBottom(false);
+				return true;
+			}
+			break;
+		case KeyEvent.KEYCODE_MENU:
+			if (onBottomDragListener != null) {
+				onBottomDragListener.onDragBottom(true);
 				return true;
 			}
 			break;
@@ -385,11 +399,9 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 		return super.onKeyUp(keyCode, event);
 	}
 
-	//点击返回键事件>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//手机返回键和菜单键实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-
-	//滑动返回<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//底部滑动实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public boolean onDown(MotionEvent e) {
@@ -412,34 +424,37 @@ public abstract class BaseActivity extends Activity implements OnGestureListener
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-		if (onFinishListener != null) {
+		if (onBottomDragListener != null && e1.getRawY() > ScreenUtil.getScreenSize(this)[1] - ((int) getResources().getDimension(R.dimen.bottom_drag_height))) {
 
-			float maxDragHeight = getResources().getDimension(R.dimen.page_drag_max_height);
+			float maxDragHeight = getResources().getDimension(R.dimen.bottom_drag_max_height);
 			float distanceY = e2.getRawY() - e1.getRawY();
 			if (distanceY < maxDragHeight && distanceY > - maxDragHeight) {
 
-				float minDragWidth = getResources().getDimension(R.dimen.page_drag_min_width);
+				float minDragWidth = getResources().getDimension(R.dimen.bottom_drag_min_width);
 				float distanceX = e2.getRawX() - e1.getRawX();
 				if (distanceX > minDragWidth) {
-					onFinishListener.finish();
+					onBottomDragListener.onDragBottom(false);
+					return true;
+				} else if (distanceX < - minDragWidth) {
+					onBottomDragListener.onDragBottom(true);
 					return true;
 				}
-			}
+			} 
 		}
 
 		return false;
 	}
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		gestureDetector.onTouchEvent(ev);
+	@Override  
+	public boolean dispatchTouchEvent(MotionEvent ev) {  
+		gestureDetector.onTouchEvent(ev);  
 		return super.dispatchTouchEvent(ev);
 	}
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		return gestureDetector.onTouchEvent(event);
-	}
+	}  
 
-	//滑动返回>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 }

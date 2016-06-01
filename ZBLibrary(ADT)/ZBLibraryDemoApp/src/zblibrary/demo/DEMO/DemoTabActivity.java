@@ -145,7 +145,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 			@Override
 			public void onClick(View v) {
-				toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));				
+				onDragBottom(true);
 			}
 		});
 		//示例代码>>>>>>>>
@@ -153,7 +153,16 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 		super.initListener();
 	}
 
-
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft) {
+			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
+			return;
+		}	
+		
+		finish();
+	}
+	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

@@ -25,7 +25,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 /**通用获取裁剪单张照片Activity
@@ -111,7 +114,7 @@ public class CutPictureActivity extends BaseActivity {
 			finish();
 			return;
 		}
-		
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initData();
 		initView();
@@ -143,11 +146,9 @@ public class CutPictureActivity extends BaseActivity {
 	 * @param height
 	 */
 	public void startPhotoZoom(Uri fileUri, int width, int height) {
+
 		intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(fileUri, "image/*");
-		// crop为true是设置在开启的intent中设置显示的view可以剪裁
-		intent.putExtra("crop", "true");
-
 		// aspectX aspectY 是宽高的比例
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
@@ -155,8 +156,17 @@ public class CutPictureActivity extends BaseActivity {
 		// outputX,outputY 是剪裁图片的宽高
 		intent.putExtra("outputX", width);
 		intent.putExtra("outputY", height);
-		intent.putExtra("return-data", true);
-		Log.i(TAG, "startPhotoZoom  "+ fileUri +" uri");
+
+		if (Build.VERSION.SDK_INT >= 23) {
+			File outputImage = new File(Environment.getExternalStorageDirectory(), "output_image.jpg"); 
+			cuttedPicturePath = outputImage.getAbsolutePath();
+			intent.putExtra("scale", true);
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputImage));
+		} else {
+			intent.putExtra("crop", "true");// crop为true是设置在开启的intent中设置显示的view可以剪裁
+			intent.putExtra("return-data", true);
+		}
+		Log.i(TAG, "startPhotoZoom  fileUri = "+ fileUri);
 		toActivity(intent, REQUEST_CUT_PHOTO);
 	}
 
@@ -218,26 +228,20 @@ public class CutPictureActivity extends BaseActivity {
 			switch (requestCode) {
 			case REQUEST_CUT_PHOTO: //发送本地图片
 				if (data != null) {
-					Bundle bundle = data.getExtras();
-					if (bundle != null) {
-						Bitmap photo = bundle.getParcelable("data");
-						//photo.
-						if (photo != null) {
-							//照片的路径
-							//oringlePicturePath 不对
-							cuttedPicturePath = intent.getStringExtra(INTENT_CUTTED_PICTURE_PATH);
-							if (StringUtil.isFilePath(cuttedPicturePath) == false) {
-								cuttedPicturePath = DataKeeper.fileRootPath + DataKeeper.imagePath;
+					if (Build.VERSION.SDK_INT < 23 || new File(cuttedPicturePath).exists() == false) {
+						Bundle bundle = data.getExtras();
+						if (bundle != null) {
+							Bitmap photo = bundle.getParcelable("data");
+							//photo.
+							if (photo != null) {
+								//照片的路径
+								setCuttedPicturePath();
+								cuttedPicturePath = CommonUtil.savePhotoToSDCard(cuttedPicturePath, cuttedPictureName, "jpg", photo);
 							}
-							cuttedPictureName = intent.getStringExtra(INTENT_CUTTED_PICTURE_NAME);
-							if (StringUtil.isFilePath(cuttedPictureName) == false) {
-								cuttedPictureName = "photo" + System.currentTimeMillis();
-							}
-							cuttedPicturePath = CommonUtil.savePhotoToSDCard(cuttedPicturePath, cuttedPictureName, "jpg", photo);
-							setResult(RESULT_OK, new Intent().putExtra(RESULT_PICTURE_PATH, cuttedPicturePath));
-						}
+						} 
 					}
-				}
+					setResult(RESULT_OK, new Intent().putExtra(RESULT_PICTURE_PATH, cuttedPicturePath));
+				} 
 				break;
 			default:
 				break;
@@ -247,11 +251,25 @@ public class CutPictureActivity extends BaseActivity {
 		finish();
 	}
 
+	private String setCuttedPicturePath() {
+		//oringlePicturePath 不对
+		cuttedPicturePath = intent.getStringExtra(INTENT_CUTTED_PICTURE_PATH);
+		if (StringUtil.isFilePath(cuttedPicturePath) == false) {
+			cuttedPicturePath = DataKeeper.fileRootPath + DataKeeper.imagePath;
+		}
+		cuttedPictureName = intent.getStringExtra(INTENT_CUTTED_PICTURE_NAME);
+		if (StringUtil.isFilePath(cuttedPictureName) == false) {
+			cuttedPictureName = "photo" + System.currentTimeMillis();
+		}
+		return cuttedPicturePath;
+	}
+
 	@Override
 	public void finish() {
 		exitAnim = enterAnim = R.anim.null_anim;
 		super.finish();
 	}
+
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
