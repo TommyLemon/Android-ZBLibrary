@@ -15,7 +15,6 @@ limitations under the License.*/
 package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoBroadcastReceiver.OnHeadsetConnectionChangedListener;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
@@ -32,7 +31,7 @@ import android.widget.TextView;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoFragmentActivity.createIntent(...));
  */
-public class DemoFragmentActivity extends BaseActivity implements OnClickListener, OnBottomDragListener, OnHeadsetConnectionChangedListener {
+public class DemoFragmentActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	//	private static final String TAG = "DemoFragmentActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -137,24 +136,13 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	private DemoBroadcastReceiver demoBroadcastReceiver;//BroadcastReceiver使用示例
-	//示例代码>>>>>>>>>>>>>>>>>>>
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		findViewById(R.id.tvDemoFragmentActivityReturn).setOnClickListener(this);
-		
-		demoBroadcastReceiver = new DemoBroadcastReceiver(context).register(this);
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onHeadsetConnectionChanged(boolean isConnected) {
-		showShortToast(isConnected ? "已插入耳机" : "请插入耳机");
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
@@ -185,13 +173,6 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		demoBroadcastReceiver.unregister();
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

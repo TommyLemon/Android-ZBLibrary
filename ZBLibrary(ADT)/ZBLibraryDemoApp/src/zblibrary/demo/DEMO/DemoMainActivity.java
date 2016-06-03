@@ -228,6 +228,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findViewById(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainDemoBroadcastReceiverActivity).setOnClickListener(this);
 
 		findViewById(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
@@ -273,7 +274,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			showTopMenu();
 			return;
 		}	
-		
+
 		finish();
 	}
 
@@ -311,7 +312,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		return super.onTouch(v, event);
 	}
 
-	
+
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
@@ -321,21 +322,21 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.ivDemoMainMenu:
 			onDragBottom(true);
 			break;     
-			
+
 		case R.id.ivDemoMainHead:
 			selectPicture();
 			break;     
 		case R.id.tvDemoMainHeadName:
 			editName(true);
 			break;    
-			
+
 		case R.id.llDemoMainItemDialog:
 			showItemDialog();
 			break;    
 		case R.id.llDemoMainAlertDialog:
 			new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
 			break;   
-			
+
 		case R.id.llDemoMainSelectPictureActivity:
 			selectPicture();
 			break;   
@@ -361,7 +362,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.llDemoMainDemoTimeRefresherActivity:
 			toActivity(DemoTimeRefresherActivity.createIntent(context));
 			break;   
-			
+		case R.id.llDemoMainDemoBroadcastReceiverActivity:
+			toActivity(DemoBroadcastReceiverActivity.createIntent(context));
+			break;   
+
 		case R.id.llDemoMainTopMenuWindow:
 			showTopMenu();
 			break;  
@@ -378,6 +382,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;  
 		case R.id.llDemoMainPlacePickerWindow:
 			toActivity(PlacePickerWindow.createIntent(context, getPackageName(), 2), REQUEST_TO_PLACE_PICKER, false);
+			break;
+
+		default:
 			break;
 		}
 	}

@@ -14,7 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import zuo.biao.library.util.Log;
@@ -68,7 +68,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * 注册广播接收器
 	 * @use 一般在Activity或Fragment的onCreate中调用
 	 */
-	public abstract void register();
+	public abstract BaseBroadcastReceiver register();
 	/**
 	 * 取消注册广播接收器
 	 * @use 一般在Activity或Fragment的onDestroy中调用
@@ -82,10 +82,17 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param action
 	 * @return
 	 */
-	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, String action) {
-		List<String> list = new ArrayList<String>();
-		list.add(action);
-		return register(context, receiver, list);
+	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, String action) {
+		return register(context, receiver, new String[] {action});
+	}
+	/**注册广播接收器
+	 * @param context
+	 * @param receiver
+	 * @param actions
+	 * @return
+	 */
+	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, String[] actions) {
+		return register(context, receiver, actions == null ? null : Arrays.asList(actions));
 	}
 	/**注册广播接收器
 	 * @param context
@@ -93,7 +100,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param actionList
 	 * @return
 	 */
-	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, List<String> actionList) {
+	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, List<String> actionList) {
 		IntentFilter filter = new IntentFilter(); 
 		for (String action : actionList) {
 			if (StringUtil.isNotEmpty(action, true)) {
@@ -108,7 +115,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param filter
 	 * @return
 	 */
-	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, IntentFilter filter) {
+	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, IntentFilter filter) {
 		Log.i(TAG, "register >>>");
 		if (context == null || filter == null) {
 			Log.e(TAG, "register  context == null || filter == null >> return;");
@@ -127,7 +134,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param receiver
 	 * @return
 	 */
-	public static void unregister(Context context, BroadcastReceiver receiver) {
+	public static void unregister(Context context, BaseBroadcastReceiver receiver) {
 		Log.i(TAG, "unregister >>>");
 		if (context == null || receiver == null) {
 			Log.e(TAG, "unregister  context == null || receiver == null >> return;");

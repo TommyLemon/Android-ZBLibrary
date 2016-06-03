@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llDemoFragmentActivity"
+    android:id="@+id/llDemoBroadcastReceiver"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
 
         <ImageView
-            android:id="@+id/tvDemoFragmentActivityReturn"
+            android:id="@+id/tvDemoBroadcastReceiverReturn"
             style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvDemoFragmentActivityTitle"
+            android:id="@+id/tvDemoBroadcastReceiverTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
-            android:text="标题" />
+            android:text="使用广播" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/flDemoFragmentActivityContainer"
-        style="@style/match_match" >
-    </FrameLayout>
+    <TextView
+        style="@style/text_micro_black"
+        android:layout_width="match_parent"
+        android:text="插拔耳机，测试 3 种不同广播使用方式" />
 
 </LinearLayout>

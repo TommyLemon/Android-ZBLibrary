@@ -22,7 +22,7 @@ import android.content.Intent;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**BroadcastReceiver示例
  * @author Lemon
- * @use demoBroadcastReceiver = new DemoBroadcastReceiver(context);
+ * @use demoBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context);
  *      demoBroadcastReceiver.register(onHeadsetConnectionChangedListener);
  *      或
  *      demoBroadcastReceiver.register();demoBroadcastReceiver.setOnReceiveListener(onReceiveListener);
@@ -30,8 +30,8 @@ import android.content.Intent;
  *      demoBroadcastReceiver.unregister();
  *      具体参考.DemoFragmentActivity(initListener方法内)
  */
-public class DemoBroadcastReceiver extends BaseBroadcastReceiver { 
-	private static final String TAG = "DemoBroadcastReceiver"; 
+public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver { 
+	private static final String TAG = "HeadsetConnectionBroadcastReceiver"; 
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	/**耳机状态改变（插入、拔出）监听回调
@@ -40,39 +40,42 @@ public class DemoBroadcastReceiver extends BaseBroadcastReceiver {
 		void onHeadsetConnectionChanged(boolean isConnected);
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>
-	
 
-	public DemoBroadcastReceiver(Context context) {
+
+	public HeadsetConnectionBroadcastReceiver(Context context) {
 		super(context);
 	}
-	
+
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	private OnHeadsetConnectionChangedListener onHeadsetConnectionChangedListener;
-	public DemoBroadcastReceiver register(OnHeadsetConnectionChangedListener listener) {
-		register();
+	public HeadsetConnectionBroadcastReceiver register(OnHeadsetConnectionChangedListener listener) {
 		this.onHeadsetConnectionChangedListener = listener;
+		register();
 		return this;
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>
-	
+
 	@Override
-	public void register() {
-		register(context, this, "android.intent.action.HEADSET_PLUG");//android.intent.action.HEADSET_PLUG改为你需要的action
+	public BaseBroadcastReceiver register() {
+		//示例代码<<<<<<<<<<<<<<<<<<<
+		//TODO android.intent.action.HEADSET_PLUG改为你需要的action，//支持String, String[], List<String>
+		return register(context, this, "android.intent.action.HEADSET_PLUG");
+		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 	@Override
 	public void unregister() {
 		unregister(context, this);
 	}
-	
+
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	public static final String STATE = "state";
 	@Override 
 	public void onReceive(Context context, Intent intent) { 
 		super.onReceive(context, intent);
-//		if (onReceiveListener != null) {
-//			onReceiveListener.onReceive(intent);
-//			return;
-//		}
+		//		if (onReceiveListener != null) {
+		//			onReceiveListener.onReceive(intent);
+		//			return;
+		//		}
 		if (intent != null && intent.hasExtra(STATE)){ 
 			Log.i(TAG, "onReceive intent.getIntExtra(STATE, 0) = " + intent.getIntExtra(STATE, 0));
 			if (onHeadsetConnectionChangedListener != null) {
