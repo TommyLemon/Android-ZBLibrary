@@ -9,6 +9,7 @@
         android:layout_gravity="center" />
 
     <!-- 必须在最底层，且不能指定宽高，否则扫描读取很难实现 -->
+
     <com.zxing.view.ViewfinderView
         android:id="@+id/vfvCameraScan"
         android:layout_width="match_parent"
@@ -30,7 +31,8 @@
             <TextView
                 style="@style/topbar_title"
                 android:layout_centerHorizontal="true"
-                android:text="扫一扫" />
+                android:text="扫一扫"
+                android:textColor="@color/black" />
         </RelativeLayout>
 
         <LinearLayout

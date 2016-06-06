@@ -130,9 +130,7 @@
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
 
-            <View
-                style="@style/divider_horizontal_1px"
-                android:layout_marginBottom="15dp" />
+            <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
                 android:id="@+id/llDemoMainWebViewActivity"
@@ -174,7 +172,9 @@
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
 
-            <View style="@style/divider_horizontal_1px" />
+            <View
+                style="@style/divider_horizontal_1px"
+                android:layout_marginBottom="15dp" />
 
             <LinearLayout
                 android:id="@+id/llDemoMainDemoActivity"
