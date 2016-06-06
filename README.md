@@ -4,13 +4,13 @@
 
 OKHttp、图片加载、ZXing二维码、下载安装、自动缓存以及各种Base、Demo、UI、Util直接用。
 
-仿快用通讯录底部左右滑动实现前进返回。
+仿快用通讯录底部左右滑动实现前进返回;
 
-BaseHttpListActivity，几行代码搞定http请求列表 加载和缓存。
+BaseHttpListActivity，几行代码搞定http请求列表 加载和缓存;
 
-BaseView，自定义View竟然如此简单。
+BaseView，自定义View竟然如此简单;
 
-万能的Entry<K, V>，两个变量的Model/JavaBean再也不用写了。
+万能的Entry<K, V>，两个变量的Model/JavaBean再也不用写了;
 
 100多个常用style，一行搞定View属性，一键统一配置UI... 
 
@@ -18,12 +18,11 @@ BaseView，自定义View竟然如此简单。
 
 
 ## 丰富的功能
+![](http://images2015.cnblogs.com/blog/660067/201606/660067-20160606231315433-1089835539.jpg)
 ![](http://images2015.cnblogs.com/blog/660067/201605/660067-20160503120511826-1436632548.png)
 ![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414224301582-426641547.jpg)
 ![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414224318926-557702548.jpg)
 ![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414224334379-333797549.jpg)
-![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414224357191-1452310387.jpg)
-![](http://images2015.cnblogs.com/blog/660067/201605/660067-20160503224705216-1210684841.png)
 
 ## 简单的实现
 ![](http://images2015.cnblogs.com/blog/660067/201604/660067-20160414224512004-1032811658.jpg)
