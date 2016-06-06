@@ -21,6 +21,7 @@ import zuo.biao.library.base.BaseView;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,16 +55,16 @@ public class TopTabView extends BaseView<String[]> {
 	}
 
 	private int minWidth;
-	public TopTabView(Activity context, LayoutInflater inflater, int[] tabBgResId) {
-		this(context, inflater, tabBgResId, 0);
+	public TopTabView(Activity context, Resources resources, int[] tabBgResId) {
+		this(context, resources, tabBgResId, 0);
 	}
-	public TopTabView(Activity context, LayoutInflater inflater, int[] tabBgResId, int minWidth) {
-		this(context, inflater);
+	public TopTabView(Activity context, Resources resources, int[] tabBgResId, int minWidth) {
+		this(context, resources);
 		this.tabBgResId = tabBgResId;
 		this.minWidth = minWidth;
 	}
-	public TopTabView(Activity context, LayoutInflater inflater) {
-		super(context, inflater);
+	public TopTabView(Activity context, Resources resources) {
+		super(context, resources);
 	}
 
 	private int currentPosition = 0;
@@ -71,13 +72,16 @@ public class TopTabView extends BaseView<String[]> {
 		this.currentPosition = currentPosition;
 	}
 
+	private LayoutInflater inflater;
+	
 	public TextView tvTopTabViewTabFirst;
 	public TextView tvTopTabViewTabLast;
 
 	public LinearLayout llTopTabViewContainer;
 	@SuppressLint("InflateParams")
 	@Override
-	public View getView() {
+	public View createView(LayoutInflater inflater) {
+		this.inflater = inflater;
 		convertView = inflater.inflate(R.layout.top_tab_view, null);
 
 		tvTopTabViewTabFirst = (TextView) findViewById(R.id.tvTopTabViewTabFirst);

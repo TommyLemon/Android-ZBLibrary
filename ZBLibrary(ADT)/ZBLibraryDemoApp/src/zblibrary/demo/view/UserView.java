@@ -21,6 +21,8 @@ import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,34 +43,28 @@ import android.widget.TextView;
 public class UserView extends BaseView<User> {
 	private static final String TAG = "UserView";
 
-	public UserView(Activity context, LayoutInflater inflater) {
-		super(context, inflater);
+	public UserView(Activity context, Resources resources) {
+		super(context, resources);
 	}
 
 
+	//示例代码<<<<<<<<<<<<<<<<
 	public ImageView ivUserViewHead;
 	public TextView tvUserViewName;
 	public TextView tvUserViewNumber;
+	//示例代码>>>>>>>>>>>>>>>>
 	@SuppressLint("InflateParams")
 	@Override
-	public View getView() {
+	public View createView(@NonNull LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.user_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivUserViewHead = (ImageView) findViewById(R.id.ivUserViewHead);
-		tvUserViewName = (TextView) findViewById(R.id.tvUserViewName);
-		tvUserViewNumber = (TextView) findViewById(R.id.tvUserViewNumber);
+		ivUserViewHead = findViewById(R.id.ivUserViewHead);
+		tvUserViewName = findViewById(R.id.tvUserViewName);
+		tvUserViewNumber = findViewById(R.id.tvUserViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
 		return convertView;
-	}
-
-
-
-	private User data;//传进来的数据
-	@Override
-	public User getData() {
-		return data;
 	}
 
 	@Override

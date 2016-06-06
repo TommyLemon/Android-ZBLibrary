@@ -25,6 +25,7 @@ import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -64,9 +65,9 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	}
 
 	private int contentHeight;
-	public GridPickerView(Activity context, LayoutInflater inflater) {
-		super(context, inflater);
-		contentHeight = (int) context.getResources().getDimension(R.dimen.grid_picker_content_height);
+	public GridPickerView(Activity context, Resources resources) {
+		super(context, resources);
+		contentHeight = (int) getDimension(R.dimen.grid_picker_content_height);
 	}
 
 	public LinearLayout llGridPickerWindowTabContainer;
@@ -76,19 +77,13 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	 */
 	@SuppressLint("InflateParams")
 	@Override
-	public View getView() {
+	public View createView(LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.grid_picker_view, null);
 
-		llGridPickerWindowTabContainer = (LinearLayout) convertView.findViewById(R.id.llGridPickerViewTabContainer);
-		gvGridPickerWindow = (GridView) convertView.findViewById(R.id.gvGridPickerView);
+		llGridPickerWindowTabContainer = findViewById(R.id.llGridPickerViewTabContainer);
+		gvGridPickerWindow = findViewById(R.id.gvGridPickerView);
 
 		return convertView;
-	}
-
-
-	@Override
-	public Object getData() {
-		return null;
 	}
 
 

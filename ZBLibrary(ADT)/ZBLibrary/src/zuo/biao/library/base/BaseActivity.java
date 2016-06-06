@@ -36,6 +36,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Toast;
@@ -137,6 +138,27 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 */
 	public abstract void initListener();
 
+	
+//	/**通过id查找并获取控件，使用时不需要强转
+//	 * @param id
+//	 * @return 
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public <V extends View> V findViewById(int id) {
+//		return (V) view.findViewById(id);
+//	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param l
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <V extends View> V findViewById(int id, OnClickListener l) {
+		V v = (V) findViewById(id);
+		v.setOnClickListener(l);
+		return v;
+	}
+	
 	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**展示加载进度条,无标题
 	 * @param stringResId

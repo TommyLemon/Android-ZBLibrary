@@ -17,8 +17,11 @@ package zblibrary.demo.DEMO;
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.Entry;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +45,8 @@ import android.widget.TextView;
 public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
 	private static final String TAG = "DemoView";
 
-	public DemoView(Activity context, LayoutInflater inflater) {
-		super(context, inflater);
+	public DemoView(Activity context, Resources resources) {
+		super(context, resources);
 	}
 
 
@@ -52,26 +55,19 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 	public TextView tvDemoViewNumber;
 	@SuppressLint("InflateParams")
 	@Override
-	public View getView() {
+	public View createView(@NonNull LayoutInflater inflater) {
 		//TODO demo_view改为你所需要的layout文件
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead = (ImageView) findViewById(R.id.ivDemoViewHead);
-		tvDemoViewName = (TextView) findViewById(R.id.tvDemoViewName);
-		tvDemoViewNumber = (TextView) findViewById(R.id.tvDemoViewNumber);
+		ivDemoViewHead = findViewById(R.id.ivDemoViewHead);
+		tvDemoViewName = findViewById(R.id.tvDemoViewName);
+		tvDemoViewNumber = findViewById(R.id.tvDemoViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
 		return convertView;
 	}
 
-
-
-	private Entry<String, String> data;//传进来的数据
-	@Override
-	public Entry<String, String> getData() {
-		return data;
-	}
 
 	@Override
 	public void setView(Entry<String, String> data){
@@ -81,8 +77,8 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		}
 		this.data = data;
 
-		tvDemoViewName.setText("" + data.getKey());
-		tvDemoViewNumber.setText("" + data.getValue());
+		tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
+		tvDemoViewNumber.setText(StringUtil.getTrimedString(data.getValue()));
 
 		//示例代码<<<<<<<<<<<<<<<<
 		ivDemoViewHead.setOnClickListener(this);
@@ -90,12 +86,6 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		//示例代码>>>>>>>>>>>>>>>>
 	}
 
-	/**刷新界面，refresh符合习惯
-	 * @param data
-	 */
-	public void refresh(final Entry<String, String> data) {
-		setView(data);
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -103,10 +93,13 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 			onClickListener.onClick(v);
 			return;
 		}
+		if (data == null) {
+			return;
+		}
 		switch (v.getId()) {
 		case R.id.tvDemoViewName:
 			data.setKey("New " + data.getKey());
-			refresh(data);
+			setView(data);
 			if (onDataChangedListener != null) {
 				onDataChangedListener.onDataChanged();
 			}

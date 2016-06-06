@@ -14,13 +14,13 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import zuo.biao.library.interfaces.DataGetter;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,27 +32,17 @@ import android.view.View.OnTouchListener;
  * @param <T> 数据模型。null ? View.GONE : View.VISIBLE
  * @use extends BaseView<T>, 具体参考.DemoView
  */
-public abstract class BaseView<T> implements DataGetter {
+public abstract class BaseView<T> {
 	private static final String TAG = "BaseView";
 
 	/**
 	 * 传入的Activity,可在子类直接使用
 	 */
 	protected Activity context;
-	/**
-	 * 传入的布局解释器,可在子类直接使用
-	 * 虽然context.getLayoutInflater()或LayoutInflater.from(context)都可获得inflater
-	 * ，但是在一个界面大量使用这种view（ListView,GridView等）时传一个公用的inflater能明显提高性能
-	 */
-	protected LayoutInflater inflater;
 	protected Resources resources;
-	public BaseView(Activity context, LayoutInflater inflater) {
+	public BaseView(Activity context, Resources resources) {
 		this.context = context;
-		if (inflater == null) {
-			inflater = context.getLayoutInflater();
-		}
-		this.inflater = inflater;
-		this.resources = context.getResources();
+		this.resources = resources == null ? context.getResources() : resources;
 	}
 
 	/**数据改变回调接口
@@ -95,19 +85,35 @@ public abstract class BaseView<T> implements DataGetter {
 	}
 
 
-	protected View findViewById(int id) {
-		return convertView.findViewById(id);
-	}
 
 	/**
 	 * 子类整个视图,可在子类直接使用
 	 * @must getView方法内对其赋值且不能为null
 	 */
 	protected View convertView = null;
-	/**获取View
+
+	/**通过id查找并获取控件，使用时不需要强转
+	 * @param id
+	 * @return 
+	 */
+	@SuppressWarnings("unchecked")
+	public <V extends View> V findViewById(int id) {
+		return (V) convertView.findViewById(id);
+	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param l
 	 * @return
 	 */
-	public abstract View getView();
+	public <V extends View> V findViewById(int id, OnClickListener l) {
+		V v = findViewById(id);
+		v.setOnClickListener(l);
+		return v;
+	}
+	/**创建一个新的View
+	 * @return
+	 */
+	public abstract View createView(@NonNull LayoutInflater inflater);
 
 	/**获取convertView的宽度
 	 * @return
@@ -122,13 +128,19 @@ public abstract class BaseView<T> implements DataGetter {
 		return convertView.getHeight();
 	}
 
+	protected T data = null;
+	/**获取数据
+	 * @return
+	 */
+	public T getData() {
+		return data;
+	}
+	
 	/**设置并显示内容
 	 * @warn 只能在getView后使用
 	 * @param data - 传入的数据
 	 */
 	public abstract void setView(T data);
-
-
 
 	public void setVisibility(int visibility) {
 		convertView.setVisibility(visibility);
@@ -146,6 +158,18 @@ public abstract class BaseView<T> implements DataGetter {
 			}
 		}
 	}
+
+
+//	/**性能不好
+//	 * @param id
+//	 * @param s
+//	 */
+//	public void setText(int id, String s) {
+//		TextView tv = (TextView) findViewById(id);
+//		tv.setText(s);
+//	}
+
+
 
 	//resources方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	public String getString(int id) {

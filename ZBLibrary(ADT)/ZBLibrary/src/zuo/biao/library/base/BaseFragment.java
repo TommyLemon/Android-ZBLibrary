@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 /**基础android.support.v4.app.Fragment，通过继承可获取或使用 里面创建的 组件 和 方法
  * @author Lemon
@@ -76,12 +77,23 @@ public abstract class BaseFragment extends Fragment {
 	public abstract void initListener();
 
 
-	/**通过id查找并获取控件
+	/**通过id查找并获取控件，使用时不需要强转
 	 * @param id
+	 * @return 
+	 */
+	@SuppressWarnings("unchecked")
+	public <V extends View> V findViewById(int id) {
+		return (V) view.findViewById(id);
+	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param l
 	 * @return
 	 */
-	public View findViewById(final int id) {
-		return view.findViewById(id);
+	public <V extends View> V findViewById(int id, OnClickListener l) {
+		V v = findViewById(id);
+		v.setOnClickListener(l);
+		return v;
 	}
 
 	public Intent getIntent() {

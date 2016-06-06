@@ -18,7 +18,7 @@ import java.util.List;
 
 import zblibrary.demo.model.User;
 import zblibrary.demo.view.UserView;
-import zuo.biao.library.base.BaseViewAdapter;
+import zuo.biao.library.base.BaseAdapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +26,27 @@ import android.view.ViewGroup;
 /**用户adapter
  * @author Lemon
  */
-public class UserAdapter extends BaseViewAdapter<User, UserView> {
+public class UserAdapter2 extends BaseAdapter<User> {
 	//	private static final String TAG = "UserAdapter";
 
-	public UserAdapter(Activity context, List<User> list) {
+	public UserAdapter2(Activity context, List<User> list) {
 		super(context, list);
 	}
 
+
 	@Override
-	public UserView createView(int position, View convertView, ViewGroup parent) {
-		return new UserView(context, resources);
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		UserView userView = convertView == null ? null : (UserView) convertView.getTag();
+		if (convertView == null) {
+			userView = new UserView(context, resources);
+			convertView = userView.createView(inflater);
+
+			convertView.setTag(userView);
+		}
+
+		userView.setView(getItem(position));
+
+		return super.getView(position, convertView, parent);
 	}
 
 }

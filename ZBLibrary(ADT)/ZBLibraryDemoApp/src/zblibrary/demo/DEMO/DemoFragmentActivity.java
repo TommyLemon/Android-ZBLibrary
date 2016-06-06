@@ -139,7 +139,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoFragmentActivityReturn).setOnClickListener(this);
+		findViewById(R.id.tvDemoFragmentActivityReturn, this);
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
