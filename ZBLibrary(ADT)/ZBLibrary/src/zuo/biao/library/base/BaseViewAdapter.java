@@ -46,7 +46,7 @@ public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAda
 			convertView.setTag(bv);
 		}
 
-		bv.setView(getItem(position));
+		bv.setView(position, getItem(position));
 
 		return super.getView(position, convertView, parent);
 	}

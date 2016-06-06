@@ -354,7 +354,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			toActivity(DemoActivity.createIntent(context, 0));
 			break;     
 		case R.id.llDemoMainDemoFragmentActivity:
-			toActivity(DemoFragmentActivity.createIntent(context, null));
+			toActivity(DemoFragmentActivity.createIntent(context, 0));
 			break;  
 		case R.id.llDemoMainDemoTabActivity:
 			toActivity(DemoTabActivity.createIntent(context).putExtra(DemoTabActivity.INTENT_TITLE, "Yes!"));

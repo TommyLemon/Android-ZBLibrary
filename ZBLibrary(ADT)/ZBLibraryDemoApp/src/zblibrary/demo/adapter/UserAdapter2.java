@@ -44,7 +44,7 @@ public class UserAdapter2 extends BaseAdapter<User> {
 			convertView.setTag(userView);
 		}
 
-		userView.setView(getItem(position));
+		userView.setView(position, getItem(position));
 
 		return super.getView(position, convertView, parent);
 	}

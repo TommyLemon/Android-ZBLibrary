@@ -155,13 +155,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		findViewById(R.id.llAboutShare).setOnClickListener(this);
 		findViewById(R.id.llAboutComment).setOnClickListener(this);
 
-		findViewById(R.id.llAboutDeveloper).setOnClickListener(this);
-		findViewById(R.id.llAboutWeibo).setOnClickListener(this);
-		findViewById(R.id.llAboutContactUs).setOnClickListener(this);
-
-		findViewById(R.id.llAboutDeveloper).setOnLongClickListener(this);
-		findViewById(R.id.llAboutWeibo).setOnLongClickListener(this);
-		findViewById(R.id.llAboutContactUs).setOnLongClickListener(this);
+		findViewById(R.id.llAboutDeveloper, this).setOnLongClickListener(this);
+		findViewById(R.id.llAboutWeibo, this).setOnLongClickListener(this);
+		findViewById(R.id.llAboutContactUs, this).setOnLongClickListener(this);
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

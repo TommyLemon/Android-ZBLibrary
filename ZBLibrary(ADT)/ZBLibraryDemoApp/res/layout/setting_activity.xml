@@ -5,7 +5,7 @@
     <RelativeLayout style="@style/topbar_bg" >
 
         <ImageView
-            android:id="@+id/tvSettingReturn"
+            android:id="@+id/ivSettingReturn"
             style="@style/topbar_return_img" />
 
         <TextView
@@ -15,7 +15,7 @@
             android:text="设置" />
 
         <TextView
-            android:id="@+id/ivSettingForward"
+            android:id="@+id/tvSettingForward"
             style="@style/topbar_right_btn"
             android:text="恢复默认" />
     </RelativeLayout>

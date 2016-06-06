@@ -75,13 +75,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private View ivSettingForward;
-
 	private ImageView[] ivSettings;
 	@Override
 	public void initView() {//必须调用
-
-		ivSettingForward = findViewById(R.id.ivSettingForward);
 
 		ivSettings = new ImageView[5];
 		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingVoice); 
@@ -177,8 +173,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initListener() {//必须调用
-		findViewById(R.id.tvSettingReturn).setOnClickListener(this);
-		ivSettingForward.setOnClickListener(this);
+		findViewById(R.id.ivSettingReturn).setOnClickListener(this);
+		findViewById(R.id.tvSettingForward).setOnClickListener(this);
 
 		for (int i = 0; i < ivSettings.length; i++) {
 			final int which = i;
@@ -209,10 +205,10 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tvSettingReturn:
+		case R.id.ivSettingReturn:
 			onDragBottom(false);
 			break;
-		case R.id.ivSettingForward:
+		case R.id.tvSettingForward:
 			onDragBottom(true);
 			break;
 		default:

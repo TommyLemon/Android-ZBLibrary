@@ -27,7 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 
-/**基础自定义View,能规范代码格式以及省掉小部分代码。
+/**基础自定义View
  * @author Lemon
  * @param <T> 数据模型。null ? View.GONE : View.VISIBLE
  * @use extends BaseView<T>, 具体参考.DemoView
@@ -128,6 +128,17 @@ public abstract class BaseView<T> {
 		return convertView.getHeight();
 	}
 
+	/**
+	 * data在列表中的位置
+	 * *只使用setView(int position, T data)方法来设置position，保证position与data对应正确
+	 */
+	protected int position = 0;
+	/**获取data在列表中的位置
+	 */
+	public int getPosition() {
+		return position;
+	}
+	
 	protected T data = null;
 	/**获取数据
 	 * @return
@@ -137,7 +148,16 @@ public abstract class BaseView<T> {
 	}
 	
 	/**设置并显示内容
-	 * @warn 只能在getView后使用
+	 * @warn 只能在createView后使用
+	 * @param position - data在列表中的位置
+	 * @param data - 传入的数据
+	 */
+	public void setView(int position, T data) {
+		this.position = position;
+		setView(data);
+	}
+	/**设置并显示内容
+	 * @warn 只能在createView后使用
 	 * @param data - 传入的数据
 	 */
 	public abstract void setView(T data);

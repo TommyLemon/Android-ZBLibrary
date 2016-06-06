@@ -27,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /** 使用方法：复制>粘贴>改名>改代码  */
-/**adapter模板，最灵活且性能最好
+/**adapter模板，最灵活且性能最好，但如果有setOnClickListener等事件就不方便了
  * *适用于listView,gridView
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名

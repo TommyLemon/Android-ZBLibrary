@@ -32,13 +32,16 @@ import android.widget.TextView;
 /**用户View
  * @author Lemon
  * @use
-	UserView userView = new UserView(context, inflater);
-	adapter中使用convertView = userView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
-    或  其它类中使用  containerView.addView(userView.getView());
-	userView.setView(object);
-	userView.setOnDataChangedListener(onDataChangedListener);object = userView.getData();//非必需
+	UserView userView = new UserView(context, resources);
+	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+	convertView = userView.createView(inflater);
+	userView.setView(position, data);
+    或  其它类中使用 
+    containerView.addView(userView.createView(inflater));
+    userView.setView(data);
+    然后
+	userView.setOnDataChangedListener(onDataChangedListener);data = userView.getData();//非必需
 	userView.setOnClickListener(onClickListener);//非必需
-	...
  */
 public class UserView extends BaseView<User> {
 	private static final String TAG = "UserView";
@@ -48,21 +51,17 @@ public class UserView extends BaseView<User> {
 	}
 
 
-	//示例代码<<<<<<<<<<<<<<<<
 	public ImageView ivUserViewHead;
 	public TextView tvUserViewName;
 	public TextView tvUserViewNumber;
-	//示例代码>>>>>>>>>>>>>>>>
 	@SuppressLint("InflateParams")
 	@Override
 	public View createView(@NonNull LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.user_view, null);
 
-		//示例代码<<<<<<<<<<<<<<<<
 		ivUserViewHead = findViewById(R.id.ivUserViewHead);
 		tvUserViewName = findViewById(R.id.tvUserViewName);
 		tvUserViewNumber = findViewById(R.id.tvUserViewNumber);
-		//示例代码>>>>>>>>>>>>>>>>
 
 		return convertView;
 	}

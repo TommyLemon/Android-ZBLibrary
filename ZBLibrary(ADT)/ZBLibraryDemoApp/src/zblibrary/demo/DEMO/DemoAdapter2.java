@@ -49,7 +49,7 @@ public class DemoAdapter2 extends BaseAdapter<Entry<String, String>> {
 			convertView.setTag(demoView);
 		}
 
-		demoView.setView(getItem(position));
+		demoView.setView(position, getItem(position));
 
 		return super.getView(position, convertView, parent);
 	}

@@ -34,10 +34,14 @@ import android.widget.TextView;
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use
-	DemoView demoView = new DemoView(context, inflater);
-	adapter中使用convertView = demoView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
-    或  其它类中使用  containerView.addView(demoView.getView());
-	demoView.setView(data);
+	DemoView demoView = new DemoView(context, resources);
+	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+	convertView = demoView.createView(inflater);
+	demoView.setView(position, data);
+    或  其它类中使用 
+    containerView.addView(demoView.createView(inflater));
+    demoView.setView(data);
+    然后
 	demoView.setOnDataChangedListener(onDataChangedListener);data = demoView.getData();//非必需
 	demoView.setOnClickListener(onClickListener);//非必需
 	...
@@ -50,9 +54,11 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 	}
 
 
+	//示例代码<<<<<<<<<<<<<<<<
 	public ImageView ivDemoViewHead;
 	public TextView tvDemoViewName;
 	public TextView tvDemoViewNumber;
+	//示例代码>>>>>>>>>>>>>>>>
 	@SuppressLint("InflateParams")
 	@Override
 	public View createView(@NonNull LayoutInflater inflater) {
@@ -60,8 +66,8 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead = findViewById(R.id.ivDemoViewHead);
-		tvDemoViewName = findViewById(R.id.tvDemoViewName);
+		ivDemoViewHead = findViewById(R.id.ivDemoViewHead, this);
+		tvDemoViewName = findViewById(R.id.tvDemoViewName, this);
 		tvDemoViewNumber = findViewById(R.id.tvDemoViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
@@ -71,6 +77,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 
 	@Override
 	public void setView(Entry<String, String> data){
+		//示例代码<<<<<<<<<<<<<<<<
 		if (data == null) {
 			Log.e(TAG, "setView data == null >> data = new Entry<>(); ");
 			data = new Entry<>();
@@ -79,14 +86,11 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 
 		tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
 		tvDemoViewNumber.setText(StringUtil.getTrimedString(data.getValue()));
-
-		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead.setOnClickListener(this);
-		tvDemoViewName.setOnClickListener(this);
 		//示例代码>>>>>>>>>>>>>>>>
 	}
 
 
+	//示例代码<<<<<<<<<<<<<<<<
 	@Override
 	public void onClick(View v) {
 		if (onClickListener != null) {
@@ -108,6 +112,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 			break;
 		}
 	}
+	//示例代码>>>>>>>>>>>>>>>>
 
 
 }

@@ -45,8 +45,8 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 	 * @param title
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String title) {
-		return new Intent(context, DemoFragmentActivity.class).putExtra(INTENT_TITLE, title);
+	public static Intent createIntent(Context context, long userId) {
+		return new Intent(context, DemoFragmentActivity.class).putExtra(INTENT_USER_ID, userId);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -139,7 +139,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoFragmentActivityReturn, this);
+		findViewById(R.id.tvDemoFragmentActivityReturn).setOnClickListener(this);
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 

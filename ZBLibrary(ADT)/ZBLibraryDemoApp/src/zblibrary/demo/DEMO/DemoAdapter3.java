@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,11 +51,11 @@ public class DemoAdapter3 extends BaseViewAdapter<Entry<String, String>, ItemVie
 	public ItemView createView(int position, View convertView, ViewGroup parent) {
 		return new ItemView(context, resources);
 	}
-	
-	/**item对应的View，可写在 .DemoAdapter 外
+
+	/**item对应的View，可改为外部类
 	 * @use 改代码
 	 */
-	public class ItemView extends BaseView<Entry<String, String>> {
+	public class ItemView extends BaseView<Entry<String, String>> implements OnClickListener {
 		private static final String TAG = "ItemView";
 
 		public ItemView(Activity context, Resources resources) {
@@ -74,8 +75,8 @@ public class DemoAdapter3 extends BaseViewAdapter<Entry<String, String>, ItemVie
 			convertView = inflater.inflate(R.layout.demo_view, null);
 
 			//示例代码<<<<<<<<<<<<<<<<
-			ivDemoViewHead = findViewById(R.id.ivDemoViewHead);
-			tvDemoViewName = findViewById(R.id.tvDemoViewName);
+			ivDemoViewHead = findViewById(R.id.ivDemoViewHead, this);
+			tvDemoViewName = findViewById(R.id.tvDemoViewName, this);
 			tvDemoViewNumber = findViewById(R.id.tvDemoViewNumber);
 			//示例代码>>>>>>>>>>>>>>>>
 
@@ -92,9 +93,37 @@ public class DemoAdapter3 extends BaseViewAdapter<Entry<String, String>, ItemVie
 			this.data = data;
 
 			tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
-			tvDemoViewNumber.setText(StringUtil.getTrimedString(data.getValue()));
+			tvDemoViewNumber.setText(StringUtil.getNoBlankString(data.getValue()));
 			//示例代码>>>>>>>>>>>>>>>>
 		}
+
+		//示例代码<<<<<<<<<<<<<<<<
+		@Override
+		public void onClick(View v) {
+			if (onClickListener != null) {
+				onClickListener.onClick(v);
+				return;
+			}
+			if (data == null) {
+				return;
+			}
+			switch (v.getId()) {
+			case R.id.ivDemoViewHead:
+				toActivity(DemoFragmentActivity.createIntent(context, position)
+						.putExtra(DemoFragmentActivity.INTENT_TITLE, data.getKey()));
+				break;
+			case R.id.tvDemoViewName:
+				data.setKey("New " + data.getKey());
+				setView(data);
+				if (onDataChangedListener != null) {
+					onDataChangedListener.onDataChanged();
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		//示例代码>>>>>>>>>>>>>>>>
 
 	}
 
