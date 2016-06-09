@@ -13,8 +13,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:icon="@drawable/ic_launcher"
-        android:theme="@android:style/Theme.Holo" >
+        android:theme="@android:style/Theme.Holo.Light" >
         <activity android:name=".BarCodeTestActivity" >
         </activity>
         <activity

@@ -45,8 +45,6 @@ public class CommonUtil {
 
 	public CommonUtil() {/* 不能实例化**/}
 
-	private static Intent intent = null;
-
 	//电话<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**打电话 
 	 * @param context
@@ -55,7 +53,7 @@ public class CommonUtil {
 	public static void call(Activity context, String phone) {
 		if (StringUtil.isNotEmpty(phone, true)) {
 			Uri uri = Uri.parse("tel:" + phone.trim());
-			intent  = new Intent(Intent.ACTION_CALL, uri);
+			Intent intent = new Intent(Intent.ACTION_CALL, uri);
 			toActivity(context, intent);
 			return;
 		}
@@ -93,7 +91,7 @@ public class CommonUtil {
 			return;
 		}
 
-		intent = new Intent(Intent.ACTION_VIEW);  
+		Intent intent = new Intent(Intent.ACTION_VIEW);  
 		intent.putExtra("address", phone);
 		intent.setType("vnd.android-dir/mms-sms");    
 		toActivity(context, intent);
@@ -112,7 +110,7 @@ public class CommonUtil {
 			return;
 		}
 
-		intent = new Intent(Intent.ACTION_SEND);
+		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");   
 		intent.putExtra(Intent.EXTRA_SUBJECT, "选择分享方式");   
 		intent.putExtra(Intent.EXTRA_TEXT, toShare.trim());    
@@ -130,7 +128,7 @@ public class CommonUtil {
 			return;
 		}
 
-		intent = new Intent(Intent.ACTION_SENDTO); 
+		Intent intent = new Intent(Intent.ACTION_SENDTO); 
 		intent.setData(Uri.parse("mailto:"+ emailAddress));//缺少"mailto:"前缀导致找不到应用崩溃
 		intent.putExtra(Intent.EXTRA_TEXT, "内容");  //最近在MIUI7上无内容导致无法跳到编辑邮箱界面
 		toActivity(context, intent, -1);
@@ -149,7 +147,7 @@ public class CommonUtil {
 		if (! webSite.startsWith("http://") && ! webSite.startsWith("https://")) {
 			webSite = "http://" + webSite;}
 		final Uri uri = Uri.parse(webSite);          
-		intent = new Intent(Intent.ACTION_VIEW, uri);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		toActivity(context, intent, -1);
 	}
 
@@ -331,7 +329,7 @@ public class CommonUtil {
 	 * @param height
 	 */
 	public static void startPhotoZoom(Activity context, int requestCode, Uri fileUri, int width, int height) {
-		intent = new Intent("com.android.camera.action.CROP");
+		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(fileUri, "image/*");
 		// crop为true是设置在开启的intent中设置显示的view可以剪裁
 		intent.putExtra("crop", "true");

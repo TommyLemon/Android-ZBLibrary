@@ -17,8 +17,11 @@ package zblibrary.demo.DEMO;
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.Entry;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +34,14 @@ import android.widget.TextView;
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use
-	DemoView demoView = new DemoView(context, inflater);
-	adapter中使用convertView = demoView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
-    或  其它类中使用  containerView.addView(demoView.getView());
-	demoView.setView(data);
+	DemoView demoView = new DemoView(context, resources);
+	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+	convertView = demoView.createView(inflater);
+	demoView.setView(position, data);
+    或  其它类中使用 
+    containerView.addView(demoView.createView(inflater));
+    demoView.setView(data);
+    然后
 	demoView.setOnDataChangedListener(onDataChangedListener);data = demoView.getData();//非必需
 	demoView.setOnClickListener(onClickListener);//非必需
 	...
@@ -42,71 +49,61 @@ import android.widget.TextView;
 public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
 	private static final String TAG = "DemoView";
 
-	public DemoView(Activity context, LayoutInflater inflater) {
-		super(context, inflater);
+	public DemoView(Activity context, Resources resources) {
+		super(context, resources);
 	}
 
 
+	//示例代码<<<<<<<<<<<<<<<<
 	public ImageView ivDemoViewHead;
 	public TextView tvDemoViewName;
 	public TextView tvDemoViewNumber;
+	//示例代码>>>>>>>>>>>>>>>>
 	@SuppressLint("InflateParams")
 	@Override
-	public View getView() {
+	public View createView(@NonNull LayoutInflater inflater) {
 		//TODO demo_view改为你所需要的layout文件
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead = (ImageView) findViewById(R.id.ivDemoViewHead);
-		tvDemoViewName = (TextView) findViewById(R.id.tvDemoViewName);
-		tvDemoViewNumber = (TextView) findViewById(R.id.tvDemoViewNumber);
+		ivDemoViewHead = findViewById(R.id.ivDemoViewHead, this);
+		tvDemoViewName = findViewById(R.id.tvDemoViewName, this);
+		tvDemoViewNumber = findViewById(R.id.tvDemoViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
 		return convertView;
 	}
 
 
-
-	private Entry<String, String> data;//传进来的数据
-	@Override
-	public Entry<String, String> getData() {
-		return data;
-	}
-
 	@Override
 	public void setView(Entry<String, String> data){
+		//示例代码<<<<<<<<<<<<<<<<
 		if (data == null) {
 			Log.e(TAG, "setView data == null >> data = new Entry<>(); ");
 			data = new Entry<>();
 		}
 		this.data = data;
 
-		tvDemoViewName.setText("" + data.getKey());
-		tvDemoViewNumber.setText("" + data.getValue());
-
-		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead.setOnClickListener(this);
-		tvDemoViewName.setOnClickListener(this);
+		tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
+		tvDemoViewNumber.setText(StringUtil.getTrimedString(data.getValue()));
 		//示例代码>>>>>>>>>>>>>>>>
 	}
 
-	/**刷新界面，refresh符合习惯
-	 * @param data
-	 */
-	public void refresh(final Entry<String, String> data) {
-		setView(data);
-	}
 
+	//示例代码<<<<<<<<<<<<<<<<
 	@Override
 	public void onClick(View v) {
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 			return;
 		}
+		if (data == null) {
+			return;
+		}
 		switch (v.getId()) {
 		case R.id.tvDemoViewName:
 			data.setKey("New " + data.getKey());
-			refresh(data);
+			setView(data);
 			if (onDataChangedListener != null) {
 				onDataChangedListener.onDataChanged();
 			}
@@ -115,6 +112,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 			break;
 		}
 	}
+	//示例代码>>>>>>>>>>>>>>>>
 
 
 }

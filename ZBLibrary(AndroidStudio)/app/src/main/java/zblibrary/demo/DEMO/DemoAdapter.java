@@ -27,8 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /** 使用方法：复制>粘贴>改名>改代码  */
-/**adapter模板
- * 适用于listView,gridView
+/**adapter模板，最灵活且性能最好，但如果有setOnClickListener等事件就不方便了
+ * *适用于listView,gridView
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use new DemoAdapter(...),具体参考.DemoActivity(setList方法内)
@@ -42,9 +42,9 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 	}
 
 
-	//getView的常规写法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		//示例代码<<<<<<<<<<<<<<<<
 		ViewHolder holder = convertView == null ? null : (ViewHolder) convertView.getTag();
 		if (holder == null) {
 			//TODO demo_item改为你所需要的layout文件
@@ -63,36 +63,17 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 		holder.tvDemoItemName.setText(StringUtil.getTrimedString(data.getValue()));
 		holder.tvDemoItemNumber.setText(StringUtil.getNoBlankString(data.getKey()));
 
-		return convertView;
+		return super.getView(position, convertView, parent);
+		//示例代码>>>>>>>>>>>>>>>>
 	}
 
-	public class ViewHolder {
-
+	class ViewHolder {
+		//示例代码<<<<<<<<<<<<<<<<
 		public ImageView ivDemoItemHead;
 		public TextView tvDemoItemName;
 		public TextView tvDemoItemNumber;
+		//示例代码>>>>>>>>>>>>>>>>
 	}
-	//getView的常规写法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-//	//getView使用自定义View的写法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//
-//	@Override
-//	public View getView(final int position, View convertView, ViewGroup parent) {
-//		DemoView demoView = convertView == null ? null : (DemoView) convertView.getTag();
-//		if (convertView == null) {
-//			demoView = new DemoView(context, inflater);
-//			convertView = demoView.getView();
-//
-//			convertView.setTag(demoView);
-//		}
-//
-//		demoView.setView(getItem(position));
-//
-//		return convertView;
-//	}
-//
-//	//getView使用自定义View的写法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 
 }

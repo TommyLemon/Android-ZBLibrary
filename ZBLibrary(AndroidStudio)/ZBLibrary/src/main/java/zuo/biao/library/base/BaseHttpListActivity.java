@@ -156,11 +156,11 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 		lvBaseHttpList.setAdapter(adapter);
 		lvBaseHttpList.showFooter(adapter != null);
 
-		if (adapter != null && adapter instanceof BaseHttpAdapter) {
-			((BaseHttpAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener() {
+		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
+			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener() {
 				@Override
 				public void onReach(int type, View v) {
-					if (type == OnReachViewBorderListener.TYPE_BOTTOM) {
+					if (type == TYPE_BOTTOM) {
 						lvBaseHttpList.onLoadMore();
 					}
 				}

@@ -248,9 +248,9 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 			}
 		}
 
-		topTabView = new TopTabView(context, context.getLayoutInflater());
+		topTabView = new TopTabView(context, getResources());
 		llBaseTabTabContainer.removeAllViews();
-		llBaseTabTabContainer.addView(topTabView.getView());
+		llBaseTabTabContainer.addView(topTabView.createView(getLayoutInflater()));
 		topTabView.setCurrentPosition(currentPosition);
 		topTabView.setView(getTabNames());
 

@@ -17,6 +17,7 @@ package zblibrary.demo.DEMO;
 import java.util.ArrayList;
 
 import zblibrary.demo.R;
+import zblibrary.demo.activity_fragment.CameraScanActivity;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.AlertDialog;
@@ -33,6 +34,7 @@ import zuo.biao.library.ui.SelectPictureActivity;
 import zuo.biao.library.ui.ServerSettingActivity;
 import zuo.biao.library.ui.TopMenuWindow;
 import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.SettingUtil;
@@ -92,7 +94,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	private static final int[] TOPBAR_COLOR_RESIDS = {R.color.gray, R.color.blue,R.color.yellow};
 
 	private View rlDemoMainTopbar;
-	private View ivDemoMainMenu;
 
 	private ImageView ivDemoMainHead;
 	private TextView tvDemoMainHeadName;
@@ -103,10 +104,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		exitAnim = R.anim.bottom_push_out;
 
 		rlDemoMainTopbar = findViewById(R.id.rlDemoMainTopbar);
-		ivDemoMainMenu = findViewById(R.id.ivDemoMainMenu);
 
-		ivDemoMainHead = (ImageView) findViewById(R.id.ivDemoMainHead);
-		tvDemoMainHeadName = (TextView) findViewById(R.id.tvDemoMainHeadName);
+		ivDemoMainHead = findViewById(R.id.ivDemoMainHead, this);
+		tvDemoMainHeadName = findViewById(R.id.tvDemoMainHeadName, this);
 
 		svDemoMain = (ScrollView) findViewById(R.id.svDemoMain);
 	}
@@ -211,24 +211,27 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	public void initListener() {//必须调用
 
 		findViewById(R.id.ivDemoMainReturn).setOnClickListener(this);
-		ivDemoMainMenu.setOnClickListener(this);
+		findViewById(R.id.ivDemoMainMenu).setOnClickListener(this);
 
-		ivDemoMainHead.setOnClickListener(this);
-		tvDemoMainHeadName.setOnClickListener(this);
 
 		findViewById(R.id.llDemoMainItemDialog).setOnClickListener(this);
 		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
+		
 		findViewById(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainCameraScanActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
+		
 		findViewById(R.id.llDemoMainDemoActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainDemoBroadcastReceiverActivity).setOnClickListener(this);
 
+		
 		findViewById(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoWindow).setOnClickListener(this);
@@ -273,7 +276,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			showTopMenu();
 			return;
 		}	
-		
+
 		finish();
 	}
 
@@ -311,7 +314,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		return super.onTouch(v, event);
 	}
 
-	
+
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
@@ -321,6 +324,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.ivDemoMainMenu:
 			onDragBottom(true);
 			break;     
+
 			
 		case R.id.ivDemoMainHead:
 			selectPicture();
@@ -328,6 +332,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.tvDemoMainHeadName:
 			editName(true);
 			break;    
+
 			
 		case R.id.llDemoMainItemDialog:
 			showItemDialog();
@@ -335,12 +340,16 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.llDemoMainAlertDialog:
 			new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
 			break;   
+
 			
 		case R.id.llDemoMainSelectPictureActivity:
 			selectPicture();
 			break;   
 		case R.id.llDemoMainCutPictureActivity:
 			cutPicture(picturePath);
+			break;  
+		case R.id.llDemoMainCameraScanActivity:
+			toActivity(CameraScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
 			break;  
 		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
@@ -349,11 +358,12 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.llDemoMainEditTextInfoActivity:
 			editName(false);
 			break;   
+			
 		case R.id.llDemoMainDemoActivity:
 			toActivity(DemoActivity.createIntent(context, 0));
 			break;     
 		case R.id.llDemoMainDemoFragmentActivity:
-			toActivity(DemoFragmentActivity.createIntent(context, null));
+			toActivity(DemoFragmentActivity.createIntent(context, 0));
 			break;  
 		case R.id.llDemoMainDemoTabActivity:
 			toActivity(DemoTabActivity.createIntent(context).putExtra(DemoTabActivity.INTENT_TITLE, "Yes!"));
@@ -361,6 +371,10 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.llDemoMainDemoTimeRefresherActivity:
 			toActivity(DemoTimeRefresherActivity.createIntent(context));
 			break;   
+		case R.id.llDemoMainDemoBroadcastReceiverActivity:
+			toActivity(DemoBroadcastReceiverActivity.createIntent(context));
+			break;   
+
 			
 		case R.id.llDemoMainTopMenuWindow:
 			showTopMenu();
@@ -379,6 +393,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.llDemoMainPlacePickerWindow:
 			toActivity(PlacePickerWindow.createIntent(context, getPackageName(), 2), REQUEST_TO_PLACE_PICKER, false);
 			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -388,8 +405,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	private static final int REQUEST_TO_SELECT_PICTURE = 20;
 	private static final int REQUEST_TO_CUT_PICTURE = 21;
-	private static final int REQUEST_TO_EDIT_TEXT_INFO = 22;
-	private static final int REQUEST_TO_SERVER_SETTING = 23;
+	public static final int REQUEST_TO_CAMERA_SCAN = 22;
+	private static final int REQUEST_TO_EDIT_TEXT_INFO = 23;
+	private static final int REQUEST_TO_SERVER_SETTING = 24;
 	private static final int REQUEST_TO_TOP_MENU = 30;
 	private static final int REQUEST_TO_BOTTOM_MENU = 31;
 	private static final int REQUEST_TO_DATE_PICKER = 32;
@@ -406,9 +424,17 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 				cutPicture(data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH));
 			}
 			break;
-		case REQUEST_TO_CUT_PICTURE://返回的结果
+		case REQUEST_TO_CUT_PICTURE:
 			if (data != null) {
 				setPicture(data.getStringExtra(CutPictureActivity.RESULT_PICTURE_PATH));
+			}
+			break;
+		case REQUEST_TO_CAMERA_SCAN:
+			if (data != null) {
+				String result = data.getStringExtra(CameraScanActivity.RESULT_QRCODE_STRING);
+				CommonUtil.copyText(context, result);
+//				toActivity(WebViewActivity.createIntent(context, "扫描结果", result));
+				CommonUtil.openWebSite(context, result);
 			}
 			break;
 		case REQUEST_TO_EDIT_TEXT_INFO:

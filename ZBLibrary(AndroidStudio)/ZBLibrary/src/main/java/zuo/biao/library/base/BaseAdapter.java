@@ -17,19 +17,28 @@ package zuo.biao.library.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.util.CommonUtil;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**基础Adapter
  * @author Lemon
+ * @warn 出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @param <T> model(JavaBean)类名
  * @use extends BaseAdapter<T>, 具体参考.DemoAdapter
+ *      预加载使用：
+ *      1.在子类getView中最后 return super.getView(position, convertView, parent);//非必须，只在预加载用到
+ *      2.在使用子类的类中调用子类setOnReachViewBorderListener方法（这个方法就在这个类）//非必须
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	//	private static final String TAG = "BaseAdapter";
 
+	
 	/**
 	 * 管理整个界面的Activity实例
 	 */
@@ -42,11 +51,16 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 * 布局解释器,用来实例化列表的item的界面
 	 */
 	protected LayoutInflater inflater;
+	/**
+	 * 资源获取器，用于获取res目录下的文件及文件中的内容等
+	 */
+	protected Resources resources;
 	public BaseAdapter(Activity context, List<T> list) {
 		this.context = context;
 		this.list = new ArrayList<>(list);
 
 		inflater = context.getLayoutInflater();
+		resources = context.getResources();
 	}
 
 	public List<T> getList() {
@@ -58,7 +72,6 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		return list.size();
 	}
 	/**获取item数据
-	 * @warn 处于性能考虑，这里不判断position，应在adapter外判断
 	 */
 	@Override
 	public T getItem(int position) {
@@ -73,6 +86,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		return position;
 	}
 
+
 	/**刷新列表
 	 * 建议使用refresh(null)替代notifyDataSetChanged();
 	 * @param list 什么时候开始list为空也不会崩溃了？？
@@ -83,8 +97,41 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		}
 		notifyDataSetChanged();
 	}
+	
+	
+	//预加载，可不使用 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	protected OnReachViewBorderListener onReachViewBorderListener;
+	/**设置到达parent的边界的监听
+	 * @param onReachViewBorderListener
+	 */
+	public void setOnReachViewBorderListener(OnReachViewBorderListener onReachViewBorderListener) {
+		this.onReachViewBorderListener = onReachViewBorderListener;
+	}
+	
+	/**
+	 * 预加载提前数
+	 * @use 可在子类getView前赋值;
+	 */
+	public static int PRELOAD_NUM = 1;
 
+	/**获取item对应View的方法，带item滑到底部等监听
+	 * @param position
+	 * @param convertView
+	 * @param parent
+	 * @return
+	 * @use 子类的getView中最后 return super.getView(position, convertView, parent);
+	 */
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (onReachViewBorderListener != null && position >= getCount() - 1 - PRELOAD_NUM) {
+			onReachViewBorderListener.onReach(OnReachViewBorderListener.TYPE_BOTTOM, parent);
+		}
+		return convertView;
+	}
 
+	//预加载，可不使用 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
 
 
 

@@ -36,11 +36,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.Toast;
 
 /**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法
+ * *onFling内控制左右滑动手势操作范围，可自定义
  * @author Lemon
  * @use extends BaseActivity, 具体参考 .DemoActivity 和 .DemoFragmentActivity
  */
@@ -137,6 +139,27 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 */
 	public abstract void initListener();
 
+	
+//	/**通过id查找并获取控件，使用时不需要强转
+//	 * @param id
+//	 * @return 
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public <V extends View> V findViewById(int id) {
+//		return (V) view.findViewById(id);
+//	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param l
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <V extends View> V findViewById(int id, OnClickListener l) {
+		V v = (V) findViewById(id);
+		v.setOnClickListener(l);
+		return v;
+	}
+	
 	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**展示加载进度条,无标题
 	 * @param stringResId
@@ -424,6 +447,24 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
+//		//原来实现全局滑动返回的代码，OnFinishListener已删除，可以自己写一个或者用onBottomDragListener.onDragBottom(false);代替onFinishListener.finish();
+//		if (onFinishListener != null) {
+//
+//			float maxDragHeight = getResources().getDimension(R.dimen.page_drag_max_height);
+//			float distanceY = e2.getRawY() - e1.getRawY();
+//			if (distanceY < maxDragHeight && distanceY > - maxDragHeight) {
+//
+//				float minDragWidth = getResources().getDimension(R.dimen.page_drag_min_width);
+//				float distanceX = e2.getRawX() - e1.getRawX();
+//				if (distanceX > minDragWidth) {
+//					onFinishListener.finish();
+//					return true;
+//				}
+//			}
+//		}
+		
+		
+		//底部滑动实现同点击标题栏左右按钮效果
 		if (onBottomDragListener != null && e1.getRawY() > ScreenUtil.getScreenSize(this)[1] - ((int) getResources().getDimension(R.dimen.bottom_drag_height))) {
 
 			float maxDragHeight = getResources().getDimension(R.dimen.bottom_drag_max_height);

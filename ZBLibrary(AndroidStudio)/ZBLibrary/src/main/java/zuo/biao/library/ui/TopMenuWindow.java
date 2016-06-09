@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -39,7 +38,7 @@ import android.widget.ListView;
  */
 public class TopMenuWindow extends Activity implements OnItemClickListener, OnClickListener{
 	private static final String TAG = "TopMenuWindow";
-	
+
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**启动TopMenuWindow的Intent
@@ -103,8 +102,8 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	
+
+
 	private boolean isAlive;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,14 +115,14 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 		init();
 	}
 
-	
+
 	public static final String INTENT_NAMES = "INTENT_NAMES";
 	public static final String INTENT_INTENTCODES = "INTENT_INTENTCODES";
 
 	public static final String RESULT_NAME = "RESULT_NAME";
 	public static final String RESULT_POSITION = "RESULT_POSITION";
 	public static final String RESULT_INTENT_CODE = "RESULT_INTENT_CODE";
-	
+
 	private ArrayList<String> nameList = null;
 	private ArrayList<Integer> intentCodeList = null;
 	private ArrayAdapter<String> adapter;
@@ -135,7 +134,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 		llTopMenuWindowBg.setOnClickListener(this);
 
 		Intent intent = getIntent();
-		
+
 		int[] intentCodes = intent.getIntArrayExtra(INTENT_INTENTCODES);
 		if (intentCodes == null || intentCodes.length <= 0) {
 			intentCodeList = intent.getIntegerArrayListExtra(INTENT_INTENTCODES);
@@ -145,7 +144,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 				intentCodeList.add(code);
 			}
 		}
-		
+
 		String[] menuItems = intent.getStringArrayExtra(INTENT_NAMES);
 		if (menuItems == null || menuItems.length <= 0) {
 			nameList = intent.getStringArrayListExtra(INTENT_NAMES);
@@ -158,7 +157,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 			finish();
 			return;
 		}
-		
+
 		adapter = new ArrayAdapter<String>(this, R.layout.top_menu_list_item, R.id.tvTopMenuListItem, nameList);
 
 		lvTopMenu = (ListView) findViewById(R.id.lvTopMenuWindowMenu);
@@ -193,12 +192,21 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	@Override
 	public void finish() {
-		isAlive = false;
-
+		if (isAlive == false) {
+			Log.e(TAG, "finish  isAlive == false >> return;");
+			return;
+		}
+		
 		llTopMenuWindowBg.setEnabled(false);
 
 		super.finish();
 		overridePendingTransition(R.anim.null_anim, R.anim.null_anim);
+	}
+
+	@Override
+	protected void onDestroy() {
+		isAlive = false;
+		super.onDestroy();
 	}
 
 }

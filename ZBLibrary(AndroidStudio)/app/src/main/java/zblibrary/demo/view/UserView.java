@@ -21,6 +21,8 @@ import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,19 +32,22 @@ import android.widget.TextView;
 /**用户View
  * @author Lemon
  * @use
-	UserView userView = new UserView(context, inflater);
-	adapter中使用convertView = userView.getView();//[具体参考.DemoAdapter(getView使用自定义View的写法)]
-    或  其它类中使用  containerView.addView(userView.getView());
-	userView.setView(object);
-	userView.setOnDataChangedListener(onDataChangedListener);object = userView.getData();//非必需
+	UserView userView = new UserView(context, resources);
+	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+	convertView = userView.createView(inflater);
+	userView.setView(position, data);
+    或  其它类中使用 
+    containerView.addView(userView.createView(inflater));
+    userView.setView(data);
+    然后
+	userView.setOnDataChangedListener(onDataChangedListener);data = userView.getData();//非必需
 	userView.setOnClickListener(onClickListener);//非必需
-	...
  */
 public class UserView extends BaseView<User> {
 	private static final String TAG = "UserView";
 
-	public UserView(Activity context, LayoutInflater inflater) {
-		super(context, inflater);
+	public UserView(Activity context, Resources resources) {
+		super(context, resources);
 	}
 
 
@@ -51,24 +56,14 @@ public class UserView extends BaseView<User> {
 	public TextView tvUserViewNumber;
 	@SuppressLint("InflateParams")
 	@Override
-	public View getView() {
+	public View createView(@NonNull LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.user_view, null);
 
-		//示例代码<<<<<<<<<<<<<<<<
-		ivUserViewHead = (ImageView) findViewById(R.id.ivUserViewHead);
-		tvUserViewName = (TextView) findViewById(R.id.tvUserViewName);
-		tvUserViewNumber = (TextView) findViewById(R.id.tvUserViewNumber);
-		//示例代码>>>>>>>>>>>>>>>>
+		ivUserViewHead = findViewById(R.id.ivUserViewHead);
+		tvUserViewName = findViewById(R.id.tvUserViewName);
+		tvUserViewNumber = findViewById(R.id.tvUserViewNumber);
 
 		return convertView;
-	}
-
-
-
-	private User data;//传进来的数据
-	@Override
-	public User getData() {
-		return data;
 	}
 
 	@Override

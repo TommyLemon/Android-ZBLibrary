@@ -34,7 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
-/**activity示例；如果是FragmentActivity应该继承BaseActivity
+/**activity示例
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoActivity.createIntent(...));
@@ -102,7 +102,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 	//示例代码<<<<<<<<
-	private DemoAdapter adapter;
+	private DemoAdapter3 adapter;
 	//示例代码>>>>>>>>
 	/** 示例方法 ：显示列表内容
 	 * @author author
@@ -117,7 +117,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 
 		if (adapter == null) {
-			adapter = new DemoAdapter(context, list);
+			adapter = new DemoAdapter3(context, list);
 			lvDemo.setAdapter(adapter);
 		} else {
 			adapter.refresh(list);

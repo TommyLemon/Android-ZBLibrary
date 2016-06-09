@@ -228,8 +228,8 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 		llContainerWindowContentContainer.removeAllViews();
 		if (gridPickerView == null) {
-			gridPickerView = new GridPickerView(context, getLayoutInflater());
-			llContainerWindowContentContainer.addView(gridPickerView.getView());
+			gridPickerView = new GridPickerView(context, resources);
+			llContainerWindowContentContainer.addView(gridPickerView.createView(inflater));
 		}
 		gridPickerView.setView(null);
 

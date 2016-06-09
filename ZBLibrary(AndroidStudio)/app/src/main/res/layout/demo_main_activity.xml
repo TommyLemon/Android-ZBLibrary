@@ -119,6 +119,20 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
+                android:id="@+id/llDemoMainCameraScanActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="CameraScanActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
                 android:id="@+id/llDemoMainWebViewActivity"
                 style="@style/content_item_white" >
 
@@ -158,7 +172,9 @@
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
 
-            <View style="@style/divider_horizontal_1px" />
+            <View
+                style="@style/divider_horizontal_1px"
+                android:layout_marginBottom="15dp" />
 
             <LinearLayout
                 android:id="@+id/llDemoMainDemoActivity"
@@ -210,6 +226,20 @@
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
                     android:text="DemoTimeRefresherActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
+                android:id="@+id/llDemoMainDemoBroadcastReceiverActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="DemoBroadcastReceiverActivity" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>

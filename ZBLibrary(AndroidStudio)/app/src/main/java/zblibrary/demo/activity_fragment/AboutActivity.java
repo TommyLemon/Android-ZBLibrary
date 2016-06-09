@@ -14,6 +14,8 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
+import java.io.File;
+
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoMainActivity;
 import zblibrary.demo.application.DemoApplication;
@@ -23,9 +25,11 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.DownloadUtil;
 import zuo.biao.library.util.SettingUtil;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +39,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.zxing.WriterException;
+import com.zxing.encoding.EncodingHandler;
 
 /**关于界面
  * @author Lemon
@@ -96,6 +103,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutGesture;
 
 	private TextView tvAboutAppInfo;
+	
+	private ImageView ivAboutQRCode;
+	private View ivAboutQRCodeProgress;
 	@Override
 	public void initView() {
 
@@ -106,6 +116,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		}
 
 		tvAboutAppInfo = (TextView) findViewById(R.id.tvAboutAppInfo);
+		
+		ivAboutQRCode = findViewById(R.id.ivAboutQRCode, this);
+		ivAboutQRCodeProgress = findViewById(R.id.ivAboutQRCodeProgress);
 	}
 
 
@@ -128,9 +141,54 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
 				+ "\n" + DemoApplication.getInstance().getAppVersion());
 
+		setQRCode();
 	}
 
 
+	private Bitmap qRCodeBitmap;
+	/**显示二维码
+	 */
+	protected void setQRCode() {
+		runThread(TAG + "setQRCode", new Runnable() {
+
+			@Override
+			public void run() {
+
+				try {
+					qRCodeBitmap = EncodingHandler.createQRCode(Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE
+							, (int) (2 * getResources().getDimension(R.dimen.qrcode_size)));
+				} catch (WriterException e) {
+					e.printStackTrace();
+					Log.e(TAG, "initData  try {Bitmap qrcode = EncodingHandler.createQRCode(contactJson, ivContactQRCodeCode.getWidth());" +
+							" >> } catch (WriterException e) {" + e.getMessage());
+				}
+
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (isAlive) {
+							ivAboutQRCode.setImageBitmap(qRCodeBitmap);
+							ivAboutQRCodeProgress.setVisibility(View.GONE);
+						}
+					}
+				});		
+			}
+		});
+	}
+	
+	/**下载应用
+	 */
+	private void downloadApp() {
+		showProgressDialog("正在下载...");
+		runThread(TAG + "downloadApp", new Runnable() {
+			@Override
+			public void run() {
+				File file = DownloadUtil.downLoadFile(context, "IE-338_Manual", ".pdf", Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE);
+				dismissProgressDialog();
+				DownloadUtil.openFile(context, file);
+			}
+		});
+	}
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -155,13 +213,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		findViewById(R.id.llAboutShare).setOnClickListener(this);
 		findViewById(R.id.llAboutComment).setOnClickListener(this);
 
-		findViewById(R.id.llAboutDeveloper).setOnClickListener(this);
-		findViewById(R.id.llAboutWeibo).setOnClickListener(this);
-		findViewById(R.id.llAboutContactUs).setOnClickListener(this);
-
-		findViewById(R.id.llAboutDeveloper).setOnLongClickListener(this);
-		findViewById(R.id.llAboutWeibo).setOnLongClickListener(this);
-		findViewById(R.id.llAboutContactUs).setOnLongClickListener(this);
+		findViewById(R.id.llAboutDeveloper, this).setOnLongClickListener(this);
+		findViewById(R.id.llAboutWeibo, this).setOnLongClickListener(this);
+		findViewById(R.id.llAboutContactUs, this).setOnLongClickListener(this);
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -223,6 +277,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			break;
 		case R.id.llAboutContactUs:
 			CommonUtil.sendEmail(context, Constant.APP_OFFICIAL_EMAIL);
+			break;
+			
+		case R.id.ivAboutQRCode:
+			downloadApp();
 			break;
 		default:
 			break;
