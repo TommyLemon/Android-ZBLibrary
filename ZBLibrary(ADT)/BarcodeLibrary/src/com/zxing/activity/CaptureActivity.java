@@ -3,16 +3,18 @@ package com.zxing.activity;
 import java.io.IOException;
 import java.util.Vector;
 
-import zuo.biao.library.base.BaseActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
+import android.view.Window;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.widget.Toast;
@@ -31,16 +33,17 @@ import com.zxing.view.ViewfinderView;
  * @modifier Lemon
  * @use extends CaptureActivity并且在setContentView方法后调用init方法
  */
-public abstract class CaptureActivity extends BaseActivity implements Callback, DecodeCallback {
+public abstract class CaptureActivity extends Activity implements Callback, DecodeCallback {
 	//	private static final String TAG = "CaptureActivity";
 
+	protected Activity context;
 	protected SurfaceView surfaceView;
 	protected ViewfinderView viewfinderView;
 	/**初始化，必须在setContentView之后
 	 * @param context
 	 * @param viewfinderView
 	 */
-	protected void init(BaseActivity context, SurfaceView surfaceView, ViewfinderView viewfinderView) {
+	protected void init(Activity context, SurfaceView surfaceView, ViewfinderView viewfinderView) {
 		this.context = context;
 		this.surfaceView = surfaceView;
 		this.viewfinderView = viewfinderView;
@@ -50,7 +53,27 @@ public abstract class CaptureActivity extends BaseActivity implements Callback, 
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
 	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	}
 
+	/**
+	 * UI显示方法，必须在子类onCreate方法内setContentView后调用
+	 */
+	public abstract void initView();
+	/**
+	 * data数据方法，必须在子类onCreate方法内setContentView后调用
+	 */
+	public abstract void initData();
+	/**
+	 * listener事件监听方法，必须在子类onCreate方法内setContentView后调用
+	 */
+	public abstract void initListener();
+
+	
 
 	private CaptureActivityHandler handler;
 	private boolean hasSurface;

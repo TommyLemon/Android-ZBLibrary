@@ -15,7 +15,7 @@ limitations under the License.*/
 package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
-import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.CommonUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ import com.zxing.view.ViewfinderView;
  * @author Lemon
  * @use toActivity(CameraScanActivity.createIntent(...));
  */
-public class CameraScanActivity extends CaptureActivity implements Callback, OnClickListener, OnBottomDragListener {
+public class CameraScanActivity extends CaptureActivity implements Callback, OnClickListener {
 	public static final String TAG = "CameraScanActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -53,9 +53,8 @@ public class CameraScanActivity extends CaptureActivity implements Callback, OnC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.camera_scan_activity, this);
+		setContentView(R.layout.camera_scan_activity);
 		init(this, (SurfaceView) findViewById(R.id.svCameraScan), (ViewfinderView) findViewById(R.id.vfvCameraScan));
-		isAlive = true;
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -116,28 +115,19 @@ public class CameraScanActivity extends CaptureActivity implements Callback, OnC
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public void onDragBottom(boolean rightToLeft) {
-		if (rightToLeft) {
-
-			return;
-		}
-
-		finish();
-	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tvCameraScanReturn:
 		case R.id.ivCameraScanReturn:
-			onDragBottom(false);
+			finish();
 			break;
 		case R.id.ivCameraScanLight:
 			switchLight(! isOpen);
 			break;
 		case R.id.ivCameraScanMyQRCode:
-			showShortToast("我的名片");
+			CommonUtil.showShortToast(context, "我的名片");
 			break;
 		default:
 			break;

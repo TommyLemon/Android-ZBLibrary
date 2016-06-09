@@ -433,7 +433,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			if (data != null) {
 				String result = data.getStringExtra(CameraScanActivity.RESULT_QRCODE_STRING);
 				CommonUtil.copyText(context, result);
-				toActivity(WebViewActivity.createIntent(context, "扫描结果", result));
+//				toActivity(WebViewActivity.createIntent(context, "扫描结果", result));
+				CommonUtil.openWebSite(context, result);
 			}
 			break;
 		case REQUEST_TO_EDIT_TEXT_INFO:
