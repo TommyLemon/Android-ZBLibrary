@@ -1,10 +1,9 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.2'
     defaultConfig {
-        applicationId "zblibrary.demo"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
@@ -24,5 +23,4 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile project(':ZBLibrary')
-    compile project(':QRCodeLibrary')
 }
