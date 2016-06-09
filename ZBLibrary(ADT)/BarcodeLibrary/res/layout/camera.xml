@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:background="@drawable/navbar"
+            android:background="#000000"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"

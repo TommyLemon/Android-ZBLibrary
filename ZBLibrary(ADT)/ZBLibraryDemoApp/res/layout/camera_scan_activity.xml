@@ -43,7 +43,7 @@
             <TextView
                 style="@style/text_middle_white"
                 android:layout_margin="30dp"
-                android:text="@string/camera_scan_remind" />
+                android:text="将取景框对准二维码\n即可自动扫描" />
         </LinearLayout>
 
         <LinearLayout
