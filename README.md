@@ -55,6 +55,8 @@ BaseView，自定义View竟然如此简单;
 ##相关推荐
 [如何使用ZBLibrary-Android快速开发框架](http://my.oschina.net/u/2437072/blog/665241)
 
+[自定义ZXing二维码扫描界面并解决取景框拉伸等问题](http://my.oschina.net/u/2437072/blog/687986)
+
 [零门槛！ZBLibrary仿微信朋友圈自定义View，就是这么简单！](http://my.oschina.net/u/2437072/blog/666625)
 
 [万能的Entry，两个变量的Model/JavaBean再也不用写了！](http://my.oschina.net/u/2437072/blog/671895)
