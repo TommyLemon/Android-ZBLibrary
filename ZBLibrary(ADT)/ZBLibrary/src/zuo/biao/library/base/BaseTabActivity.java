@@ -98,10 +98,6 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		onCreate(savedInstanceState, 0, listener);
 	}
 	/**
-	 * 该界面底层容器
-	 */
-	protected ViewGroup view = null;
-	/**
 	 * @param savedInstanceState
 	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_tab_activity
 	 * @param listener this - 滑动返回 ; null - 没有滑动返回
@@ -118,19 +114,20 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		isAlive = true;
 		fragmentManager = getSupportFragmentManager();
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
-
-		view = (ViewGroup) findViewById(R.id.llBaseTabRootView);
 	}
 
 	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void setContentView(int layoutResID) {
+		setContentView(null);
 	}
 	@Override
 	public void setContentView(View view) {
+		setContentView(null, null);
 	}
 	@Override
 	public void setContentView(View view, LayoutParams params) {
+		throw new UnsupportedOperationException(TAG + "不支持子类中setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
 	}
 	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -172,7 +169,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	}
 
 	/**
-	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
+	 *  == true >> 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
 	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
 	 */
 	protected boolean needReload = false;
@@ -225,15 +222,21 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 			tvBaseTabTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
 
-		if (ivBaseTabReturn != null) {
-			topReturnButtonName = getTopReturnButtonName();
+		topReturnButtonName = getTopReturnButtonName();
 
-			if (topReturnButtonName == null) {
+		if (topReturnButtonName == null) {
+			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(View.GONE);
+			}
+			if (tvBaseTabReturn != null) {
 				tvBaseTabReturn.setVisibility(View.GONE);
-			} else {
-				boolean isReturnButtonHasName = StringUtil.isNotEmpty(topReturnButtonName, true);
+			}
+		} else {
+			boolean isReturnButtonHasName = StringUtil.isNotEmpty(topReturnButtonName, true);
+			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(isReturnButtonHasName ? View.GONE : View.VISIBLE);
+			}
+			if (tvBaseTabReturn != null) {
 				tvBaseTabReturn.setVisibility(isReturnButtonHasName ? View.VISIBLE : View.GONE);
 				tvBaseTabReturn.setText(StringUtil.getTrimedString(topReturnButtonName));
 			}
@@ -398,12 +401,19 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		selectFragment(position);
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		if (rightToLeft == false) {
+			finish();
+		}		
+	}
+
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.ivBaseTabReturn || v.getId() == R.id.tvBaseTabReturn) {
-			onDragBottom(false);
+			finish();
 		}
 	}
 

@@ -17,6 +17,6 @@ limitations under the License.*/
  */
 /**
  * @author Lemon
- * @use 通用使用方法：extends XXBase
+ * @use 通用使用方法：extends BaseXX
  */
 package zuo.biao.library.base;

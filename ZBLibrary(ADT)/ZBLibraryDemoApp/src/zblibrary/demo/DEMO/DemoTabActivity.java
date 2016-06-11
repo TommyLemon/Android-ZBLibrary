@@ -70,11 +70,11 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
+		super.initView();
+		
 		//示例代码<<<<<<<<
 		topRightButton = addTopRightButton(newTopRightTextView(context, "了解"));
 		//示例代码>>>>>>>>
-
-		super.initView();
 	}
 
 
@@ -94,8 +94,8 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-
 		super.initData();
+
 	}
 
 	@Override
@@ -140,6 +140,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
+		super.initListener();
 		//示例代码<<<<<<<<
 		topRightButton.setOnClickListener(new OnClickListener() {
 
@@ -150,7 +151,6 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener 
 		});
 		//示例代码>>>>>>>>
 
-		super.initListener();
 	}
 
 	@Override

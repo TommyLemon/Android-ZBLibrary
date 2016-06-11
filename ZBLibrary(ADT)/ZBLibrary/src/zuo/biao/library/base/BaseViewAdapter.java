@@ -20,13 +20,12 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
-/** 使用方法：复制>粘贴>改名>改代码  */
-/**adapter模板
- * 适用于listView,gridView
+/**基础Adapter，使用自定义View
+ * *适用于listView,gridView
  * @author Lemon
- * @param <T>
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
- * @use new BaseViewAdapter(...),具体参考.DemoActivity(setList方法内)
+ * @param <T> 数据模型(model/JavaBean)类
+ * @param <BV> BaseView的子类
+ * @use extends BaseViewAdapter<T, BV>, 具体参考 .DemoAdapter3
  */
 public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAdapter<T> {
 //	private static final String TAG = "BaseViewAdapter";
@@ -38,7 +37,7 @@ public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAda
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		@SuppressWarnings("unchecked")
-		BV bv = (BV) (convertView == null ? null : convertView.getTag());
+		BV bv = convertView == null ? null : (BV) convertView.getTag();
 		if (bv == null) {
 			bv = createView(position, convertView, parent);
 			convertView = bv.createView(inflater);

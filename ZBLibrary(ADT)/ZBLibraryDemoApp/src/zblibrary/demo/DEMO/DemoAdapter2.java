@@ -41,7 +41,7 @@ public class DemoAdapter2 extends BaseAdapter<Entry<String, String>> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		DemoView demoView = (DemoView) (convertView == null ? null : convertView.getTag());
+		DemoView demoView = convertView == null ? null : (DemoView) convertView.getTag();
 		if (demoView == null) {
 			demoView = new DemoView(context, resources);
 			convertView = demoView.createView(inflater);

@@ -110,9 +110,6 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
 	@Nullable
 	private TextView tvBaseTabTitle;
 
@@ -146,7 +143,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	}
 
 	/**
-	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
+	 *  == true >> 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
 	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
 	 */
 	protected boolean needReload = false;
@@ -199,15 +196,21 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 			tvBaseTabTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
 
-		if (ivBaseTabReturn != null) {
-			topReturnButtonName = getTopReturnButtonName();
+		topReturnButtonName = getTopReturnButtonName();
 
-			if (topReturnButtonName == null) {
+		if (topReturnButtonName == null) {
+			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(View.GONE);
+			}
+			if (tvBaseTabReturn != null) {
 				tvBaseTabReturn.setVisibility(View.GONE);
-			} else {
-				boolean isReturnButtonHasName = StringUtil.isNotEmpty(topReturnButtonName, true);
+			}
+		} else {
+			boolean isReturnButtonHasName = StringUtil.isNotEmpty(topReturnButtonName, true);
+			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(isReturnButtonHasName ? View.GONE : View.VISIBLE);
+			}
+			if (tvBaseTabReturn != null) {
 				tvBaseTabReturn.setVisibility(isReturnButtonHasName ? View.VISIBLE : View.GONE);
 				tvBaseTabReturn.setText(StringUtil.getTrimedString(topReturnButtonName));
 			}
@@ -255,9 +258,9 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	@Nullable
 	protected abstract String getTopReturnButtonName();
 
-	
+
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<>();
 	/**添加右上方导航栏按钮
@@ -300,10 +303,10 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 		topRightButton.setText(name);
 		return topRightButton;
 	}
-	
+
 	//top right button >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	
+
+
 	/**获取标签名称数组
 	 * @return
 	 */
@@ -376,9 +379,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ivBaseTabReturn) {
-			context.finish();
-		} else if (v.getId() == R.id.tvBaseTabReturn) {
+		if (v.getId() == R.id.ivBaseTabReturn || v.getId() == R.id.tvBaseTabReturn) {
 			context.finish();
 		}
 	}

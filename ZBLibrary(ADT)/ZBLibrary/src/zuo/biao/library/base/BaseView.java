@@ -29,7 +29,7 @@ import android.view.View.OnTouchListener;
 
 /**基础自定义View
  * @author Lemon
- * @param <T> 数据模型。null ? View.GONE : View.VISIBLE
+ * @param <T> 数据模型(model/JavaBean)类。 null ? View.GONE : View.VISIBLE
  * @use extends BaseView<T>, 具体参考.DemoView
  */
 public abstract class BaseView<T> {
