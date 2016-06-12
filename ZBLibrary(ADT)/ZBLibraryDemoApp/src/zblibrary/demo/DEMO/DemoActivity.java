@@ -64,7 +64,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//TODO demo_activity改为你所需要的layout文件；传this是为了全局滑动返回
+		//TODO demo_activity改为你所需要的layout文件；传this是为了底部左右滑动手势
 		setContentView(R.layout.demo_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
@@ -186,7 +186,19 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		return list;
 	}
 
+	private void addList() {
+		int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
 
+		userId = 2 * (userId + 1);
+		if (list == null) {
+			list = new ArrayList<>();
+		}
+		list.addAll(getList(userId));
+		adapter.refresh(list);
+
+		lvDemo.smoothScrollToPosition(formerCout);		
+	}
+	
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -217,16 +229,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
-
-			userId = 2 * (userId + 1);
-			if (list == null) {
-				list = new ArrayList<>();
-			}
-			list.addAll(getList(userId));
-			adapter.refresh(list);
-
-			lvDemo.smoothScrollToPosition(formerCout);
+			addList();
 			
 			return;
 		}	
@@ -234,6 +237,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		finish();
 	}
 	
+
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
 	//示例代码<<<<<<<<<<<<<<<<<<<
