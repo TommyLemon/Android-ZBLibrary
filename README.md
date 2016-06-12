@@ -4,7 +4,7 @@
 
 OKHttp、图片加载、ZXing二维码、下载安装、自动缓存以及各种Base、Demo、UI、Util直接用。
 
-仿快用通讯录底部左右滑动实现前进返回;
+全新的手势，侧滑返回、全局右滑返回都OUT啦！
 
 BaseHttpListActivity，几行代码搞定http请求列表 加载和缓存;
 
@@ -54,6 +54,8 @@ BaseView，自定义View竟然如此简单;
 
 ##相关推荐
 [如何使用ZBLibrary-Android快速开发框架](http://my.oschina.net/u/2437072/blog/665241)
+
+[全新的手势，侧滑返回、全局右滑返回都OUT啦！](http://www.cnblogs.com/tommylemon/p/5576337.html)
 
 [自定义ZXing二维码扫描界面并解决取景框拉伸等问题](http://my.oschina.net/u/2437072/blog/687986)
 
