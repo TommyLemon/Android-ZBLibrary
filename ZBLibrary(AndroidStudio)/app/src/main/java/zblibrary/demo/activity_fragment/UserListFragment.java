@@ -63,6 +63,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		}
 
 		Toast.makeText(context, "服务器地址等信息有误，请查看这个类的@must信息", Toast.LENGTH_LONG).show();
+		Toast.makeText(context, "头像重复是因为只有这几个测试用的头像，url相同，adapter内加载并没有错位", Toast.LENGTH_LONG).show();
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();

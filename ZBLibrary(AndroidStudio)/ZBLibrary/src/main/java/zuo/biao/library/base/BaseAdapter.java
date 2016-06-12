@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 /**基础Adapter
  * @author Lemon
  * @warn 出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
- * @param <T> model(JavaBean)类名
+ * @param <T> 数据模型(model/JavaBean)类
  * @use extends BaseAdapter<T>, 具体参考.DemoAdapter
  *      预加载使用：
  *      1.在子类getView中最后 return super.getView(position, convertView, parent);//非必须，只在预加载用到

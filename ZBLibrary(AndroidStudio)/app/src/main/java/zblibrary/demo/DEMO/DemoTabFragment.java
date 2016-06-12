@@ -157,6 +157,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
+		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tvDemoTabLeft:
 			toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 2)
@@ -166,7 +167,6 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 			showShortToast(StringUtil.getTrimedString((TextView) v));
 			break;
 		default:
-			super.onClick(v);
 		}
 	}
 

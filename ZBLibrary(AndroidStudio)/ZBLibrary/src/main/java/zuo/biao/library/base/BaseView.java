@@ -29,7 +29,7 @@ import android.view.View.OnTouchListener;
 
 /**基础自定义View
  * @author Lemon
- * @param <T> 数据模型。null ? View.GONE : View.VISIBLE
+ * @param <T> 数据模型(model/JavaBean)类
  * @use extends BaseView<T>, 具体参考.DemoView
  */
 public abstract class BaseView<T> {
@@ -88,7 +88,7 @@ public abstract class BaseView<T> {
 
 	/**
 	 * 子类整个视图,可在子类直接使用
-	 * @must getView方法内对其赋值且不能为null
+	 * @must createView方法内对其赋值且不能为null
 	 */
 	protected View convertView = null;
 
@@ -116,12 +116,14 @@ public abstract class BaseView<T> {
 	public abstract View createView(@NonNull LayoutInflater inflater);
 
 	/**获取convertView的宽度
+	 * @warn 只能在createView后使用
 	 * @return
 	 */
 	public int getWidth() {
 		return convertView.getWidth();
 	}
 	/**获取convertView的高度
+	 * @warn 只能在createView后使用
 	 * @return
 	 */
 	public int getHeight() {
@@ -130,7 +132,7 @@ public abstract class BaseView<T> {
 
 	/**
 	 * data在列表中的位置
-	 * *只使用setView(int position, T data)方法来设置position，保证position与data对应正确
+	 * @must 只使用setView(int position, T data)方法来设置position，保证position与data对应正确
 	 */
 	protected int position = 0;
 	/**获取data在列表中的位置
@@ -162,10 +164,24 @@ public abstract class BaseView<T> {
 	 */
 	public abstract void setView(T data);
 
+	/**获取可见性
+	 * @warn 只能在createView后使用
+	 * @return 可见性 (View.VISIBLE, View.GONE, View.INVISIBLE);
+	 */
+	public int getVisibility() {
+		return convertView.getVisibility();
+	}
+	/**设置可见性
+	 * @warn 只能在createView后使用
+	 * @param visibility - 可见性 (View.VISIBLE, View.GONE, View.INVISIBLE);
+	 */
 	public void setVisibility(int visibility) {
 		convertView.setVisibility(visibility);
 	}
+	
+	
 	/**设置背景
+	 * @warn 只能在createView后使用
 	 * @param resId
 	 */
 	public void setBackground(int resId) {

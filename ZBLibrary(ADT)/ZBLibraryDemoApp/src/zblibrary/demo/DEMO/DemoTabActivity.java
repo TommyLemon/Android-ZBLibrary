@@ -15,6 +15,7 @@ limitations under the License.*/
 package zblibrary.demo.DEMO;
 
 import zuo.biao.library.base.BaseTabActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.WebViewActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +32,7 @@ import android.widget.TextView;
  * @author Lemon
  * @use toActivity(DemoTabActivity.createIntent(...));
  */
-public class DemoTabActivity extends BaseTabActivity implements OnClickListener {
+public class DemoTabActivity extends BaseTabActivity implements OnClickListener, OnBottomDragListener {
 //	private static final String TAG = "DemoTabActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

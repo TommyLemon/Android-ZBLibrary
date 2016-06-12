@@ -45,8 +45,7 @@ import android.widget.TextView;
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
  * @must 在子类onCreate中调用initView();initData();initListener();
  */
-public abstract class BaseTabActivity extends BaseActivity implements OnClickListener
-, OnTabSelectedListener, OnBottomDragListener {
+public abstract class BaseTabActivity extends BaseActivity implements OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabActivity";
 
 	/**
@@ -127,7 +126,8 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	}
 	@Override
 	public void setContentView(View view, LayoutParams params) {
-		throw new UnsupportedOperationException(TAG + "不支持子类中setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
+		throw new UnsupportedOperationException(TAG + "不支持子类中setContentView" +
+				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
 	}
 	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -399,13 +399,6 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	@Override
 	public void onTabSelected(TextView tvTab, int position, int id) {
 		selectFragment(position);
-	}
-
-	@Override
-	public void onDragBottom(boolean rightToLeft) {
-		if (rightToLeft == false) {
-			finish();
-		}		
 	}
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
