@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
-import zuo.biao.library.base.BaseFragment;
+import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.base.BaseFragment;
 import zuo.biao.library.bean.Entry;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +34,6 @@ import android.widget.ListView;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragment示例
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use new DemoFragment(),具体参考.DemoFragmentActivity(initData方法内)
  */
 public class DemoFragment extends BaseFragment {
@@ -187,7 +186,7 @@ public class DemoFragment extends BaseFragment {
 		lvDemoFragment.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				toActivity(DemoActivity.createIntent(context, position), REQUEST_TO_DEMO);
+				toActivity(UserActivity.createIntent(context, id));
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>>>>>
@@ -199,26 +198,6 @@ public class DemoFragment extends BaseFragment {
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	private static final int REQUEST_TO_DEMO = 10;
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK) {
-			return;
-		}
-
-		switch (requestCode) {
-		case REQUEST_TO_DEMO:
-			if (data != null) {
-				showShortToast("clicked Item position = " + data.getIntExtra(DemoActivity.RESULT_CLICKED_ITEM, -1));
-			}
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

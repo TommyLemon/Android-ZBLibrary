@@ -23,7 +23,7 @@
     </RelativeLayout>
 
     <zuo.biao.library.ui.XListView
-        android:id="@+id/lvBaseHttpList"
+        android:id="@+id/lvBaseList"
         style="@style/lv" />
 
 </LinearLayout>

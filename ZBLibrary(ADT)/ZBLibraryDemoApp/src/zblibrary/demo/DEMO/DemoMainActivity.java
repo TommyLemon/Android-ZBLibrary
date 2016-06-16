@@ -226,6 +226,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findViewById(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
 		
 		findViewById(R.id.llDemoMainDemoActivity).setOnClickListener(this);
+		findViewById(R.id.llDemoMainDemoListActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
@@ -361,6 +362,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			
 		case R.id.llDemoMainDemoActivity:
 			toActivity(DemoActivity.createIntent(context, 0));
+			break;     
+		case R.id.llDemoMainDemoListActivity:
+			toActivity(DemoListActivity.createIntent(context, 0));
 			break;     
 		case R.id.llDemoMainDemoFragmentActivity:
 			toActivity(DemoFragmentActivity.createIntent(context, 0));

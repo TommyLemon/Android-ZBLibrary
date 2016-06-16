@@ -9,6 +9,7 @@
         android:layout_height="match_parent" >
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/ivGridItemHead"
             style="@style/match_match" />
 

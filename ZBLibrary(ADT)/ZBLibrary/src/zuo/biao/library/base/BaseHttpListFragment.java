@@ -87,7 +87,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	/**
 	 * 显示列表的ListView
 	 */
-	protected XListView lvBaseHttpList;
+	protected XListView lvBaseList;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -95,7 +95,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	@Override
 	public void initView() {// 必须调用
 
-		lvBaseHttpList = (XListView) findViewById(R.id.lvBaseHttpList);
+		lvBaseList = (XListView) findViewById(R.id.lvBaseList);
 	}
 
 	/**显示列表（已在UI线程中）
@@ -113,15 +113,15 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	 */
 	@SuppressWarnings("unchecked")
 	public void setAdapter(BaseAdapter adapter) {
-		lvBaseHttpList.setAdapter(adapter);
-		lvBaseHttpList.showFooter(adapter != null);
+		lvBaseList.setAdapter(adapter);
+		lvBaseList.showFooter(adapter != null);
 
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
 			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener() {
 				@Override
 				public void onReach(int type, View v) {
 					if (type == TYPE_BOTTOM) {
-						lvBaseHttpList.onLoadMore();
+						lvBaseList.onLoadMore();
 					}
 				}
 			});
@@ -235,9 +235,9 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 			@Override
 			public void run() {
 				if (pageNum <= HttpManager.PAGE_NUM_0) {
-					lvBaseHttpList.stopRefresh();
+					lvBaseList.stopRefresh();
 				} else {
-					lvBaseHttpList.stopLoadMore(isServerHaveMore);
+					lvBaseList.stopLoadMore(isServerHaveMore);
 				}
 			}
 		});
@@ -349,7 +349,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	@Override
 	public void initListener() {// 必须调用
 
-		lvBaseHttpList.setXListViewListener(this);
+		lvBaseList.setXListViewListener(this);
 	}
 
 	/**

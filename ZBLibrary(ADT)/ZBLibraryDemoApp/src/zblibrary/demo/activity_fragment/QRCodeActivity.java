@@ -12,53 +12,63 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.DEMO;
+package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
+import zblibrary.demo.model.User;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.TimeRefresher;
-import zuo.biao.library.manager.TimeRefresher.OnTimeRefreshListener;
+import zuo.biao.library.manager.ListDiskCacheManager;
+import zuo.biao.library.util.ImageLoaderUtil;
+import zuo.biao.library.util.Json;
+import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-/**时间刷新器使用activity示例
+import com.google.zxing.WriterException;
+import com.zxing.encoding.EncodingHandler;
+
+/**二维码界面Activity
  * @author Lemon
- * @use toActivity(DemoTimeRefresherActivity.createIntent(...));
  */
-public class DemoTimeRefresherActivity extends BaseActivity 
-implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
-	private static final String TAG = "DemoTimeRefresherActivity";
+public class QRCodeActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+	private static final String TAG = "QRCodeActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
 	/**启动这个Activity的Intent
 	 * @param context
+	 * @param contactBeanJsonString
 	 * @return
 	 */
-	public static Intent createIntent(Context context) {
-		return new Intent(context, DemoTimeRefresherActivity.class);
+	public static Intent createIntent(Context context, long userId) {
+		return new Intent(context, QRCodeActivity.class).
+				putExtra(INTENT_ID, userId);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-
+	private long userId = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//demo_time_refresher_activity改为你所需要的layout文件；传this是为了全局滑动返回
-		setContentView(R.layout.demo_time_refresher_activity, this);
+		setContentView(R.layout.qrcode_activity, this);
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		context = this;
 		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
+
+		intent = getIntent();
+		userId = intent.getLongExtra(INTENT_ID, userId);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -71,38 +81,22 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<
-	private TextView tvDemoTimeRefresherTitle;
 
-	private TextView tvDemoTimeRefresherCount;
+	private ImageView ivQRCodeHead;
+	private TextView tvQRCodeName;
 
-	private EditText etDemoTimeRefresher;
-	//示例代码>>>>>>>>
+	private ImageView ivQRCodeCode;
+	private View ivQRCodeProgress;
 	@Override
 	public void initView() {//必须调用
 
-		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		ivQRCodeHead = (ImageView) findViewById(R.id.ivQRCodeHead);
+		tvQRCodeName = (TextView) findViewById(R.id.tvQRCodeName);
 
-		tvDemoTimeRefresherTitle = (TextView) findViewById(R.id.tvDemoTimeRefresherTitle);
-
-		tvDemoTimeRefresherCount = (TextView) findViewById(R.id.tvDemoTimeRefresherCount);
-
-		etDemoTimeRefresher = (EditText) findViewById(R.id.etDemoTimeRefresher);
-
-		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		ivQRCodeCode = (ImageView) findViewById(R.id.ivQRCodeCode);
+		ivQRCodeProgress = findViewById(R.id.ivQRCodeProgress);
 	}
 
-	private void clear() {
-		TimeRefresher.getInstance().removeTimeRefreshListener(TAG);
-		count = 0;
-		tvDemoTimeRefresherCount.setText("0");		
-	}
-
-
-	private boolean isToStop = false;
-	private void stopOrContinu() {
-		isToStop = !isToStop;
-	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -117,18 +111,66 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
+	private User user;
 	@Override
 	public void initData() {//必须调用
 
-		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		ivQRCodeProgress.setVisibility(View.VISIBLE);
+		runThread(TAG + "initData", new Runnable() {
 
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvDemoTimeRefresherTitle.setText("" + StringUtil.getCurrentString());
-		}
+			@Override
+			public void run() {
 
-		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+				user = ListDiskCacheManager.getInstance().get(User.class, "" + userId);
+				if (user == null) {
+					user = new User(userId);
+				}
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (isAlive) {
+							ImageLoaderUtil.loadImage(ivQRCodeHead, user.getHead());
+							tvQRCodeName.setText(StringUtil.getTrimedString(
+									StringUtil.isNotEmpty(user.getName(), true)
+									? user.getName() : user.getPhone()));
+						}
+					}
+				});
+
+				setQRCode(user);
+			}
+		});
+
 	}
 
+	private Bitmap qRCodeBitmap;
+	protected void setQRCode(User user) {
+		if (user == null) {
+			Log.e(TAG, "setQRCode  user == null" +
+					" || StringUtil.isNotEmpty(user.getPhone(), true) == false >> return;");
+			return;
+		}
+
+		try {
+			qRCodeBitmap = EncodingHandler.createQRCode(Json.toJSONString(user)
+					, (int) (2 * getResources().getDimension(R.dimen.qrcode_size)));
+		} catch (WriterException e) {
+			e.printStackTrace();
+			Log.e(TAG, "initData  try {Bitmap qrcode = EncodingHandler.createQRCode(contactJson, ivQRCodeCode.getWidth());" +
+					" >> } catch (WriterException e) {" + e.getMessage());
+		}
+
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (isAlive) {
+					ivQRCodeProgress.setVisibility(View.GONE);
+					ivQRCodeCode.setImageBitmap(qRCodeBitmap);						
+				}
+			}
+		});	
+	}
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -143,68 +185,29 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 
 	@Override
 	public void initListener() {//必须调用
-		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.ivDemoTimeRefresherReturn).setOnClickListener(this);
-		findViewById(R.id.ivDemoTimeRefresherForward).setOnClickListener(this);
 
-		tvDemoTimeRefresherCount.setOnClickListener(this);
-		findViewById(R.id.ibtnDemoTimeRefresher).setOnClickListener(this);
-		//示例代码>>>>>>>>>>>>>>>>>>>
+		findViewById(R.id.tvQRCodeReturn).setOnClickListener(this);
+
 	}
 
-	@Override
-	public void onTimerStart() {
-		showShortToast("start");
-	}
-	private int count = 0;
-	@Override
-	public void onTimerRefresh() {
-		if (isToStop == false) {
-			count ++ ;
-			tvDemoTimeRefresherCount.setText("" + count);
-		}
-	}
-	@Override
-	public void onTimerStop() {
-		showShortToast("stop");
-	}
+	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			clear();
+
 			return;
-		}	
-		
+		}
+
 		finish();
 	}
-	
-	
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivDemoTimeRefresherReturn:
+		case R.id.tvQRCodeReturn:
 			onDragBottom(false);
-			break;
-		case R.id.ivDemoTimeRefresherForward:
-			onDragBottom(true);
-			break;
-		case R.id.tvDemoTimeRefresherCount:
-			stopOrContinu();
-			break;
-		case R.id.ibtnDemoTimeRefresher:
-			clear();
-			isToStop = false;
-
-			String number = StringUtil.getNumber(etDemoTimeRefresher);
-			if (StringUtil.isNotEmpty(number, true)) {
-				TimeRefresher.getInstance().addTimeRefreshListener(TAG
-						, 0 + Integer.valueOf(number), this);
-			}
 			break;
 		default:
 			break;
@@ -213,15 +216,27 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
-
-
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
 	protected void onDestroy() {
-		TimeRefresher.getInstance().removeTimeRefreshListener(TAG);
 		super.onDestroy();
+
+		ivQRCodeProgress = null;
+		ivQRCodeCode = null;
+		user = null;
+		
+		if (qRCodeBitmap != null) {
+			if (qRCodeBitmap.isRecycled() == false) {
+				qRCodeBitmap.recycle();
+			}
+			qRCodeBitmap = null;
+		}
+		if (ivQRCodeCode != null) {
+			ivQRCodeCode.setImageBitmap(null);
+			ivQRCodeCode = null;
+		}
 	}
 
 

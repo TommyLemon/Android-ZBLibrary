@@ -65,6 +65,7 @@ public class StringUtil {
 
 	private static String currentString = "";
 	/**获取刚传入处理后的string
+	 * @must 上个影响currentString的方法 和 这个方法都应该在同一线程中，否则返回值可能不对
 	 * @return
 	 */
 	public static String getCurrentString() {

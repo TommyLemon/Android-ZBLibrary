@@ -33,7 +33,6 @@ import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**带标签的Fragment示例
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
  * @use new DemoTabFragment(),具体参考.DemoFragmentActivity(initData方法内)
  */
@@ -164,7 +163,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 					, REQUEST_TO_PLACE_PICKER, false);
 			break;
 		case R.id.tvDemoTabRight:
-			showShortToast(StringUtil.getTrimedString((TextView) v));
+			toActivity(DemoListActivity.createIntent(context, 0).putExtra(DemoTabActivity.INTENT_TITLE, "筛选"));
 			break;
 		default:
 		}

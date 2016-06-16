@@ -14,134 +14,34 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
+import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
-import zuo.biao.library.manager.ListDiskCacheManager;
 import zuo.biao.library.ui.XListView;
 import zuo.biao.library.ui.XListView.IXListViewListener;
-import zuo.biao.library.util.StringUtil;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 
 /**基础http获取列表的Activity
  * @author Lemon
  * @warn 1.不要在子类重复这个类中onCreateView中的代码;
- *       2.只使用lvBaseHttpListFragment为显示http数据的ListView，不要在子类中改变它
+ *       2.只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
  *       3.如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
  *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
- * @param <T> model(JavaBean)类名
- * @use extends BaseHttpListActivity, 具体参考.DemoHttpListActivity
- * @must 在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
- *       initView();initData();initListener(); return view;
+ * @param <T> 数据模型(model/JavaBean)类
+ * @use extends BaseHttpListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoHttpListActivity
  */
-public abstract class BaseHttpListActivity<T> extends BaseActivity implements
-HttpManager.OnHttpResponseListener, IXListViewListener {
-	private static final String TAG = "BaseHttpListActivity";
-
-
-
-	/**
-	 * @param savedInstanceState
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreate中的代码;
-	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
-	 *       initView();initData();initListener();
-	 */
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		onCreate(savedInstanceState, 0);
-	}
-	/**
-	 * @param savedInstanceState
-	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreate中的代码;
-	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
-	 *       initView();initData();initListener();
-	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID) {
-		onCreate(savedInstanceState, layoutResID, null);
-	}
-	/**
-	 * @param savedInstanceState
-	 * @param listener this - 滑动返回 ; null - 没有滑动返回
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreate中的代码;
-	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
-	 *       initView();initData();initListener();
-	 */
-	protected void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
-		onCreate(savedInstanceState, 0, listener);
-	}
-	/**
-	 * 该界面底层容器
-	 */
-	protected ViewGroup view = null;
-	/**
-	 * @param savedInstanceState
-	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
-	 * @param listener this - 滑动返回 ; null - 没有滑动返回
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreate中的代码;
-	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
-	 *       initView();initData();initListener();
-	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
-		super.onCreate(savedInstanceState);
-		super.setContentView(layoutResID <= 0 ? R.layout.base_http_list_activity : layoutResID, listener);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
-
-	}
-
-	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void setContentView(int layoutResID) {
-	}
-	@Override
-	public void setContentView(View view) {
-	}
-	@Override
-	public void setContentView(View view, LayoutParams params) {
-	}
-	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
-
+public abstract class BaseHttpListActivity<T> extends BaseListActivity<T, XListView> implements
+HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
+	//	private static final String TAG = "BaseHttpListActivity";
 
 
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	/**
-	 * 显示列表的ListView
-	 */
-	protected XListView lvBaseHttpList;
-	/**
-	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
-	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
-	 */
-	@Override
-	public void initView() {// 必须调用
-
-		lvBaseHttpList = (XListView) findViewById(R.id.lvBaseHttpList);
-	}
-
-	/**显示列表（已在UI线程中）
-	 * @param list
-	 */
-	public abstract void setList(List<T> list);//abstract是为了调用子类中的该方法
 
 	//可以不是BaseHttpAdapter，这样更灵活;写在子类中更清晰灵活
 	//	private BaseAdapter adapter;//private BaseHttpAdapter<T> adapter;
@@ -153,15 +53,15 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	 */
 	@SuppressWarnings("unchecked")
 	public void setAdapter(BaseAdapter adapter) {
-		lvBaseHttpList.setAdapter(adapter);
-		lvBaseHttpList.showFooter(adapter != null);
+		lvBaseList.setAdapter(adapter);
+		lvBaseList.showFooter(adapter != null);
 
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
 			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener() {
 				@Override
 				public void onReach(int type, View v) {
 					if (type == TYPE_BOTTOM) {
-						lvBaseHttpList.onLoadMore();
+						lvBaseList.onLoadMore();
 					}
 				}
 			});
@@ -181,197 +81,38 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 
 	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private boolean isToLoadCache;
-	private boolean isToSaveCache;
-	@Override
-	public void initData() {// 必须调用
-
-		isToSaveCache = getCacheClass() != null && StringUtil.isNotEmpty(getCacheGroup(), true);
-		isToLoadCache = isToSaveCache;
-	}
-
-	public void loadData(int pageNum_) {
-		loadData(pageNum_, isToLoadCache);
-	}
-	/**
-	 * 正在加载
-	 */
-	protected boolean isLoading = false;
-	/**
-	 * 服务器还有更多
-	 */
-	protected boolean isServerHaveMore = true;
-	/**
-	 * 加载页码
-	 */
-	protected int pageNum;
-	private int loadCacheStart;
-	/**加载数据，用httpGetList方法发请求获取数据
-	 * @param pageNum_
-	 * @param isToLoadCache
-	 */
-	public void loadData(int pageNum_, final boolean isToLoadCache) {
-		if (isLoading) {
-			return;
-		}
-		isLoading = true;
-
-		if (pageNum_ <= HttpManager.PAGE_NUM_0) {
-			pageNum_ = HttpManager.PAGE_NUM_0;
-			isServerHaveMore = true;
-			loadCacheStart = 0;//使用则可像网络正常情况下的重载，不使用则在网络异常情况下不重载（导致重载后加载数据下移）
-		} else {
-			if (isServerHaveMore == false) {
-				stopLoadData();
-				return;
-			}
-			loadCacheStart = list == null ? 0 : list.size();
-		}
-		this.pageNum = pageNum_;
-
-		runThread(TAG + "loadData", new Runnable() {
-
-			@Override
-			public void run() {
-				//从缓存获取数据
-				final List<T> newList = isToLoadCache == false ? null : ListDiskCacheManager.getInstance().getList(
-						getCacheClass(), getCacheGroup(), loadCacheStart);
-				if (newList == null || newList.size() <= 0) {
-					httpGetList(pageNum);
-					return;
-				}
-
-				if (pageNum <= HttpManager.PAGE_NUM_0) {
-					list = newList;
-				} else {
-					if (list == null) {
-						list = new ArrayList<>();
-					}
-					list.addAll(newList);
-				}
-
-				isLoading = false;
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						if (isAlive) {
-							setList(list);
-							if (pageNum <= HttpManager.PAGE_NUM_0) {
-								loadData(pageNum, false);
-							}
-						}
-					}
-				});
-			}
-		});
-
-	}
-	/**停止加载数据
-	 */
-	public void stopLoadData() {
-		isLoading = false;
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (pageNum <= HttpManager.PAGE_NUM_0) {
-					lvBaseHttpList.stopRefresh();
-				} else {
-					lvBaseHttpList.stopLoadMore(isServerHaveMore);
-				}
-			}
-		});
-	}
-
-
-	/**
-	 * http获取列表，在非UI线程中
-	 */
-	public abstract void httpGetList(int pageNum);
 
 	/**
 	 * 将Json串转为List，在非UI线程中
 	 */
 	public abstract List<T> parseArray(String json);
+	
+	
+	@Override
+	public void onStopRefresh() {
+		runOnUiThread(new Runnable() {
 
-
-
-	/**
-	 * 数据列表
-	 */
-	public List<T> list;
-	/**
-	 * 新数据列表
-	 */
-	private List<T> newList = null;
-	/**处理列表
-	 * @param newList_ 新数据列表
-	 * @return
-	 */
-	public void handleList(List<T> newList_) {
-		this.newList = newList_;
-		if (newList == null) {
-			newList = new ArrayList<>();
-		}
-
-		if (pageNum <= HttpManager.PAGE_NUM_0) {
-			saveCacheStart = 0;
-			list = newList;
-			if (list != null && list.size() > 0) {
-				isToLoadCache = false;
-			}
-		} else {
-			saveCacheStart = list == null ? 0 : list.size();
-			if (newList.size() <= 0) {
-				isServerHaveMore = false;
-			} else {
-				if (list == null) {
-					list = new ArrayList<>();
+			@Override
+			public void run() {
+				if (isAlive) {
+					lvBaseList.stopRefresh();
 				}
-				list.addAll(newList);
 			}
-		}
+		});
+	}
+	@Override
+	public void onStopLoadMore(final boolean isHaveMore) {
+		runOnUiThread(new Runnable() {
 
+			@Override
+			public void run() {
+				if (isAlive) {
+					lvBaseList.stopLoadMore(isHaveMore);
+				}
+			}
+		});
 	}
 
-
-
-	/**
-	 * 获取需要缓存的类
-	 * @return null-不缓存
-	 */
-	@Nullable
-	public abstract Class<T> getCacheClass();
-	/**
-	 * 获取缓存的分组
-	 * @return 不含非空字符的String-不缓存
-	 */
-	@Nullable
-	public abstract String getCacheGroup();
-	/**
-	 * 获取缓存数据的id，在非UI线程中s
-	 * @param data
-	 * @return "" + data.getId(); //不用long是因为某些数据(例如订单)的id超出long的最大值
-	 */
-	@Nullable
-	public abstract String getCacheId(T data);
-
-
-
-	private int saveCacheStart;
-	/**保存缓存
-	 */
-	public void saveCache() {
-		LinkedHashMap<String, T> map = new LinkedHashMap<>();
-		for (T data : newList) {
-			if (data != null) {
-				map.put(getCacheId(data), data);//map.put(null, data);不会崩溃
-			}
-		}
-
-		ListDiskCacheManager.getInstance().saveList(getCacheClass(), getCacheGroup(), map
-				, saveCacheStart, newList.size());
-	}
 
 	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -388,8 +129,10 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 
 	@Override
 	public void initListener() {// 必须调用
+		super.initListener();
+		setOnStopLoadListener(this);
 
-		lvBaseHttpList.setXListViewListener(this);
+		lvBaseList.setXListViewListener(this);
 	}
 
 	/**
@@ -399,28 +142,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	 */
 	@Override
 	public void onHttpRequestSuccess(int requestCode, int resultCode, final String json) {
-		stopLoadData();
-		runThread(TAG + "onHttpRequestSuccess", new Runnable() {
-			@Override
-			public void run() {
-
-				handleList(parseArray(json));
-
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						if (isAlive) {
-							setList(list);
-						}
-					}
-				});
-
-				if (isToSaveCache) {
-					saveCache();
-				}
-			}
-		});
+		onLoadSucceed(parseArray(json));
 	}
 
 	/**里面只有stopLoadData();showShortToast(R.string.get_failed); 不能满足需求时可重写该方法
@@ -429,18 +151,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener {
 	 */
 	@Override
 	public void onHttpRequestError(int requestCode, Exception exception) {
-		stopLoadData();
-		showShortToast(R.string.get_failed);
-	}
-
-
-	@Override
-	public void onRefresh() {
-		loadData(HttpManager.PAGE_NUM_0);
-	}
-	@Override
-	public void onLoadMore() {
-		loadData(pageNum + 1);
+		onLoadFailed(requestCode, exception);
 	}
 
 

@@ -56,6 +56,8 @@ public class UserView extends BaseView<User> implements OnClickListener {
 
 	public ImageView ivUserViewHead;
 	public TextView tvUserViewName;
+
+	public TextView tvUserViewId;
 	public TextView tvUserViewNumber;
 	@SuppressLint("InflateParams")
 	@Override
@@ -64,6 +66,8 @@ public class UserView extends BaseView<User> implements OnClickListener {
 
 		ivUserViewHead = findViewById(R.id.ivUserViewHead, this);
 		tvUserViewName = findViewById(R.id.tvUserViewName);
+
+		tvUserViewId = findViewById(R.id.tvUserViewId);
 		tvUserViewNumber = findViewById(R.id.tvUserViewNumber);
 
 		return convertView;
@@ -79,17 +83,20 @@ public class UserView extends BaseView<User> implements OnClickListener {
 
 		ImageLoaderUtil.loadImage(ivUserViewHead, data.getHead(), ImageLoaderUtil.TYPE_OVAL);//没有测试用的small图片 ImageLoaderUtil.getSmallUri(data.getHead()));
 		tvUserViewName.setText(StringUtil.getTrimedString(data.getName()));
-		tvUserViewNumber.setText(StringUtil.getNoBlankString(data.getPhone()));
+		
+		tvUserViewId.setText("ID:" + data.getId());
+		tvUserViewNumber.setText("Phone:" + StringUtil.getNoBlankString(data.getPhone()));
 	}
 
 
 	@Override
 	public void onClick(View v) {
+		if (BaseModel.isCorrect(data) == false) {
+			return;
+		}
 		switch (v.getId()) {
 		case R.id.ivUserViewHead:
-			if (BaseModel.isCorrect(data)) {
 				toActivity(WebViewActivity.createIntent(context, data.getName(), data.getHead()));
-			}
 			break;
 		default:
 			break;

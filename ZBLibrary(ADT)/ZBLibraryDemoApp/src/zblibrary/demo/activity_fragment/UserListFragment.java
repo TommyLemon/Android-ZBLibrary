@@ -17,7 +17,6 @@ package zblibrary.demo.activity_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import zblibrary.demo.DEMO.DemoActivity;
 import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
@@ -71,7 +70,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		initListener();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		lvBaseHttpList.onRefresh();
+		lvBaseList.onRefresh();
 
 		return view;
 	}
@@ -177,7 +176,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	public void initListener() {//必须调用
 		super.initListener();
 
-		lvBaseHttpList.setOnItemClickListener(this);
+		lvBaseList.setOnItemClickListener(this);
 	}
 
 
@@ -186,14 +185,14 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		position -= lvBaseHttpList.getHeaderViewsCount();
+		position -= lvBaseList.getHeaderViewsCount();
 		if (position < 0 || adapter == null || position >= adapter.getCount()) {
 			return;
 		}
 		
 		User user = adapter.getItem(position);	
 		if (BaseModel.isCorrect(user)) {//相当于 user != null && user.getId() > 0
-			toActivity(DemoActivity.createIntent(context, user.getId()));
+			toActivity(UserActivity.createIntent(context, user.getId()));
 		}
 	}
 
@@ -237,8 +236,8 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		List<User> list = new ArrayList<User>();
 		int userId;
 		for (int i = 0; i < 10; i++) {
-			userId = i + pageNum*10;
-			list.add(new User(i + 1, "联系人" + userId, String.valueOf(1311736568 + (i + range)*(pageNum + range)), getPictureUrl(userId)));
+			userId = i + pageNum*10 + 1;
+			list.add(new User(userId, "联系人" + userId, String.valueOf(1311736568 + (i + range)*(pageNum + range)), getPictureUrl(userId)));
 		}
 		return list;
 	}

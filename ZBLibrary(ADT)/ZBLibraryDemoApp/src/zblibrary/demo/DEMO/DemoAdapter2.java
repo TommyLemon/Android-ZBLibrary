@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 /**adapter模板，比较方便
  * *适用于listView,gridView
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use new DemoAdapter2(...),具体参考.DemoActivity(setList方法内)
  */
 public class DemoAdapter2 extends BaseAdapter<Entry<String, String>> {
