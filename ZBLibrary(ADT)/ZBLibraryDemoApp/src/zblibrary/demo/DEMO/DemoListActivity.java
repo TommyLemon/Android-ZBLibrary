@@ -72,6 +72,8 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 
 		intent = getIntent();
 		range = intent.getIntExtra(INTENT_RANGE, range);
+
+//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .OnCacheCallBack
 		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -100,7 +102,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 	}
 
 	//示例代码<<<<<<<<
-	private int formerLastPosition;
 	private GridAdapter adapter;
 	//示例代码>>>>>>>>
 	/** 示例方法 ：显示列表内容
@@ -121,11 +122,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 			lvBaseList.setAdapter(adapter);
 		} else {
 			adapter.refresh(list);
-
-			//滚动到新增列表的上面
-			if (formerLastPosition > 0 && formerLastPosition < adapter.getCount()) {
-				lvBaseList.smoothScrollToPosition(formerLastPosition);	
-			}
 		}
 
 	}
@@ -154,15 +150,13 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 		}
 
 		showShortToast("range = " + range);
-		
+
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 	@Override
 	public void getListAsync(int pageNum) {
 		showProgressDialog(R.string.loading);
-
-		formerLastPosition = adapter == null ? 0 : adapter.getCount() - 1;//为了列表滚动动画，可以去掉
 
 		List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
 		for (int i = 0; i < 6; i++) {
@@ -171,7 +165,7 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 
 		onLoadSucceed(list);
 	}
-	
+
 	/**获取图片地址，仅供测试用
 	 * @param userId
 	 * @return
@@ -179,21 +173,20 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 	private String getPictureUrl(int userId) {
 		switch (userId % 6) {
 		case 0:
-			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
-		case 1:
-			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
-		case 2:
-			return "https://www.baidu.com/img/bd_logo1.png";
-		case 3:
-			return "http://common.cnblogs.com/images/icon_weibo_24.png";
-		case 4:
-			return "http://common.cnblogs.com/images/wechat.png";
-		case 5:
 			return "http://images2015.cnblogs.com/blog/660067/201604/660067-20160404191409609-2089759742.png";
+		case 1:
+			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
+		case 2:
+			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
+		case 3:
+			return "https://www.baidu.com/img/bd_logo1.png";
+		case 4:
+			return "http://common.cnblogs.com/images/icon_weibo_24.png";
+		case 5:
+			return "http://common.cnblogs.com/images/wechat.png";
 		}
 		return null;
 	}
-
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -210,7 +203,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 		super.initListener();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		findViewById(R.id.tvDemoListReturn).setOnClickListener(this);
-		findViewById(R.id.tvDemoListForward).setOnClickListener(this);
 
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -228,7 +220,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			onLoadMore();
 
 			return;
 		}	
@@ -245,9 +236,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 		switch (v.getId()) {
 		case R.id.tvDemoListReturn:
 			onDragBottom(false);
-			break;
-		case R.id.tvDemoListForward:
-			onDragBottom(true);
 			break;
 		default:
 			break;

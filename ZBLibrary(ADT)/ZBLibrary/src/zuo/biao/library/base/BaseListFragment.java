@@ -25,6 +25,10 @@ import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.manager.ListDiskCacheManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 /**基础列表Activity
@@ -36,10 +40,10 @@ import android.widget.AbsListView;
  * @param <T> 数据模型(model/JavaBean)类
  * @param <LV> AbsListView的子类（ListView,GridView等）
  * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
- * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
+ * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
-public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseActivity {
-	private static final String TAG = "BaseListActivity";
+public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFragment {
+	private static final String TAG = "BaseListFragment";
 
 	private OnStopLoadListener onStopLoadListener;
 	/**设置停止加载监听
@@ -58,9 +62,46 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	protected void initCache(OnCacheCallBack<T> onCacheCallBack) {
 		this.onCacheCallBack = onCacheCallBack;
 	}
+	
+	
+	/**
+	 * @warn 如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
+	 *       否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
+	 * @param inflater
+	 * @param container
+	 * @param savedInstanceState
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
+	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
+	 *       initView();initData();initListener(); return view;
+	 */
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return onCreateView(inflater, container, savedInstanceState, 0);
+	}
+	/**
+	 * @param inflater
+	 * @param container
+	 * @param savedInstanceState
+	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
+	 * @return
+	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
+	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
+	 *       initView();initData();initListener(); return view;
+	 */
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
+		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
+		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_list_fragment : layoutResID, container, false);
+		context = (BaseActivity) getActivity();
+		isAlive = true;
+		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
+		return view;
+	}
 
-
+	
+	
+	
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -344,7 +385,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		onStopLoadListener = null;
 		onCacheCallBack = null;
 

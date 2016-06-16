@@ -22,6 +22,7 @@ import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
+import zuo.biao.library.interfaces.OnCacheCallBack;
 import zuo.biao.library.util.Json;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,7 +39,7 @@ import android.widget.Toast;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User> implements OnItemClickListener {
+public class UserListFragment extends BaseHttpListFragment<User> implements OnItemClickListener, OnCacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -64,6 +65,8 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		Toast.makeText(context, "非正方形头像不能处理成标准圆形", Toast.LENGTH_LONG).show();
 		Toast.makeText(context, "头像重复是因为只有这几个测试用的头像，url相同，adapter内加载并没有错位", Toast.LENGTH_LONG).show();
 
+		initCache(this);
+		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -121,11 +124,11 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-
+		
 	}
 
 	@Override
-	public void httpGetList(final int pageNum) {
+	public void getListAsync(final int pageNum) {
 		//实际使用时用这个，需要配置服务器地址		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
 
 		//仅测试用<<<<<<<<<<<
@@ -250,17 +253,17 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	private String getPictureUrl(int userId) {
 		switch (userId % 6) {
 		case 0:
-			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
-		case 1:
-			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
-		case 2:
-			return "https://www.baidu.com/img/bd_logo1.png";
-		case 3:
-			return "http://common.cnblogs.com/images/icon_weibo_24.png";
-		case 4:
-			return "http://common.cnblogs.com/images/wechat.png";
-		case 5:
 			return "http://images2015.cnblogs.com/blog/660067/201604/660067-20160404191409609-2089759742.png";
+		case 1:
+			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
+		case 2:
+			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
+		case 3:
+			return "https://www.baidu.com/img/bd_logo1.png";
+		case 4:
+			return "http://common.cnblogs.com/images/icon_weibo_24.png";
+		case 5:
+			return "http://common.cnblogs.com/images/wechat.png";
 		}
 		return null;
 	}

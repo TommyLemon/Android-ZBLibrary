@@ -1,23 +1,40 @@
+/*Copyright ©2015 TommyLemon(https://github.com/TommyLemon)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.*/
+
 package zuo.biao.library.interfaces;
 
 /**缓存回调
- * @param <M>
+ * @author Lemon
+ * @param <T>
+ * @use 见 .DemoListActivity 和 .UserListFragment
  */
-public interface OnCacheCallBack<M> {
+public interface OnCacheCallBack<T> {
 	/**
-	 * 获取需要缓存的类
+	 * 获取缓存的类，通常是数据模型(model/JavaBean)类
+	 * @warn Entry<K, V>这种带类型(这里是K和V)的类不能作为返回值，应该用其它不带类型的类(比如.User)替换
 	 * @return null-不缓存
 	 */
-	abstract Class<M> getCacheClass();
+	Class<T> getCacheClass();
 	/**
 	 * 获取缓存的分组
-	 * @return 不含非空字符的String-不缓存
+	 * @return 含非空字符的String ？缓存至返回的group中 : 不缓存
 	 */
-	abstract String getCacheGroup();
+	String getCacheGroup();
 	/**
-	 * 获取缓存数据的id，在非UI线程中s
+	 * 获取缓存单个数据的id
 	 * @param data
-	 * @return "" + data.getId(); //不用long是因为某些数据(例如订单)的id超出long的最大值
+	 * @return data == null ? null : "" + data.getId(); //不用long是因为某些数据(例如订单)的id超出long的最大值
 	 */
-	abstract String getCacheId(M data);
+	String getCacheId(T data);
 }

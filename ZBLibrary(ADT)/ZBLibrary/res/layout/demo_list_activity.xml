@@ -15,10 +15,6 @@
             android:layout_centerHorizontal="true"
             android:text="标题" />
 
-        <ImageView
-            android:id="@+id/tvDemoListForward"
-            style="@style/topbar_right_img"
-            android:src="@drawable/add" />
     </RelativeLayout>
 
     <!-- 可以改为ListView，如果改的话对应DemoListActivity内也要改；padding会导致smoothScrollToPosition失效 -->

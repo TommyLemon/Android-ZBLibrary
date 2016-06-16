@@ -53,7 +53,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 */
 	private OnTabSelectedListener onTabSelectedListener;
 	/**设置tab被选中监听
-	 * @warn 在子类super.initListener();前使用才有效
+	 * @warn 在initListener前使用才有效
 	 * @param onTabSelectedListener
 	 */
 	public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
@@ -294,7 +294,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<>();
 	/**添加右上方导航栏按钮
-	 * @must 在super.initData前调用
+	 * @warn 在initData前使用才有效
 	 * @param topRightButton 不会在这个类设置监听,需要自行设置
 	 */
 	public <V extends View> V addTopRightButton(V topRightButton) {

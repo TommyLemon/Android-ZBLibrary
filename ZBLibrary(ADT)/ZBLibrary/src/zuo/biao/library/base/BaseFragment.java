@@ -161,14 +161,13 @@ public abstract class BaseFragment extends Fragment {
 	 * @param showAnimation
 	 */
 	public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
-		if (isAlive == false || intent == null) {
-			Log.e(TAG, "toActivity  isAlive == false || intent == null >> return;");
-			return;
-		}
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-
+				if (isAlive == false || intent == null) {
+					Log.w(TAG, "toActivity  isAlive == false || intent == null >> return;");
+					return;
+				}
 				//fragment中使用context.startActivity会导致在fragment中不能正常接收onActivityResult
 				if (requestCode < 0) {
 					startActivity(intent);

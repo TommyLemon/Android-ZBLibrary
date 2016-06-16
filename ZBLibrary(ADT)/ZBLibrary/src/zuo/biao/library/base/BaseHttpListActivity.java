@@ -22,11 +22,11 @@ import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.ui.XListView;
 import zuo.biao.library.ui.XListView.IXListViewListener;
 import android.view.View;
-import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 
 /**基础http获取列表的Activity
  * @author Lemon
- * @warn 1.不要在子类重复这个类中onCreateView中的代码;
+ * @warn 1.不要在子类重复这个类及其父类中onCreate中的代码;
  *       2.只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
  *       3.如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
  *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -52,7 +52,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	 * @param adapter if (adapter != null && adapter instanceof BaseHttpAdapter) >> 预加载
 	 */
 	@SuppressWarnings("unchecked")
-	public void setAdapter(BaseAdapter adapter) {
+	public void setAdapter(ListAdapter adapter) {
 		lvBaseList.setAdapter(adapter);
 		lvBaseList.showFooter(adapter != null);
 
@@ -87,7 +87,28 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	 */
 	public abstract List<T> parseArray(String json);
 	
-	
+
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+
+
+	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void initListener() {// 必须调用
+		super.initListener();
+		setOnStopLoadListener(this);
+
+		lvBaseList.setXListViewListener(this);
+	}
+
 	@Override
 	public void onStopRefresh() {
 		runOnUiThread(new Runnable() {
@@ -112,29 +133,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 			}
 		});
 	}
-
-
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-
-
-
-
-
-
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	@Override
-	public void initListener() {// 必须调用
-		super.initListener();
-		setOnStopLoadListener(this);
-
-		lvBaseList.setXListViewListener(this);
-	}
-
+	
 	/**
 	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
 	 * @param resultCode 服务器返回结果码
