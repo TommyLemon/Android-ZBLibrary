@@ -30,23 +30,9 @@ public class GridPickerConfigBean {
 	private int numColumns;//第一次设置后就固定不变
 	private int maxShowRows;//第一次设置后就固定不变
 
-	/**
-	 * @param tabSuffix
-	 * @param selectedItemName
-	 * @param selectedItemPostion
-	 */
 	public GridPickerConfigBean(String tabSuffix, String selectedItemName, int selectedItemPostion) {
-		this.tabSuffix = tabSuffix;
-		this.selectedItemName = selectedItemName;
-		this.selectedItemPostion = selectedItemPostion;
+		this(tabSuffix, selectedItemName, selectedItemPostion, 3, 5);
 	}
-	/**
-	 * @param tabSuffix
-	 * @param selectedItemName
-	 * @param selectedItemPostion
-	 * @param numColumns
-	 * @param maxShowRows
-	 */
 	public GridPickerConfigBean(String tabSuffix, String selectedItemName, int selectedItemPostion, int numColumns, int maxShowRows) {
 		this.tabSuffix = tabSuffix;
 		this.selectedItemName = selectedItemName;

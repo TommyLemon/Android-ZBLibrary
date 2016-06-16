@@ -147,6 +147,10 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
 	 */
 	protected boolean needReload = false;
+	/**
+	 * 当前显示的tab所在位置，对应fragment所在位置
+	 */
+	protected int currentPosition;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -356,7 +360,6 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	protected int currentPosition;
 	@Override
 	public void initListener() {// 必须调用
 

@@ -58,15 +58,15 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 */
 	protected FragmentManager fragmentManager = null;
 	/**
-	 * activity的主界面View，即contentView
+	 * 该activity的界面，即contentView
 	 */
 	protected View view = null;
 	/**
-	 * 该FragmentActivity是否已被使用并未被销毁，在onCreate方法中赋值为true，不能在子Activity中创建
+	 * 该activity是否已被使用并未被销毁，在onCreate方法中赋值为true，不能在子Activity中创建
 	 */
 	protected boolean isAlive = false;
 	/**
-	 * 添加该fragment是否在运行，不能在子Fragment中创建
+	 * 该activity是否在运行，不能在子Activity中创建
 	 */
 	protected boolean isRunning = false;
 

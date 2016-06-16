@@ -15,7 +15,6 @@ limitations under the License.*/
 package zblibrary.demo.model;
 
 import zuo.biao.library.base.BaseModel;
-import zuo.biao.library.util.StringUtil;
 
 /**用户类
  * @author Lemon
@@ -25,7 +24,6 @@ public class User extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 
-	private long id;
 	private String head; //头像
 	private String name; //名字
 	private String phone; //电话号码
@@ -55,12 +53,6 @@ public class User extends BaseModel {
 	}
 
 
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
 	public String getHead() {
 		return head;
 	}
@@ -81,8 +73,8 @@ public class User extends BaseModel {
 	}
 
 	@Override
-	public boolean isCorrect() {
-		return id > 0 && StringUtil.isNotEmpty(head, true);
+	public boolean isCorrect() {//根据自己的需求决定，也可以直接 return true
+		return id > 0;// && StringUtil.isNotEmpty(phone, true);
 	}
 
 }

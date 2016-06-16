@@ -17,12 +17,12 @@ package zblibrary.demo.activity_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import zblibrary.demo.DEMO.DemoActivity;
 import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
-import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.Json;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +36,7 @@ import android.widget.Toast;
 /**用户列表界面fragment
  * @author Lemon
  * @use new UserListFragment(),详细使用见.DemoFragmentActivity(initData方法内)
- * @must 查看 .HttpRequest 中的@must和@warn
+ * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
 public class UserListFragment extends BaseHttpListFragment<User> implements OnItemClickListener {
@@ -62,7 +62,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 			range = argument.getInt(ARGUMENT_RANGE, range);
 		}
 
-		Toast.makeText(context, "服务器地址等信息有误，请查看这个类的@must信息", Toast.LENGTH_LONG).show();
+		Toast.makeText(context, "非正方形头像不能处理成标准圆形", Toast.LENGTH_LONG).show();
 		Toast.makeText(context, "头像重复是因为只有这几个测试用的头像，url相同，adapter内加载并没有错位", Toast.LENGTH_LONG).show();
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -192,8 +192,8 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		}
 		
 		User user = adapter.getItem(position);	
-		if (BaseModel.isCorrect(user)) {
-			toActivity(WebViewActivity.createIntent(context, user.getName(), user.getHead()));
+		if (BaseModel.isCorrect(user)) {//相当于 user != null && user.getId() > 0
+			toActivity(DemoActivity.createIntent(context, user.getId()));
 		}
 	}
 
