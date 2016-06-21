@@ -14,14 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
-/**拖拽View底部的回调接口
- * @author Lemon
- * @use implements OnBottomDragListener
- */
-public interface OnBottomDragListener {
+import android.app.Activity;
 
-	/**
-	 * @param rightToLeft ？从右向左 : 从左向右
-	 */
-	void onDragBottom(boolean rightToLeft);
+/**Fragment的逻辑接口
+ * @author Lemon
+ * @use implements FragmentPresenter
+ */
+public interface FragmentPresenter extends Presenter {
+
+	static final int RESULT_OK = Activity.RESULT_OK;
+	static final int RESULT_CANCELED = Activity.RESULT_CANCELED;
 }

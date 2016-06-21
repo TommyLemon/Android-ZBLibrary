@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 
 /**基础列表Activity
@@ -39,6 +40,8 @@ import android.widget.AbsListView;
  *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
  * @param <T> 数据模型(model/JavaBean)类
  * @param <LV> AbsListView的子类（ListView,GridView等）
+ * @see #onCreateView
+ * @see #setContentView
  * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
@@ -62,11 +65,9 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	protected void initCache(OnCacheCallBack<T> onCacheCallBack) {
 		this.onCacheCallBack = onCacheCallBack;
 	}
-	
-	
+
+
 	/**
-	 * @warn 如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
-	 *       否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
@@ -89,21 +90,46 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
 	 *       initView();initData();initListener(); return view;
 	 */
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
+	public final View onCreateView(LayoutInflater inflater, ViewGroup container
+			, Bundle savedInstanceState, int layoutResID) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
+		super.onCreateView(inflater, container, savedInstanceState);
+		//调用这个类的setContentView而崩溃 super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID);
 		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_list_fragment : layoutResID, container, false);
-		context = (BaseActivity) getActivity();
-		isAlive = true;
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		return view;
 	}
 
-	
-	
-	
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
+	 */
+	@Override
+	public final void setContentView(int layoutResID) {
+		setContentView(null);
+	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
+	 */
+	@Override
+	public final void setContentView(View view) {
+		setContentView(null, null);
+	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
+	 */
+	@Override
+	public final void setContentView(View view, LayoutParams params) {
+		throw new UnsupportedOperationException(TAG + "不支持setContentView，传界面布局请使用onCreateView(" +
+				"LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID)等方法");
+	}
+	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**
 	 * 显示列表的ListView
@@ -126,7 +152,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	public abstract void setList(List<T> list);//abstract是为了调用子类中的该方法
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -137,7 +163,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	protected boolean isToLoadCache;
 	protected boolean isToSaveCache;
@@ -218,15 +244,13 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 				}
 
 				isLoading = false;
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
-							setList(list);
-							if (pageNum <= HttpManager.PAGE_NUM_0) {
-								loadData(pageNum, false);
-							}
+						setList(list);
+						if (pageNum <= HttpManager.PAGE_NUM_0) {
+							loadData(pageNum, false);
 						}
 					}
 				});
@@ -304,8 +328,8 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 			}
 		}
 
-		ListDiskCacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup(), map
-				, saveCacheStart, newList.size());
+		ListDiskCacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
+				, map, saveCacheStart, newList.size());
 	}
 
 
@@ -320,13 +344,11 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 				handleList(newList);
 
 				stopLoadData();
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
-							setList(list);
-						}
+						setList(list);
 					}
 				});
 
@@ -347,7 +369,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	}
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -397,7 +419,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

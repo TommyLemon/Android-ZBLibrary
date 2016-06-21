@@ -10,6 +10,7 @@ import zuo.biao.library.util.SettingUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -55,14 +56,15 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 
 	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.setting_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
-
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -136,19 +138,17 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 			public void run() {
 
 				settings = SettingUtil.getAllBooleans(context);
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
-							dismissProgressDialog();
-							if (settings == null || settings.length <= 0) {
-								finish();
-								return;
-							}
-							for (int i = 0; i < settings.length; i++) {
-								setSwitch(i, settings[i]);
-							}
+						dismissProgressDialog();
+						if (settings == null || settings.length <= 0) {
+							finish();
+							return;
+						}
+						for (int i = 0; i < settings.length; i++) {
+							setSwitch(i, settings[i]);
 						}
 					}
 				});
@@ -196,7 +196,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 			initData();
 			return;
 		}	
-		
+
 		finish();
 	}
 
@@ -253,13 +253,11 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 					SettingUtil.putAllBoolean(context, settings);
 					isSettingChanged = false;
-					runOnUiThread(new Runnable() {
+					runUiThread(new Runnable() {
 
 						@Override
 						public void run() {
-							if (isAlive) {
-								SettingActivity.this.finish();
-							}
+							SettingActivity.this.finish();
 						}
 					});
 				}

@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -56,16 +57,17 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private long userId = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.qrcode_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		intent = getIntent();
 		userId = intent.getLongExtra(INTENT_ID, userId);
@@ -126,15 +128,13 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 				if (user == null) {
 					user = new User(userId);
 				}
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive) {
-							ImageLoaderUtil.loadImage(ivQRCodeHead, user.getHead());
-							tvQRCodeName.setText(StringUtil.getTrimedString(
-									StringUtil.isNotEmpty(user.getName(), true)
-									? user.getName() : user.getPhone()));
-						}
+						ImageLoaderUtil.loadImage(ivQRCodeHead, user.getHead());
+						tvQRCodeName.setText(StringUtil.getTrimedString(
+								StringUtil.isNotEmpty(user.getName(), true)
+								? user.getName() : user.getPhone()));
 					}
 				});
 
@@ -161,13 +161,11 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 					" >> } catch (WriterException e) {" + e.getMessage());
 		}
 
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (isAlive) {
 					ivQRCodeProgress.setVisibility(View.GONE);
 					ivQRCodeCode.setImageBitmap(qRCodeBitmap);						
-				}
 			}
 		});	
 	}
@@ -226,7 +224,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 		ivQRCodeProgress = null;
 		ivQRCodeCode = null;
 		user = null;
-		
+
 		if (qRCodeBitmap != null) {
 			if (qRCodeBitmap.isRecycled() == false) {
 				qRCodeBitmap.recycle();

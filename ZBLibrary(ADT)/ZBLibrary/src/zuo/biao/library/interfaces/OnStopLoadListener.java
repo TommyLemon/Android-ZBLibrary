@@ -16,6 +16,7 @@ package zuo.biao.library.interfaces;
 
 /**停止加载监听回调
  * @author Lemon
+ * @use implements OnStopLoadListener
  */
 public interface OnStopLoadListener {
 	/**

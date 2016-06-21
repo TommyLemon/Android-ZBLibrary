@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
@@ -29,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +44,7 @@ import android.widget.TextView;
 /**日期选择窗口
  * @author Lemon
  * @use 参考.ModelBottomWindow;
-	 * @warn 和android系统SDK内一样，month从0开始
+ * @warn 和android系统SDK内一样，month从0开始
  */
 public class DatePickerWindow extends BaseBottomWindow implements OnClickListener {
 	private static final String TAG = "DatePickerWindow";
@@ -85,18 +87,17 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.container_window);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -150,12 +151,10 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 				}
 
 				list = getList(tabPosition, selectedItemList);
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive) {
 							gridPickerView.setView(tabPosition, list);
-						}
 					}
 				});
 			}
@@ -246,13 +245,11 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 				list = getList(selectedItemList.size() - 1, selectedItemList);
 
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
 							gridPickerView.init(configList, list);
-						}
 					}
 				});
 			}
@@ -349,7 +346,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 				detailList.add(0 + Integer.valueOf(StringUtil.getNumber(list.get(i))));
 			}
 			detailList.set(1, detailList.get(1) - 1);
-			
+
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(detailList.get(0), detailList.get(1), detailList.get(2));
 			intent.putExtra(RESULT_TIME_IN_MILLIS, calendar.getTimeInMillis());

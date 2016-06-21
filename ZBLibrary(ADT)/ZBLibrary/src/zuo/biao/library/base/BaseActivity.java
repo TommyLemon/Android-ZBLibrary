@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.interfaces.ActivityPresenter;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.ThreadManager;
 import zuo.biao.library.ui.EditTextManager;
@@ -44,36 +45,44 @@ import android.widget.Toast;
 /**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法
  * *onFling内控制左右滑动手势操作范围，可自定义
  * @author Lemon
+ * @see ActivityPresenter#getActivity
  * @use extends BaseActivity, 具体参考 .DemoActivity 和 .DemoFragmentActivity
  */
-public abstract class BaseActivity extends FragmentActivity implements OnGestureListener, OnTouchListener {
+public abstract class BaseActivity extends FragmentActivity implements ActivityPresenter
+, OnGestureListener, OnTouchListener {
 	private static final String TAG = "BaseActivity";
 
 	/**
-	 * 在onCreate方法中赋值，不能在子Activity中创建
+	 * 该Activity实例，命名为context是因为大部分方法都只需要context，写成context使用更方便
+	 * @warn 不能在子Fragment中创建
 	 */
 	protected BaseActivity context = null;
 	/**
-	 * 在onCreate方法中赋值，不能在子Activity中创建
-	 */
-	protected FragmentManager fragmentManager = null;
-	/**
-	 * 该activity的界面，即contentView
+	 * 该Activity的界面，即contentView
+	 * @warn 不能在子Fragment中创建
 	 */
 	protected View view = null;
 	/**
-	 * 该activity是否已被使用并未被销毁，在onCreate方法中赋值为true，不能在子Activity中创建
+	 * 布局解释器
 	 */
-	protected boolean isAlive = false;
+	protected LayoutInflater inflater = null;
 	/**
-	 * 该activity是否在运行，不能在子Activity中创建
+	 * @warn 不能在子类中创建
 	 */
-	protected boolean isRunning = false;
+	protected FragmentManager fragmentManager = null;
 
+	private boolean isAlive = false;
+	private boolean isRunning = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		context = getActivity();
+		isAlive = true;
+		fragmentManager = getSupportFragmentManager();
+
+		inflater = getLayoutInflater();
 
 		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
 		threadNameList = new ArrayList<String>();
@@ -86,15 +95,11 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 		super.setContentView(layoutResID);
 
 		onBottomDragListener = listener;
-		view = LayoutInflater.from(this).inflate(layoutResID, null);
+		view = inflater.inflate(layoutResID, null);
 		view.setOnTouchListener(this);
 	}
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-	public static final String INTENT_TITLE = "INTENT_TITLE";
-	public static final String INTENT_ID = "INTENT_ID";
-	public static final String RESULT_DATA = "RESULT_DATA";
 
 	/**
 	 * 用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
@@ -124,22 +129,6 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	protected View toGetWindowTokenView = null;
 
 
-
-
-	/**
-	 * UI显示方法，必须在子类onCreate方法内setContentView后调用
-	 */
-	public abstract void initView();
-	/**
-	 * data数据方法，必须在子类onCreate方法内setContentView后调用
-	 */
-	public abstract void initData();
-	/**
-	 * listener事件监听方法，必须在子类onCreate方法内setContentView后调用
-	 */
-	public abstract void initListener();
-
-
 	//	/**通过id查找并获取控件，使用时不需要强转
 	//	 * @param id
 	//	 * @return 
@@ -159,6 +148,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 		v.setOnClickListener(l);
 		return v;
 	}
+
 
 	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**展示加载进度条,无标题
@@ -182,13 +172,9 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 * @param dialogMessage 信息
 	 */
 	public void showProgressDialog(final String dialogTitle, final String dialogMessage){
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (isAlive == false) {
-					Log.w(TAG, "showProgressDialog  isAlive == false >> return;");
-					return;
-				}
 				if (progressDialog == null) {
 					progressDialog = new ProgressDialog(context);
 				}
@@ -211,12 +197,12 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	/**隐藏加载进度
 	 */
 	public void dismissProgressDialog() {
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
 				//把判断写在runOnUiThread外面导致有时dismiss无效，可能不同线程判断progressDialog.isShowing()结果不一致
-				if(isAlive == false || progressDialog == null || progressDialog.isShowing() == false){
-					Log.w(TAG, "dismissProgressDialog  isAlive == false || progressDialog == null" +
+				if(progressDialog == null || progressDialog.isShowing() == false){
+					Log.w(TAG, "dismissProgressDialog  progressDialog == null" +
 							" || progressDialog.isShowing() == false >> return;");
 					return;
 				}
@@ -254,11 +240,11 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 * @param showAnimation
 	 */
 	public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (isAlive == false || intent == null) {
-					Log.w(TAG, "toActivity  isAlive == false || intent == null >> return;");
+				if (intent == null) {
+					Log.w(TAG, "toActivity  intent == null >> return;");
 					return;
 				}
 				//fragment中使用context.startActivity会导致在fragment中不能正常接收onActivityResult
@@ -286,7 +272,8 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 		try {
 			showShortToast(context.getResources().getString(stringResId));
 		} catch (Exception e) {
-			Log.e(TAG, "showShortToast  context.getResources().getString(resId) >>  catch (Exception e) {" + e.getMessage());
+			Log.e(TAG, "showShortToast  context.getResources().getString(resId)" +
+					" >>  catch (Exception e) {" + e.getMessage());
 		}
 	}
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
@@ -300,13 +287,9 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 * @param isForceDismissProgressDialog
 	 */
 	public void showShortToast(final String string, final boolean isForceDismissProgressDialog) {
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (isAlive == false) {
-					Log.w(TAG, "showShortToast  isAlive == false >> return;");
-					return;
-				}
 				if (isForceDismissProgressDialog) {
 					dismissProgressDialog();
 				}
@@ -316,6 +299,19 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	}
 	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
+	//运行线程 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**在UI线程中运行，建议用这个方法代替runOnUiThread
+	 * @param action
+	 */
+	public final void runUiThread(Runnable action) {
+		if (isAlive() == false) {
+			Log.e(TAG, "runUiThread  isAlive() == false >> return;");
+			return;
+		}
+		runOnUiThread(action);
+	}
 	/**
 	 * 线程名列表
 	 */
@@ -325,7 +321,11 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	 * @param runnable
 	 * @return
 	 */
-	public Handler runThread(String name, Runnable runnable) {
+	public final Handler runThread(String name, Runnable runnable) {
+		if (isAlive() == false) {
+			Log.e(TAG, "runThread  isAlive() == false >> return null;");
+			return null;
+		}
 		name = StringUtil.getTrimedString(name);
 		Handler handler = ThreadManager.getInstance().runThread(name, runnable);
 		if (handler == null) {
@@ -337,17 +337,24 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 		return handler;
 	}
 
+	//运行线程 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	@Override
+	public final boolean isAlive() {
+		return isAlive && context != null;// & ! isFinishing();导致finish，onDestroy内runUiThread不可用
+	}
+	@Override
+	public final boolean isRunning() {
+		return isRunning & isAlive();
+	}
+
 	@Override
 	public void finish() {
 		super.finish();//必须写在最前才能显示自定义动画
-		//里面的代码不需要重写，通过super.finish();即可得到<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (isAlive == false) {
-					Log.e(TAG, "finish  isAlive == false >> return;");
-					return;
-				}
 				if (toGetWindowTokenView != null) {
 					EditTextManager.hideKeyboard(context, toGetWindowTokenView);
 				}
@@ -355,12 +362,12 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 					try {
 						overridePendingTransition(enterAnim, exitAnim);
 					} catch (Exception e) {
-						Log.e(TAG, "finish overridePendingTransition(enterAnim, exitAnim); >> catch (Exception e) {  " + e.getMessage());
+						Log.e(TAG, "finish overridePendingTransition(enterAnim, exitAnim);" +
+								" >> catch (Exception e) {  " + e.getMessage());
 					}
 				}
 			}
 		});
-		//里面的代码不需要重写，通过super.finish();即可得到>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 	@Override
@@ -378,12 +385,11 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		//里面的代码不需要重写，通过super.onDestroy();即可得到<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		dismissProgressDialog();
 		isRunning = false;
 		isAlive = false;
+		context = null;
 		ThreadManager.getInstance().destroyThread(threadNameList);
-		//里面的代码不需要重写，通过super.onDestroy();即可得到>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 
@@ -449,7 +455,8 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-		//		//原来实现全局滑动返回的代码，OnFinishListener已删除，可以自己写一个或者用onBottomDragListener.onDragBottom(false);代替onFinishListener.finish();
+		//		/*原来实现全局滑动返回的代码，OnFinishListener已删除，可以自己写一个或者
+		//		 * 用onBottomDragListener.onDragBottom(false);代替onFinishListener.finish();**/
 		//		if (onFinishListener != null) {
 		//
 		//			float maxDragHeight = getResources().getDimension(R.dimen.page_drag_max_height);
@@ -467,7 +474,8 @@ public abstract class BaseActivity extends FragmentActivity implements OnGesture
 
 
 		//底部滑动实现同点击标题栏左右按钮效果
-		if (onBottomDragListener != null && e1.getRawY() > ScreenUtil.getScreenSize(this)[1] - ((int) getResources().getDimension(R.dimen.bottom_drag_height))) {
+		if (onBottomDragListener != null && e1.getRawY() > ScreenUtil.getScreenSize(this)[1]
+				- ((int) getResources().getDimension(R.dimen.bottom_drag_height))) {
 
 			float maxDragHeight = getResources().getDimension(R.dimen.bottom_drag_max_height);
 			float distanceY = e2.getRawY() - e1.getRawY();

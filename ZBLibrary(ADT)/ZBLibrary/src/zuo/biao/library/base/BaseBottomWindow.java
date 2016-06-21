@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -45,13 +44,11 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 	public static final String RESULT_ITEM_ID = "RESULT_ITEM_ID";
 
 
-	protected LayoutInflater inflater = null;//该Activity布局解释器
 	protected Resources resources = null;//该Activity资源管理器
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		inflater = getLayoutInflater();
 		resources = getResources();
 	}
 

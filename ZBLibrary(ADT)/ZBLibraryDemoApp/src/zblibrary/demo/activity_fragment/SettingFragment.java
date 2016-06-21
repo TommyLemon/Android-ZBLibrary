@@ -16,7 +16,6 @@ package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.ui.AlertDialog;
 import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 import android.os.Bundle;
@@ -41,10 +40,9 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//必须使用<<<<<<<<<<<<<<<<<<
-		view = inflater.inflate(R.layout.setting_fragment, container, false);
-		context = (BaseActivity) getActivity();
-		isAlive = true;
+		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
+		super.onCreateView(inflater, container, savedInstanceState);
+		setContentView(R.layout.setting_fragment);
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<

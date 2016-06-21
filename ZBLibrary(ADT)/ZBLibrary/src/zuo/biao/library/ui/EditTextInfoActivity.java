@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -75,17 +76,17 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 				putExtra(INTENT_VALUE, value);
 	}
 
-
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private int MaxLen = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_text_info_activity, this);//传this是为了全局滑动返回
-		//类相关初始化,建议使用<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化,建议使用>>>>>>>>>
 
 		//必须调用<<<<<<<<<<<
 		initView();
@@ -234,16 +235,12 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 					list = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.profesions)));
 				}
 
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						Log.i(TAG, "runOnUiThread run ");
-						if (isAlive == true) {//isAlive已在baseFragment中新建
-							Log.i(TAG, "isAlive == true");
-							dismissProgressDialog();
-							if (hasList) {
-								setList(list);
-							}
+						dismissProgressDialog();
+						if (hasList) {
+							setList(list);
 						}
 					}
 				});
@@ -262,7 +259,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 			//				intent.putExtra(RESULT_KEY, StringUtil.getTrimedString(etEditTextInfo));
 			intent.putExtra(RESULT_VALUE, editedValue);
 			setResult(RESULT_OK, intent);
-			
+
 			exitAnim = R.anim.left_push_out;
 			finish();
 		}

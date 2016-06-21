@@ -17,6 +17,7 @@ package zuo.biao.library.ui;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.ContactInfoUtil;
@@ -24,6 +25,7 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
@@ -76,16 +78,17 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 				putExtra(INTENT_PACKAGE_NAME, packageName);
 	}
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private int MaxLen = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_text_info_window);
-		//类相关初始化,建议使用<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化,建议使用>>>>>>>>>
 
 		//必须调用<<<<<<<<<<<
 		initView();

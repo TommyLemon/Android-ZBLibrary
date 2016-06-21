@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**通用获取裁剪单张照片Activity
@@ -82,6 +83,13 @@ public class CutPictureActivity extends BaseActivity {
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
+
+	
 	private String originalPicturePath;
 	private String cuttedPicturePath;
 	private String cuttedPictureName;
@@ -90,10 +98,6 @@ public class CutPictureActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		intent = getIntent();
 
@@ -269,7 +273,6 @@ public class CutPictureActivity extends BaseActivity {
 		exitAnim = enterAnim = R.anim.null_anim;
 		super.finish();
 	}
-
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

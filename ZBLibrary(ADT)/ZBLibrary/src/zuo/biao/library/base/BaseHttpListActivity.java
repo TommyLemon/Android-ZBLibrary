@@ -40,7 +40,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	//可以不是BaseHttpAdapter，这样更灵活;写在子类中更清晰灵活
@@ -57,7 +57,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 		lvBaseList.showFooter(adapter != null);
 
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
-			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener() {
+			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener(){
 				@Override
 				public void onReach(int type, View v) {
 					if (type == TYPE_BOTTOM) {
@@ -68,7 +68,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 		}
 	}
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -79,16 +79,16 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	/**
 	 * 将Json串转为List，在非UI线程中
 	 */
 	public abstract List<T> parseArray(String json);
-	
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -111,29 +111,25 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 
 	@Override
 	public void onStopRefresh() {
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				if (isAlive) {
-					lvBaseList.stopRefresh();
-				}
+				lvBaseList.stopRefresh();
 			}
 		});
 	}
 	@Override
 	public void onStopLoadMore(final boolean isHaveMore) {
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				if (isAlive) {
-					lvBaseList.stopLoadMore(isHaveMore);
-				}
+				lvBaseList.stopLoadMore(isHaveMore);
 			}
 		});
 	}
-	
+
 	/**
 	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
 	 * @param resultCode 服务器返回结果码
@@ -165,7 +161,7 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

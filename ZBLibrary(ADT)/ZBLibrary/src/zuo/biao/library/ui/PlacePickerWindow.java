@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
@@ -29,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -71,16 +73,18 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
+
 	public static final String INTENT_PACKAGE_NAME = "INTENT_PACKAGE_NAME";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.container_window);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		cityDB = CityDB.getInstance(context, StringUtil.getTrimedString(getIntent().getStringExtra(INTENT_PACKAGE_NAME)));
 
@@ -132,12 +136,10 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 			public void run() {
 
 				list = getList(tabPosition, gridPickerView.getSelectedItemList());
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive) {
-							gridPickerView.setView(tabPosition, list, itemPositon);
-						}
+						gridPickerView.setView(tabPosition, list, itemPositon);
 					}
 				});
 			}
@@ -201,22 +203,20 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 				for (GridPickerConfigBean gpcb : configList) {
 					selectedItemNameList.add(gpcb.getSelectedItemName());
 				}
-				
+
 				list = getList(selectedItemNameList.size() - 1, selectedItemNameList);
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
-							gridPickerView.init(configList, list);
-						}
+						gridPickerView.init(configList, list);
 					}
 				});
 			}
 		});
 
 	}
-	
+
 	@Override
 	@Nullable
 	protected String getTitleName() {

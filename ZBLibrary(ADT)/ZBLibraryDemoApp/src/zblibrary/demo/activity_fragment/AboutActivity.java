@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -73,16 +74,17 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private boolean isExitByDoubleClick = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		intent = getIntent();
 		isExitByDoubleClick = intent.getBooleanExtra(INTENT_IS_EXIT_BY_DOUBLE_CLICK, isExitByDoubleClick);
@@ -103,7 +105,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutGesture;
 
 	private TextView tvAboutAppInfo;
-	
+
 	private ImageView ivAboutQRCode;
 	private View ivAboutQRCodeProgress;
 	@Override
@@ -116,7 +118,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		}
 
 		tvAboutAppInfo = (TextView) findViewById(R.id.tvAboutAppInfo);
-		
+
 		ivAboutQRCode = findViewById(R.id.ivAboutQRCode, this);
 		ivAboutQRCodeProgress = findViewById(R.id.ivAboutQRCodeProgress);
 	}
@@ -163,19 +165,17 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 							" >> } catch (WriterException e) {" + e.getMessage());
 				}
 
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive) {
-							ivAboutQRCode.setImageBitmap(qRCodeBitmap);
-							ivAboutQRCodeProgress.setVisibility(View.GONE);
-						}
+						ivAboutQRCode.setImageBitmap(qRCodeBitmap);
+						ivAboutQRCodeProgress.setVisibility(View.GONE);
 					}
 				});		
 			}
 		});
 	}
-	
+
 	/**下载应用
 	 */
 	private void downloadApp() {
@@ -241,7 +241,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 		finish();
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -278,7 +278,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		case R.id.llAboutContactUs:
 			CommonUtil.sendEmail(context, Constant.APP_OFFICIAL_EMAIL);
 			break;
-			
+
 		case R.id.ivAboutQRCode:
 			downloadApp();
 			break;

@@ -62,7 +62,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**
 	 * 显示列表的ListView
@@ -85,7 +85,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	public abstract void setList(List<T> list);//abstract是为了调用子类中的该方法
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -96,7 +96,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	protected boolean isToLoadCache;
 	protected boolean isToSaveCache;
@@ -177,15 +177,13 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 				}
 
 				isLoading = false;
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
-							setList(list);
-							if (pageNum <= HttpManager.PAGE_NUM_0) {
-								loadData(pageNum, false);
-							}
+						setList(list);
+						if (pageNum <= HttpManager.PAGE_NUM_0) {
+							loadData(pageNum, false);
 						}
 					}
 				});
@@ -263,8 +261,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 			}
 		}
 
-		ListDiskCacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup(), map
-				, saveCacheStart, newList.size());
+		ListDiskCacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
+				, map, saveCacheStart, newList.size());
 	}
 
 
@@ -279,13 +277,11 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 				handleList(newList);
 
 				stopLoadData();
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						if (isAlive) {
-							setList(list);
-						}
+						setList(list);
 					}
 				});
 
@@ -306,8 +302,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	}
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -356,7 +351,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

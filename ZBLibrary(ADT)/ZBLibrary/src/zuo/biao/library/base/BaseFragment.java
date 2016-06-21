@@ -15,41 +15,94 @@ limitations under the License.*/
 package zuo.biao.library.base;
 
 import zuo.biao.library.R;
+import zuo.biao.library.interfaces.FragmentPresenter;
 import zuo.biao.library.util.Log;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 /**基础android.support.v4.app.Fragment，通过继承可获取或使用 里面创建的 组件 和 方法
  * @author Lemon
+ * @see #context
+ * @see #view
+ * @see #onCreateView
+ * @see #setContentView
  * @use extends BaseFragment, 具体参考.DemoFragment
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements FragmentPresenter {
 	private static final String TAG = "BaseFragment";
 
 	/**
-	 * 该fragment全局视图，不能在子Fragment中创建
-	 */
-	protected View view = null;
-	/**
-	 * 在onCreateView方法中赋值，不能在子Fragment中创建
+	 * 添加该Fragment的Activity
+	 * @warn 不能在子类中创建
 	 */
 	protected BaseActivity context = null;
 	/**
-	 * 添加该fragment是否已被使用并未被销毁，在onCreateView方法中赋值为true，不能在子Fragment中创建
+	 * 该Fragment全局视图
+	 * @must 非abstract子类的onCreateView中return view;
+	 * @warn 不能在子类中创建
 	 */
-	protected boolean isAlive = false;
+	protected View view = null;
 	/**
-	 * 添加该fragment是否在运行，不能在子Fragment中创建
+	 * 布局解释器
 	 */
-	protected boolean isRunning = false;
+	protected LayoutInflater inflater = null;
+	/**
+	 * 添加这个Fragment视图的布局
+	 */
+	@Nullable
+	protected ViewGroup container = null;
 
-	protected int RESULT_OK = Activity.RESULT_OK;
-	protected int RESULT_CANCELED = Activity.RESULT_CANCELED;
+	private boolean isAlive = false;
+	private boolean isRunning = false;
+	/**
+	 * @must 在非abstract子类的onCreateView中super.onCreateView且return view;
+	 */
+	@Override
+	@Nullable
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+		context = (BaseActivity) getActivity();
+		isAlive = true;
+
+		this.inflater = inflater;
+		this.container = container;
+
+		return view;
+	}
+
+	/**设置界面布局
+	 * @warn 最多调用一次
+	 * @param layoutResID
+	 * @use 在onCreateView后调用
+	 */
+	public void setContentView(int layoutResID) {
+		setContentView(inflater.inflate(layoutResID, container, false));
+	}
+	/**设置界面布局
+	 * @warn 最多调用一次
+	 * @param view
+	 * @use 在onCreateView后调用
+	 */
+	public void setContentView(View v) {
+		setContentView(v, null);
+	}
+	/**设置界面布局
+	 * @warn 最多调用一次
+	 * @param view
+	 * @param params
+	 * @use 在onCreateView后调用
+	 */
+	public void setContentView(View v, ViewGroup.LayoutParams params) {
+		view = v;
+	}
+
+
 	/**
 	 * 可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
 	 */
@@ -59,25 +112,9 @@ public abstract class BaseFragment extends Fragment {
 	 */
 	protected Intent intent = null;
 
-	public static final String INTENT_TITLE = BaseActivity.INTENT_TITLE;
-	public static final String INTENT_ID = BaseActivity.INTENT_ID;
-	public static final String RESULT_DATA = BaseActivity.RESULT_DATA;
-
-	/**
-	 * UI显示方法，必须在子类onCreateView方法内调用
-	 */
-	public abstract void initView();
-	/**
-	 * data数据方法，必须在子类onCreateView方法内调用
-	 */
-	public abstract void initData();
-	/**
-	 * listener事件监听方法，必须在子类onCreateView方法内调用
-	 */
-	public abstract void initListener();
-
 
 	/**通过id查找并获取控件，使用时不需要强转
+	 * @warn 调用前必须调用setContentView
 	 * @param id
 	 * @return 
 	 */
@@ -100,12 +137,35 @@ public abstract class BaseFragment extends Fragment {
 		return context.getIntent();
 	}
 
-	public void runOnUiThread(Runnable runnable) {
-		context.runOnUiThread(runnable);
+	//运行线程<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**在UI线程中运行，建议用这个方法代替runOnUiThread
+	 * @param action
+	 */
+	public final void runUiThread(Runnable action) {
+		if (isAlive() == false) {
+			Log.e(TAG, "runUiThread  isAlive() == false >> return;");
+			return;
+		}
+		context.runUiThread(action);
+	}
+	/**运行线程
+	 * @param name
+	 * @param runnable
+	 * @return
+	 */
+	public final Handler runThread(String name, Runnable runnable) {
+		if (isAlive() == false) {
+			Log.e(TAG, "runThread  isAlive() == false >> return null;");
+			return null;
+		}
+		return context.runThread(name, runnable);
 	}
 
+	//运行线程>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	//进度弹窗<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**展示加载进度条,无标题
 	 * @param stringResId
 	 */
@@ -131,9 +191,9 @@ public abstract class BaseFragment extends Fragment {
 	public void dismissProgressDialog(){
 		context.dismissProgressDialog();
 	}
-	//显示与关闭进度弹窗方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//进度弹窗>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	//启动新Activity方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//启动Activity<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**打开新的Activity，向左滑入效果
 	 * @param intent
@@ -161,11 +221,11 @@ public abstract class BaseFragment extends Fragment {
 	 * @param showAnimation
 	 */
 	public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
-		runOnUiThread(new Runnable() {
+		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (isAlive == false || intent == null) {
-					Log.w(TAG, "toActivity  isAlive == false || intent == null >> return;");
+				if (intent == null) {
+					Log.w(TAG, "toActivity  intent == null >> return;");
 					return;
 				}
 				//fragment中使用context.startActivity会导致在fragment中不能正常接收onActivityResult
@@ -182,10 +242,10 @@ public abstract class BaseFragment extends Fragment {
 			}
 		});
 	}
-	//启动新Activity方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//启动Activity>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//show short toast 方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//show short toast<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
 	 * @param stringResId
 	 */
@@ -205,16 +265,16 @@ public abstract class BaseFragment extends Fragment {
 	public void showShortToast(final String string, final boolean isForceDismissProgressDialog) {
 		context.showShortToast(string, isForceDismissProgressDialog);
 	}
-	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//show short toast>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	/**运行线程
-	 * @param threadName
-	 * @param runnable 
-	 * @return 
-	 */
-	public Handler runThread(final String threadName, final Runnable runnable) {
-		return context.runThread(threadName, runnable);
+	@Override
+	public final boolean isAlive() {
+		return isAlive && context != null;// & ! isRemoving();导致finish，onDestroy内runUiThread不可用
+	}
+	@Override
+	public final boolean isRunning() {
+		return isRunning & isAlive();
 	}
 
 	@Override
@@ -232,7 +292,9 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		dismissProgressDialog();
 		isRunning = false;
 		isAlive = false;
+		context = null;
 	}
 }

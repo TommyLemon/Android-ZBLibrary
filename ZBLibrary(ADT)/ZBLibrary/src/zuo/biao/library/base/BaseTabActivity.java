@@ -43,6 +43,8 @@ import android.widget.TextView;
  * @author Lemon
  * @warn 不要在子类重复这个类中onCreate中的代码
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
+ * @see #onCreate
+ * @see #setContentView
  * @must 在子类onCreate中调用initView();initData();initListener();
  */
 public abstract class BaseTabActivity extends BaseActivity implements OnClickListener, OnTabSelectedListener {
@@ -82,7 +84,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID) {
+	protected final void onCreate(Bundle savedInstanceState, int layoutResID) {
 		onCreate(savedInstanceState, layoutResID, null);
 	}
 	/**
@@ -93,7 +95,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
+	protected final void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
 		onCreate(savedInstanceState, 0, listener);
 	}
 	/**
@@ -105,28 +107,32 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
+	protected final void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, listener);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		fragmentManager = getSupportFragmentManager();
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 	}
 
 	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	 */
 	@Override
-	public void setContentView(int layoutResID) {
+	public final void setContentView(int layoutResID) {
 		setContentView(null);
 	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	 */
 	@Override
-	public void setContentView(View view) {
+	public final void setContentView(View view) {
 		setContentView(null, null);
 	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	 */
 	@Override
-	public void setContentView(View view, LayoutParams params) {
-		throw new UnsupportedOperationException(TAG + "不支持子类中setContentView" +
+	public final void setContentView(View view, LayoutParams params) {
+		throw new UnsupportedOperationException(TAG + "不支持setContentView" +
 				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
 	}
 	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>

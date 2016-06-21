@@ -22,6 +22,7 @@ import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -50,16 +51,17 @@ public class BottomTabActivity extends BaseActivity implements OnBottomDragListe
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bottom_tab_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		fragmentManager = getSupportFragmentManager();
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();

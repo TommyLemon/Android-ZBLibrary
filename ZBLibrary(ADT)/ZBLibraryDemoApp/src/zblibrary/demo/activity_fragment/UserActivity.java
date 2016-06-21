@@ -30,6 +30,7 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -51,16 +52,17 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private long userId = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		intent = getIntent();
 		userId = intent.getLongExtra(INTENT_ID, userId);
@@ -147,12 +149,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			public void run() {
 
 				user = ListDiskCacheManager.getInstance().get(User.class, "" + userId);
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive) {
-							setUser(user);
-						}
+						setUser(user);
 					}
 				});
 			}

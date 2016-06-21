@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
+import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseListActivity;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.OnBottomDragListener;
@@ -26,6 +27,7 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,10 +42,11 @@ import android.widget.TextView;
  * @warn 这里列表显示组件lvBaseList是GridView，如果是lvBaseList是ListView就改成ListView
  * @use toActivity(DemoListActivity.createIntent(...));
  */
-public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView> implements OnClickListener, OnBottomDragListener {
+public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView>
+implements OnClickListener, OnBottomDragListener {
 	private static final String TAG = "DemoListActivity";
 
-	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String INTENT_RANGE = "INTENT_RANGE";
 
@@ -57,7 +60,14 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 		return new Intent(context, DemoListActivity.class).putExtra(INTENT_RANGE, range);
 	}
 
-	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private int range = 0;
 	@Override
@@ -65,10 +75,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 		super.onCreate(savedInstanceState);
 		//TODO demo_list_activity改为你所需要的layout文件；传this是为了底部左右滑动手势
 		setContentView(R.layout.demo_list_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		intent = getIntent();
 		range = intent.getIntExtra(INTENT_RANGE, range);
@@ -138,7 +144,7 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initData() {//必须在onCreate方法内调用
@@ -187,7 +193,8 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 		}
 		return null;
 	}
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -196,7 +203,7 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
@@ -228,7 +235,7 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 	}
 
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
@@ -244,6 +251,9 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
+
+
+
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -252,22 +262,22 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
+	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
 
 
-	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
-	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

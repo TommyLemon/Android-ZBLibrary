@@ -25,6 +25,7 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,7 +43,7 @@ import android.widget.TextView;
 public class DemoActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	private static final String TAG = "DemoActivity";
 
-	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String INTENT_USER_ID = "INTENT_USER_ID";
 
@@ -57,8 +58,14 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		return new Intent(context, DemoActivity.class).putExtra(INTENT_USER_ID, userId);
 	}
 
-	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
 
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
 	private long userId = 0;
 	@Override
@@ -66,10 +73,6 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		super.onCreate(savedInstanceState);
 		//TODO demo_activity改为你所需要的layout文件；传this是为了底部左右滑动手势
 		setContentView(R.layout.demo_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		intent = getIntent();
 		userId = intent.getLongExtra(INTENT_USER_ID, userId);
@@ -136,7 +139,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
 	private List<Entry<String, String>> list;
@@ -157,13 +160,11 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 			public void run() {
 
 				list = getList(userId);
-				runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive == true) {//isAlive已在BaseActivity中新建
-							dismissProgressDialog();
-							setList(list);
-						}
+						dismissProgressDialog();
+						setList(list);
 					}
 				});
 			}
@@ -198,8 +199,8 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 		lvDemo.smoothScrollToPosition(formerCout);		
 	}
-	
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -208,7 +209,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
@@ -230,16 +231,16 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
 			addList();
-			
+
 			return;
 		}	
-		
+
 		finish();
 	}
-	
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
+	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onClick(View v) {
@@ -268,7 +269,12 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -277,10 +283,10 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
-	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

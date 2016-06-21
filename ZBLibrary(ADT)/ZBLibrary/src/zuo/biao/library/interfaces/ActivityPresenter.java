@@ -14,14 +14,20 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
-/**拖拽View底部的回调接口
- * @author Lemon
- * @use implements OnBottomDragListener
- */
-public interface OnBottomDragListener {
+import zuo.biao.library.base.BaseActivity;
+import android.support.annotation.NonNull;
 
-	/**
-	 * @param rightToLeft ？从右向左 : 从左向右
+/**Fragment的逻辑接口
+ * @author Lemon
+ * @use implements ActivityPresenter
+ */
+public interface ActivityPresenter extends Presenter {
+
+	/**获取Activity
+	 * @return BaseActivity而不是Activity，因为非BaseActivity的子类不需要这个方法
+	 * @must 在非抽象Activity中 return this;
 	 */
-	void onDragBottom(boolean rightToLeft);
+	@NonNull
+	public BaseActivity getActivity();//无public导致有时自动生成的getActivity方法会缺少public且对此报错
+
 }
