@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,18 +51,23 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	}
 
 	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.web_view_activity, this);//传this是为了全局滑动返回
-		//类相关初始化
-		context = this;
-		isAlive = true;
-		//类相关初始化
 
+		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
 		initListener();
+		//功能归类分区方法，必须调用>>>>>>>>>>
+
 	}
 
 
@@ -147,7 +153,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		findViewById(R.id.tvWebViewReturn).setOnClickListener(this);
 
 	}
-	
+
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
@@ -173,7 +179,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 			wvWebView.goBack();
 			return;
 		}
-		
+
 		super.onBackPressed();
 	}
 

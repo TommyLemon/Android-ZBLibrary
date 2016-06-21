@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="zuo.biao.library"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="@string/app_version" >
 
     <uses-sdk
         android:minSdkVersion="14"

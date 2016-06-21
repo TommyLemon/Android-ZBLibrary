@@ -14,6 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.ui.TopTabView;
+import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
+import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -30,20 +38,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.ui.TopTabView;
-import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
-import zuo.biao.library.util.StringUtil;
-
 /**基础带标签的FragmentActivity
  * 目前只有顶部tab这一种形式，以后将增加底部tab
  * @author Lemon
  * @warn 不要在子类重复这个类中onCreate中的代码
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
+ * @see #onCreate
+ * @see #setContentView
  * @must 在子类onCreate中调用initView();initData();initListener();
  */
 public abstract class BaseTabActivity extends BaseActivity implements OnClickListener, OnTabSelectedListener {
@@ -54,7 +55,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 */
 	private OnTabSelectedListener onTabSelectedListener;
 	/**设置tab被选中监听
-	 * @warn 在子类super.initListener();前使用才有效
+	 * @warn 在initListener前使用才有效
 	 * @param onTabSelectedListener
 	 */
 	public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
@@ -83,7 +84,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID) {
+	protected final void onCreate(Bundle savedInstanceState, int layoutResID) {
 		onCreate(savedInstanceState, layoutResID, null);
 	}
 	/**
@@ -94,7 +95,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
+	protected final void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
 		onCreate(savedInstanceState, 0, listener);
 	}
 	/**
@@ -106,29 +107,33 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
 	 *       initView();initData();initListener();
 	 */
-	protected void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
+	protected final void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, listener);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		fragmentManager = getSupportFragmentManager();
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 	}
 
 	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	 */
 	@Override
-	public void setContentView(int layoutResID) {
+	public final void setContentView(int layoutResID) {
 		setContentView(null);
 	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	 */
 	@Override
-	public void setContentView(View view) {
+	public final void setContentView(View view) {
 		setContentView(null, null);
 	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	 */
 	@Override
-	public void setContentView(View view, LayoutParams params) {
-		throw new UnsupportedOperationException(TAG + "不支持子类中setContentView，" +
-				"传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
+	public final void setContentView(View view, LayoutParams params) {
+		throw new UnsupportedOperationException(TAG + "不支持setContentView" +
+				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
 	}
 	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -151,7 +156,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	private ViewGroup llBaseTabTabContainer;
 	private TopTabView topTabView;
 	/**
-	 * 如果在子类中调用(即super.initView()),则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
+	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 */
 	@Override
@@ -174,6 +179,10 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
 	 */
 	protected boolean needReload = false;
+	/**
+	 * 当前显示的tab所在位置，对应fragment所在位置
+	 */
+	protected int currentPosition;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -291,7 +300,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<>();
 	/**添加右上方导航栏按钮
-	 * @must 在super.initData前调用
+	 * @warn 在initData前使用才有效
 	 * @param topRightButton 不会在这个类设置监听,需要自行设置
 	 */
 	public <V extends View> V addTopRightButton(V topRightButton) {
@@ -383,7 +392,6 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	protected int currentPosition;
 	@Override
 	public void initListener() {// 必须调用
 

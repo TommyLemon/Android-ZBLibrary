@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.FunctionServiceBean;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.StringUtil;
@@ -30,13 +31,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-/**通用自定义嵌入式菜单View
+/**自定义嵌入式菜单View
  * @author Lemon
  */
-public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，所以不适合extends BaseView
+public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 	private static final String TAG = "BottomMenuView";
 
 	public interface OnBottomMenuItemClickListener{
@@ -48,67 +48,56 @@ public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，�
 		onBottomMenuItemClickListener = l;
 	}
 
-	private Activity context;
+	
 	private int toBottomMenuWindowRequestCode;
-	private LayoutInflater inflater;
-	private Resources resources;
-	/**
-	 * @param context
-	 * @param inflater
-	 * @param resources
-	 * @param toBottomMenuWindowRequestCode
-	 */
-	public BottomMenuView(Activity context, LayoutInflater inflater
-			, Resources resources, int toBottomMenuWindowRequestCode) {
-		this.context = context;
+	public BottomMenuView(Activity context, Resources resources, int toBottomMenuWindowRequestCode) {
+		super(context, resources);
 		this.toBottomMenuWindowRequestCode = toBottomMenuWindowRequestCode;
-
-		this.inflater = inflater;
-		this.resources = resources;
 	}
 
 
 
+	private LayoutInflater inflater;
+
 	public LinearLayout llBottomMenuViewMainItemContainer;
-	public ListView lvBottomMenuViewMoreItem;
 	/**获取View
 	 * @return
 	 */
 	@SuppressLint("InflateParams")
-	public View getView() {
-		View convertView = inflater.inflate(R.layout.bottom_menu_view, null);
+	@Override
+	public View createView(LayoutInflater inflater) {
+		this.inflater = inflater;
+		convertView = inflater.inflate(R.layout.bottom_menu_view, null);
 
 		llBottomMenuViewMainItemContainer = (LinearLayout) 
 				convertView.findViewById(R.id.llBottomMenuViewMainItemContainer);
-		lvBottomMenuViewMoreItem = (ListView) convertView.findViewById(R.id.lvBottomMenuViewMoreItem);
 
 		return convertView;
 	}
 
+	@Override
+	public List<FunctionServiceBean> getData() {
+		return list;
+	}
+	
 	private List<FunctionServiceBean> list;//传进来的数据
 	private ArrayList<String> moreMenuNameList;
 	private ArrayList<Integer> moreMenuIntentCodeList;
-	/**显示内容
-	 * @param menuList
-	 * @param onBottomMenuItemClickListener 必须有，否则底部菜单无意义
-	 */
-	public void setView(final List<FunctionServiceBean> menuList
-			, final OnBottomMenuItemClickListener onBottomMenuItemClickListener){
-		if (menuList == null || menuList.size() <= 0 || onBottomMenuItemClickListener == null) {
-			Log.e(TAG, "setInnerView  list == null || list.size() <= 0 || listener == null >> return");
+	@Override
+	public void setView(final List<FunctionServiceBean> menuList){
+		if (menuList == null || menuList.isEmpty()) {
+			Log.e(TAG, "setView  menuList == null || menuList.isEmpty() >> return;");
 			return;
 		}
 		this.list = menuList;
-		this.onBottomMenuItemClickListener = onBottomMenuItemClickListener;
 
-		Log.i(TAG, "setInnerView");
 		llBottomMenuViewMainItemContainer.removeAllViews();
 		final int mainItemCount = list.size() > 4 ? 3 : list.size();//不包括 更多 按钮
 		FunctionServiceBean fsb;
 		for (int i = 0; i < mainItemCount; i++) {
 			fsb = list.get(i);
 			if (fsb.getImageRes() > 0) {
-				addNewMainMenuItem(false, i, fsb);
+				addItem(false, i, fsb);
 			} else {
 				break;
 			}
@@ -116,7 +105,7 @@ public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，�
 
 		//菜单区域外的背景及监听不好做，还是点击更多弹出BottomMenuWindow好
 		if (list.size() > 4) {
-			addNewMainMenuItem(true, -1, null);
+			addItem(true, -1, null);
 
 			//弹出底部菜单
 			moreMenuNameList = new ArrayList<String>();
@@ -132,24 +121,17 @@ public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，�
 		}
 	}
 	
-	/**刷新界面
-	 * @param list
-	 */
-	public void refresh(List<FunctionServiceBean> l) {
-		setView(list, onBottomMenuItemClickListener);
-	}
 
-//	private Intent intent = null;
 	/**添加带图标的主要按钮
 	 * @param position
 	 * @param fsb
 	 */
 	@SuppressLint("InflateParams")
-	private void addNewMainMenuItem(final boolean isMoreButton, final int position, final FunctionServiceBean fsb) {
+	private void addItem(final boolean isMoreButton, final int position, final FunctionServiceBean fsb) {
 		if (isMoreButton == false) {
 			if (position < 0 || fsb == null || StringUtil.isNotEmpty(fsb.getName(), true) == false
 					|| fsb.getImageRes() <= 0) {
-				Log.e(TAG, "addNewMainMenuItem isMoreButton == false >> position < 0 || fsb == null " +
+				Log.e(TAG, "addItem isMoreButton == false >> position < 0 || fsb == null " +
 						"|| StringUtil.isNotEmpty(fsb.getName(), true) == false " +
 						"|| fsb.getImageRes() <= 0 >> return;");
 				return;
@@ -162,7 +144,7 @@ public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，�
 		try {
 			iv.setImageResource(isMoreButton ? R.drawable.up2_light : fsb.getImageRes());
 		} catch (Exception e) {
-			Log.e(TAG, "addNewMainMenuItem try {" +
+			Log.e(TAG, "addItem try {" +
 					" iv.setImageResource(fsb.getImageRes()); " + e.getMessage() + ">> return;");
 			return;
 		}
@@ -188,6 +170,8 @@ public class BottomMenuView {//onMenuItemClickListener特殊且必须要有，�
 
 		llBottomMenuViewMainItemContainer.addView(ll, position);
 	}
+
+
 
 
 }

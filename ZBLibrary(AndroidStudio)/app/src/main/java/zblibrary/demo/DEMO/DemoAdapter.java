@@ -30,7 +30,6 @@ import android.widget.TextView;
 /**adapter模板，最灵活且性能最好，但如果有setOnClickListener等事件就不方便了
  * *适用于listView,gridView
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use new DemoAdapter(...),具体参考.DemoActivity(setList方法内)
  */
 public class DemoAdapter extends BaseAdapter<Entry<String, String>> {

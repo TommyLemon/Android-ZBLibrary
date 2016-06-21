@@ -16,7 +16,9 @@ package zblibrary.demo.view;
 
 import zblibrary.demo.R;
 import zblibrary.demo.model.User;
+import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.base.BaseView;
+import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
@@ -26,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,7 +46,7 @@ import android.widget.TextView;
 	userView.setOnDataChangedListener(onDataChangedListener);data = userView.getData();//非必需
 	userView.setOnClickListener(onClickListener);//非必需
  */
-public class UserView extends BaseView<User> {
+public class UserView extends BaseView<User> implements OnClickListener {
 	private static final String TAG = "UserView";
 
 	public UserView(Activity context, Resources resources) {
@@ -53,14 +56,18 @@ public class UserView extends BaseView<User> {
 
 	public ImageView ivUserViewHead;
 	public TextView tvUserViewName;
+
+	public TextView tvUserViewId;
 	public TextView tvUserViewNumber;
 	@SuppressLint("InflateParams")
 	@Override
 	public View createView(@NonNull LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.user_view, null);
 
-		ivUserViewHead = findViewById(R.id.ivUserViewHead);
+		ivUserViewHead = findViewById(R.id.ivUserViewHead, this);
 		tvUserViewName = findViewById(R.id.tvUserViewName);
+
+		tvUserViewId = findViewById(R.id.tvUserViewId);
 		tvUserViewNumber = findViewById(R.id.tvUserViewNumber);
 
 		return convertView;
@@ -76,7 +83,24 @@ public class UserView extends BaseView<User> {
 
 		ImageLoaderUtil.loadImage(ivUserViewHead, data.getHead(), ImageLoaderUtil.TYPE_OVAL);//没有测试用的small图片 ImageLoaderUtil.getSmallUri(data.getHead()));
 		tvUserViewName.setText(StringUtil.getTrimedString(data.getName()));
-		tvUserViewNumber.setText(StringUtil.getNoBlankString(data.getPhone()));
+		
+		tvUserViewId.setText("ID:" + data.getId());
+		tvUserViewNumber.setText("Phone:" + StringUtil.getNoBlankString(data.getPhone()));
+	}
+
+
+	@Override
+	public void onClick(View v) {
+		if (BaseModel.isCorrect(data) == false) {
+			return;
+		}
+		switch (v.getId()) {
+		case R.id.ivUserViewHead:
+				toActivity(WebViewActivity.createIntent(context, data.getName(), data.getHead()));
+			break;
+		default:
+			break;
+		}		
 	}
 
 }

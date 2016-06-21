@@ -19,7 +19,7 @@
             <TextView
                 android:id="@+id/tvAboutForward"
                 style="@style/topbar_right_btn"
-                android:text="ZBLibrary" />
+                android:text="GitHub" />
         </RelativeLayout>
 
         <RelativeLayout

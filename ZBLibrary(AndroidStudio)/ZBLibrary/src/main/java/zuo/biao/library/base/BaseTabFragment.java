@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +43,8 @@ import android.widget.TextView;
  * @author Lemon
  * @warn 不要在子类重复这个类中onCreate中的代码
  * @use extends BaseTabFragment, 具体参考.DemoTabFragment
+ * @see #onCreateView
+ * @see #setContentView
  * @must 在子类onCreateView中调用initView();initData();initListener();
  */
 public abstract class BaseTabFragment extends BaseFragment implements OnClickListener, OnTabSelectedListener {
@@ -59,7 +62,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 		this.onTabSelectedListener = onTabSelectedListener;
 	}
 
-	
+
 	/**
 	 * 用于activity，fragment等之前的intent传值
 	 */
@@ -69,7 +72,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	/**
 	 * FragmentManager
 	 */
-	protected FragmentManager fragmentManager;
+	protected FragmentManager fragmentManager = null;
 	/**
 	 * @warn 如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 *       否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -89,22 +92,52 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
-	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
+	 * @param layoutResID fragment全局视图view的布局资源id。 <= 0 ? R.layout.base_http_list_fragment : layoutResID
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
 	 *       initView();initData();initListener(); return view;
 	 */
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID) {
+	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
+			, int layoutResID) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
-		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, container, false);
-		context = (BaseActivity) getActivity();
-		fragmentManager = context.getSupportFragmentManager();
-		isAlive = true;
+		super.onCreateView(inflater, container, savedInstanceState);
+		//调用这个类的setContentView而崩溃 super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID);
+		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_list_fragment : layoutResID, container, false);
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
+
+		fragmentManager = context.getSupportFragmentManager();
 
 		return view;
 	}
+
+
+	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
+	 */
+	@Override
+	public void setContentView(int layoutResID) {
+		setContentView(null);
+	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
+	 */
+	@Override
+	public void setContentView(View view) {
+		setContentView(null, null);
+	}
+	/**
+	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
+	 */
+	@Override
+	public void setContentView(View view, LayoutParams params) {
+		throw new UnsupportedOperationException(TAG + "不支持setContentView，传界面布局请使用onCreateView(" +
+				"LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID)等方法");
+	}
+	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -147,6 +180,10 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
 	 */
 	protected boolean needReload = false;
+	/**
+	 * 当前显示的tab所在位置，对应fragment所在位置
+	 */
+	protected int currentPosition;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -356,7 +393,6 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	protected int currentPosition;
 	@Override
 	public void initListener() {// 必须调用
 

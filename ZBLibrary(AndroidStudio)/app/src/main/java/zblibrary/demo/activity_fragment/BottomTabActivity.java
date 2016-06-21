@@ -22,6 +22,7 @@ import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -50,21 +51,17 @@ public class BottomTabActivity extends BaseActivity implements OnBottomDragListe
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 
-
-	/**
-	 * 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
-	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bottom_tab_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		fragmentManager = getSupportFragmentManager();
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -120,6 +117,7 @@ public class BottomTabActivity extends BaseActivity implements OnBottomDragListe
 
 	private static final String[] TABS = {"主页", "消息", "发现", "设置"};
 
+	protected int currentPosition = 0;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -174,7 +172,7 @@ public class BottomTabActivity extends BaseActivity implements OnBottomDragListe
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		fragments = new Fragment[getCount()];
+		fragments = new Fragment[TABS.length];
 		fragments[currentPosition] = getFragment(currentPosition);
 		fragmentManager
 		.beginTransaction()
@@ -185,19 +183,6 @@ public class BottomTabActivity extends BaseActivity implements OnBottomDragListe
 		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
-
-	public int getCount() {
-		return 4;
-	}
-
-	public int getCurrentPosition() {
-		return currentPosition;
-	}
-
-
-	public Fragment getCurrentFragment() {
-		return fragments[currentPosition];
-	};
 
 
 
@@ -214,7 +199,6 @@ public class BottomTabActivity extends BaseActivity implements OnBottomDragListe
 
 	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	protected int currentPosition = 0;
 	@Override
 	public void initListener() {// 必须调用
 

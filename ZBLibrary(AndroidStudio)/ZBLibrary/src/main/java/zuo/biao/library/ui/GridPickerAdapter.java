@@ -21,7 +21,6 @@ import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ import android.widget.TextView;
 
 /**网格选择器adapter
  * @author Lemon
- * @use new GridPickerAdapter
+ * @use new GridPickerAdapter(...),具体参考.DemoAdapter
  */
 public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 	//	private static final String TAG = "GridPickerAdapter";
@@ -43,13 +42,10 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 
 	private int currentPosition;//初始选中位置
 	private int height;//item高度
-	private Resources resources;
 	public GridPickerAdapter(Activity context, List<Entry<Boolean, String>> list, int currentPosition, int height) {
 		super(context, list);
 		this.currentPosition = currentPosition;
 		this.height = height;
-
-		resources = context.getResources();
 	}
 
 	public int getCurrentPosition() {

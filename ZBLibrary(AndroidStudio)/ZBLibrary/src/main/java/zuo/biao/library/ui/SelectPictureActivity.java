@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,15 +50,16 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 		return new Intent(context, SelectPictureActivity.class);
 	}
 	
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_picture_activity);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();

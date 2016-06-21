@@ -23,6 +23,7 @@ import zuo.biao.library.util.Log;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -31,7 +32,8 @@ import android.view.View.OnClickListener;
  * @author Lemon
  * @use toActivity(DemoBroadcastReceiverActivity.createIntent(...));
  */
-public class DemoBroadcastReceiverActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class DemoBroadcastReceiverActivity extends BaseActivity implements OnClickListener
+, OnBottomDragListener {
 	private static final String TAG = "DemoBroadcastReceiverActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -47,14 +49,17 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
+	@Override
+	@NonNull
+	public BaseActivity getActivity() {
+		return this;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo_broadcast_receiver_activity, this);
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
-		context = this;
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -132,8 +137,10 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				if (intent != null && intent.hasExtra(STATE)){ 
-					Log.i(TAG, "baseBroadcastReceiver.onReceive intent.getIntExtra(STATE, 0) = " + intent.getIntExtra(STATE, 0));
-					showShortToast("baseBroadcastReceiver\n" + (intent.getIntExtra(STATE, 0) == 1 ? "已插入耳机" : "请插入耳机"));
+					Log.i(TAG, "baseBroadcastReceiver.onReceive intent.getIntExtra(STATE, 0) = "
+				+ intent.getIntExtra(STATE, 0));
+					showShortToast("baseBroadcastReceiver\n" + (intent.getIntExtra(STATE, 0) == 1
+							? "已插入耳机" : "请插入耳机"));
 				}
 			}
 		}.register();
@@ -149,12 +156,15 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 
 
 		//外部类BaseBroadcastReceiver子类使用示例 <<<<<<<<<<<<<<
-		headsetConnectionBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context).register(new OnHeadsetConnectionChangedListener() {
+		headsetConnectionBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context)
+		.register(new OnHeadsetConnectionChangedListener() {
 
 			@Override
 			public void onHeadsetConnectionChanged(boolean isConnected) {
-				Log.i(TAG, "headsetConnectionBroadcastReceiver.onHeadsetConnectionChanged isConnected = " + isConnected);
-				showShortToast("headsetConnectionBroadcastReceiver\n" + (isConnected ? "已插入耳机" : "请插入耳机"));
+				Log.i(TAG, "headsetConnectionBroadcastReceiver.onHeadsetConnectionChanged" +
+						" isConnected = " + isConnected);
+				showShortToast("headsetConnectionBroadcastReceiver\n"
+						+ (isConnected ? "已插入耳机" : "请插入耳机"));
 			}
 		});
 		//外部类BaseBroadcastReceiver子类使用示例 >>>>>>>>>>>>>>
@@ -247,8 +257,10 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent != null && intent.hasExtra(STATE)){ 
-				Log.i(TAG, "demoBroadcastReceiver.onReceive intent.getIntExtra(STATE, 0) = " + intent.getIntExtra(STATE, 0));
-				showShortToast("demoBroadcastReceiver\n" + (intent.getIntExtra(STATE, 0) == 1 ? "已插入耳机" : "请插入耳机"));
+				Log.i(TAG, "demoBroadcastReceiver.onReceive intent.getIntExtra(STATE, 0) = "
+			+ intent.getIntExtra(STATE, 0));
+				showShortToast("demoBroadcastReceiver\n" + (intent.getIntExtra(STATE, 0) == 1
+						? "已插入耳机" : "请插入耳机"));
 			}
 		}
 	}

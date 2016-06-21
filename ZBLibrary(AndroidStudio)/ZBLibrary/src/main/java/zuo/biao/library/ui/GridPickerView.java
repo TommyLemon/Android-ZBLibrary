@@ -40,8 +40,8 @@ import android.widget.TextView;
 
 /**网格选择器View
  * @author Lemon
- * @use 参考 .ModelView
  * @must 调用init方法
+ * @use 参考 .DemoView
  */
 public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	private static final String TAG = "GridPickerView";

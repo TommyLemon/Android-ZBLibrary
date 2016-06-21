@@ -32,7 +32,6 @@ import android.widget.TextView;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**通用自定义View模板，当View比较庞大复杂且使用次数>=2时建议使用
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use
 	DemoView demoView = new DemoView(context, resources);
 	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]

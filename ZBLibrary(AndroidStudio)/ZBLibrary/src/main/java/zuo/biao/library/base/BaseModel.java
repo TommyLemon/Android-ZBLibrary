@@ -28,12 +28,23 @@ public abstract class BaseModel implements Serializable {
 	 * default, 怎么设置子类都有warning
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	public long id;
+	
 	//对子类不起作用
 	//	/**默认构造方法，JSON等解析时必须要有
 	//	 */
 	//	public BaseModel() {
 	//	}
+	
+
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 
 	/**数据正确性校验
 	 * @param data

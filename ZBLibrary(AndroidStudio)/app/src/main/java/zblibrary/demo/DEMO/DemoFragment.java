@@ -18,10 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
+import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.bean.Entry;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,29 +33,24 @@ import android.widget.ListView;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragment示例
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use new DemoFragment(),具体参考.DemoFragmentActivity(initData方法内)
  */
 public class DemoFragment extends BaseFragment {
 	private static final String TAG = "DemoFragment";
 
-	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
 
-	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-
+	
 	private long userId = 0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
+		super.onCreateView(inflater, container, savedInstanceState);
 		//TODO demo_fragment改为你所需要的layout文件
-		view = inflater.inflate(R.layout.demo_fragment, container, false);
-		context = (BaseActivity) getActivity();
-		isAlive = true;
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
+		setContentView(R.layout.demo_fragment);
 
 		argument = getArguments();
 		if (argument != null) {
@@ -69,11 +63,11 @@ public class DemoFragment extends BaseFragment {
 		initListener();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		return view;
+		return view;//返回值必须为view
 	}
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
 	private ListView lvDemoFragment;
@@ -96,8 +90,8 @@ public class DemoFragment extends BaseFragment {
 	 * @param list
 	 */
 	private void setList(List<Entry<String, String>> list) {
-		if (list == null || list.size() <= 0) {
-			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvDemoFragment.setAdapter(null); return;");
+		if (list == null || list.isEmpty()) {
+			Log.i(TAG, "setList list == null || list.isEmpty() >> lvDemoFragment.setAdapter(null); return;");
 			adapter = null;
 			lvDemoFragment.setAdapter(null);
 			return;
@@ -111,7 +105,7 @@ public class DemoFragment extends BaseFragment {
 		}
 	}
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -122,8 +116,8 @@ public class DemoFragment extends BaseFragment {
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
 	//示例代码<<<<<<<<
 	private List<Entry<String, String>> list;
 	//示例代码>>>>>>>>>
@@ -139,13 +133,11 @@ public class DemoFragment extends BaseFragment {
 			public void run() {
 
 				list = getList(userId);
-				context.runOnUiThread(new Runnable() {
+				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						if (isAlive == true) {//isAlive已在BaseFragment中新建
-							dismissProgressDialog();
-							setList(list);
-						}
+						dismissProgressDialog();
+						setList(list);
 					}
 				});
 			}
@@ -169,7 +161,7 @@ public class DemoFragment extends BaseFragment {
 	}
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -178,7 +170,7 @@ public class DemoFragment extends BaseFragment {
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initListener() {//必须在onCreateView方法内调用
@@ -187,59 +179,45 @@ public class DemoFragment extends BaseFragment {
 		lvDemoFragment.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				toActivity(DemoActivity.createIntent(context, position), REQUEST_TO_DEMO);
+				toActivity(UserActivity.createIntent(context, id));
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	private static final int REQUEST_TO_DEMO = 10;
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK) {
-			return;
-		}
 
-		switch (requestCode) {
-		case REQUEST_TO_DEMO:
-			if (data != null) {
-				showShortToast("clicked Item position = " + data.getIntExtra(DemoActivity.RESULT_CLICKED_ITEM, -1));
-			}
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
+
 
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-
-
-
-
-	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
-	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

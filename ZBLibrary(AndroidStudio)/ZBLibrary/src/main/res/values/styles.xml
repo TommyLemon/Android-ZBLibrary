@@ -260,6 +260,7 @@
         <item name="android:scaleType">centerInside</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="img_fitXY" parent="wrap_wrap">
         <item name="android:scaleType">fitXY</item>
     </style>
@@ -684,6 +685,7 @@
         <item name="android:paddingLeft">8dp</item>
     </style>
 
+    <!-- <item name="android:drawableLeft">@drawable/back2</item> -->
     <style name="topbar_return_tv" parent="topbar_left_btn">
         <item name="android:text">返回</item>
     </style>
@@ -738,7 +740,7 @@
     </style>
 
     <style name="topbar_tab_tv_right" parent="topbar_tab_tv">
-        <item name="android:background">@color/alpha_complete</item>
+        <item name="android:background">@drawable/tab_bg_right_full_white</item>
     </style>
     <!-- topbar tab >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 

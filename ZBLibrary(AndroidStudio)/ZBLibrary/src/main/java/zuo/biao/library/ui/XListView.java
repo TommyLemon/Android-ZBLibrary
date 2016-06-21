@@ -221,19 +221,19 @@ public class XListView extends ListView implements OnScrollListener {
 
 	/**
 	 * stop load more, reset footer view.
-	 * isServerHaveMore = true 
+	 * isHaveMore = true 
 	 */
 	public void stopLoadMore() {
 		stopLoadMore(true);
 	}
 	/**
 	 * stop load more, reset footer view.
-	 * @param isServerHaveMore 
+	 * @param isHaveMore 
 	 */
-	public void stopLoadMore(boolean isServerHaveMore) {
+	public void stopLoadMore(boolean isHaveMore) {
 		if (mPullLoading == true) {
 			mPullLoading = false;
-			mFooterView.setState(isServerHaveMore ? XListViewFooter.STATE_NORMAL : XListViewFooter.STATE_COMPLETE);
+			mFooterView.setState(isHaveMore ? XListViewFooter.STATE_NORMAL : XListViewFooter.STATE_COMPLETE);
 		}
 	}
 

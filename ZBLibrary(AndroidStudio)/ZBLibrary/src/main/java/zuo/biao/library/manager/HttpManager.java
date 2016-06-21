@@ -44,7 +44,7 @@ import com.squareup.okhttp.Response;
 
 /**HTTP请求管理类
  * @author Lemon
- * @use HttpManager.getInstance().xxxMethod(...)  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
+ * @use HttpManager.getInstance().get(...)或HttpManager.getInstance().post(...)  > 在回调方法onHttpRequestSuccess和onHttpRequestError处理HTTP请求结果
  * @must 解决getToken，getResponseCode，getResponseData中的TODO
  */
 public class HttpManager {
@@ -67,14 +67,12 @@ public class HttpManager {
 		void onHttpRequestError(int requestCode, Exception exception);
 	}
 
-	public HttpManager() {
-		// TODO Auto-generated constructor stub
-	}
+	
 	
 	private Context context;
 	private static HttpManager instance;// 单例
 	private static SSLSocketFactory socketFactory;// 单例
-	public HttpManager(Context context) {
+	private HttpManager(Context context) {
 		this.context = context;
 
 		try {

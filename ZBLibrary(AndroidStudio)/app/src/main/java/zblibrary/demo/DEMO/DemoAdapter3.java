@@ -38,7 +38,6 @@ import android.widget.TextView;
 /**adapter模板，最方便，建议使用
  * *适用于listView,gridView
  * @author Lemon
- * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use 修改.ItemView代码 >> new DemoAdapter3(...),具体参考.DemoActivity(setList方法内)
  */
 public class DemoAdapter3 extends BaseViewAdapter<Entry<String, String>, ItemView> {
