@@ -177,6 +177,16 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 		exitHandler.sendEmptyMessageDelayed(0, 200);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		vBaseBottomWindowRoot = null;
+
+		tvBaseBottomWindowTitle = null;
+		tvBaseBottomWindowReturn = null;
+	}
+	
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -17,6 +17,7 @@ package zuo.biao.library.ui;
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,7 +25,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -40,6 +40,9 @@ import android.widget.TextView;
 public class WebViewActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	public static final String TAG = "WebViewActivity";
 
+	public static final String INTENT_RETURN = "INTENT_RETURN";
+	public static final String INTENT_URL = "INTENT_URL";
+	
 	/**获取启动这个Activity的Intent
 	 * @param title
 	 * @param url
@@ -49,6 +52,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 				putExtra(WebViewActivity.INTENT_TITLE, title).
 				putExtra(WebViewActivity.INTENT_URL, url);
 	}
+	
 
 	@Override
 	@NonNull
@@ -98,8 +102,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String INTENT_RETURN = "INTENT_RETURN";
-	public static final String INTENT_URL = "INTENT_URL";
 
 	@SuppressWarnings("unused")
 	private Handler webHandler = new Handler();
@@ -188,8 +190,18 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		context = null;
+		if (wvWebView != null) {
+			try {
+				wvWebView.destroyDrawingCache();
+				wvWebView.destroy();
+			} catch (Exception e) {
+				Log.w(TAG, "onDestroy  try { wvWebView.destroy(); ..." +
+						" >> } catch (Exception e) {\n" + e.getMessage());
+			}
+		}
+		
 		wvWebView = null;
+		tvWebViewTitle = null;
 	}
 
 

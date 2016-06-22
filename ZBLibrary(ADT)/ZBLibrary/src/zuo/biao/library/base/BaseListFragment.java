@@ -34,14 +34,13 @@ import android.widget.AbsListView;
 
 /**基础列表Activity
  * @author Lemon
- * @warn 1.不要在子类重复这个类中onCreate中的代码;
- *       2.只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
- *       3.如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
- *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
  * @param <T> 数据模型(model/JavaBean)类
  * @param <LV> AbsListView的子类（ListView,GridView等）
  * @see #onCreateView
  * @see #setContentView
+ * @see #lvBaseList
+ * @see #initCache
+ * @see #initView
  * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
@@ -133,6 +132,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 
 	/**
 	 * 显示列表的ListView
+	 * @warn 只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
 	 */
 	protected LV lvBaseList;
 	/**
@@ -191,7 +191,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	 */
 	protected boolean isLoading = false;
 	/**
-	 * 服务器还有更多
+	 * 还有更多可加载数据
 	 */
 	protected boolean isHaveMore = true;
 	/**
@@ -408,10 +408,19 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 
 	@Override
 	public void onDestroy() {
+		stopLoadData();
+		
+		super.onDestroy();
+		isLoading = false;
+		isHaveMore = true;
+
+		lvBaseList = null;
+
+		list = null;
+		newList = null;
+
 		onStopLoadListener = null;
 		onCacheCallBack = null;
-
-		super.onDestroy();
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

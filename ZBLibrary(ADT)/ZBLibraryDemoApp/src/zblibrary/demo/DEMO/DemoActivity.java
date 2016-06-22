@@ -105,7 +105,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 	//示例代码<<<<<<<<
-	private DemoAdapter3 adapter;
+	private DemoAdapter2 adapter;
 	//示例代码>>>>>>>>
 	/** 示例方法 ：显示列表内容
 	 * @author author
@@ -120,7 +120,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 
 		if (adapter == null) {
-			adapter = new DemoAdapter3(context, list);
+			adapter = new DemoAdapter2(context, list);
 			lvDemo.setAdapter(adapter);
 		} else {
 			adapter.refresh(list);

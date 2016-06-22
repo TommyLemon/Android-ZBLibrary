@@ -26,10 +26,6 @@ import android.widget.ListAdapter;
 
 /**基础http获取列表的Fragment
  * @author Lemon
- * @warn 1.不要在子类重复这个类及其父类中onCreateView中的代码;
- *       2.只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
- *       3.如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
- *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
  * @param <T> 数据模型(model/JavaBean)类
  * @use extends BaseHttpListFragment 并在子类onCreateView中调用onRefresh(...), 具体参考 .UserListFragment
  */

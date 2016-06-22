@@ -33,6 +33,9 @@ import android.view.ViewGroup;
  * @see #view
  * @see #onCreateView
  * @see #setContentView
+ * @see #runUiThread
+ * @see #runThread
+ * @see #onDestroy
  * @use extends BaseFragment, 具体参考.DemoFragment
  */
 public abstract class BaseFragment extends Fragment implements FragmentPresenter {
@@ -51,10 +54,12 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	protected View view = null;
 	/**
 	 * 布局解释器
+	 * @warn 不能在子类中创建
 	 */
 	protected LayoutInflater inflater = null;
 	/**
 	 * 添加这个Fragment视图的布局
+	 * @warn 不能在子类中创建
 	 */
 	@Nullable
 	protected ViewGroup container = null;
@@ -144,7 +149,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	 */
 	public final void runUiThread(Runnable action) {
 		if (isAlive() == false) {
-			Log.e(TAG, "runUiThread  isAlive() == false >> return;");
+			Log.w(TAG, "runUiThread  isAlive() == false >> return;");
 			return;
 		}
 		context.runUiThread(action);
@@ -156,7 +161,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	 */
 	public final Handler runThread(String name, Runnable runnable) {
 		if (isAlive() == false) {
-			Log.e(TAG, "runThread  isAlive() == false >> return null;");
+			Log.w(TAG, "runThread  isAlive() == false >> return null;");
 			return null;
 		}
 		return context.runThread(name, runnable);
@@ -289,12 +294,32 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 		isRunning = false;
 	}
 
+	/**销毁并回收内存
+	 * @warn 子类如果要使用这个方法内用到的变量，应重写onDestroy方法并在super.onDestroy();前操作
+	 */
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		dismissProgressDialog();
-		isRunning = false;
+		if (view != null) {
+			try {
+				view.destroyDrawingCache();
+			} catch (Exception e) {
+				Log.w(TAG, "onDestroy  try { view.destroyDrawingCache();" +
+						" >> } catch (Exception e) {\n" + e.getMessage());
+			}
+		}
+		
 		isAlive = false;
+		isRunning = false;
+		super.onDestroy();
+		
+		view = null;
+		inflater = null;
+		container = null;
+		
+		intent = null;
+		argument = null;
+		
 		context = null;
 	}
 }

@@ -9,7 +9,7 @@ import android.app.Application;
 
 /**基础Application
  * @author Lemon
- * @must 调用init方法且只能调用一次，如果extends BaseApplication会自动调用
+ * @see #init
  * @use extends BaseApplication 或 在你的Application的onCreate方法中BaseApplication.init(this);
  */
 public class BaseApplication extends Application {
@@ -33,7 +33,7 @@ public class BaseApplication extends Application {
 
 	/**初始化方法
 	 * @param application
-	 * @must 必须调用
+	 * @must 调用init方法且只能调用一次，如果extends BaseApplication会自动调用
 	 */
 	public static void init(Application application) {
 		instance = application;

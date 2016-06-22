@@ -30,6 +30,7 @@ import android.view.View.OnTouchListener;
 /**基础自定义View
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
+ * @see #onDestroy
  * @use extends BaseView<T>, 具体参考.DemoView
  */
 public abstract class BaseView<T> {
@@ -140,7 +141,7 @@ public abstract class BaseView<T> {
 	public int getPosition() {
 		return position;
 	}
-	
+
 	protected T data = null;
 	/**获取数据
 	 * @return
@@ -148,7 +149,7 @@ public abstract class BaseView<T> {
 	public T getData() {
 		return data;
 	}
-	
+
 	/**设置并显示内容
 	 * @warn 只能在createView后使用
 	 * @param position - data在列表中的位置
@@ -178,8 +179,8 @@ public abstract class BaseView<T> {
 	public void setVisibility(int visibility) {
 		convertView.setVisibility(visibility);
 	}
-	
-	
+
+
 	/**设置背景
 	 * @warn 只能在createView后使用
 	 * @param resId
@@ -196,14 +197,14 @@ public abstract class BaseView<T> {
 	}
 
 
-//	/**性能不好
-//	 * @param id
-//	 * @param s
-//	 */
-//	public void setText(int id, String s) {
-//		TextView tv = (TextView) findViewById(id);
-//		tv.setText(s);
-//	}
+	//	/**性能不好
+	//	 * @param id
+	//	 * @param s
+	//	 */
+	//	public void setText(int id, String s) {
+	//		TextView tv = (TextView) findViewById(id);
+	//		tv.setText(s);
+	//	}
 
 
 
@@ -271,6 +272,29 @@ public abstract class BaseView<T> {
 	}
 	//启动新Activity方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
+	/**销毁并回收内存，建议在对应的View占用大量内存时使用
+	 * @warn 只能在UI线程中调用
+	 */
+	public void onDestroy() {
+		if (convertView != null) {
+			try {
+				convertView.destroyDrawingCache();
+			} catch (Exception e) {
+				Log.w(TAG, "onDestroy  try { convertView.destroyDrawingCache();" +
+						" >> } catch (Exception e) {\n" + e.getMessage());
+			}
+			convertView = null;
+		}
+		
+		onDataChangedListener = null;
+		onTouchListener = null;
+		onClickListener = null;
+		onLongClickListener = null;
+		
+		data = null;
+		position = 0;
+		
+		context = null;
+	}
 
 }

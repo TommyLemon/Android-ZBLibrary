@@ -39,12 +39,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**基础带标签的Fragment
- * 目前只有顶部tab这一种形式，以后将增加底部tab
  * @author Lemon
- * @warn 不要在子类重复这个类中onCreate中的代码
- * @use extends BaseTabFragment, 具体参考.DemoTabFragment
  * @see #onCreateView
  * @see #setContentView
+ * @use extends BaseTabFragment, 具体参考.DemoTabFragment
  * @must 在子类onCreateView中调用initView();initData();initListener();
  */
 public abstract class BaseTabFragment extends BaseFragment implements OnClickListener, OnTabSelectedListener {
@@ -423,6 +421,30 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		topTabView = null;
+		fragments = null;
+		
+		ivBaseTabReturn = null;
+		tvBaseTabReturn = null;
+		llBaseTabTopRightButtonContainer = null;
+		llBaseTabTabContainer = null;
+		
+		tvBaseTabTitle = null;
+		topReturnButtonName = null;
+		
+		currentPosition = 0;
+		needReload = false;
+		
+		topRightButtonList = null;
+		
+		onTabSelectedListener = null;
+		
+		fragmentManager = null;
+		bundle = null;
+	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
