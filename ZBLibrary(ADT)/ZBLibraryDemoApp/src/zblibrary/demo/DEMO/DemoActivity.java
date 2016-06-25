@@ -21,18 +21,21 @@ import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.ui.PageScroller;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**activity示例
@@ -83,6 +86,8 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		initListener();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
+		Toast.makeText(context, "这是一个分页列表，中速滑动直接滚动一页。\n如果不需要则把PageScroller相关代码去掉"
+				, Toast.LENGTH_LONG).show();
 	}
 
 
@@ -174,19 +179,22 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
-	/**示例方法：获取号码列表
-	 * @author lemon
+	/**示例方法：获取列表
+	 * @author Lemon
 	 * @param userId
 	 * @return
 	 */
 	protected List<Entry<String, String>> getList(long userId) {
 		List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
 		for (int i = 0; i < 64; i++) {
-			list.add(new Entry<String, String>("联系人" + i + userId, String.valueOf(1311736568 + i*i + userId)));
+			list.add(new Entry<String, String>("联系人" + i, String.valueOf(1311736568 + i*i + userId)));
 		}
 		return list;
 	}
 
+	/**示例方法：添加列表
+	 * @author Lemon
+	 */
 	private void addList() {
 		int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
 
@@ -211,6 +219,9 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
+	private PageScroller pageScroller;
+	//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
@@ -224,6 +235,12 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 				finish();
 			}
 		});
+		
+		//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
+		pageScroller = new PageScroller(lvDemo);
+		pageScroller.init();
+		//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
+
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
@@ -241,6 +258,14 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		pageScroller.dispatchTouchEvent(ev);
+		return super.dispatchTouchEvent(ev);
+	}
+	//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
+	
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onClick(View v) {

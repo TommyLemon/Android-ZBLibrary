@@ -24,6 +24,7 @@ import zuo.biao.library.manager.ListDiskCacheManager;
 import zuo.biao.library.ui.BottomMenuView;
 import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
+import zuo.biao.library.ui.EditTextInfoActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -82,6 +83,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	private ViewGroup llUserBusinessCardContainer;
 	private UserView userView;
+	
+	private TextView tvUserTag;
 
 	private ViewGroup llUserBottomMenuContainer;
 	private BottomMenuView bottomMenuView;
@@ -100,6 +103,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		//添加用户名片>>>>>>>>>>>>>>>>>>>>>>>
 
 
+		tvUserTag = (TextView) findViewById(R.id.tvUserTag);
+		
+		
 		//添加底部菜单<<<<<<<<<<<<<<<<<<<<<<
 		llUserBottomMenuContainer = (ViewGroup) findViewById(R.id.llUserBottomMenuContainer);
 		llUserBottomMenuContainer.removeAllViews();
@@ -119,8 +125,11 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 
 		userView.setView(user);
+		
+		tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
 	}
 
+	
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -174,6 +183,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void initListener() {//必须调用
 
 		findViewById(R.id.ivUserReturn).setOnClickListener(this);
+		
+		findViewById(R.id.llUserTag).setOnClickListener(this);
 
 		bottomMenuView.setOnMenuItemClickListener(this);
 	}
@@ -231,6 +242,11 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		case R.id.ivUserReturn:
 			onDragBottom(false);
 			break;
+			
+		case R.id.llUserTag:
+			toActivity(EditTextInfoActivity.createIntent(context, "标签"
+					, StringUtil.getTrimedString(tvUserTag)), REQUEST_TO_EDIT_TEXT_INFO);
+			break;
 		default:
 			break;
 		}
@@ -240,6 +256,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private static final int REQUEST_TO_BOTTOM_MENU = 1;
+	private static final int REQUEST_TO_EDIT_TEXT_INFO = 2;
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -252,6 +269,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			if (data != null) {
 				onBottomMenuItemClick(data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE, -1));
 			}
+			break;
+		case REQUEST_TO_EDIT_TEXT_INFO:
+			if (user == null) {
+				user = new User(userId);
+			}
+			user.setTag(data == null ? null : data.getStringExtra(EditTextInfoActivity.RESULT_VALUE));
+			setUser(user);
 			break;
 		}
 	}

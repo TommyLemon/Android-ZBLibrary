@@ -27,6 +27,7 @@ public class User extends BaseModel {
 	String head; //头像
 	String name; //名字
 	String phone; //电话号码
+	String tag; //标签
 	boolean starred; //星标
 
 	/**默认构造方法，JSON等解析时必须要有
@@ -71,6 +72,12 @@ public class User extends BaseModel {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 	public boolean getStarred() {
 		return starred;

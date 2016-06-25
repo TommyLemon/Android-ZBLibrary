@@ -34,18 +34,18 @@ import android.widget.AbsListView;
  * *适用于ListView，GridView等AbsListView的子类
  * @author Lemon
  * @see #dispatchTouchEvent
- * @use pageScoller = new PageScoller(lv);
- *      pageScoller.init();
- *      >> 在Activity或Fragment的dispatchTouchEvent方法内 pageScoller.dispatchTouchEvent(ev);
+ * @use pageScroller = new PageScroller(listView);
+ *      pageScroller.init();
+ *      >> 在Activity的dispatchTouchEvent方法内 pageScroller.dispatchTouchEvent(ev);
  */
-public class PageScoller implements OnGestureListener, OnTouchListener {
-	private static final String TAG = "PageScoller";
+public class PageScroller implements OnGestureListener, OnTouchListener {
+	private static final String TAG = "PageScroller";
 
 	private OnTouchListener onTouchListener;
 	/**避免lv设置OnTouchListener冲突
 	 * @param onTouchListener
 	 * @warn 在init前调用有效
-	 * @use 调用该方法 >> onTouch中pageScoller.onTouch(v, event);
+	 * @use 调用该方法 >> onTouch中pageScroller.onTouch(v, event);
 	 */
 	public void setOnTouchListener(OnTouchListener onTouchListener) {
 		this.onTouchListener = onTouchListener;
@@ -53,8 +53,12 @@ public class PageScoller implements OnGestureListener, OnTouchListener {
 
 
 	private Context context;
-	private AbsListView lv;//不支持ScrollView,因为ScrollView的onFling中的MotionEvent为null导致无效,而且ScrollView往往不会太长
-	public PageScoller(AbsListView lv) {
+	private AbsListView lv;
+	/**
+	 * 不支持ScrollView,因为ScrollView往往不会太长,而且尝试多次smoothScrollBy,pageScroll都无效。
+	 * 不支持WebView,因为没找到WebView滚动网页方法,尝试过scrollBy也无效。
+	 */
+	public PageScroller(AbsListView lv) {
 		this.lv = lv;
 		this.context = lv.getContext();
 	}
@@ -72,8 +76,6 @@ public class PageScoller implements OnGestureListener, OnTouchListener {
 	 */
 	private GestureDetector gestureDetector;
 	/**初始化
-	 * @param onTouchListener
-	 * @param onGestureListener
 	 * @return
 	 * @must 调用
 	 */
