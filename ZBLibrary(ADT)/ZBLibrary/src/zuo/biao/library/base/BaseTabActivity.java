@@ -185,9 +185,13 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @param position
 	 */
 	public void selectFragment(int position) {
-		if (currentPosition == position && needReload == false) {
-			Log.i(TAG, "onSelectFragment currentPosition == position && needReload == false >>> return;	");
-			return;
+		if (currentPosition == position) {
+			if (needReload == false && fragments[position] != null && fragments[position].isVisible()) {
+				Log.e(TAG, "selectFragment currentPosition == position" +
+						" >> fragments[position] != null && fragments[position].isVisible()" +
+						" >> return;	");
+				return;
+			}
 		}
 		if (needReload || fragments[position] == null) {
 			fragments[position] = getFragment(position);
@@ -196,13 +200,13 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		//全局的fragmentTransaction因为already committed 崩溃
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.hide(fragments[currentPosition]);
-		if (!fragments[position].isAdded()) {
+		if (fragments[position].isAdded() == false) {
 			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragments[position]);
 		}
 		fragmentTransaction.show(fragments[position]).commit();
 
 		this.currentPosition = position;
-	};
+	}
 
 
 
@@ -269,12 +273,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		fragments = new Fragment[getCount()];
-		fragments[currentPosition] = getFragment(currentPosition);
-		fragmentManager
-		.beginTransaction()
-		.add(R.id.flBaseTabFragmentContainer, fragments[currentPosition])
-		.show(fragments[currentPosition])
-		.commit();
+		selectFragment(currentPosition);
 
 		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

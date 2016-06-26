@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -219,9 +218,6 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
-	private PageScroller pageScroller;
-	//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
@@ -237,8 +233,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		});
 		
 		//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
-		pageScroller = new PageScroller(lvDemo);
-		pageScroller.init();
+		new PageScroller(lvDemo).init();
 		//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 
 		//示例代码>>>>>>>>>>>>>>>>>>>
@@ -258,13 +253,6 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		pageScroller.dispatchTouchEvent(ev);
-		return super.dispatchTouchEvent(ev);
-	}
-	//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 	
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override

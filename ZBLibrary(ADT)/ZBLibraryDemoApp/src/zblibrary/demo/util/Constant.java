@@ -12,10 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.constant;
+package zblibrary.demo.util;
 
 
-/**常量类
+/**常量工具类
  * @author Lemon
  * @warn TODO 修改里面所有常量
  */

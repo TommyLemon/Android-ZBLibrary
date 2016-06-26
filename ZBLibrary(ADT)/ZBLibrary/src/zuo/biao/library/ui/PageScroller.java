@@ -36,7 +36,6 @@ import android.widget.AbsListView;
  * @see #dispatchTouchEvent
  * @use pageScroller = new PageScroller(listView);
  *      pageScroller.init();
- *      >> 在Activity的dispatchTouchEvent方法内 pageScroller.dispatchTouchEvent(ev);
  */
 public class PageScroller implements OnGestureListener, OnTouchListener {
 	private static final String TAG = "PageScroller";
