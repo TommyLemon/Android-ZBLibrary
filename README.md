@@ -31,6 +31,8 @@ BaseView，自定义View竟然如此简单;
 
 
 ##相关推荐
+[Android快速开发框架-ZBLibrary介绍](http://my.oschina.net/u/2437072/blog/662017)
+
 [如何使用ZBLibrary-Android快速开发框架](http://my.oschina.net/u/2437072/blog/665241)
 
 [全新的手势，侧滑返回、全局右滑返回都OUT啦！](http://www.cnblogs.com/tommylemon/p/5576337.html)
