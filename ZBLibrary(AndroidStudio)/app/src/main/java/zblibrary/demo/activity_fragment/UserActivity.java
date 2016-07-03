@@ -20,10 +20,12 @@ import zblibrary.demo.util.BottomMenuUtil;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.ListDiskCacheManager;
+import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.ui.BottomMenuView;
 import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
+import zuo.biao.library.ui.EditTextInfoActivity;
+import zuo.biao.library.ui.TextClearSuit;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -34,6 +36,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**联系人资料界面
@@ -82,6 +85,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	private ViewGroup llUserBusinessCardContainer;
 	private UserView userView;
+	
+	private EditText etUserRemark;
+	private TextView tvUserTag;
 
 	private ViewGroup llUserBottomMenuContainer;
 	private BottomMenuView bottomMenuView;
@@ -96,10 +102,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 		userView = new UserView(context, getResources());
 		llUserBusinessCardContainer.addView(userView.createView(getLayoutInflater()));
-		userView.setView(new User());
 		//添加用户名片>>>>>>>>>>>>>>>>>>>>>>>
 
 
+		etUserRemark = (EditText) findViewById(R.id.etUserRemark);
+		tvUserTag = (TextView) findViewById(R.id.tvUserTag);
+		
+		
 		//添加底部菜单<<<<<<<<<<<<<<<<<<<<<<
 		llUserBottomMenuContainer = (ViewGroup) findViewById(R.id.llUserBottomMenuContainer);
 		llUserBottomMenuContainer.removeAllViews();
@@ -119,8 +128,11 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 
 		userView.setView(user);
+		
+		tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
 	}
 
+	
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -148,7 +160,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			@Override
 			public void run() {
 
-				user = ListDiskCacheManager.getInstance().get(User.class, "" + userId);
+				user = CacheManager.getInstance().get(User.class, "" + userId);
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -174,8 +186,12 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void initListener() {//必须调用
 
 		findViewById(R.id.ivUserReturn).setOnClickListener(this);
+		
+		findViewById(R.id.llUserTag).setOnClickListener(this);
+		
+		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
 
-		bottomMenuView.setOnMenuItemClickListener(this);
+		bottomMenuView.setOnMenuItemClickListener(this);//底部菜单点击监听
 	}
 
 	@Override
@@ -231,6 +247,11 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		case R.id.ivUserReturn:
 			onDragBottom(false);
 			break;
+			
+		case R.id.llUserTag:
+			toActivity(EditTextInfoActivity.createIntent(context, "标签"
+					, StringUtil.getTrimedString(tvUserTag)), REQUEST_TO_EDIT_TEXT_INFO);
+			break;
 		default:
 			break;
 		}
@@ -240,6 +261,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private static final int REQUEST_TO_BOTTOM_MENU = 1;
+	private static final int REQUEST_TO_EDIT_TEXT_INFO = 2;
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -252,6 +274,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			if (data != null) {
 				onBottomMenuItemClick(data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE, -1));
 			}
+			break;
+		case REQUEST_TO_EDIT_TEXT_INFO:
+			if (user == null) {
+				user = new User(userId);
+			}
+			user.setTag(data == null ? null : data.getStringExtra(EditTextInfoActivity.RESULT_VALUE));
+			setUser(user);
 			break;
 		}
 	}

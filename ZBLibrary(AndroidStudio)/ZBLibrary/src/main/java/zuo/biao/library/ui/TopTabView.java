@@ -148,7 +148,7 @@ public class TopTabView extends BaseView<String[]> {
 				llTopTabViewContainer.addView(tvTabs[position]);
 
 				View divider = inflater.inflate(R.layout.divider_vertical_1dp, llTopTabViewContainer, false);
-				divider.setBackgroundColor(resources.getColor(R.color.white));
+				divider.setBackgroundColor(getColor(R.color.white));
 				llTopTabViewContainer.addView(divider);
 			}
 			tvTabs[position].setText(StringUtil.getTrimedString(names[position]));
@@ -226,7 +226,7 @@ public class TopTabView extends BaseView<String[]> {
 		}
 
 		for (int i = 0; i < tvTabs.length; i++) {
-			tvTabs[i].setTextColor(resources.getColor(i == position ? R.color.black : R.color.white));
+			tvTabs[i].setTextColor(getColor(i == position ? R.color.black : R.color.white));
 			tvTabs[i].setBackgroundResource(i == position ? tabBgResId[tabType] : R.drawable.null_drawable);
 		}
 		if (onTabSelectedListener != null) {
@@ -236,15 +236,5 @@ public class TopTabView extends BaseView<String[]> {
 
 		this.currentPosition = position;
 	}
-
-	/**刷新界面，refresh符合习惯
-	 * @param names
-	 */
-	public void refresh(final String[] names) {
-		setView(names);
-	}
-
-
-
 
 }

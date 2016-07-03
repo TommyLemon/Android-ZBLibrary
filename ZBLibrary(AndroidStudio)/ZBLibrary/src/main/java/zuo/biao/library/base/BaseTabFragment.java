@@ -39,12 +39,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**基础带标签的Fragment
- * 目前只有顶部tab这一种形式，以后将增加底部tab
  * @author Lemon
- * @warn 不要在子类重复这个类中onCreate中的代码
- * @use extends BaseTabFragment, 具体参考.DemoTabFragment
  * @see #onCreateView
  * @see #setContentView
+ * @use extends BaseTabFragment, 具体参考.DemoTabFragment
  * @must 在子类onCreateView中调用initView();initData();initListener();
  */
 public abstract class BaseTabFragment extends BaseFragment implements OnClickListener, OnTabSelectedListener {
@@ -188,9 +186,13 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @param position
 	 */
 	public void selectFragment(int position) {
-		if (currentPosition == position && needReload == false) {
-			Log.i(TAG, "onSelectFragment currentPosition == position && needReload == false >>> return;	");
-			return;
+		if (currentPosition == position) {
+			if (needReload == false && fragments[position] != null && fragments[position].isVisible()) {
+				Log.e(TAG, "selectFragment currentPosition == position" +
+						" >> fragments[position] != null && fragments[position].isVisible()" +
+						" >> return;	");
+				return;
+			}
 		}
 		if (needReload || fragments[position] == null) {
 			fragments[position] = getFragment(position);
@@ -199,13 +201,13 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 		//全局的fragmentTransaction因为already committed 崩溃
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.hide(fragments[currentPosition]);
-		if (!fragments[position].isAdded()) {
+		if (fragments[position].isAdded() == false) {
 			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragments[position]);
 		}
 		fragmentTransaction.show(fragments[position]).commit();
 
 		this.currentPosition = position;
-	};
+	}
 
 
 
@@ -272,12 +274,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		fragments = new Fragment[getCount()];
-		fragments[currentPosition] = getFragment(currentPosition);
-		fragmentManager
-		.beginTransaction()
-		.add(R.id.flBaseTabFragmentContainer, fragments[currentPosition])
-		.show(fragments[currentPosition])
-		.commit();
+		selectFragment(currentPosition);
 
 		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -423,6 +420,30 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		topTabView = null;
+		fragments = null;
+		
+		ivBaseTabReturn = null;
+		tvBaseTabReturn = null;
+		llBaseTabTopRightButtonContainer = null;
+		llBaseTabTabContainer = null;
+		
+		tvBaseTabTitle = null;
+		topReturnButtonName = null;
+		
+		currentPosition = 0;
+		needReload = false;
+		
+		topRightButtonList = null;
+		
+		onTabSelectedListener = null;
+		
+		fragmentManager = null;
+		bundle = null;
+	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

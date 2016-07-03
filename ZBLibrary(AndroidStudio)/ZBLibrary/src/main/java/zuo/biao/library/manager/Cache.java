@@ -25,22 +25,22 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**列表缓存类
+/**磁盘缓存类
  * @author Lemon
  * @param <T> 缓存的数据类
- * @use new ListDiskCache<T>(context, clazz, path).xxxMethod(...);具体参考.ListDiskCacheManager
+ * @use new Cache<T>(context, clazz, path).xxxMethod(...);具体参考.CacheManager
  */
-public class ListDiskCache<T> {
-	public static final String TAG = "ListDiskCache";
+public class Cache<T> {
+	public static final String TAG = "Cache";
 
-	public ListDiskCache(Context context, Class<T> clazz, String path) {
+	public Cache(Context context, Class<T> clazz, String path) {
 		this(context, clazz, context.getSharedPreferences(StringUtil.getTrimedString(path), Context.MODE_PRIVATE));
 	}
 	@SuppressWarnings("unused")
 	private Context context;
 	private Class<T> clazz;
 	private SharedPreferences sp;
-	public ListDiskCache(Context context, Class<T> clazz, SharedPreferences sp) {
+	public Cache(Context context, Class<T> clazz, SharedPreferences sp) {
 		this.context = context;
 		this.clazz = clazz;
 		this.sp = sp;

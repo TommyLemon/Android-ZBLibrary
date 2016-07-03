@@ -40,12 +40,12 @@ public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAda
 		BV bv = convertView == null ? null : (BV) convertView.getTag();
 		if (bv == null) {
 			bv = createView(position, convertView, parent);
-			convertView = bv.createView(inflater);
+			convertView = bv.createView(inflater, getItemViewType(position));
 
 			convertView.setTag(bv);
 		}
 
-		bv.setView(position, getItem(position));
+		bv.setView(getItem(position), position, getItemViewType(position));
 
 		return super.getView(position, convertView, parent);
 	}

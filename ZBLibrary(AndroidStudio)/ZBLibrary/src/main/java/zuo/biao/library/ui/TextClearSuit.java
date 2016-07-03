@@ -20,7 +20,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /**带清除按钮EditText或TextView套件，如果输入为空则隐藏清除按钮
@@ -65,7 +64,7 @@ public class TextClearSuit {
 	 * @param trim
 	 * @param clearView
 	 */
-	public void addClearListener(final EditText tv, final int blankType, final View clearView) {
+	public void addClearListener(final TextView tv, final int blankType, final View clearView) {
 		addClearListener(tv, blankType, clearView, false);
 	}
 	/**

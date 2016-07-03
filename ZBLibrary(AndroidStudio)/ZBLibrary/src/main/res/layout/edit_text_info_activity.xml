@@ -22,10 +22,8 @@
     </RelativeLayout>
 
     <View
-        style="@style/divider_horizontal_1dp"
-        android:layout_marginBottom="@dimen/common_item_distance" />
-
-    <View style="@style/divider_horizontal_1px" />
+        style="@style/divider_horizontal_1px"
+        android:layout_marginTop="@dimen/common_item_distance" />
 
     <LinearLayout style="@style/edit_item" >
 

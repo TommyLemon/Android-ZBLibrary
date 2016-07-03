@@ -46,6 +46,13 @@ import android.widget.Toast;
  * *onFling内控制左右滑动手势操作范围，可自定义
  * @author Lemon
  * @see ActivityPresenter#getActivity
+ * @see #context
+ * @see #view
+ * @see #fragmentManager
+ * @see #setContentView
+ * @see #runUiThread
+ * @see #runThread
+ * @see #onDestroy
  * @use extends BaseActivity, 具体参考 .DemoActivity 和 .DemoFragmentActivity
  */
 public abstract class BaseActivity extends FragmentActivity implements ActivityPresenter
@@ -54,19 +61,21 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 
 	/**
 	 * 该Activity实例，命名为context是因为大部分方法都只需要context，写成context使用更方便
-	 * @warn 不能在子Fragment中创建
+	 * @warn 不能在子类中创建
 	 */
 	protected BaseActivity context = null;
 	/**
 	 * 该Activity的界面，即contentView
-	 * @warn 不能在子Fragment中创建
+	 * @warn 不能在子类中创建
 	 */
 	protected View view = null;
 	/**
 	 * 布局解释器
+	 * @warn 不能在子类中创建
 	 */
 	protected LayoutInflater inflater = null;
 	/**
+	 * Fragment管理器
 	 * @warn 不能在子类中创建
 	 */
 	protected FragmentManager fragmentManager = null;
@@ -91,6 +100,14 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	//底部滑动实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	private OnBottomDragListener onBottomDragListener;
 	private GestureDetector gestureDetector;
+	/**设置该Activity界面布局，并设置底部左右滑动手势监听
+	 * @param layoutResID
+	 * @param listener
+	 * @use 在子类中
+	 * *1.onCreate中super.onCreate后setContentView(layoutResID, this);
+	 * *2.重写onDragBottom方法并实现滑动事件处理
+	 * *3.在导航栏左右按钮的onClick事件中调用onDragBottom方法
+	 */
 	public void setContentView(int layoutResID, OnBottomDragListener listener) {
 		super.setContentView(layoutResID);
 
@@ -307,7 +324,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 */
 	public final void runUiThread(Runnable action) {
 		if (isAlive() == false) {
-			Log.e(TAG, "runUiThread  isAlive() == false >> return;");
+			Log.w(TAG, "runUiThread  isAlive() == false >> return;");
 			return;
 		}
 		runOnUiThread(action);
@@ -323,7 +340,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 */
 	public final Handler runThread(String name, Runnable runnable) {
 		if (isAlive() == false) {
-			Log.e(TAG, "runThread  isAlive() == false >> return null;");
+			Log.w(TAG, "runThread  isAlive() == false >> return null;");
 			return null;
 		}
 		name = StringUtil.getTrimedString(name);
@@ -382,14 +399,38 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		isRunning = false;
 	}
 
+	/**销毁并回收内存
+	 * @warn 子类如果要使用这个方法内用到的变量，应重写onDestroy方法并在super.onDestroy();前操作
+	 */
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		dismissProgressDialog();
-		isRunning = false;
-		isAlive = false;
-		context = null;
 		ThreadManager.getInstance().destroyThread(threadNameList);
+		if (view != null) {
+			try {
+				view.destroyDrawingCache();
+			} catch (Exception e) {
+				Log.w(TAG, "onDestroy  try { view.destroyDrawingCache();" +
+						" >> } catch (Exception e) {\n" + e.getMessage());
+			}
+		}
+
+		isAlive = false;
+		isRunning = false;
+		super.onDestroy();
+		
+		inflater = null;
+		view = null;
+		toGetWindowTokenView = null;
+		
+		fragmentManager = null;
+		progressDialog = null;
+		threadNameList = null;
+		
+		intent = null;
+		bundle = null;
+		
+		context = null;
 	}
 
 

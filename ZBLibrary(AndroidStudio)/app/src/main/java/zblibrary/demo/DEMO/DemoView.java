@@ -61,7 +61,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 	@SuppressLint("InflateParams")
 	@Override
 	public View createView(@NonNull LayoutInflater inflater) {
-		//TODO demo_view改为你所需要的layout文件
+		//TODO demo_view改为你所需要的layout文件，可以根据viewType使用不同layout
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<

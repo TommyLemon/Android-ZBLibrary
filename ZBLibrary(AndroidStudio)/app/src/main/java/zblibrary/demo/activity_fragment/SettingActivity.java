@@ -1,7 +1,5 @@
 package zblibrary.demo.activity_fragment;
 
-import java.util.ArrayList;
-
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
@@ -24,32 +22,12 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String INTENT_PHONE = "INTENT_PHONE";
-	public static final String INTENT_PHONE_LIST = "INTENT_PHONE_LIST";
-
 	/**启动这个Activity的Intent
 	 * @param context
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		return createIntent(context, null);
-	}
-	/**启动这个Activity的Intent
-	 * @param context
-	 * @param phone
-	 * @return
-	 */
-	public static Intent createIntent(Context context, String phone) {
-		return new Intent(context, SettingActivity.class).putExtra(INTENT_PHONE, phone);
-	}
-
-	/**启动这个Activity的Intent
-	 * @param context
-	 * @param phoneList
-	 * @return
-	 */
-	public static Intent createIntent(BaseActivity context, ArrayList<String> phoneList) {
-		return new Intent(context, SettingActivity.class).putExtra(INTENT_PHONE_LIST, phoneList);
+		return new Intent(context, SettingActivity.class);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -219,27 +197,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private static final int REQUEST_TO_MODEL = 10;
-	public static final int RESULT_MODEL = 21;
-	public static final String RESULT_CLICKED_ITEM = "RESULT_CLICKED_ITEM";
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK) {
-			return;
-		}
-
-		switch (requestCode) {
-		case REQUEST_TO_MODEL:
-			if (data != null) {
-				showShortToast("clicked Item position = " + data.getIntExtra(RESULT_CLICKED_ITEM, -1));
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
 
 	private boolean isSettingChanged = false;
 	@Override
@@ -274,7 +231,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 		ivSettings = null;
 		settings = null;
-		context = null;
 	}
 
 

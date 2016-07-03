@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/activity_page" >
 
-    <RelativeLayout style="@style/topbar_bg" android:id="@+id/rlBottomTabTopbar">
+    <RelativeLayout
+        android:id="@+id/rlBottomTabTopbar"
+        style="@style/topbar_bg" >
 
         <TextView
             android:id="@+id/tvBottomTabTitle"
@@ -21,38 +23,41 @@
     <View style="@style/divider_horizontal_1px_gray" />
 
     <LinearLayout
+        android:background="@color/alpha_6"
         style="@style/ll_horizontal_match_wrap"
-        android:layout_height="@dimen/topbar_height"
-        android:background="@color/white" >
+        android:layout_height="@dimen/topbar_height" >
 
         <LinearLayout
             android:id="@+id/llBottomTabTab0"
             style="@style/ll_vertical_match_match"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@color/topbar_bg" >
+            android:layout_weight="1" >
 
             <ImageView
+                android:id="@+id/ivBottomTabTab0"
                 style="@style/img_btn"
-                android:src="@drawable/earth_light" />
+                android:src="@drawable/earth" />
 
             <TextView
+                android:id="@+id/tvBottomTabTab0"
                 style="@style/text_micro"
-                android:text="主页" />
+                android:text="主页"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llBottomTabTab1"
             style="@style/ll_vertical_match_match"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@color/white" >
+            android:layout_weight="1" >
 
             <ImageView
+                android:id="@+id/ivBottomTabTab1"
                 style="@style/img_btn"
                 android:src="@drawable/mail_light" />
 
             <TextView
+                android:id="@+id/tvBottomTabTab1"
                 style="@style/text_micro"
                 android:text="消息" />
         </LinearLayout>
@@ -61,14 +66,15 @@
             android:id="@+id/llBottomTabTab2"
             style="@style/ll_vertical_match_match"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@color/white" >
+            android:layout_weight="1" >
 
             <ImageView
+                android:id="@+id/ivBottomTabTab2"
                 style="@style/img_btn"
                 android:src="@drawable/search_light" />
 
             <TextView
+                android:id="@+id/tvBottomTabTab2"
                 style="@style/text_micro"
                 android:text="发现" />
         </LinearLayout>
@@ -77,14 +83,15 @@
             android:id="@+id/llBottomTabTab3"
             style="@style/ll_vertical_match_match"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@color/white" >
+            android:layout_weight="1" >
 
             <ImageView
+                android:id="@+id/ivBottomTabTab3"
                 style="@style/img_btn"
                 android:src="@drawable/setting_light" />
 
             <TextView
+                android:id="@+id/tvBottomTabTab3"
                 style="@style/text_micro"
                 android:text="设置" />
         </LinearLayout>

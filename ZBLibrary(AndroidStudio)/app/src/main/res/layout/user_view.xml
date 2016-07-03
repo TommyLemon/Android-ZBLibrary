@@ -48,12 +48,12 @@
         <TextView
             android:id="@+id/tvUserViewId"
             style="@style/text_middle"
-            android:text="ID:1234567890" />
+            android:text="ID:" />
 
         <TextView
             android:id="@+id/tvUserViewNumber"
             style="@style/text_middle"
-            android:text="Phone:1234567890" />
+            android:text="Phone:" />
     </LinearLayout>
 
 </LinearLayout>

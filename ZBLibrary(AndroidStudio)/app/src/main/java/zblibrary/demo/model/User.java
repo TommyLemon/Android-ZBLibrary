@@ -23,10 +23,15 @@ public class User extends BaseModel {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final int SEX_MAIL = 0;
+	public static final int SEX_FEMAIL = 1;
+	public static final int SEX_UNKNOW = 2;
 
+	int sex;
 	String head; //头像
 	String name; //名字
 	String phone; //电话号码
+	String tag; //标签
 	boolean starred; //星标
 
 	/**默认构造方法，JSON等解析时必须要有
@@ -41,19 +46,17 @@ public class User extends BaseModel {
 		this(-1, name);
 	}
 	public User(long id, String name) {
-		this(id, name, null);
-	}
-	public User(long id, String name, String phone) {
-		this(id, name, phone, null);
-	}
-	public User(long id, String name, String phone, String head) {
 		this.id = id;
 		this.name = name;
-		this.phone = phone;
-		this.head = head;
 	}
+	
 
-
+	public int getSex() {
+		return sex;
+	}
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
 	public String getHead() {
 		return head;
 	}
@@ -72,6 +75,12 @@ public class User extends BaseModel {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 	public boolean getStarred() {
 		return starred;
 	}
@@ -83,7 +92,7 @@ public class User extends BaseModel {
 	public boolean isCorrect() {//根据自己的需求决定，也可以直接 return true
 		return id > 0;// && StringUtil.isNotEmpty(phone, true);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "姓名：" + name + "\n电话：" + phone;

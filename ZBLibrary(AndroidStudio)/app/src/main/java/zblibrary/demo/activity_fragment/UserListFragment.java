@@ -14,12 +14,12 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
+import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.OnCacheCallBack;
@@ -62,8 +62,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 			range = argument.getInt(ARGUMENT_RANGE, range);
 		}
 
-		Toast.makeText(context, "非正方形头像不能处理成标准圆形", Toast.LENGTH_LONG).show();
-		Toast.makeText(context, "头像重复是因为只有这几个测试用的头像，url相同，adapter内加载并没有错位", Toast.LENGTH_LONG).show();
+		Toast.makeText(context, "服务器配置有误，请查看这个类的@must", Toast.LENGTH_LONG).show();
 
 		initCache(this);
 		
@@ -129,7 +128,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 	@Override
 	public void getListAsync(final int pageNum) {
-		//实际使用时用这个，需要配置服务器地址		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
+		//实际使用时用这个，需要配置服务器地址		HttpRequest.getUserList(range, pageNum, 0, this);
 
 		//仅测试用<<<<<<<<<<<
 		new Handler().postDelayed(new Runnable() {
@@ -137,7 +136,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 			@Override
 			public void run() {
 				onHttpRequestSuccess(0, HttpRequest.RESULT_GET_USER_LIST_SUCCEED
-						, Json.toJSONString(getList(range, pageNum)));
+						, Json.toJSONString(TestUtil.getUserList(pageNum)));
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
@@ -223,52 +222,6 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 
 	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-
-	/**获取列表, 仅供测试用
-	 * @author lemon
-	 * @param range 
-	 * @param pageNum 
-	 * @return
-	 */
-	protected List<User> getList(long range, int pageNum) {
-		range ++;
-		List<User> list = new ArrayList<User>();
-		int userId;
-		for (int i = 0; i < 10; i++) {
-			userId = i + pageNum*10 + 1;
-			list.add(new User(userId, "联系人" + userId, String.valueOf(1311736568 + (i + range)*(pageNum + range)), getPictureUrl(userId)));
-		}
-		return list;
-	}
-
-
-	/**获取图片地址，仅供测试用
-	 * @param userId
-	 * @return
-	 */
-	private String getPictureUrl(int userId) {
-		switch (userId % 6) {
-		case 0:
-			return "http://images2015.cnblogs.com/blog/660067/201604/660067-20160404191409609-2089759742.png";
-		case 1:
-			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
-		case 2:
-			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
-		case 3:
-			return "https://www.baidu.com/img/bd_logo1.png";
-		case 4:
-			return "http://common.cnblogs.com/images/icon_weibo_24.png";
-		case 5:
-			return "http://common.cnblogs.com/images/wechat.png";
-		}
-		return null;
-	}
-
-
 
 
 }

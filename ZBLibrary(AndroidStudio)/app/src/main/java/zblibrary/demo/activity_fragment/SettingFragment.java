@@ -144,7 +144,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 				toActivity(SettingActivity.createIntent(context));
 				break;
 			case R.id.llSettingAbout:
-				toActivity(AboutActivity.createIntent(context, false));
+				toActivity(AboutActivity.createIntent(context));
 				break;
 			case R.id.llSettingLogout:
 				new AlertDialog(context, "退出登录", "确定退出登录？", true, 0, this).show();

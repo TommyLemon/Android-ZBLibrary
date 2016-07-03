@@ -19,7 +19,7 @@ import java.io.File;
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoMainActivity;
 import zblibrary.demo.application.DemoApplication;
-import zblibrary.demo.constant.Constant;
+import zblibrary.demo.util.Constant;
 import zblibrary.demo.util.HttpRequest;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
@@ -34,7 +34,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -52,23 +51,13 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String INTENT_IS_EXIT_BY_DOUBLE_CLICK = "INTENT_IS_EXIT_BY_DOUBLE_CLICK";
 
 	/**启动这个Activity的Intent
-	 * isExitByDoubleClick = true
 	 * @param context
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		return createIntent(context, true);
-	}
-	/**启动这个Activity的Intent
-	 * @param context
-	 * @param isExitByDoubleClick
-	 * @return
-	 */
-	public static Intent createIntent(Context context, boolean isExitByDoubleClick) {
-		return new Intent(context, AboutActivity.class).putExtra(INTENT_IS_EXIT_BY_DOUBLE_CLICK, isExitByDoubleClick);
+		return new Intent(context, AboutActivity.class);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -80,14 +69,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		return this;
 	}
 
-	private boolean isExitByDoubleClick = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_activity, this);
-
-		intent = getIntent();
-		isExitByDoubleClick = intent.getBooleanExtra(INTENT_IS_EXIT_BY_DOUBLE_CLICK, isExitByDoubleClick);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -257,8 +242,11 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			break;
 		case R.id.llAboutBottomTabActivity:
-			startActivity(BottomTabActivity.createIntent(context));
+			startActivity(BottomTabActivity.createIntent(context).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
+			
+			enterAnim = exitAnim = R.anim.null_anim;
+			finish();
 			break;
 
 		case R.id.llAboutShare:
@@ -305,27 +293,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		return false;
 	}
 
-
-	private long firstTime = 0;//第一次返回按钮计时
-	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		switch(keyCode){
-		case KeyEvent.KEYCODE_BACK:
-			if (isExitByDoubleClick) {
-				long secondTime = System.currentTimeMillis();
-				if(secondTime - firstTime > 2000){
-					showShortToast("再按一次退出");
-					firstTime = secondTime;
-				} else {//完全退出
-					moveTaskToBack(false);//应用退到后台
-					System.exit(0);
-				}
-				return true;
-			}
-		}
-
-		return super.onKeyUp(keyCode, event);
-	}
 
 
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

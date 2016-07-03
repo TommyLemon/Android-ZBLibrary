@@ -22,19 +22,18 @@ import zuo.biao.library.R;
 import zuo.biao.library.interfaces.OnCacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
-import zuo.biao.library.manager.ListDiskCacheManager;
+import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.widget.AbsListView;
 
 /**基础列表Activity
  * @author Lemon
- * @warn 1.不要在子类重复这个类中onCreate中的代码;
- *       2.只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
- *       3.如果在子类中super.initView();则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
- *         否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
  * @param <T> 数据模型(model/JavaBean)类
  * @param <LV> AbsListView的子类（ListView,GridView等）
+ * @see #lvBaseList
+ * @see #initCache
+ * @see #initView
  * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
  */
@@ -66,6 +65,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 
 	/**
 	 * 显示列表的ListView
+	 * @warn 只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
 	 */
 	protected LV lvBaseList;
 	/**
@@ -160,7 +160,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 			@Override
 			public void run() {
 				//从缓存获取数据
-				final List<T> newList = isToLoadCache == false ? null : ListDiskCacheManager.getInstance().getList(
+				final List<T> newList = isToLoadCache == false ? null : CacheManager.getInstance().getList(
 						onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup(), loadCacheStart);
 				if (newList == null || newList.size() <= 0) {
 					getListAsync(pageNum);
@@ -212,7 +212,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	/**
 	 * 数据列表
 	 */
-	protected List<T> list;
+	protected List<T> list = null;
 	/**
 	 * 新数据列表
 	 */
@@ -261,7 +261,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 			}
 		}
 
-		ListDiskCacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
+		CacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
 				, map, saveCacheStart, newList.size());
 	}
 
@@ -293,10 +293,10 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	}
 
 	/**加载失败
-	 * @param newList
+	 * @param e
 	 */
-	public void onLoadFailed(int requestCode, Exception exception) {
-		Log.e(TAG, "onLoadFailed  requestCode = " + requestCode + ";\n exception = " + exception);
+	public void onLoadFailed(Exception e) {
+		Log.e(TAG, "onLoadFailed e = " + e);
 		stopLoadData();
 		showShortToast(R.string.get_failed);
 	}
@@ -340,10 +340,19 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 
 	@Override
 	protected void onDestroy() {
+		stopLoadData();
+		
+		super.onDestroy();
+		isLoading = false;
+		isHaveMore = true;
+
+		lvBaseList = null;
+
+		list = null;
+		newList = null;
+
 		onStopLoadListener = null;
 		onCacheCallBack = null;
-
-		super.onDestroy();
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

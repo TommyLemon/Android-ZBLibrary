@@ -99,7 +99,7 @@ public class ThreadManager {
 
 
 	/**销毁线程
-	 * @param name
+	 * @param nameList
 	 * @return
 	 */
 	public void destroyThread(List<String> nameList) {
@@ -107,7 +107,6 @@ public class ThreadManager {
 			for (String name : nameList) {
 				destroyThread(name);
 			}
-			nameList = null;
 		}
 	}
 	/**销毁线程
@@ -131,7 +130,6 @@ public class ThreadManager {
 		if (tb.getName() != null) { // StringUtil.isNotEmpty(tb.getName(), true)) {
 			threadMap.remove(tb.getName());
 		}
-		tb = null;
 	}
 	/**销毁线程
 	 * @param handler
@@ -140,9 +138,7 @@ public class ThreadManager {
 	 */
 	public void destroyThread(Handler handler, Runnable runnable) {
 		if (handler == null || runnable == null) {
-			Log.e(TAG, "destroyThread  handler == null || runnable == null >> handler = null;runnable = null;return;");
-			handler = null;
-			runnable = null;
+			Log.e(TAG, "destroyThread  handler == null || runnable == null >> return;");
 			return;
 		}
 
@@ -151,8 +147,6 @@ public class ThreadManager {
 		} catch (Exception e) {
 			Log.e(TAG, "onDestroy try { handler.removeCallbacks(runnable);...  >> catch  : " + e.getMessage());
 		}
-		handler = null;
-		runnable = null;
 	}
 
 
@@ -161,7 +155,8 @@ public class ThreadManager {
 	public void finish() {
 		threadManager = null;
 		if (threadMap == null || threadMap.keySet() == null) {
-			Log.d(TAG, "finish  threadMap == null || threadMap.keySet() == null >> return;");
+			Log.d(TAG, "finish  threadMap == null || threadMap.keySet() == null >> threadMap = null; >> return;");
+			threadMap = null;
 			return;
 		}
 		List<String> nameList = new ArrayList<String>(threadMap.keySet());//直接用Set在系统杀掉应用时崩溃

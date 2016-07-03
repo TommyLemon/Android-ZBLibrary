@@ -18,24 +18,24 @@ package zuo.biao.library.interfaces;
  * @author Lemon
  * @use Activity或Fragment implements Presenter
  */
-interface Presenter {
+public interface Presenter {
 
 	static final String INTENT_TITLE = "INTENT_TITLE";
 	static final String INTENT_ID = "INTENT_ID";
 	static final String RESULT_DATA = "RESULT_DATA";
 
 	/**
-	 * UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)
+	 * UI显示方法(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)
 	 * @must Activity-在子类onCreate方法内初始化View(setContentView)后调用；Fragment-在子类onCreateView方法内初始化View后调用
 	 */
 	void initView();
 	/**
-	 * Data数据方法，必须在子类onCreate方法内setContentView后调用
+	 * Data数据方法(存在数据获取或处理代码，但不存在事件监听代码)
 	 * @must Activity-在子类onCreate方法内初始化View(setContentView)后调用；Fragment-在子类onCreateView方法内初始化View后调用
 	 */
 	void initData();
 	/**
-	 * Listener事件监听方法，必须在子类onCreate方法内setContentView后调用
+	 * Listener事件监听方法(只要存在事件监听代码就是)
 	 * @must Activity-在子类onCreate方法内初始化View(setContentView)后调用；Fragment-在子类onCreateView方法内初始化View后调用
 	 */
 	void initListener();

@@ -30,6 +30,7 @@ import android.view.View.OnTouchListener;
 /**基础自定义View
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
+ * @see #onDestroy
  * @use extends BaseView<T>, 具体参考.DemoView
  */
 public abstract class BaseView<T> {
@@ -39,10 +40,10 @@ public abstract class BaseView<T> {
 	 * 传入的Activity,可在子类直接使用
 	 */
 	protected Activity context;
-	protected Resources resources;
+	private Resources resources;
 	public BaseView(Activity context, Resources resources) {
 		this.context = context;
-		this.resources = resources == null ? context.getResources() : resources;
+		this.resources = resources;
 	}
 
 	/**数据改变回调接口
@@ -110,7 +111,22 @@ public abstract class BaseView<T> {
 		v.setOnClickListener(l);
 		return v;
 	}
+	
+	/**
+	 * 视图类型，部分情况下需要根据viewType使用不同layout，对应Adapter的itemViewType
+	 */
+	protected int viewType = 0;
 	/**创建一个新的View
+	 * @param inflater
+	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
+	 * @return
+	 */
+	public View createView(@NonNull LayoutInflater inflater, int viewType) {
+		this.viewType = viewType;
+		return createView(inflater);
+	}
+	/**创建一个新的View
+	 * @param inflater 
 	 * @return
 	 */
 	public abstract View createView(@NonNull LayoutInflater inflater);
@@ -130,6 +146,16 @@ public abstract class BaseView<T> {
 		return convertView.getHeight();
 	}
 
+	
+	
+	protected T data = null;
+	/**获取数据
+	 * @return
+	 */
+	public T getData() {
+		return data;
+	}
+	
 	/**
 	 * data在列表中的位置
 	 * @must 只使用setView(int position, T data)方法来设置position，保证position与data对应正确
@@ -141,24 +167,18 @@ public abstract class BaseView<T> {
 		return position;
 	}
 	
-	protected T data = null;
-	/**获取数据
-	 * @return
-	 */
-	public T getData() {
-		return data;
-	}
-	
-	/**设置并显示内容
+	/**设置并显示内容，建议在子类setView内this.data = data;
 	 * @warn 只能在createView后使用
-	 * @param position - data在列表中的位置
 	 * @param data - 传入的数据
+	 * @param position - data在列表中的位置
+	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
 	 */
-	public void setView(int position, T data) {
+	public void setView(T data, int position, int viewType) {
 		this.position = position;
+		this.viewType = viewType;
 		setView(data);
 	}
-	/**设置并显示内容
+	/**设置并显示内容，建议在子类setView内this.data = data;
 	 * @warn 只能在createView后使用
 	 * @param data - 传入的数据
 	 */
@@ -178,8 +198,8 @@ public abstract class BaseView<T> {
 	public void setVisibility(int visibility) {
 		convertView.setVisibility(visibility);
 	}
-	
-	
+
+
 	/**设置背景
 	 * @warn 只能在createView后使用
 	 * @param resId
@@ -196,29 +216,37 @@ public abstract class BaseView<T> {
 	}
 
 
-//	/**性能不好
-//	 * @param id
-//	 * @param s
-//	 */
-//	public void setText(int id, String s) {
-//		TextView tv = (TextView) findViewById(id);
-//		tv.setText(s);
-//	}
+	//	/**性能不好
+	//	 * @param id
+	//	 * @param s
+	//	 */
+	//	public void setText(int id, String s) {
+	//		TextView tv = (TextView) findViewById(id);
+	//		tv.setText(s);
+	//	}
 
 
 
 	//resources方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	public final Resources getResources() {
+		if(resources == null) {
+			resources = context.getResources();
+		} 
+		return resources;
+	}
+	
 	public String getString(int id) {
-		return resources.getString(id);
+		return getResources().getString(id);
 	}
 	public int getColor(int id) {
-		return resources.getColor(id);
+		return getResources().getColor(id);
 	}
 	public Drawable getDrawable(int id) {
-		return resources.getDrawable(id);
+		return getResources().getDrawable(id);
 	}
 	public float getDimension(int id) {
-		return resources.getDimension(id);
+		return getResources().getDimension(id);
 	}
 	//resources方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -271,6 +299,29 @@ public abstract class BaseView<T> {
 	}
 	//启动新Activity方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
+	/**销毁并回收内存，建议在对应的View占用大量内存时使用
+	 * @warn 只能在UI线程中调用
+	 */
+	public void onDestroy() {
+		if (convertView != null) {
+			try {
+				convertView.destroyDrawingCache();
+			} catch (Exception e) {
+				Log.w(TAG, "onDestroy  try { convertView.destroyDrawingCache();" +
+						" >> } catch (Exception e) {\n" + e.getMessage());
+			}
+			convertView = null;
+		}
+		
+		onDataChangedListener = null;
+		onTouchListener = null;
+		onClickListener = null;
+		onLongClickListener = null;
+		
+		data = null;
+		position = 0;
+		
+		context = null;
+	}
 
 }
