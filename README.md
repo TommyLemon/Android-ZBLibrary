@@ -17,7 +17,7 @@ BaseView，自定义View竟然如此简单;
 点击右边链接查看如何使用[http://my.oschina.net/u/2437072/blog/665241](http://my.oschina.net/u/2437072/blog/665241)
 
 
-![](http://images2015.cnblogs.com/blog/660067/201606/660067-20160606231315433-1089835539.jpg)
+![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ALL.jpg)
 
 ## 欢迎Star，欢迎Fork
 
