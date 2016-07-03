@@ -22,7 +22,7 @@ import zuo.biao.library.R;
 import zuo.biao.library.interfaces.OnCacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
-import zuo.biao.library.manager.ListDiskCacheManager;
+import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.widget.AbsListView;
@@ -160,7 +160,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 			@Override
 			public void run() {
 				//从缓存获取数据
-				final List<T> newList = isToLoadCache == false ? null : ListDiskCacheManager.getInstance().getList(
+				final List<T> newList = isToLoadCache == false ? null : CacheManager.getInstance().getList(
 						onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup(), loadCacheStart);
 				if (newList == null || newList.size() <= 0) {
 					getListAsync(pageNum);
@@ -261,7 +261,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 			}
 		}
 
-		ListDiskCacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
+		CacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
 				, map, saveCacheStart, newList.size());
 	}
 
@@ -293,10 +293,10 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	}
 
 	/**加载失败
-	 * @param newList
+	 * @param e
 	 */
-	public void onLoadFailed(int requestCode, Exception exception) {
-		Log.e(TAG, "onLoadFailed  requestCode = " + requestCode + ";\n exception = " + exception);
+	public void onLoadFailed(Exception e) {
+		Log.e(TAG, "onLoadFailed e = " + e);
 		stopLoadData();
 		showShortToast(R.string.get_failed);
 	}

@@ -39,12 +39,12 @@ public class UserAdapter2 extends BaseAdapter<User> {
 		UserView userView = convertView == null ? null : (UserView) convertView.getTag();
 		if (convertView == null) {
 			userView = new UserView(context, resources);
-			convertView = userView.createView(inflater);
+			convertView = userView.createView(inflater, getItemViewType(position));
 
 			convertView.setTag(userView);
 		}
 
-		userView.setView(position, getItem(position));
+		userView.setView(getItem(position), position, getItemViewType(position));
 
 		return super.getView(position, convertView, parent);
 	}

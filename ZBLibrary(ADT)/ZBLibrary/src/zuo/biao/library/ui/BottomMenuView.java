@@ -35,6 +35,10 @@ import android.widget.TextView;
 
 /**自定义嵌入式菜单View
  * @author Lemon
+ * @use BottomMenuView bottomMenuView = new BottomMenuView(context, resources, toBottomMenuWindowRequestCode);
+ *      bottomMenuView.setView(menuList);
+ *      bottomMenuView.setOnMenuItemClickListener(onBottomMenuItemClickListener);
+ *      *具体参考.UserActivity
  */
 public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 	private static final String TAG = "BottomMenuView";
@@ -48,7 +52,7 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 		onBottomMenuItemClickListener = l;
 	}
 
-	
+
 	private int toBottomMenuWindowRequestCode;
 	public BottomMenuView(Activity context, Resources resources, int toBottomMenuWindowRequestCode) {
 		super(context, resources);
@@ -79,7 +83,7 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 	public List<FunctionServiceBean> getData() {
 		return list;
 	}
-	
+
 	private List<FunctionServiceBean> list;//传进来的数据
 	private ArrayList<String> moreMenuNameList;
 	private ArrayList<Integer> moreMenuIntentCodeList;
@@ -120,7 +124,7 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 			}
 		}
 	}
-	
+
 
 	/**添加带图标的主要按钮
 	 * @param position
@@ -150,11 +154,11 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 		}
 		tv.setText(isMoreButton ? "更多" : "" + fsb.getName());
 
-		ll.setPadding((int) resources.getDimension(R.dimen.common_item_left_tv_padding),
+		ll.setPadding(
+				(int) getDimension(R.dimen.common_item_left_tv_padding),
 				0,
-				(int) resources.getDimension(R.dimen.common_item_right_img_padding_right),
-				0
-				);
+				(int) getDimension(R.dimen.common_item_right_img_padding_right),
+				0);
 		ll.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -170,8 +174,5 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 
 		llBottomMenuViewMainItemContainer.addView(ll, position);
 	}
-
-
-
 
 }

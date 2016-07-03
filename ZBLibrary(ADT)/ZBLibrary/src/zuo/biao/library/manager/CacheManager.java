@@ -27,24 +27,24 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-/**列表缓存管理类
+/**磁盘缓存管理类
  * @author Lemon
- * @use ListDiskCacheManager.getInstance().xxxMethod(...);具体参考.BaseHttpListActivity
+ * @use CacheManager.getInstance().xxxMethod(...);具体参考.BaseListActivity
  */
-public class ListDiskCacheManager {
-	private static final String TAG = "ListDiskCacheManager";
+public class CacheManager {
+	private static final String TAG = "CacheManager";
 
 	public static final String CACHE_PATH = DataKeeper.ROOT_SHARE_PREFS_ + "CACHE_PATH";
 
 	private Context context;
-	private ListDiskCacheManager(Context context) {
+	private CacheManager(Context context) {
 		this.context = context;
 	}
 
-	private static ListDiskCacheManager manager;
-	public static synchronized ListDiskCacheManager getInstance() {
+	private static CacheManager manager;
+	public static synchronized CacheManager getInstance() {
 		if (manager == null) {
-			manager = new ListDiskCacheManager(BaseApplication.getInstance());
+			manager = new CacheManager(BaseApplication.getInstance());
 		}
 		return manager;
 	}
@@ -133,7 +133,7 @@ public class ListDiskCacheManager {
 	public <T> List<T> getList(Class<T> clazz, String group, int start) {
 		Log.i(TAG, "getList  group = " + group +"; start = " + start);
 
-		ListDiskCache<T> cacheList = clazz == null ? null : new ListDiskCache<>(context, clazz, getClassPath(clazz)
+		Cache<T> cacheList = clazz == null ? null : new Cache<>(context, clazz, getClassPath(clazz)
 				+ KEY_LIST);
 
 		if (StringUtil.isNotEmpty(group, true) == false) {
@@ -184,8 +184,8 @@ public class ListDiskCacheManager {
 	 * @return
 	 */
 	public <T> T get(Class<T> clazz, String id) {
-		ListDiskCache<T> cacheList = clazz == null
-				? null : new ListDiskCache<>(context, clazz, getClassPath(clazz) + KEY_LIST);
+		Cache<T> cacheList = clazz == null
+				? null : new Cache<>(context, clazz, getClassPath(clazz) + KEY_LIST);
 		return cacheList == null ? null : cacheList.get(id);
 	}
 
@@ -306,7 +306,7 @@ public class ListDiskCacheManager {
 
 
 		//保存所有数据<<<<<<<<<<<<<<<<<<<<<<<<<
-		ListDiskCache<T> listDiskCache = new ListDiskCache<>(context, clazz, CLASS_PATH + KEY_LIST);
+		Cache<T> listDiskCache = new Cache<>(context, clazz, CLASS_PATH + KEY_LIST);
 		listDiskCache.saveList(map);
 		//保存所有数据>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -355,7 +355,7 @@ public class ListDiskCacheManager {
 		idList.add(0, id);
 		sp.edit().remove(KEY_ID_LIST).putString(KEY_ID_LIST, Json.toJSONString(idList)).commit();
 
-		new ListDiskCache<>(context, clazz, getListPath(clazz)).save(id, data);
+		new Cache<>(context, clazz, getListPath(clazz)).save(id, data);
 	}
 
 	/**清空类
@@ -383,7 +383,7 @@ public class ListDiskCacheManager {
 		Log.i(TAG, "clear  group = " + group + "; removeAllInGroup = " + removeAllInGroup);
 		List<String> list = removeAllInGroup == false ? null : getIdList(clazz, group);
 		if (list != null) {
-			ListDiskCache<T> cache = new ListDiskCache<>(context, clazz, getListPath(clazz));
+			Cache<T> cache = new Cache<>(context, clazz, getListPath(clazz));
 			for (String id : list) {
 				cache.remove(id);
 			}
@@ -406,7 +406,7 @@ public class ListDiskCacheManager {
 			Log.e(TAG, "remove  clazz == null >> return;");
 			return;
 		}
-		new ListDiskCache<>(context, clazz, getListPath(clazz)).remove(id);
+		new Cache<>(context, clazz, getListPath(clazz)).remove(id);
 	}
 
 }

@@ -18,7 +18,7 @@ import zblibrary.demo.R;
 import zblibrary.demo.model.User;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.ListDiskCacheManager;
+import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Json;
 import zuo.biao.library.util.Log;
@@ -124,7 +124,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 			@Override
 			public void run() {
 
-				user = ListDiskCacheManager.getInstance().get(User.class, "" + userId);
+				user = CacheManager.getInstance().get(User.class, "" + userId);
 				if (user == null) {
 					user = new User(userId);
 				}

@@ -17,7 +17,7 @@ package zblibrary.demo.DEMO;
 import java.util.ArrayList;
 
 import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.CameraScanActivity;
+import zblibrary.demo.activity_fragment.ScanActivity;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.AlertDialog;
@@ -353,7 +353,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			cutPicture(picturePath);
 			break;  
 		case R.id.llDemoMainCameraScanActivity:
-			toActivity(CameraScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
+			toActivity(ScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
 			break;  
 		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
@@ -438,7 +438,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		case REQUEST_TO_CAMERA_SCAN:
 			if (data != null) {
-				String result = data.getStringExtra(CameraScanActivity.RESULT_QRCODE_STRING);
+				String result = data.getStringExtra(ScanActivity.RESULT_QRCODE_STRING);
 				CommonUtil.copyText(context, result);
 //				toActivity(WebViewActivity.createIntent(context, "扫描结果", result));
 				CommonUtil.openWebSite(context, result);

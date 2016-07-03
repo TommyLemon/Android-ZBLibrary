@@ -20,11 +20,12 @@ import zblibrary.demo.util.BottomMenuUtil;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.ListDiskCacheManager;
+import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.ui.BottomMenuView;
 import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
 import zuo.biao.library.ui.EditTextInfoActivity;
+import zuo.biao.library.ui.TextClearSuit;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -35,6 +36,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**联系人资料界面
@@ -84,6 +86,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	private ViewGroup llUserBusinessCardContainer;
 	private UserView userView;
 	
+	private EditText etUserRemark;
 	private TextView tvUserTag;
 
 	private ViewGroup llUserBottomMenuContainer;
@@ -102,6 +105,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		//添加用户名片>>>>>>>>>>>>>>>>>>>>>>>
 
 
+		etUserRemark = (EditText) findViewById(R.id.etUserRemark);
 		tvUserTag = (TextView) findViewById(R.id.tvUserTag);
 		
 		
@@ -156,7 +160,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			@Override
 			public void run() {
 
-				user = ListDiskCacheManager.getInstance().get(User.class, "" + userId);
+				user = CacheManager.getInstance().get(User.class, "" + userId);
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -184,8 +188,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		findViewById(R.id.ivUserReturn).setOnClickListener(this);
 		
 		findViewById(R.id.llUserTag).setOnClickListener(this);
+		
+		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
 
-		bottomMenuView.setOnMenuItemClickListener(this);
+		bottomMenuView.setOnMenuItemClickListener(this);//底部菜单点击监听
 	}
 
 	@Override

@@ -30,10 +30,10 @@ import com.zxing.view.ViewfinderView;
 
 /**扫描二维码Activity
  * @author Lemon
- * @use toActivity(CameraScanActivity.createIntent(...));
+ * @use toActivity(ScanActivity.createIntent(...));
  */
-public class CameraScanActivity extends CaptureActivity implements Callback, OnClickListener {
-	public static final String TAG = "CameraScanActivity";
+public class ScanActivity extends CaptureActivity implements Callback, OnClickListener {
+	public static final String TAG = "ScanActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -43,7 +43,7 @@ public class CameraScanActivity extends CaptureActivity implements Callback, OnC
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		return new Intent(context, CameraScanActivity.class);
+		return new Intent(context, ScanActivity.class);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

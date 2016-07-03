@@ -128,7 +128,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 
 	@Override
 	public void getListAsync(final int pageNum) {
-		//实际使用时用这个，需要配置服务器地址		HttpRequest.getInstance().getUserList(range, pageNum, 0, this);
+		//实际使用时用这个，需要配置服务器地址		HttpRequest.getUserList(range, pageNum, 0, this);
 
 		//仅测试用<<<<<<<<<<<
 		new Handler().postDelayed(new Runnable() {

@@ -138,11 +138,11 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 
 	/**里面只有stopLoadData();showShortToast(R.string.get_failed); 不能满足需求时可重写该方法
 	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-	 * @param exception   OKHTTP中请求异常
+	 * @param e OKHTTP中请求异常
 	 */
 	@Override
-	public void onHttpRequestError(int requestCode, Exception exception) {
-		onLoadFailed(requestCode, exception);
+	public void onHttpRequestError(int requestCode, Exception e) {
+		onLoadFailed(e);
 	}
 
 
