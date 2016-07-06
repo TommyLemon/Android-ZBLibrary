@@ -37,6 +37,9 @@ UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google�
 [ZXingLib](https://github.com/xuyisheng/ZXingLib)
 这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
 
+[PagedListView](https://github.com/TommyLemon/PagedListView)
+Scroll ListView faster, more accurate and comfortable.
+
 ## 欢迎Star，欢迎Fork
 
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
