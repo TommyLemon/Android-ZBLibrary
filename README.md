@@ -20,22 +20,22 @@ BaseView，自定义View竟然如此简单;
 ![](http://images.cnblogs.com/cnblogs_com/tommylemon/848395/o_ALL.jpg)
 
 ## 用到的开源库
-[OKHttp](https://github.com/square/okhttp)
-很火很强大的Http/Https传输框架。ZBLibrary中的HttpManager对它做了封装（支持自签名Https），Demo中的HttpRequest是使用示例。
-注：okio.jar是OKHttp的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
-
 [Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
 非常强大的图片加载库，我在ZBLibrary中写了一个ImageLoaderUtil来简化使用它。
 UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google的Glide。
 
-[ZXingLib](https://github.com/xuyisheng/ZXingLib)
-这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
+[XListView-Android](https://github.com/Maxwin-z/XListView-Android)
+下拉刷新、上拉加载的ListView。我修改了部分代码使其支持打开即刷新（带动画）以及自动加载更多（无需上拉）。
 
-[fastjson](https://github.com/alibaba/fastjson)
+[OKHttp](https://github.com/square/okhttp)
+很火很强大的Http/Https传输框架。ZBLibrary中的HttpManager对它做了封装（支持自签名Https），Demo中的HttpRequest是使用示例。
+注：okio.jar是OKHttp的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
+
+[FastJson](https://github.com/alibaba/fastjson)
 阿里巴巴对原生JSON的封装，简化了JSON的使用。ZBLibrary中的Json是对FastJson的简单封装，防止解析异常。
 
-[pinyin4j](https://sourceforge.net/projects/pinyin4j)
-中文转拼音的框架，貌似ZBLibrary没用上，考虑去掉。
+[ZXingLib](https://github.com/xuyisheng/ZXingLib)
+这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
 
 ## 欢迎Star，欢迎Fork
 
