@@ -221,9 +221,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
 		
+		findViewById(R.id.llDemoMainScanActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainCameraScanActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
@@ -346,14 +346,14 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;   
 
 			
+		case R.id.llDemoMainScanActivity:
+			toActivity(ScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
+			break;  
 		case R.id.llDemoMainSelectPictureActivity:
 			selectPicture();
 			break;   
 		case R.id.llDemoMainCutPictureActivity:
 			cutPicture(picturePath);
-			break;  
-		case R.id.llDemoMainCameraScanActivity:
-			toActivity(ScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
 			break;  
 		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
