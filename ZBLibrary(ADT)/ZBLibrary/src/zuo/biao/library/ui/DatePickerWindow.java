@@ -29,10 +29,8 @@ import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -129,19 +127,8 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	}
 
 	private List<Entry<Boolean, String>> list;
-	private Handler getListHandler;
-	private Runnable getListRunnable;
 	private void setPickerView(final int tabPosition) {
-		if (getListHandler != null && getListRunnable != null) {
-			try {
-				getListHandler.removeCallbacks(getListRunnable);
-			} catch (Exception e) {
-				Log.e(TAG, "onItemSelectedListener.onItemSelected   try {getListHandler.removeCallbacks(getListRunnable); " +
-						"} catch (Exception e) { \n" + e.getMessage());
-			}
-		}
-
-		getListRunnable = new Runnable() {
+		runThread(TAG + "setPickerView", new Runnable() {
 			@Override
 			public void run() {
 
@@ -158,8 +145,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 					}
 				});
 			}
-		};
-		getListHandler = runThread(TAG + "onItemSelectedListener.onItemSelected.getList", getListRunnable);		
+		});
 	}
 
 

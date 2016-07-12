@@ -29,7 +29,6 @@ import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -120,18 +119,8 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 
 	private List<Entry<Boolean, String>> list;
-	private Handler getListHandler;
-	private Runnable getListRunnable;
 	private void setPickerView(final int tabPosition, final int itemPositon) {
-		if (getListHandler != null && getListRunnable != null) {
-			try {
-				getListHandler.removeCallbacks(getListRunnable);
-			} catch (Exception e) {
-				Log.e(TAG, "onItemSelectedListener.onItemSelected   try {getListHandler.removeCallbacks(getListRunnable); " +
-						"} catch (Exception e) { \n" + e.getMessage());
-			}
-		}
-		getListRunnable = new Runnable() {
+		runThread(TAG + "setPickerView", new Runnable() {
 			@Override
 			public void run() {
 
@@ -143,8 +132,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 					}
 				});
 			}
-		};
-		getListHandler = runThread(TAG + "onItemSelectedListener.onItemSelected.getList", getListRunnable);		
+		});		
 	}
 
 

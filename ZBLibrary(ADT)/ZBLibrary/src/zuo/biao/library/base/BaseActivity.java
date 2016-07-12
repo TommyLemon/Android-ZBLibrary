@@ -350,7 +350,9 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 			return null;
 		}
 
-		threadNameList.add(name);
+		if (threadNameList.contains(name) == false) {
+			threadNameList.add(name);
+		}
 		return handler;
 	}
 

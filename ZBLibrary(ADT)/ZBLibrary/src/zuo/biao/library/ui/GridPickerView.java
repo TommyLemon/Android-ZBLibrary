@@ -70,8 +70,8 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		contentHeight = (int) getDimension(R.dimen.grid_picker_content_height);
 	}
 
-	public LinearLayout llGridPickerWindowTabContainer;
-	public GridView gvGridPickerWindow;
+	public LinearLayout llGridPickerViewTabContainer;
+	public GridView gvGridPickerView;
 	/**获取View
 	 * @return 
 	 */
@@ -80,8 +80,8 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	public View createView(LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.grid_picker_view, null);
 
-		llGridPickerWindowTabContainer = findViewById(R.id.llGridPickerViewTabContainer);
-		gvGridPickerWindow = findViewById(R.id.gvGridPickerView);
+		llGridPickerViewTabContainer = findViewById(R.id.llGridPickerViewTabContainer);
+		gvGridPickerView = findViewById(R.id.gvGridPickerView);
 
 		return convertView;
 	}
@@ -140,7 +140,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		return configList.get(tabPosition).getSelectedItemPostion();
 	}
 
-	
+
 	public List<Entry<Boolean, String>> getList() {
 		return adapter == null ? null : adapter.getList();
 	}
@@ -165,12 +165,12 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		currentTabName = configList.get(currentTabPosition).getTabName();
 
 		int tabWidth = configList.size() < 4 ? ScreenUtil.getScreenWidth(context) / configList.size() : 3;
-		llGridPickerWindowTabContainer.removeAllViews();
+		llGridPickerViewTabContainer.removeAllViews();
 		for (int i = 0; i < configList.size(); i++) {//需要重新设置来保持每个tvTab宽度一致
 
 			addTab(i, tabWidth, StringUtil.getTrimedString(configList.get(i)));
 		}
-		llGridPickerWindowTabContainer.getChildAt(currentTabPosition)
+		llGridPickerViewTabContainer.getChildAt(currentTabPosition)
 		.setBackgroundResource(R.color.alpha_3);
 
 		this.configList = configList;
@@ -215,7 +215,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 				//点击就是要切换list，这些配置都要改setView(tabSuffix, tabPosition, tabName, list, numColumns, maxShowRows, itemPosition)
 			}
 		});
-		llGridPickerWindowTabContainer.addView(tvTab);
+		llGridPickerViewTabContainer.addView(tvTab);
 	}
 
 
@@ -297,9 +297,9 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 			public void onNothingSelected(AdapterView<?> parent) {}
 		});
 
-		gvGridPickerWindow.setNumColumns(numColumns);
-		gvGridPickerWindow.setAdapter(adapter);
-		gvGridPickerWindow.smoothScrollToPosition(itemPosition);
+		gvGridPickerView.setNumColumns(numColumns);
+		gvGridPickerView.setAdapter(adapter);
+		gvGridPickerView.smoothScrollToPosition(itemPosition);
 
 		//gridView>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -318,9 +318,9 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 
 		configList.set(currentTabPosition, configList.get(currentTabPosition).set(currentSelectedItemName, itemPosition));
 
-		for (int i = 0; i < llGridPickerWindowTabContainer.getChildCount(); i++) {
-			((TextView) llGridPickerWindowTabContainer.getChildAt(i)).setText("" + configList.get(i).getTabName());
-			llGridPickerWindowTabContainer.getChildAt(i).setBackgroundResource(
+		for (int i = 0; i < llGridPickerViewTabContainer.getChildCount(); i++) {
+			((TextView) llGridPickerViewTabContainer.getChildAt(i)).setText("" + configList.get(i).getTabName());
+			llGridPickerViewTabContainer.getChildAt(i).setBackgroundResource(
 					i == tabPosition ? R.color.alpha_3 : R.color.alpha_complete);
 		}
 	}

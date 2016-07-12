@@ -107,6 +107,23 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 		view = v;
 	}
 
+	
+	/**
+	 * 该Fragment在Activity添加的所有Fragment中的位置，通过ARGUMENT_POSITION设置
+	 * @must 只使用getPosition方法来获取position，保证position正确
+	 */
+	private int position = -1;
+	/**获取该Fragment在Activity添加的所有Fragment中的位置
+	 */
+	public int getPosition() {
+		if (position < 0) {
+			argument = getArguments();
+			if (argument != null) {
+				position = argument.getInt(ARGUMENT_POSITION, position);
+			}
+		}
+		return position;
+	}
 
 	/**
 	 * 可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
@@ -164,7 +181,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 			Log.w(TAG, "runThread  isAlive() == false >> return null;");
 			return null;
 		}
-		return context.runThread(name, runnable);
+		return context.runThread(name + getPosition(), runnable);//name, runnable);同一Activity出现多个同名Fragment可能会出错
 	}
 
 	//运行线程>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -308,18 +325,18 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 						" >> } catch (Exception e) {\n" + e.getMessage());
 			}
 		}
-		
+
 		isAlive = false;
 		isRunning = false;
 		super.onDestroy();
-		
+
 		view = null;
 		inflater = null;
 		container = null;
-		
+
 		intent = null;
 		argument = null;
-		
+
 		context = null;
 	}
 }
