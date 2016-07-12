@@ -19,6 +19,7 @@ BaseView，自定义View竟然如此简单;
 
 ![](http://images.cnblogs.com/cnblogs_com/tommylemon/848395/o_ALL.jpg)
 
+
 ## 用到的开源库
 [Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
 非常强大的图片加载库，我在ZBLibrary中写了一个ImageLoaderUtil来简化使用它。
