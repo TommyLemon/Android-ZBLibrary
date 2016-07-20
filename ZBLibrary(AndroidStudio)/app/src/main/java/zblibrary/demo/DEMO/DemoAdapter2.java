@@ -54,7 +54,7 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 	/**item对应的View，可改为外部类
 	 * @use 改代码
 	 */
-	public class ItemView extends BaseView<Entry<String, String>> implements OnClickListener {
+	public static class ItemView extends BaseView<Entry<String, String>> implements OnClickListener {
 		private static final String TAG = "ItemView";
 
 		public ItemView(Activity context, Resources resources) {

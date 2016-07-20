@@ -371,12 +371,12 @@ public class CommonUtil {
 			FileOutputStream fileOutputStream = null;
 			try {
 				fileOutputStream = new FileOutputStream(photoFile);
-				if (photoBitmap != null) {
+
 					if (photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
 							fileOutputStream)) {
 						fileOutputStream.flush();
 						Log.i(TAG, "savePhotoToSDCard<<<<<<<<<<<<<<\n" + photoFile.getAbsolutePath() + "\n>>>>>>>>> succeed!");
-					}
+
 				}
 			} catch (FileNotFoundException e) {
 				Log.e(TAG, "savePhotoToSDCard catch (FileNotFoundException e) {\n " + e.getMessage());
@@ -388,6 +388,7 @@ public class CommonUtil {
 				//				e.printStackTrace();
 			} finally {
 				try {
+					if (null!=fileOutputStream)
 					fileOutputStream.close();
 				} catch (IOException e) {
 					Log.e(TAG, "savePhotoToSDCard } catch (IOException e) {\n " + e.getMessage());
