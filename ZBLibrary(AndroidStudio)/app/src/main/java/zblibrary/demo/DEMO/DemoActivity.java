@@ -202,6 +202,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 			list = new ArrayList<>();
 		}
 		list.addAll(getList(userId));
+		if (null!=adapter)
 		adapter.refresh(list);
 
 		lvDemo.smoothScrollToPosition(formerCout);		

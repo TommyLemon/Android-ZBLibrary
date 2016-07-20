@@ -388,6 +388,7 @@ public class CommonUtil {
 				//				e.printStackTrace();
 			} finally {
 				try {
+					if (null!=fileOutputStream)
 					fileOutputStream.close();
 				} catch (IOException e) {
 					Log.e(TAG, "savePhotoToSDCard } catch (IOException e) {\n " + e.getMessage());
