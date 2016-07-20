@@ -135,7 +135,7 @@ public class TimeRefresher {
 	/**计时器holder
 	 */
 	@SuppressLint("HandlerLeak")
-	public class TimeHolder {
+	public static  class TimeHolder {
 
 		long duration = 1000;
 		OnTimeRefreshListener listener;

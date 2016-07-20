@@ -114,7 +114,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		return convertView;
 	}
 
-	public class ViewHolder {
+	public static  class ViewHolder {
 		public ImageView ivHead;
 		public TextView tvName;
 		public ImageView ivCheck;
