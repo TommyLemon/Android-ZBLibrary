@@ -133,7 +133,7 @@ public class CommonUtil {
 		intent.putExtra(Intent.EXTRA_TEXT, "内容");  //最近在MIUI7上无内容导致无法跳到编辑邮箱界面
 		toActivity(context, intent, -1);
 	}
-	
+
 	/**打开网站
 	 * @param context
 	 * @param webSite
@@ -371,12 +371,10 @@ public class CommonUtil {
 			FileOutputStream fileOutputStream = null;
 			try {
 				fileOutputStream = new FileOutputStream(photoFile);
-
-					if (photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
-							fileOutputStream)) {
-						fileOutputStream.flush();
-						Log.i(TAG, "savePhotoToSDCard<<<<<<<<<<<<<<\n" + photoFile.getAbsolutePath() + "\n>>>>>>>>> succeed!");
-
+				if (photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+						fileOutputStream)) {
+					fileOutputStream.flush();
+					Log.i(TAG, "savePhotoToSDCard<<<<<<<<<<<<<<\n" + photoFile.getAbsolutePath() + "\n>>>>>>>>> succeed!");
 				}
 			} catch (FileNotFoundException e) {
 				Log.e(TAG, "savePhotoToSDCard catch (FileNotFoundException e) {\n " + e.getMessage());
@@ -388,8 +386,9 @@ public class CommonUtil {
 				//				e.printStackTrace();
 			} finally {
 				try {
-					if (null!=fileOutputStream)
-					fileOutputStream.close();
+					if (fileOutputStream != null) {
+						fileOutputStream.close();
+					}
 				} catch (IOException e) {
 					Log.e(TAG, "savePhotoToSDCard } catch (IOException e) {\n " + e.getMessage());
 					//					e.printStackTrace();

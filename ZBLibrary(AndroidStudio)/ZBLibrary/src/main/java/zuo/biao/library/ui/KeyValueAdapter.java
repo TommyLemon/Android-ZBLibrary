@@ -62,7 +62,7 @@ public class KeyValueAdapter extends BaseAdapter<Entry<String, String>> {
 		return convertView;
 	}
 
-	public static class ViewHolder {
+	static class ViewHolder {  
 		public TextView tvKey;
 		public TextView tvValue;
 	}

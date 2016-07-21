@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 /**通用网页Activity
  * @author Lemon
- * @use toActivity或startActivity(WebViewActivity.createIntent)
+ * @use toActivity(WebViewActivity.createIntent(...));
  */
 public class WebViewActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
 	public static final String TAG = "WebViewActivity";
@@ -152,7 +152,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void initListener() {
 
-		findViewById(R.id.tvWebViewReturn).setOnClickListener(this);
+		findViewById(R.id.ivWebViewReturn).setOnClickListener(this);
 
 	}
 
@@ -171,7 +171,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvWebViewReturn) {
+		if (v.getId() == R.id.ivWebViewReturn) {
 			finish();
 		}
 	}

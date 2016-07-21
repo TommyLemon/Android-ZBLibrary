@@ -7,7 +7,7 @@
         style="@style/topbar_bg" >
 
         <TextView
-            android:id="@+id/ivDemoMainReturn"
+            android:id="@+id/tvDemoMainReturn"
             style="@style/topbar_return_tv"
             android:text="退出" />
 

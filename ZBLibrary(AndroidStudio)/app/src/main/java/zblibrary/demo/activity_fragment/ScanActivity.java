@@ -127,7 +127,7 @@ public class ScanActivity extends CaptureActivity implements Callback, OnClickLi
 			switchLight(! isOpen);
 			break;
 		case R.id.ivCameraScanMyQRCode:
-			CommonUtil.showShortToast(context, "我的名片");
+			CommonUtil.toActivity(context, QRCodeActivity.createIntent(context, 1));
 			break;
 		default:
 			break;

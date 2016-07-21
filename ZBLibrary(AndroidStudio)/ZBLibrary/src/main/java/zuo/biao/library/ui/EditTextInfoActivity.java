@@ -283,7 +283,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initListener() {//必须调用
 
-		findViewById(R.id.tvEditTextInfoReturn).setOnClickListener(this);
+		findViewById(R.id.ivEditTextInfoReturn).setOnClickListener(this);
 		tvEditTextInfoForward.setOnClickListener(this);
 
 		searchHandler = new Handler(new Callback() {
@@ -426,7 +426,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//Library内switch方法中case R.id.idx:报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvEditTextInfoReturn) {
+		if (v.getId() == R.id.ivEditTextInfoReturn) {
 			onDragBottom(false);
 		} else if (v.getId() ==  R.id.tvEditTextInfoForward) {
 			if (hasUrl == false) {

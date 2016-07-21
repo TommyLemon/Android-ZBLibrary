@@ -29,13 +29,10 @@ import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.LinearLayout;
@@ -43,7 +40,8 @@ import android.widget.TextView;
 
 /**日期选择窗口
  * @author Lemon
- * @use 参考.ModelBottomWindow;
+ * @use toActivity(DatePickerWindow.createIntent(...));
+ *      *然后在onActivityResult方法内获取data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS);
  * @warn 和android系统SDK内一样，month从0开始
  */
 public class DatePickerWindow extends BaseBottomWindow implements OnClickListener {
@@ -51,7 +49,15 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	/**
+	public static final String INTENT_MIN_DATE = "INTENT_MIN_DATE";
+	public static final String INTENT_MAX_DATE = "INTENT_MAX_DATE";
+	public static final String INTENT_DEFAULT_DATE = "INTENT_DEFAULT_DATE";
+	
+	public static final String RESULT_DATE = "RESULT_DATE";
+	public static final String RESULT_TIME_IN_MILLIS = "RESULT_TIME_IN_MILLIS";
+	public static final String RESULT_DATE_DETAIL_LIST = "RESULT_DATE_DETAIL_LIST";
+	
+	/**启动这个Activity的Intent
 	 * @param context
 	 * @param limitYearMonthDay
 	 * @return
@@ -59,6 +65,12 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	public static Intent createIntent(Context context, int[] limitYearMonthDay) {
 		return createIntent(context, limitYearMonthDay, null);
 	}
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @param limitYearMonthDay
+	 * @param defaultYearMonthDay
+	 * @return
+	 */
 	public static Intent createIntent(Context context, int[] limitYearMonthDay, int[] defaultYearMonthDay) {
 		int[] selectedDate = TimeUtil.getDateDetail(System.currentTimeMillis());
 		int[] minYearMonthDay = null;
@@ -72,7 +84,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 		}
 		return createIntent(context, minYearMonthDay, maxYearMonthDay, defaultYearMonthDay);
 	}
-	/**
+	/**启动这个Activity的Intent
 	 * @param context
 	 * @param minYearMonthDay
 	 * @param maxYearMonthDay
@@ -96,7 +108,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.container_window);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -129,19 +140,8 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	}
 
 	private List<Entry<Boolean, String>> list;
-	private Handler getListHandler;
-	private Runnable getListRunnable;
 	private void setPickerView(final int tabPosition) {
-		if (getListHandler != null && getListRunnable != null) {
-			try {
-				getListHandler.removeCallbacks(getListRunnable);
-			} catch (Exception e) {
-				Log.e(TAG, "onItemSelectedListener.onItemSelected   try {getListHandler.removeCallbacks(getListRunnable); " +
-						"} catch (Exception e) { \n" + e.getMessage());
-			}
-		}
-
-		getListRunnable = new Runnable() {
+		runThread(TAG + "setPickerView", new Runnable() {
 			@Override
 			public void run() {
 
@@ -158,8 +158,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 					}
 				});
 			}
-		};
-		getListHandler = runThread(TAG + "onItemSelectedListener.onItemSelected.getList", getListRunnable);		
+		});
 	}
 
 
@@ -177,9 +176,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String INTENT_MIN_DATE = "INTENT_MIN_DATE";
-	public static final String INTENT_MAX_DATE = "INTENT_MAX_DATE";
-	public static final String INTENT_DEFAULT_DATE = "INTENT_DEFAULT_DATE";
 
 	//	private long minDate;
 	//	private long maxDate;
@@ -329,9 +325,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	}
 
 
-	public static final String RESULT_DATE = "RESULT_DATE";
-	public static final String RESULT_TIME_IN_MILLIS = "RESULT_TIME_IN_MILLIS";
-	public static final String RESULT_DATE_DETAIL_LIST = "RESULT_DATE_DETAIL_LIST";
+
 	/**保存并退出
 	 * @warn 和android系统SDK内一样，month从0开始
 	 */

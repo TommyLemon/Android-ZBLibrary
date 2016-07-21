@@ -7,7 +7,7 @@
         style="@style/topbar_bg" >
 
         <TextView
-            android:id="@+id/ivDemoMainReturn"
+            android:id="@+id/tvDemoMainReturn"
             style="@style/topbar_return_tv"
             android:text="退出" />
 
@@ -91,6 +91,20 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
+                android:id="@+id/llDemoMainScanActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="ScanActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
                 android:id="@+id/llDemoMainSelectPictureActivity"
                 style="@style/content_item_white" >
 
@@ -112,20 +126,6 @@
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
                     android:text="CutPictureActivity" />
-
-                <ImageView style="@style/content_item_rt_img" />
-            </LinearLayout>
-
-            <View style="@style/divider_horizontal_1px" />
-
-            <LinearLayout
-                android:id="@+id/llDemoMainCameraScanActivity"
-                style="@style/content_item_white" >
-
-                <TextView
-                    style="@style/content_item_lf_tv"
-                    android:layout_weight="1"
-                    android:text="CameraScanActivity" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>

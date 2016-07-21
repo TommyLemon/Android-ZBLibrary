@@ -66,7 +66,7 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 		//示例代码>>>>>>>>>>>>>>>>
 	}
 
-	class ViewHolder {
+	static class ViewHolder {
 		//示例代码<<<<<<<<<<<<<<<<
 		public ImageView ivDemoItemHead;
 		public TextView tvDemoItemName;

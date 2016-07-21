@@ -124,7 +124,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	 */
 	protected boolean isLoading = false;
 	/**
-	 * 服务器还有更多
+	 * 还有更多可加载数据
 	 */
 	protected boolean isHaveMore = true;
 	/**
@@ -195,9 +195,9 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	 */
 	public void stopLoadData() {
 		isLoading = false;
-		dismissProgressDialog();//放这里无效
+		dismissProgressDialog();
 		if (onStopLoadListener == null) {
-			Log.e(TAG, "onStopLoadListener  onStopLoadListener == null >> return;");
+			Log.e(TAG, "stopLoadData  onStopLoadListener == null >> return;");
 			return;
 		}
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
@@ -270,7 +270,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView> extends BaseAc
 	 * @param newList
 	 */
 	public void onLoadSucceed(final List<T> newList) {
-		runThread(TAG + "onHttpRequestSuccess", new Runnable() {
+		runThread(TAG + "onLoadSucceed", new Runnable() {
 			@Override
 			public void run() {
 

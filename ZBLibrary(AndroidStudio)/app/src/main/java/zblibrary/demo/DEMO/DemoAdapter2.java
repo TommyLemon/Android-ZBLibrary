@@ -26,7 +26,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,8 +53,7 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 	/**item对应的View，可改为外部类
 	 * @use 改代码
 	 */
-	public static class ItemView extends BaseView<Entry<String, String>> implements OnClickListener {
-		private static final String TAG = "ItemView";
+	static class ItemView extends BaseView<Entry<String, String>> implements OnClickListener {
 
 		public ItemView(Activity context, Resources resources) {
 			super(context, resources);
@@ -85,10 +83,6 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		@Override
 		public void setView(Entry<String, String> data){
 			//示例代码<<<<<<<<<<<<<<<<
-			if (data == null) {
-				Log.w(TAG, "setView data == null >> data = new Entry<>(); ");
-				data = new Entry<>();
-			}
 			this.data = data;
 
 			tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
@@ -101,9 +95,6 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		public void onClick(View v) {
 			if (onClickListener != null) {
 				onClickListener.onClick(v);
-				return;
-			}
-			if (data == null) {
 				return;
 			}
 			switch (v.getId()) {

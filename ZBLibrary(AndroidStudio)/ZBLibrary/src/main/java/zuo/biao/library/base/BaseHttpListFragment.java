@@ -31,9 +31,10 @@ import android.widget.ListAdapter;
  */
 public abstract class BaseHttpListFragment<T> extends BaseListFragment<T, XListView> implements
 HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
-	//	private static final String TAG = "BaseHttpListFragment";
+	private static final String TAG = "BaseHttpListFragment";
 
 
+	
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -78,7 +79,9 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 
 
 	/**
-	 * 将Json串转为List，在非UI线程中
+	 * 将Json串转为List（已在非UI线程中）
+	 * *直接Json.parseArray(json, getCacheClass());可以省去这个方法，但由于可能json不完全符合parseArray条件，所以还是要保留。
+	 * *比如json只有其中一部分能作为parseArray的字符串时，必须先提取出这段字符串再parseArray
 	 */
 	public abstract List<T> parseArray(String json);
 
@@ -132,7 +135,13 @@ HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	 */
 	@Override
 	public void onHttpRequestSuccess(int requestCode, int resultCode, final String json) {
-		onLoadSucceed(parseArray(json));
+		runThread(TAG + "onHttpRequestSuccess", new Runnable() {
+			
+			@Override
+			public void run() {
+				onLoadSucceed(parseArray(json));
+			}
+		});
 	}
 
 	/**里面只有stopLoadData();showShortToast(R.string.get_failed); 不能满足需求时可重写该方法

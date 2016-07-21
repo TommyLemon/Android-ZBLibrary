@@ -41,15 +41,20 @@ import android.widget.TextView;
 
 /**地址选择弹窗
  * @author Lemon
- * @use toActivity(PlacePickerWindow.createIntent);
- *      然后在onActivityResult方法内获取data.getStringExtra(PlacePickerWindow.RESULT_PLACE);
+ * @use toActivity(PlacePickerWindow.createIntent(...));
+ *      *然后在onActivityResult方法内获取data.getStringExtra(PlacePickerWindow.RESULT_PLACE);
  */
 public class PlacePickerWindow extends BaseBottomWindow implements OnClickListener {
 	private static final String TAG = "PlacePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	/**
+	public static final String INTENT_MIN_LEVEL = "INTENT_MIN_LEVEL";//最小深度。 省/... - minLevel = 0; 市/... - minLevel = 1;
+	public static final String INTENT_MAX_LEVEL = "INTENT_MAX_LEVEL";//最大深度。 ...市/ - maxLevel = 1;  .../乡(街) - maxLevel = 3;
+
+	public static final String RESULT_PLACE_LIST = "RESULT_PLACE_LIST";
+	
+	/**启动这个Activity的Intent
 	 * @param context
 	 * @param limitLevel
 	 * @return
@@ -57,7 +62,7 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	public static Intent createIntent(Context context, String packageName, int maxLevel) {
 		return createIntent(context, packageName, 0, maxLevel);
 	}
-	/**
+	/**启动这个Activity的Intent
 	 * @param context
 	 * @param minLevel
 	 * @param maxLevel
@@ -148,9 +153,6 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	public static final String INTENT_MIN_LEVEL = "INTENT_MIN_LEVEL";//最小深度。 省/... - minLevel = 0; 市/... - minLevel = 1;
-	public static final String INTENT_MAX_LEVEL = "INTENT_MAX_LEVEL";//最大深度。 ...市/ - maxLevel = 1;  .../乡(街) - maxLevel = 3;
 
 	private int minLevel;
 	private int maxLevel;
@@ -246,7 +248,6 @@ public class PlacePickerWindow extends BaseBottomWindow implements OnClickListen
 	}
 
 
-	public static final String RESULT_PLACE_LIST = "RESULT_PLACE_LIST";
 	/**保存并退出
 	 */
 	private void saveAndExit() {

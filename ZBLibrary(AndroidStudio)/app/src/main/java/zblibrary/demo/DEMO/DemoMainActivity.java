@@ -213,7 +213,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void initListener() {//必须调用
 
-		findViewById(R.id.ivDemoMainReturn).setOnClickListener(this);
+		findViewById(R.id.tvDemoMainReturn).setOnClickListener(this);
 		findViewById(R.id.ivDemoMainMenu).setOnClickListener(this);
 
 
@@ -221,9 +221,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
 		
+		findViewById(R.id.llDemoMainScanActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainCameraScanActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
 		findViewById(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
@@ -322,7 +322,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
-		case R.id.ivDemoMainReturn:
+		case R.id.tvDemoMainReturn:
 			onDragBottom(false);
 			break;     
 		case R.id.ivDemoMainMenu:
@@ -346,14 +346,14 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;   
 
 			
+		case R.id.llDemoMainScanActivity:
+			toActivity(ScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
+			break;  
 		case R.id.llDemoMainSelectPictureActivity:
 			selectPicture();
 			break;   
 		case R.id.llDemoMainCutPictureActivity:
 			cutPicture(picturePath);
-			break;  
-		case R.id.llDemoMainCameraScanActivity:
-			toActivity(ScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
 			break;  
 		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"

@@ -209,7 +209,7 @@ implements OnClickListener, OnBottomDragListener {
 	public void initListener() {//必须在onCreate方法内调用
 		super.initListener();
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoListReturn).setOnClickListener(this);
+		findViewById(R.id.ivDemoListReturn).setOnClickListener(this);
 
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -241,7 +241,7 @@ implements OnClickListener, OnBottomDragListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tvDemoListReturn:
+		case R.id.ivDemoListReturn:
 			onDragBottom(false);
 			break;
 		default:

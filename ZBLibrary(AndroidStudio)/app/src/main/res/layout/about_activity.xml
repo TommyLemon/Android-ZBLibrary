@@ -49,7 +49,7 @@
                         <TextView
                             style="@style/content_item_lf_tv"
                             android:layout_weight="1"
-                            android:text="ZBLibrary" />
+                            android:text="ZBLibrary(Demo)" />
 
                         <ImageView
                             style="@style/content_item_rt_img"
@@ -65,7 +65,7 @@
                         <TextView
                             style="@style/content_item_lf_tv"
                             android:layout_weight="1"
-                            android:text="BottomTabActivity" />
+                            android:text="BottomTabActivity(App)" />
 
                         <ImageView
                             style="@style/content_item_rt_img"

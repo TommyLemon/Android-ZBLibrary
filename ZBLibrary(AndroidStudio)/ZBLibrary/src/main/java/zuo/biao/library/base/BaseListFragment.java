@@ -262,9 +262,9 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	 */
 	public void stopLoadData() {
 		isLoading = false;
-		dismissProgressDialog();//放这里无效
+		dismissProgressDialog();
 		if (onStopLoadListener == null) {
-			Log.e(TAG, "onStopLoadListener  onStopLoadListener == null >> return;");
+			Log.e(TAG, "stopLoadData  onStopLoadListener == null >> return;");
 			return;
 		}
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
@@ -337,7 +337,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView> extends BaseFr
 	 * @param newList
 	 */
 	public void onLoadSucceed(final List<T> newList) {
-		runThread(TAG + "onHttpRequestSuccess", new Runnable() {
+		runThread(TAG + "onLoadSucceed", new Runnable() {
 			@Override
 			public void run() {
 

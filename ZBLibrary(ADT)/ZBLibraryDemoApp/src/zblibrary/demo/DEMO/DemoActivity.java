@@ -186,7 +186,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	protected List<Entry<String, String>> getList(long userId) {
 		List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
 		for (int i = 0; i < 64; i++) {
-			list.add(new Entry<String, String>("联系人" + i, String.valueOf(1311736568 + i*i + userId)));
+			list.add(new Entry<String, String>("联系人" + i + userId, String.valueOf(1311736568 + i*i + userId)));
 		}
 		return list;
 	}
@@ -197,13 +197,15 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	private void addList() {
 		int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
 
-		userId = 2 * (userId + 1);
 		if (list == null) {
 			list = new ArrayList<>();
 		}
+		userId += list.size();
 		list.addAll(getList(userId));
-		adapter.refresh(list);
-
+		
+		if (adapter != null) {
+			adapter.refresh(list);
+		}
 		lvDemo.smoothScrollToPosition(formerCout);		
 	}
 
@@ -221,7 +223,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void initListener() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoReturn).setOnClickListener(this);
+		findViewById(R.id.ivDemoReturn).setOnClickListener(this);
 		findViewById(R.id.tvDemoForward).setOnClickListener(this);
 
 		lvDemo.setOnItemClickListener(new OnItemClickListener() {
@@ -258,7 +260,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tvDemoReturn:
+		case R.id.ivDemoReturn:
 			onDragBottom(false);
 			break;
 		case R.id.tvDemoForward:

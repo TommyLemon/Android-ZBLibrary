@@ -122,6 +122,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	protected Fragment getFragment(int position) {
 		DemoFragment fragment = new DemoFragment();
 		bundle = new Bundle();
+		bundle.putInt(DemoFragment.ARGUMENT_POSITION, position);
 		bundle.putLong(DemoFragment.ARGUMENT_USER_ID, position);
 		fragment.setArguments(bundle);
 

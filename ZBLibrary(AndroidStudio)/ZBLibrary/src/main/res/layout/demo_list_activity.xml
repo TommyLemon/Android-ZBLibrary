@@ -6,7 +6,7 @@
     <RelativeLayout style="@style/topbar_bg" >
 
         <ImageView
-            android:id="@+id/tvDemoListReturn"
+            android:id="@+id/ivDemoListReturn"
             style="@style/topbar_return_img" />
 
         <TextView

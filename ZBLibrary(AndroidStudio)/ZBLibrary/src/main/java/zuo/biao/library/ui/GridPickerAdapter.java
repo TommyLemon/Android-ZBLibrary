@@ -107,7 +107,7 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 		return convertView;
 	}
 
-	public static  class ViewHolder {
+	static class ViewHolder {
 		public TextView tv;
 	}
 	//getView的常规写法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
