@@ -168,7 +168,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		runThread(TAG + "downloadApp", new Runnable() {
 			@Override
 			public void run() {
-				File file = DownloadUtil.downLoadFile(context, "IE-338_Manual", ".pdf", Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE);
+				File file = DownloadUtil.downLoadFile(context, "HungryBat", ".apk", Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE);
 				dismissProgressDialog();
 				DownloadUtil.openFile(context, file);
 			}

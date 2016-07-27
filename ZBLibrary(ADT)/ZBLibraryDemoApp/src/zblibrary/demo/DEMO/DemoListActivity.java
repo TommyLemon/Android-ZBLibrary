@@ -37,7 +37,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
-/**activity示例
+/**列表Activity示例
  * @author Lemon
  * @warn 这里列表显示组件lvBaseList是GridView，如果是lvBaseList是ListView就改成ListView
  * @use toActivity(DemoListActivity.createIntent(...));

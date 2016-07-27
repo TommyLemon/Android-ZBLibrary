@@ -41,6 +41,8 @@ import android.widget.AbsListView;
  * @see #lvBaseList
  * @see #initCache
  * @see #initView
+ * @see #getListAsync
+ * @see #onRefresh
  * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */

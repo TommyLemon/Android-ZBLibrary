@@ -120,10 +120,10 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	protected Fragment getFragment(int position) {
-		DemoFragment fragment = new DemoFragment();
+		
+		DemoListFragment fragment = new DemoListFragment();
 		bundle = new Bundle();
 		bundle.putInt(DemoFragment.ARGUMENT_POSITION, position);
-		bundle.putLong(DemoFragment.ARGUMENT_USER_ID, position);
 		fragment.setArguments(bundle);
 
 		return fragment;
