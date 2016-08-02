@@ -14,15 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class XListViewHeader extends LinearLayout {
 	private LinearLayout mContainer;
-	private ImageView mArrowImageView;
-	private ProgressBar mProgressBar;
+	private View mArrowImageView;
+	private View mProgressBar;
 	private TextView mHintTextView;
 	private int mState = STATE_NORMAL;
 
@@ -51,17 +49,16 @@ public class XListViewHeader extends LinearLayout {
 
 	private void initView(Context context) {
 		// 初始情况，设置下拉刷新view高度为0
-		@SuppressWarnings("deprecation")
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, 0);
+				LayoutParams.MATCH_PARENT, 0);
 		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(
 				R.layout.xlistview_header, null);
 		addView(mContainer, lp);
 		setGravity(Gravity.BOTTOM);
 
-		mArrowImageView = (ImageView)findViewById(R.id.xlistview_header_arrow);
+		mArrowImageView = findViewById(R.id.xlistview_header_arrow);
 		mHintTextView = (TextView)findViewById(R.id.xlistview_header_hint_textview);
-		mProgressBar = (ProgressBar)findViewById(R.id.xlistview_header_progressbar);
+		mProgressBar = findViewById(R.id.xlistview_header_progressbar);
 		
 		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -123,7 +120,7 @@ public class XListViewHeader extends LinearLayout {
 	}
 
 	public int getVisiableHeight() {
-		return mContainer.getLayoutParams().height;
+		return mContainer.getHeight();
 	}
 
 }

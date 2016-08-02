@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/xlistview_header_content"
         android:layout_width="fill_parent"
-        android:layout_height="60dp" >
+        android:layout_height="@dimen/lv_refresh_header_view_height" >
 
         <LinearLayout
             android:id="@+id/xlistview_header_text"

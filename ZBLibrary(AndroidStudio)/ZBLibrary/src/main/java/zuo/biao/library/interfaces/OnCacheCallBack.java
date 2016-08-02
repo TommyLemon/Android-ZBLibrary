@@ -28,7 +28,7 @@ public interface OnCacheCallBack<T> {
 	Class<T> getCacheClass();
 	/**
 	 * 获取缓存的分组
-	 * @return 含非空字符的String ？缓存至返回的group中 : 不缓存
+	 * @return 含非空字符的String ？缓存至对应class的group中 : 至缓存至对应class中
 	 */
 	String getCacheGroup();
 	/**
