@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnCacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;

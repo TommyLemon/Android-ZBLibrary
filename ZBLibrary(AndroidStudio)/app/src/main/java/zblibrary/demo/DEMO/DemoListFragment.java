@@ -19,9 +19,9 @@ import java.util.List;
 
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
-import zuo.biao.library.base.AdapterCallBack;
 import zuo.biao.library.base.BaseListFragment;
 import zuo.biao.library.bean.Entry;
+import zuo.biao.library.interfaces.AdapterCallBack;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

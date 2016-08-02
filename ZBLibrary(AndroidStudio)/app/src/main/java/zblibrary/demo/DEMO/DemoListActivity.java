@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
-import zuo.biao.library.base.AdapterCallBack;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseListActivity;
 import zuo.biao.library.bean.Entry;
+import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.GridAdapter;
 import zuo.biao.library.util.StringUtil;

@@ -92,7 +92,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private TextView tvAboutAppInfo;
 
 	private ImageView ivAboutQRCode;
-	private View ivAboutQRCodeProgress;
 	@Override
 	public void initView() {
 
@@ -105,7 +104,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		tvAboutAppInfo = (TextView) findViewById(R.id.tvAboutAppInfo);
 
 		ivAboutQRCode = findViewById(R.id.ivAboutQRCode, this);
-		ivAboutQRCodeProgress = findViewById(R.id.ivAboutQRCodeProgress);
 	}
 
 
@@ -154,7 +152,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 					@Override
 					public void run() {
 						ivAboutQRCode.setImageBitmap(qRCodeBitmap);
-						ivAboutQRCodeProgress.setVisibility(View.GONE);
 					}
 				});		
 			}
