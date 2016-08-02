@@ -20,6 +20,7 @@ import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
 import zblibrary.demo.util.TestUtil;
+import zuo.biao.library.base.AdapterCallBack;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.OnCacheCallBack;
@@ -39,7 +40,8 @@ import android.widget.Toast;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User> implements OnItemClickListener, OnCacheCallBack<User> {
+public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>
+implements OnItemClickListener, OnCacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -65,7 +67,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		Toast.makeText(context, "服务器配置有误，请查看这个类的@must", Toast.LENGTH_LONG).show();
 
 		initCache(this);
-		
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -84,26 +86,23 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	public void initView() {//必须调用
 		super.initView();
 
-		setAdapter(null);
 	}
 
-	private UserAdapter adapter;
 	@Override
-	public void setList(List<User> list) {
-		if (list == null || list.size() <= 0) {
-			setAdapter(null);
-			return;
-		}
+	public void setList(final List<User> list) {
+		setList(list, new AdapterCallBack<UserAdapter>() {
 
-		if (adapter == null) {
-			adapter = new UserAdapter(context, list);
-			setAdapter(adapter);
-		} else {
-			adapter.refresh(list);
-		}
-
+			@Override
+			public void refreshAdapter() {
+				adapter.refresh(list);
+			}
+			
+			@Override
+			public UserAdapter createAdapter() {
+				return new UserAdapter(context, list);
+			}
+		});
 	}
-
 
 
 
@@ -123,7 +122,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-		
+
 	}
 
 	@Override
@@ -191,7 +190,7 @@ public class UserListFragment extends BaseHttpListFragment<User> implements OnIt
 		if (position < 0 || adapter == null || position >= adapter.getCount()) {
 			return;
 		}
-		
+
 		User user = adapter.getItem(position);	
 		if (BaseModel.isCorrect(user)) {//相当于 user != null && user.getId() > 0
 			toActivity(UserActivity.createIntent(context, user.getId()));

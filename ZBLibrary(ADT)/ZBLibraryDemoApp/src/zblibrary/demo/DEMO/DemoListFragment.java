@@ -19,10 +19,10 @@ import java.util.List;
 
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
+import zuo.biao.library.base.AdapterCallBack;
 import zuo.biao.library.base.BaseListFragment;
 import zuo.biao.library.bean.Entry;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +35,8 @@ import android.widget.ListView;
  * @author Lemon
  * @use new DemoListFragment(),具体参考.DemoTabActivity(getFragment方法内)
  */
-public class DemoListFragment extends BaseListFragment<Entry<String, String>, ListView> {
-	private static final String TAG = "DemoListFragment";
+public class DemoListFragment extends BaseListFragment<Entry<String, String>, ListView, DemoAdapter> {
+//	private static final String TAG = "DemoListFragment";
 
 
 	@Override
@@ -50,7 +50,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		onRefresh();
-		
+
 		return view;//返回值必须为view
 	}
 
@@ -63,25 +63,24 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 
 	}
 
-	//示例代码<<<<<<<<
-	private DemoAdapter adapter;
-	//示例代码>>>>>>>>
 	@Override
-	public void setList(List<Entry<String, String>> list) {
-		if (list == null || list.isEmpty()) {
-			Log.i(TAG, "setList list == null || list.isEmpty() >> lvBaseList.setAdapter(null); return;");
-			adapter = null;
-			lvBaseList.setAdapter(null);
-			return;
-		}
+	public void setList(final List<Entry<String, String>> list) {
+		//示例代码<<<<<<<<<<<<<<<
+		setList(list, new AdapterCallBack<DemoAdapter>() {
 
-		if (adapter == null) {
-			adapter = new DemoAdapter(context, list);
-			lvBaseList.setAdapter(adapter);
-		} else {
-			adapter.refresh(list);
-		}
+			@Override
+			public void refreshAdapter() {
+				adapter.refresh(list);
+			}
+			
+			@Override
+			public DemoAdapter createAdapter() {
+				return new DemoAdapter(context, list);
+			}
+		});
+		//示例代码>>>>>>>>>>>>>>>
 	}
+
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -112,9 +111,9 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 		for (int i = 0; i < 64; i++) {
 			list.add(new Entry<String, String>("联系人" + i , String.valueOf(1311736568 + i*i)));
 		}
-		
+
 		onLoadSucceed(list);
-		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 
@@ -146,6 +145,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 
 
 
+
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -158,7 +158,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

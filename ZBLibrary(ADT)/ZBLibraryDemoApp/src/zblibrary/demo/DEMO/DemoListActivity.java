@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
+import zuo.biao.library.base.AdapterCallBack;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseListActivity;
 import zuo.biao.library.bean.Entry;
@@ -28,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -42,9 +42,9 @@ import android.widget.TextView;
  * @warn 这里列表显示组件lvBaseList是GridView，如果是lvBaseList是ListView就改成ListView
  * @use toActivity(DemoListActivity.createIntent(...));
  */
-public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView>
+public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView, GridAdapter>
 implements OnClickListener, OnBottomDragListener {
-	private static final String TAG = "DemoListActivity";
+//	private static final String TAG = "DemoListActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -107,29 +107,22 @@ implements OnClickListener, OnBottomDragListener {
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
-	//示例代码<<<<<<<<
-	private GridAdapter adapter;
-	//示例代码>>>>>>>>
-	/** 示例方法 ：显示列表内容
-	 * @author author
-	 * @param list
-	 */
 	@Override
-	public void setList(List<Entry<String, String>> list) {
-		if (list == null || list.size() <= 0) {
-			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvBaseHttpList.setAdapter(null); return;");
-			adapter = null;
-			lvBaseList.setAdapter(null);
-			return;
-		}
+	public void setList(final List<Entry<String, String>> list) {
+		//示例代码<<<<<<<<<<<<<<<
+		setList(list, new AdapterCallBack<GridAdapter>() {
 
-		if (adapter == null) {
-			adapter = new GridAdapter(context, list);
-			lvBaseList.setAdapter(adapter);
-		} else {
-			adapter.refresh(list);
-		}
-
+			@Override
+			public void refreshAdapter() {
+				adapter.refresh(list);
+			}
+			
+			@Override
+			public GridAdapter createAdapter() {
+				return new GridAdapter(context, list);
+			}
+		});
+		//示例代码>>>>>>>>>>>>>>>
 	}
 
 

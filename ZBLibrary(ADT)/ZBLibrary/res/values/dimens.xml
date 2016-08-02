@@ -72,7 +72,7 @@
     <!-- listView -->
 
     <dimen name="item_message">60dp</dimen>
-    <dimen name="lv_refresh_header_view_height">84dp</dimen>
+    <dimen name="lv_refresh_header_view_height">60dp</dimen>
     <dimen name="min_distance_y">24dp</dimen>
     <dimen name="max_distance_y">120dp</dimen>
     <!-- listView -->
