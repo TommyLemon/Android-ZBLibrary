@@ -125,7 +125,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
 		
-		// 修改状态栏颜色，4.4+生效
+		// 状态栏沉浸，4.4+生效 <<<<<<<<<<<<<<<<<
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
@@ -133,7 +133,9 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		}
 		SystemBarTintManager tintManager = new SystemBarTintManager(this);
 		tintManager.setStatusBarTintEnabled(true);
-		tintManager.setStatusBarTintResource(R.color.topbar_bg);//通知栏所需颜色
+		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
+		// 状态栏沉浸，4.4+生效 >>>>>>>>>>>>>>>>>
+		
 	}
 	
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
