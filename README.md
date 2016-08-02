@@ -21,6 +21,9 @@ BaseView，自定义View竟然如此简单;
 
 
 ## 用到的开源库
+[SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
+系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
+
 [Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
 非常强大的图片加载库，我在ZBLibrary中写了一个ImageLoaderUtil来简化使用它。
 UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google的Glide。
