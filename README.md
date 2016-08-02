@@ -2,7 +2,7 @@
 坐标标准库ZBLibrary，是一个MVP架构的Android快速开发框架，提供一套开发标准（UI,Data,Listener）以及模板和工具类并规范代码。
 封装层级少，简单高效兼容性好。Android Studio、Eclipse多平台支持。
 
-OKHttp、UIL图片加载、ZXing二维码、下载安装、自动缓存以及各种Base、Demo、UI、Util直接用。
+OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自动缓存以及各种Base、Demo、UI、Util直接用。
 
 全新的手势，侧滑返回、全局右滑返回都OUT啦！
 
