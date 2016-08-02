@@ -20,13 +20,16 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.ActivityPresenter;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.SystemBarTintManager;
 import zuo.biao.library.manager.ThreadManager;
 import zuo.biao.library.ui.EditTextManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -40,6 +43,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 /**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法
@@ -109,12 +113,29 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 * *3.在导航栏左右按钮的onClick事件中调用onDragBottom方法
 	 */
 	public void setContentView(int layoutResID, OnBottomDragListener listener) {
-		super.setContentView(layoutResID);
+		setContentView(layoutResID);
 
 		onBottomDragListener = listener;
 		view = inflater.inflate(layoutResID, null);
 		view.setOnTouchListener(this);
 	}
+	
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	@Override
+	public void setContentView(int layoutResID) {
+		super.setContentView(layoutResID);
+		
+		// 修改状态栏颜色，4.4+生效
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		}
+		SystemBarTintManager tintManager = new SystemBarTintManager(this);
+		tintManager.setStatusBarTintEnabled(true);
+		tintManager.setStatusBarTintResource(R.color.topbar_bg);//通知栏所需颜色
+	}
+	
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -420,18 +441,18 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		isAlive = false;
 		isRunning = false;
 		super.onDestroy();
-		
+
 		inflater = null;
 		view = null;
 		toGetWindowTokenView = null;
-		
+
 		fragmentManager = null;
 		progressDialog = null;
 		threadNameList = null;
-		
+
 		intent = null;
 		bundle = null;
-		
+
 		context = null;
 	}
 

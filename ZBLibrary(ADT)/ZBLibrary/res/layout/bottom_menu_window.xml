@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llBottomMenuBg"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/alpha_complete"
-    android:gravity="center_vertical|bottom"
-    android:orientation="vertical"
+    style="@style/bottom_window_page"
     android:paddingTop="240dp" >
 
     <zuo.biao.library.ui.MaxHeightWrapLayout

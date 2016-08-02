@@ -34,7 +34,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -110,30 +109,31 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, listener);
 	}
 
-	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(int layoutResID) {
-		setContentView(null);
-	}
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(View view) {
-		setContentView(null, null);
-	}
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(View view, LayoutParams params) {
-		throw new UnsupportedOperationException(TAG + "不支持setContentView" +
-				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
-	}
-	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
+//	//BaseActivity重写setContentView后这个方法一定会被调用，final有无都会导致崩溃，去掉throw Exception也会导致contentView为null而崩溃
+//	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+//	/**
+//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+//	 */
+//	@Override
+//	public final void setContentView(int layoutResID) {
+//		setContentView(null);
+//	}
+//	/**
+//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+//	 */
+//	@Override
+//	public final void setContentView(View view) {
+//		setContentView(null, null);
+//	}
+//	/**
+//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+//	 */
+//	@Override
+//	public final void setContentView(View view, LayoutParams params) {
+//		throw new UnsupportedOperationException(TAG + "不支持setContentView" +
+//				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
+//	}
+//	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
