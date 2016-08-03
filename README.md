@@ -66,6 +66,8 @@ Scroll ListView faster, more accurate and comfortable.
 
 [零门槛！ZBLibrary仿微信朋友圈自定义View，就是这么简单！](http://my.oschina.net/u/2437072/blog/666625)
 
+[BaseHttpListActivity，几行代码搞定Http列表请求、加载和缓存](http://my.oschina.net/u/2437072/blog/726229)
+
 [ListView滑动不爽,滚动一页得滑几次？该用分页列表啦！](http://my.oschina.net/u/2437072/blog/700674)
 
 [高灵活低耦合Adapter快速开发攻略](http://my.oschina.net/u/2437072/blog/701165)
