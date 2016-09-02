@@ -20,7 +20,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
-import zuo.biao.library.interfaces.OnCacheCallBack;
+import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.manager.CacheManager;
@@ -54,13 +54,13 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	}
 
 
-	private OnCacheCallBack<T> onCacheCallBack;
+	private CacheCallBack<T> cacheCallBack;
 	/**初始化缓存
 	 * @warn 在initData前使用才有效
-	 * @param onCacheCallBack
+	 * @param cacheCallBack
 	 */
-	protected void initCache(OnCacheCallBack<T> onCacheCallBack) {
-		this.onCacheCallBack = onCacheCallBack;
+	protected void initCache(CacheCallBack<T> onCacheCallBack) {
+		this.cacheCallBack = onCacheCallBack;
 	}
 
 
@@ -140,8 +140,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@Override
 	public void initData() {// 必须调用
 
-		isToSaveCache = onCacheCallBack != null && onCacheCallBack.getCacheClass() != null;
-		isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(onCacheCallBack.getCacheGroup(), true);
+		isToSaveCache = cacheCallBack != null && cacheCallBack.getCacheClass() != null;
+		isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(cacheCallBack.getCacheGroup(), true);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 			public void run() {
 				//从缓存获取数据
 				List<T> newList = isToLoadCache == false ? null : CacheManager.getInstance().getList(
-						onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup(), loadCacheStart);
+						cacheCallBack.getCacheClass(), cacheCallBack.getCacheGroup(), loadCacheStart);
 				if (newList == null || newList.isEmpty()) {
 					getListAsync(pageNum);
 					return;
@@ -293,19 +293,19 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	/**保存缓存
 	 */
 	public synchronized void saveCache() {
-		if (onCacheCallBack == null) {
-			Log.e(TAG, "saveCache  onCacheCallBack == null >> return;");
+		if (cacheCallBack == null) {
+			Log.e(TAG, "saveCache  cacheCallBack == null >> return;");
 			return;
 		}
 
 		LinkedHashMap<String, T> map = new LinkedHashMap<>();
 		for (T data : newList) {
 			if (data != null) {
-				map.put(onCacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
+				map.put(cacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
 			}
 		}
 
-		CacheManager.getInstance().saveList(onCacheCallBack.getCacheClass(), onCacheCallBack.getCacheGroup()
+		CacheManager.getInstance().saveList(cacheCallBack.getCacheClass(), cacheCallBack.getCacheGroup()
 				, map, saveCacheStart, newList.size());
 	}
 
@@ -405,7 +405,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 		newList = null;
 
 		onStopLoadListener = null;
-		onCacheCallBack = null;
+		cacheCallBack = null;
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

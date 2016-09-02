@@ -23,7 +23,7 @@ import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.AdapterCallBack;
-import zuo.biao.library.interfaces.OnCacheCallBack;
+import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.util.Json;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +41,7 @@ import android.widget.Toast;
  *       查看 .SettingUtil 中的@must和@warn
  */
 public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>
-implements OnItemClickListener, OnCacheCallBack<User> {
+implements OnItemClickListener, CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
