@@ -135,7 +135,7 @@ implements OnItemClickListener, CacheCallBack<User> {
 			@Override
 			public void run() {
 				onHttpRequestSuccess(0, HttpRequest.RESULT_GET_USER_LIST_SUCCEED
-						, Json.toJSONString(TestUtil.getUserList(pageNum)));
+						, Json.toJSONString(TestUtil.getUserList(pageNum, getCachePageSize())));
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
@@ -158,7 +158,6 @@ implements OnItemClickListener, CacheCallBack<User> {
 	public String getCacheId(User data) {
 		return data == null ? null : "" + data.getId();
 	}
-
 
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -26,15 +26,24 @@ public interface CacheCallBack<T> {
 	 * @return null-不缓存
 	 */
 	Class<T> getCacheClass();
+	
 	/**
 	 * 获取缓存的分组
 	 * @return 含非空字符的String ？缓存至对应class的group中 : 至缓存至对应class中
 	 */
 	String getCacheGroup();
+	
 	/**
 	 * 获取缓存单个数据的id
 	 * @param data
 	 * @return data == null ? null : "" + data.getId(); //不用long是因为某些数据(例如订单)的id超出long的最大值
 	 */
 	String getCacheId(T data);
+	
+	/**
+	 * 获取缓存每页数量
+	 * @return > 0 ？缓存 : 不缓存
+	 */
+	int getCachePageSize();
+	
 }

@@ -244,6 +244,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * @param isToLoadCache
 	 */
 	public void loadData(int pageNum_, final boolean isToLoadCache) {
+		Log.i(TAG, "loadData  pageNum_ = " + pageNum_ + "; isToLoadCache = " + isToLoadCache);
 		if (isLoading) {
 			Log.e(TAG, "loadData  isLoading >> return;");
 			return;
@@ -294,6 +295,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * @param isCache
 	 */
 	public synchronized void stopLoadData(boolean isCache) {
+		Log.i(TAG, "stopLoadData  isCache = " + isCache);
 		isLoading = false;
 		dismissProgressDialog();
 
@@ -333,6 +335,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		if (newList == null) {
 			newList = new ArrayList<>();
 		}
+		Log.i(TAG, "handleList  newList.size = " + newList_.size() + "; isCache = " + isCache);
 
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
 			saveCacheStart = 0;
@@ -355,28 +358,6 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 
 
-
-	private int saveCacheStart;
-	/**保存缓存
-	 */
-	public synchronized void saveCache() {
-		if (cacheCallBack == null) {
-			Log.e(TAG, "saveCache  cacheCallBack == null >> return;");
-			return;
-		}
-
-		LinkedHashMap<String, T> map = new LinkedHashMap<>();
-		for (T data : newList) {
-			if (data != null) {
-				map.put(cacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
-			}
-		}
-
-		CacheManager.getInstance().saveList(cacheCallBack.getCacheClass(), cacheCallBack.getCacheGroup()
-				, map, saveCacheStart, newList.size());
-	}
-
-
 	/**加载成功
 	 * isCache = false;
 	 * @param newList
@@ -392,7 +373,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		runThread(TAG + "onLoadSucceed", new Runnable() {
 			@Override
 			public void run() {
-
+				Log.i(TAG, "onLoadSucceed  isCache = " + isCache + " >> handleList...");
 				handleList(newList, isCache);
 
 				runUiThread(new Runnable() {
@@ -419,6 +400,41 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		stopLoadData();
 		showShortToast(R.string.get_failed);
 	}
+
+
+
+
+	//缓存<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	/**
+	 * 获取缓存每页数量
+	 * @return > 0 ？缓存 : 不缓存
+	 */
+	public int getCachePageSize() {
+		//让给服务器返回每页数量为pageSize的数据，不行的话在子类重写 Math.max(10, newList == null ? 0 : newList.size());
+		return CacheManager.MAX_PAGE_SIZE;
+	}
+
+	private int saveCacheStart;
+	/**保存缓存
+	 */
+	public synchronized void saveCache() {
+		if (cacheCallBack == null || newList == null) {
+			Log.e(TAG, "saveCache  cacheCallBack == null || newList == null >> return;");
+			return;
+		}
+
+		LinkedHashMap<String, T> map = new LinkedHashMap<>();
+		for (T data : newList) {
+			if (data != null) {
+				map.put(cacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
+			}
+		}
+
+		CacheManager.getInstance().saveList(cacheCallBack.getCacheClass(), cacheCallBack.getCacheGroup()
+				, map, saveCacheStart, cacheCallBack.getCachePageSize());
+	}
+	//缓存>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 
 	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
