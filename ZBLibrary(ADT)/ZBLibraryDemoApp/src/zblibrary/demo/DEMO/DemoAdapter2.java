@@ -16,8 +16,8 @@ package zblibrary.demo.DEMO;
 
 import java.util.List;
 
+import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoAdapter2.ItemView;
-import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.base.BaseViewAdapter;
 import zuo.biao.library.bean.Entry;

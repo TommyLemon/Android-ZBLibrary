@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      <item type="id" name="tvBaseBottomWindowTitle">false</item>
-      <item type="id" name="tvBaseBottomWindowReturn">false</item>
+
+    <item name="tvBaseBottomWindowTitle" type="id">false</item>
+    <item name="tvBaseBottomWindowReturn" type="id">false</item>
+    <item name="lvBaseList" type="id">false</item>
+    <item name="tvBaseTabTitle" type="id">false</item>
+    <item name="ivBaseTabReturn" type="id">false</item>
+    <item name="tvBaseTabReturn" type="id">false</item>
+    <item name="llBaseTabTopRightButtonContainer" type="id">false</item>
+    <item name="llBaseTabTabContainer" type="id">false</item>
+    <item name="flBaseTabFragmentContainer" type="id">false</item>
+
 </resources>

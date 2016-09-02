@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llBaseTabRootView"
     style="@style/activity_page" >
 
     <LinearLayout
@@ -27,13 +26,13 @@
                 android:minHeight="@dimen/topbar_height" >
 
                 <TextView
-                    android:id="@+id/tvBaseTabTitle"
+                    android:id="@id/tvBaseTabTitle"
                     style="@style/topbar_title"
                     android:layout_height="@dimen/topbar_height"
                     android:text="标题" />
 
                 <LinearLayout
-                    android:id="@+id/llBaseTabTabContainer"
+                    android:id="@id/llBaseTabTabContainer"
                     style="@style/ll_vertical_wrap_match"
                     android:gravity="center"
                     android:minHeight="@dimen/topbar_height" >
@@ -48,7 +47,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/flBaseTabFragmentContainer"
+        android:id="@id/flBaseTabFragmentContainer"
         style="@style/match_match"
         android:background="@color/activity_bg" >
     </FrameLayout>
