@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llBottomMenuBg"
+    android:id="@id/vBaseBottomWindowRoot"
     style="@style/bottom_window_page"
     android:paddingTop="240dp" >
 
     <zuo.biao.library.ui.MaxHeightWrapLayout
-        android:id="@+id/llBottomMenuMenuContainer"
         style="@style/ll_vertical_match_wrap"
         android:background="@color/white" >
 

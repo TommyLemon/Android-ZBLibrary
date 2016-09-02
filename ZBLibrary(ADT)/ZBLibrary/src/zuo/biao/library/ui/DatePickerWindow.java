@@ -18,9 +18,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.base.BaseBottomWindow;
+import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
@@ -30,12 +29,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**日期选择窗口
@@ -44,7 +41,7 @@ import android.widget.TextView;
  *      *然后在onActivityResult方法内获取data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS);
  * @warn 和android系统SDK内一样，month从0开始
  */
-public class DatePickerWindow extends BaseBottomWindow implements OnClickListener {
+public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView> implements OnClickListener {
 	private static final String TAG = "DatePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -52,11 +49,11 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	public static final String INTENT_MIN_DATE = "INTENT_MIN_DATE";
 	public static final String INTENT_MAX_DATE = "INTENT_MAX_DATE";
 	public static final String INTENT_DEFAULT_DATE = "INTENT_DEFAULT_DATE";
-	
+
 	public static final String RESULT_DATE = "RESULT_DATE";
 	public static final String RESULT_TIME_IN_MILLIS = "RESULT_TIME_IN_MILLIS";
 	public static final String RESULT_DATE_DETAIL_LIST = "RESULT_DATE_DETAIL_LIST";
-	
+
 	/**启动这个Activity的Intent
 	 * @param context
 	 * @param limitYearMonthDay
@@ -108,7 +105,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.container_window);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -122,21 +118,10 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	private TextView tvContainerWindowTitle;
-	private LinearLayout llContainerWindowContentContainer;
 	@Override
 	public void initView() {//必须调用
 		super.initView();
 
-		tvContainerWindowTitle = (TextView) findViewById(R.id.tvContainerWindowTitle);
-		tvContainerWindowTitle.setVisibility(View.VISIBLE);
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), true)) {
-			tvContainerWindowTitle.setText(StringUtil.getCurrentString()); 
-		} else {
-			tvContainerWindowTitle.setText("选择日期"); 
-		}
-
-		llContainerWindowContentContainer = (LinearLayout) findViewById(R.id.llContainerWindowContentContainer);
 	}
 
 	private List<Entry<Boolean, String>> list;
@@ -154,7 +139,7 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-							gridPickerView.setView(tabPosition, list);
+						containerView.setView(tabPosition, list);
 					}
 				});
 			}
@@ -180,7 +165,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	//	private long minDate;
 	//	private long maxDate;
 
-	private GridPickerView gridPickerView;
 	private int[] minDateDetails;
 	private int[] maxDateDetails;
 	private int[] defaultDateDetails;
@@ -189,6 +173,8 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	@Override
 	public void initData() {//必须调用
 		super.initData();
+		
+		intent = getIntent();
 
 		//		minDate = getIntent().getLongExtra(INTENT_MIN_DATE, 0);
 		//		maxDate = getIntent().getLongExtra(INTENT_MAX_DATE, 0);
@@ -201,9 +187,9 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 		//		int[] minDateDetails = TimeUtil.getDateDetail(minDate);
 		//		int[] maxDateDetails = TimeUtil.getDateDetail(maxDate);
-		minDateDetails = getIntent().getIntArrayExtra(INTENT_MIN_DATE);
-		maxDateDetails = getIntent().getIntArrayExtra(INTENT_MAX_DATE);
-		defaultDateDetails = getIntent().getIntArrayExtra(INTENT_DEFAULT_DATE);
+		minDateDetails = intent.getIntArrayExtra(INTENT_MIN_DATE);
+		maxDateDetails = intent.getIntArrayExtra(INTENT_MAX_DATE);
+		defaultDateDetails = intent.getIntArrayExtra(INTENT_DEFAULT_DATE);
 
 		if (minDateDetails == null || minDateDetails.length <= 0) {
 			minDateDetails = new int[]{1970, 1, 1};
@@ -220,13 +206,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 			defaultDateDetails = TimeUtil.getDateDetail(System.currentTimeMillis());
 		}
 
-
-		llContainerWindowContentContainer.removeAllViews();
-		if (gridPickerView == null) {
-			gridPickerView = new GridPickerView(context, resources);
-			llContainerWindowContentContainer.addView(gridPickerView.createView(inflater));
-		}
-		gridPickerView.setView(null);
 
 		runThread(TAG + "initData", new Runnable() {
 
@@ -245,18 +224,12 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 
 					@Override
 					public void run() {
-							gridPickerView.init(configList, list);
+						containerView.init(configList, list);
 					}
 				});
 			}
 		});
 
-	}
-
-	@Override
-	@Nullable
-	protected String getTitleName() {
-		return getIntent().getStringExtra(INTENT_TITLE);
 	}
 
 
@@ -324,16 +297,35 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 		return list;
 	}
 
+	
+	
+	@Override
+	public String getTitleName() {
+		return "选择日期";
+	}
+	@Override
+	public String getReturnName() {
+		return "";
+	}
+	@Override
+	public String getForwardName() {
+		return "";
+	}
 
+	@Override
+	@NonNull
+	protected GridPickerView createView() {
+		return new GridPickerView(context, getResources());
+	}
 
-	/**保存并退出
+	/**
 	 * @warn 和android系统SDK内一样，month从0开始
 	 */
-	private void saveAndExit() {
-
+	@Override
+	protected void setResult() {
 		intent = new Intent();
 
-		List<String> list = gridPickerView.getSelectedItemList();
+		List<String> list = containerView.getSelectedItemList();
 		if (list != null && list.size() >= 3) {
 			ArrayList<Integer> detailList = new ArrayList<Integer>(); 
 			for (int i = 0; i < list.size(); i++) {
@@ -348,7 +340,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 		}
 
 		setResult(RESULT_OK, intent);
-		finish();
 	}
 
 
@@ -367,11 +358,8 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	public void initListener() {//必须调用
 		super.initListener();
 
-		findViewById(R.id.tvContainerWindowReturn).setOnClickListener(this);
-		findViewById(R.id.tvContainerWindowSave).setOnClickListener(this);
-
-		gridPickerView.setOnTabClickListener(onTabClickListener);
-		gridPickerView.setOnItemSelectedListener(onItemSelectedListener);
+		containerView.setOnTabClickListener(onTabClickListener);
+		containerView.setOnItemSelectedListener(onItemSelectedListener);
 	}
 
 
@@ -386,9 +374,9 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	private OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-			gridPickerView.doOnItemSelected(gridPickerView.getCurrentTabPosition()
-					, position, gridPickerView.getCurrentSelectedItemName());
-			int tabPosition = gridPickerView.getCurrentTabPosition() + 1;
+			containerView.doOnItemSelected(containerView.getCurrentTabPosition()
+					, position, containerView.getCurrentSelectedItemName());
+			int tabPosition = containerView.getCurrentTabPosition() + 1;
 			setPickerView(tabPosition);
 		}
 		@Override
@@ -396,29 +384,6 @@ public class DatePickerWindow extends BaseBottomWindow implements OnClickListene
 	};
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	//	@Override
-	//	public void onClick(View v) {
-	//		switch (v.getId()) {
-	//		case R.id.tvContainerWindowReturn:
-	//			finish();
-	//			break;
-	//		case R.id.tvContainerWindowSave:
-	//			saveAndExit();
-	//			break;
-	//		default:
-	//			break;
-	//		}
-	//	}
-	//Library内switch方法中case R.id.idx会报错
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.tvContainerWindowReturn) {
-			finish();
-		} else if (v.getId() == R.id.tvContainerWindowSave) {
-			saveAndExit();
-		}
-	}
 
 
 

@@ -272,7 +272,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		switch (requestCode) {
 		case REQUEST_TO_BOTTOM_MENU:
 			if (data != null) {
-				onBottomMenuItemClick(data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE, -1));
+				onBottomMenuItemClick(data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1));
 			}
 			break;
 		case REQUEST_TO_EDIT_TEXT_INFO:

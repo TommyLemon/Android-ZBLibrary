@@ -214,11 +214,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
-	@Override
-	@Nullable
-	protected String getTitleName() {
-		return getIntent().getStringExtra(INTENT_TITLE);
-	}
 
 	private void saveAndExit() {
 		String editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);

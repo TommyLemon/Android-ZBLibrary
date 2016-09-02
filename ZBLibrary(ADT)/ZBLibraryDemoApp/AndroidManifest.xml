@@ -107,6 +107,11 @@
             android:name="zblibrary.demo.DEMO.DemoBroadcastReceiverActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="zblibrary.demo.DEMO.DemoBottomWindow"
+            android:screenOrientation="portrait"
+            android:theme="@style/Window"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <!-- DEMO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
