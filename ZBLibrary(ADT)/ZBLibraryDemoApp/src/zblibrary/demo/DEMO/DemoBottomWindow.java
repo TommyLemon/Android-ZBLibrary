@@ -95,11 +95,11 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	}
 	@Override
 	public String getReturnName() {
-		return "";
+		return null;
 	}
 	@Override
 	public String getForwardName() {
-		return "";
+		return null;
 	}
 
 	@Override

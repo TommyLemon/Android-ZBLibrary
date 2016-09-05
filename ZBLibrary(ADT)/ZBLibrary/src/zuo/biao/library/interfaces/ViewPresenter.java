@@ -26,12 +26,12 @@ public interface ViewPresenter {
 	String getTitleName();
 
 	/**获取导航栏返回按钮名
-	 * @return null - View.GONE; "" - default; "xxx" - "xxx"
+	 * @return null - default; "" - default; "xxx" - "xxx"
 	 */
 	String getReturnName();
 	
 	/**获取导航栏前进按钮名
-	 * @return null - View.GONE; "" - default; "xxx" - "xxx"
+	 * @return null - default; "" - default; "xxx" - "xxx"
 	 */
 	String getForwardName();
 

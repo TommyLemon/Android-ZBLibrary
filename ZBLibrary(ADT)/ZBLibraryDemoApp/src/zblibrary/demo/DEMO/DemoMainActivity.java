@@ -32,6 +32,7 @@ import zuo.biao.library.ui.ItemDialog.OnDialogItemClickListener;
 import zuo.biao.library.ui.PlacePickerWindow;
 import zuo.biao.library.ui.SelectPictureActivity;
 import zuo.biao.library.ui.ServerSettingActivity;
+import zuo.biao.library.ui.TimePickerWindow;
 import zuo.biao.library.ui.TopMenuWindow;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
@@ -240,8 +241,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findViewById(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainEditTextInfoWindow).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDatePickerWindow).setOnClickListener(this);
 		findViewById(R.id.llDemoMainPlacePickerWindow).setOnClickListener(this);
+		findViewById(R.id.llDemoMainDatePickerWindow).setOnClickListener(this);
+		findViewById(R.id.llDemoMainTimePickerWindow).setOnClickListener(this);
 
 	}
 
@@ -383,7 +385,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			toActivity(DemoBroadcastReceiverActivity.createIntent(context));
 			break;   
 		case R.id.llDemoMainDemoBottomWindow:
-			toActivity(DemoBottomWindow.createIntent(context, ""), false);
+			toActivity(DemoBottomWindow.createIntent(context, ""), REQUEST_TO_DEMO_BOTTOM_WINDOW, false);
 			break;   
 
 			
@@ -397,13 +399,17 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		case R.id.llDemoMainEditTextInfoWindow:
 			editName(true);
 			break;  
+		case R.id.llDemoMainPlacePickerWindow:
+			toActivity(PlacePickerWindow.createIntent(context, getPackageName(), 2), REQUEST_TO_PLACE_PICKER, false);
+			break;
 		case R.id.llDemoMainDatePickerWindow:
 			toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
 			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
 			break;  
-		case R.id.llDemoMainPlacePickerWindow:
-			toActivity(PlacePickerWindow.createIntent(context, getPackageName(), 2), REQUEST_TO_PLACE_PICKER, false);
-			break;
+		case R.id.llDemoMainTimePickerWindow:
+			toActivity(TimePickerWindow.createIntent(context).putExtra(TimePickerWindow.INTENT_TITLE, "时间选择器")
+					, REQUEST_TO_TIME_PICKER, false);
+			break;  
 
 		default:
 			break;
@@ -419,10 +425,13 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	public static final int REQUEST_TO_CAMERA_SCAN = 22;
 	private static final int REQUEST_TO_EDIT_TEXT_INFO = 23;
 	private static final int REQUEST_TO_SERVER_SETTING = 24;
+	private static final int REQUEST_TO_DEMO_BOTTOM_WINDOW = 25;
+	
 	private static final int REQUEST_TO_TOP_MENU = 30;
 	private static final int REQUEST_TO_BOTTOM_MENU = 31;
-	private static final int REQUEST_TO_DATE_PICKER = 32;
-	private static final int REQUEST_TO_PLACE_PICKER = 33;
+	private static final int REQUEST_TO_PLACE_PICKER = 32;
+	private static final int REQUEST_TO_DATE_PICKER = 33;
+	private static final int REQUEST_TO_TIME_PICKER = 34;
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -460,6 +469,12 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 				//TODO
 			}
 			break;
+		case REQUEST_TO_DEMO_BOTTOM_WINDOW:
+			if (data != null) {
+				showShortToast(data.getStringExtra(DemoBottomWindow.RESULT_DATA));
+			}
+			break;
+			
 		case REQUEST_TO_TOP_MENU:
 			if (data != null) {
 				switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
@@ -482,19 +497,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 				}
 			}
 			break;
-		case REQUEST_TO_DATE_PICKER:
-			if (data != null) {
-				//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
-				//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
-				//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
-				//							? "null" : selectedPositionList.size()));
-
-				ArrayList<Integer> dateList = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
-				if (dateList != null && dateList.size() >= 3) {
-					showShortToast("选择的日期为" + dateList.get(0) + "-" + (dateList.get(1) + 1) + "-" + dateList.get(2));
-				}
-			}
-			break;
+	
 		case REQUEST_TO_PLACE_PICKER:
 			if (data != null) {
 				ArrayList<String> placeList = data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
@@ -504,6 +507,31 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 						place += StringUtil.getTrimedString(s);
 					}
 					showShortToast("选择的地区为: " + place);
+				}
+			}
+			break;
+		case REQUEST_TO_DATE_PICKER:
+			if (data != null) {
+				//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
+				//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
+				//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
+				//							? "null" : selectedPositionList.size()));
+
+				ArrayList<Integer> list = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
+				if (list != null && list.size() >= 3) {
+					showShortToast("选择的日期为" + list.get(0) + "-" + (list.get(1) + 1) + "-" + list.get(2));
+				}
+			}
+			break;
+		case REQUEST_TO_TIME_PICKER:
+			if (data != null) {
+				ArrayList<Integer> list = data.getIntegerArrayListExtra(TimePickerWindow.RESULT_TIME_DETAIL_LIST);
+				if (list != null && list.size() >= 2) {
+					String minute = "" + list.get(1);
+					if (minute.length() < 2) {
+						minute = "0" + minute;
+					}
+					showShortToast("选择的时间为" + list.get(0) + ":" + minute);
 				}
 			}
 			break;

@@ -35,63 +35,72 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
-/**日期选择窗口
+/**时间选择弹窗
  * @author Lemon
- * @use toActivity(DatePickerWindow.createIntent(...));
- *      *然后在onActivityResult方法内获取data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS);
+ * @use toActivity(TimePickerWindow.createIntent(...));
+ *      *然后在onActivityResult方法内获取data.getLongExtra(TimePickerWindow.RESULT_TIME_IN_MILLIS);
  * @warn 和android系统SDK内一样，month从0开始
  */
-public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView> implements OnClickListener {
-	private static final String TAG = "DatePickerWindow";
+public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView> implements OnClickListener {
+	private static final String TAG = "TimePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String INTENT_MIN_DATE = "INTENT_MIN_DATE";
-	public static final String INTENT_MAX_DATE = "INTENT_MAX_DATE";
-	public static final String INTENT_DEFAULT_DATE = "INTENT_DEFAULT_DATE";
+	public static final String INTENT_MIN_TIME = "INTENT_MIN_TIME";
+	public static final String INTENT_MAX_TIME = "INTENT_MAX_TIME";
+	public static final String INTENT_DEFAULT_TIME = "INTENT_DEFAULT_TIME";
 
-	public static final String RESULT_DATE = "RESULT_DATE";
+	public static final String RESULT_TIME = "RESULT_TIME";
 	public static final String RESULT_TIME_IN_MILLIS = "RESULT_TIME_IN_MILLIS";
-	public static final String RESULT_DATE_DETAIL_LIST = "RESULT_DATE_DETAIL_LIST";
+	public static final String RESULT_TIME_DETAIL_LIST = "RESULT_TIME_DETAIL_LIST";
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param limitYearMonthDay
 	 * @return
 	 */
-	public static Intent createIntent(Context context, int[] limitYearMonthDay) {
-		return createIntent(context, limitYearMonthDay, null);
+	public static Intent createIntent(Context context) {
+		return createIntent(context, null);
 	}
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param limitYearMonthDay
-	 * @param defaultYearMonthDay
+	 * @param limitTimeDetail
 	 * @return
 	 */
-	public static Intent createIntent(Context context, int[] limitYearMonthDay, int[] defaultYearMonthDay) {
-		int[] selectedDate = TimeUtil.getDateDetail(System.currentTimeMillis());
-		int[] minYearMonthDay = null;
-		int[] maxYearMonthDay = null;
-		if (TimeUtil.fomerIsBigger(limitYearMonthDay, selectedDate)) {
-			minYearMonthDay = selectedDate;
-			maxYearMonthDay = limitYearMonthDay;
-		} else {
-			minYearMonthDay = limitYearMonthDay;
-			maxYearMonthDay = selectedDate;
+	public static Intent createIntent(Context context, int[] limitTimeDetail) {
+		return createIntent(context, limitTimeDetail, null);
+	}
+	/**启动这个Activity的Intent
+	 * @param context
+	 * @param limitTimeDetail
+	 * @param defaultTimeDetail
+	 * @return
+	 */
+	public static Intent createIntent(Context context, int[] limitTimeDetail, int[] defaultTimeDetail) {
+		int[] minTimeDetail = null;
+		int[] maxTimeDetail = null;
+		if (limitTimeDetail != null && limitTimeDetail.length >= MIN_LENGHT) {
+			int[] selectedTime = TimeUtil.getTimeDetail(System.currentTimeMillis());
+			if (TimeUtil.fomerIsBigger(limitTimeDetail, selectedTime)) {
+				minTimeDetail = selectedTime;
+				maxTimeDetail = limitTimeDetail;
+			} else {
+				minTimeDetail = limitTimeDetail;
+				maxTimeDetail = selectedTime;
+			}
 		}
-		return createIntent(context, minYearMonthDay, maxYearMonthDay, defaultYearMonthDay);
+		return createIntent(context, minTimeDetail, maxTimeDetail, defaultTimeDetail);
 	}
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param minYearMonthDay
-	 * @param maxYearMonthDay
+	 * @param minTimeDetail
+	 * @param maxTimeDetail
 	 * @return
 	 */
-	public static Intent createIntent(Context context, int[] minYearMonthDay, int[] maxYearMonthDay, int[] defaultYearMonthDay) {
-		return new Intent(context, DatePickerWindow.class).
-				putExtra(INTENT_MIN_DATE, minYearMonthDay).
-				putExtra(INTENT_MAX_DATE, maxYearMonthDay).
-				putExtra(INTENT_DEFAULT_DATE, defaultYearMonthDay);
+	public static Intent createIntent(Context context, int[] minTimeDetail, int[] maxTimeDetail, int[] defaultTimeDetail) {
+		return new Intent(context, TimePickerWindow.class).
+				putExtra(INTENT_MIN_TIME, minTimeDetail).
+				putExtra(INTENT_MAX_TIME, maxTimeDetail).
+				putExtra(INTENT_DEFAULT_TIME, defaultTimeDetail);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -161,13 +170,14 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	public static final int MIN_LENGHT = 2;
 
-	//	private long minDate;
-	//	private long maxDate;
+	//	private long minTime;
+	//	private long maxTime;
 
-	private int[] minDateDetails;
-	private int[] maxDateDetails;
-	private int[] defaultDateDetails;
+	private int[] minTimeDetails;
+	private int[] maxTimeDetails;
+	private int[] defaultTimeDetails;
 
 	private ArrayList<GridPickerConfigBean> configList;
 	@Override
@@ -176,34 +186,34 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 		intent = getIntent();
 
-		//		minDate = getIntent().getLongExtra(INTENT_MIN_DATE, 0);
-		//		maxDate = getIntent().getLongExtra(INTENT_MAX_DATE, 0);
-		//		if (minDate >= maxDate) {
-		//			Log.e(TAG, "initData minDate >= maxDate >> finish(); return; ");
+		//		minTime = getIntent().getLongExtra(INTENT_MIN_TIME, 0);
+		//		maxTime = getIntent().getLongExtra(INTENT_MAX_TIME, 0);
+		//		if (minTime >= maxTime) {
+		//			Log.e(TAG, "initData minTime >= maxTime >> finish(); return; ");
 		//			finish();
 		//			return;
 		//		}
 		//		
 
-		//		int[] minDateDetails = TimeUtil.getDateDetail(minDate);
-		//		int[] maxDateDetails = TimeUtil.getDateDetail(maxDate);
-		minDateDetails = intent.getIntArrayExtra(INTENT_MIN_DATE);
-		maxDateDetails = intent.getIntArrayExtra(INTENT_MAX_DATE);
-		defaultDateDetails = intent.getIntArrayExtra(INTENT_DEFAULT_DATE);
+		//		int[] minTimeDetails = TimeUtil.getTimeDetail(minTime);
+		//		int[] maxTimeDetails = TimeUtil.getTimeDetail(maxTime);
+		minTimeDetails = intent.getIntArrayExtra(INTENT_MIN_TIME);
+		maxTimeDetails = intent.getIntArrayExtra(INTENT_MAX_TIME);
+		defaultTimeDetails = intent.getIntArrayExtra(INTENT_DEFAULT_TIME);
 
-		if (minDateDetails == null || minDateDetails.length <= 0) {
-			minDateDetails = new int[]{1970, 1, 1};
+		if (minTimeDetails == null || minTimeDetails.length <= 0) {
+			minTimeDetails = new int[]{0, 0};
 		}
-		if (maxDateDetails == null || maxDateDetails.length <= 0) {
-			maxDateDetails = new int[]{2020, 11, 31};
+		if (maxTimeDetails == null || maxTimeDetails.length <= 0) {
+			maxTimeDetails = new int[]{23, 59};
 		}
-		if (minDateDetails == null || minDateDetails.length <= 0
-				|| maxDateDetails == null || minDateDetails.length != maxDateDetails.length) {
+		if (minTimeDetails == null || minTimeDetails.length < MIN_LENGHT
+				|| maxTimeDetails == null || maxTimeDetails.length < MIN_LENGHT) {
 			finish();
 			return;
 		}
-		if (defaultDateDetails == null || defaultDateDetails.length < 3) {
-			defaultDateDetails = TimeUtil.getDateDetail(System.currentTimeMillis());
+		if (defaultTimeDetails == null || defaultTimeDetails.length < MIN_LENGHT) {
+			defaultTimeDetails = TimeUtil.getTimeDetail(System.currentTimeMillis());
 		}
 
 
@@ -211,12 +221,14 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 			@Override
 			public void run() {
-				configList = new ArrayList<GridPickerConfigBean>();
 
 				final ArrayList<Integer> selectedItemList = new ArrayList<Integer>();
-				selectedItemList.add(defaultDateDetails[0]);
-				selectedItemList.add(defaultDateDetails[1]);
-				selectedItemList.add(defaultDateDetails[2]);
+				selectedItemList.add(defaultTimeDetails[0]);
+				selectedItemList.add(defaultTimeDetails[1]);
+
+				configList = new ArrayList<GridPickerConfigBean>();
+				configList.add(new GridPickerConfigBean(TimeUtil.NAME_HOUR, "" + selectedItemList.get(0), selectedItemList.get(0), 6, 4));
+				configList.add(new GridPickerConfigBean(TimeUtil.NAME_MINUTE, "" + selectedItemList.get(1), selectedItemList.get(1), 5, 6));
 
 				list = getList(selectedItemList.size() - 1, selectedItemList);
 
@@ -234,55 +246,27 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 
 	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
-		int level = TimeUtil.LEVEL_YEAR + tabPosition;
-		if (selectedItemList == null || selectedItemList.size() != 3 || TimeUtil.isContainLevel(level) == false) {
+		int level = TimeUtil.LEVEL_HOUR + tabPosition;
+		if (selectedItemList == null || selectedItemList.size() != MIN_LENGHT || TimeUtil.isContainLevel(level) == false) {
 			return null;
 		}
 
 		list = new ArrayList<Entry<Boolean, String>>();
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(selectedItemList.get(0), selectedItemList.get(1) - 1, 1);
 		switch (level) {
-		case TimeUtil.LEVEL_YEAR:
-			for (int i = 0; i < maxDateDetails[0] - minDateDetails[0]; i++) {
-				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1 + minDateDetails[0])));
+		case TimeUtil.LEVEL_HOUR:
+			int centerHour = minTimeDetails[0] <= maxTimeDetails[0] ? maxTimeDetails[0] : 23;
+			for (int i = 0; i < 24; i++) {
+				list.add(new Entry<Boolean, String>(i <= centerHour && (i >= minTimeDetails[0] || i >= maxTimeDetails[0]), String.valueOf(i)));
 			}
 			break;
-		case TimeUtil.LEVEL_MONTH:
-			for (int i = 0; i < 12; i++) {
-				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1)));
+		case TimeUtil.LEVEL_MINUTE:
+			int centerMinute = minTimeDetails[1] <= maxTimeDetails[1] ? maxTimeDetails[1] : 59;
+			for (int i = 0; i < 60; i++) {
+				list.add(new Entry<Boolean, String>(i <= centerMinute && (i >= minTimeDetails[1] || i >= maxTimeDetails[1]), String.valueOf(i)));
 			}
 			break;
-		case TimeUtil.LEVEL_DAY:
-			for (int i = calendar.get(Calendar.DAY_OF_WEEK) - 1; i < 7; i++) {
-				list.add(new Entry<Boolean, String>(false, TimeUtil.Day.getDayNameOfWeek(i)));
-			}
-			for (int i = 0; i < calendar.get(Calendar.DAY_OF_WEEK) - 1; i++) {
-				list.add(new Entry<Boolean, String>(false, TimeUtil.Day.getDayNameOfWeek(i)));
-			}
-			for (int i = 0; i < calendar.getActualMaximum(Calendar.DATE); i++) {
-				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1)));
-			}
-			break;
-			//		case TimeUtil.LEVEL_HOUR:
-			//			break;
-			//		case TimeUtil.LEVEL_MINUTE:
-			//			break;
-			//		case TimeUtil.LEVEL_SECOND:
-			//			break;
 		default:
 			break;
-		}
-
-		if (configList == null || configList.size() != 3) {
-			configList = new ArrayList<GridPickerConfigBean>();
-
-			configList.add(new GridPickerConfigBean(TimeUtil.NAME_YEAR, "" + selectedItemList.get(0)
-					, selectedItemList.get(0) - 1 - minDateDetails[0], 5, 4));
-			configList.add(new GridPickerConfigBean(TimeUtil.NAME_MONTH, "" + selectedItemList.get(1)
-					, selectedItemList.get(1) - 1, 4, 3));
-			configList.add(new GridPickerConfigBean(TimeUtil.NAME_DAY, "" + selectedItemList.get(2)
-					, selectedItemList.get(2) - 1 + 7, 7, 6));
 		}
 
 		return list;
@@ -292,11 +276,11 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 	@Override
 	public String getTitleName() {
-		return "选择日期";
+		return "选择时间";
 	}
 	@Override
 	public String getReturnName() {
-		return null;
+		return "no";
 	}
 	@Override
 	public String getForwardName() {
@@ -309,25 +293,21 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 		return new GridPickerView(context, getResources());
 	}
 
-	/**
-	 * @warn 和android系统SDK内一样，month从0开始
-	 */
 	@Override
 	protected void setResult() {
 		intent = new Intent();
 
 		List<String> list = containerView.getSelectedItemList();
-		if (list != null && list.size() >= 3) {
+		if (list != null) {
 			ArrayList<Integer> detailList = new ArrayList<Integer>(); 
 			for (int i = 0; i < list.size(); i++) {
 				detailList.add(0 + Integer.valueOf(StringUtil.getNumber(list.get(i))));
 			}
-			detailList.set(1, detailList.get(1) - 1);
 
 			Calendar calendar = Calendar.getInstance();
-			calendar.set(detailList.get(0), detailList.get(1), detailList.get(2));
+			calendar.set(0, 0, 0, detailList.get(0), detailList.get(1));
 			intent.putExtra(RESULT_TIME_IN_MILLIS, calendar.getTimeInMillis());
-			intent.putIntegerArrayListExtra(RESULT_DATE_DETAIL_LIST, detailList);
+			intent.putIntegerArrayListExtra(RESULT_TIME_DETAIL_LIST, detailList);
 		}
 
 		setResult(RESULT_OK, intent);

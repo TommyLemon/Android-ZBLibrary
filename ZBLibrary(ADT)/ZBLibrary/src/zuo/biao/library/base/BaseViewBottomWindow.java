@@ -36,7 +36,7 @@ import android.widget.TextView;
  */
 public abstract class BaseViewBottomWindow<T, BV extends BaseView<T>> extends BaseBottomWindow
 implements OnClickListener, ViewPresenter {
-	private static final String TAG = "BaseViewBottomWindow";
+//	private static final String TAG = "BaseViewBottomWindow";
 
 
 	/**
@@ -142,15 +142,17 @@ implements OnClickListener, ViewPresenter {
 		super.initData();
 
 		if (tvBaseViewBottomWindowTitle != null) {
-			tvBaseViewBottomWindowTitle.setVisibility(StringUtil.isNotEmpty(getTitleName(), true)
-					? View.VISIBLE : View.GONE);
-			tvBaseViewBottomWindowTitle.setText(StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), true)
-					? StringUtil.getCurrentString() : StringUtil.getTrimedString(getTitleName()));
+			String title = getIntent().getStringExtra(INTENT_TITLE);
+			if (StringUtil.isNotEmpty(title, true) == false) {
+				title = getTitleName();
+			}
+			tvBaseViewBottomWindowTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
+			tvBaseViewBottomWindowTitle.setText(StringUtil.getTrimedString(title));
 		}
 
 		if (tvBaseViewBottomWindowReturn != null) {
 			if (StringUtil.isNotEmpty(getReturnName(), true)) {
-				tvBaseViewBottomWindowTitle.setText(StringUtil.getCurrentString());
+				tvBaseViewBottomWindowReturn.setText(StringUtil.getCurrentString());
 			}
 		}
 		if (tvBaseViewBottomWindowForward != null) {
@@ -167,6 +169,10 @@ implements OnClickListener, ViewPresenter {
 		containerView.setView(null);
 	}
 
+	/**
+	 * 创建新的内容View
+	 * @return
+	 */
 	@NonNull
 	protected abstract BV createView();
 	/**
@@ -218,6 +224,10 @@ implements OnClickListener, ViewPresenter {
 
 	@Override
 	protected void onDestroy() {
+		data = null;
+		if (llBaseViewBottomWindowContainer != null) {
+			llBaseViewBottomWindowContainer.removeAllViews();
+		}
 		if (containerView != null) {
 			containerView.onDestroy();
 		}

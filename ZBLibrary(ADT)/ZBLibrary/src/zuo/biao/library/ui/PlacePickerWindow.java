@@ -225,11 +225,11 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, 
 	}
 	@Override
 	public String getReturnName() {
-		return "";
+		return null;
 	}
 	@Override
 	public String getForwardName() {
-		return "";
+		return null;
 	}
 
 	@Override
