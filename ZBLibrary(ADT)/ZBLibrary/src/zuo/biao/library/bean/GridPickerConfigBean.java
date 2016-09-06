@@ -23,12 +23,18 @@ public class GridPickerConfigBean {
 	//	private List<GridPickerItemBean> list;//list一般都会变 ,GridPickerView只允许一个list
 
 	private String tabSuffix;
-	
+
 	private String selectedItemName;//可变
 	private int selectedItemPostion;//可变
-	
+
 	private int numColumns;//第一次设置后就固定不变
 	private int maxShowRows;//第一次设置后就固定不变
+
+	private int enableTextColor;
+	private int unableTextColor;
+
+	private int enableBackgroundColor;
+	private int unableBackgroundColor;
 
 	public GridPickerConfigBean(String tabSuffix, String selectedItemName, int selectedItemPostion) {
 		this(tabSuffix, selectedItemName, selectedItemPostion, 3, 5);
@@ -47,7 +53,7 @@ public class GridPickerConfigBean {
 	 * @param selectedItemPostion
 	 * @return
 	 */
-	public GridPickerConfigBean set(String selectedItemName, int selectedItemPostion) {
+	public final GridPickerConfigBean set(String selectedItemName, int selectedItemPostion) {
 		return set(tabSuffix, selectedItemName, selectedItemPostion);
 	}
 	/**只允许通过这个方法修改数据
@@ -56,9 +62,25 @@ public class GridPickerConfigBean {
 	 * @param selectedItemPostion
 	 * @return
 	 */
-	public GridPickerConfigBean set(String tabSuffix, String selectedItemName, int selectedItemPostion) {
+	public final GridPickerConfigBean set(String tabSuffix, String selectedItemName, int selectedItemPostion) {
+		this.tabSuffix = tabSuffix;
 		this.selectedItemName = selectedItemName;
 		this.selectedItemPostion = selectedItemPostion;
+		return this;
+	}
+
+	/**设置颜色
+	 * @param enableTextColor
+	 * @param unableTextColor
+	 * @param enableBackgroundColor
+	 * @param unableBackgroundColor
+	 * @return
+	 */
+	public final GridPickerConfigBean setColor(int enableTextColor, int unableTextColor, int enableBackgroundColor, int unableBackgroundColor) {
+		this.enableTextColor = enableTextColor;
+		this.unableTextColor = unableTextColor;
+		this.enableBackgroundColor = enableBackgroundColor;
+		this.unableBackgroundColor = unableBackgroundColor;
 		return this;
 	}
 
@@ -68,11 +90,11 @@ public class GridPickerConfigBean {
 	public String getTabName() {
 		return getSelectedItemName() + getTabSuffix();
 	}
-	
+
 	public String getTabSuffix() {
 		return tabSuffix == null ? "" : tabSuffix;
 	}
-	
+
 	public String getSelectedItemName() {
 		return selectedItemName == null ? "" : selectedItemName;
 	}
@@ -87,8 +109,35 @@ public class GridPickerConfigBean {
 	public int getMaxShowRows() {
 		return maxShowRows;
 	}
-
-
-
+	
+	
+	public int getEnableTextColor() {
+		return enableTextColor;
+	}
+	public GridPickerConfigBean setEnableTextColor(int enableTextColor) {
+		this.enableTextColor = enableTextColor;
+		return this;
+	}
+	public int getUnableTextColor() {
+		return unableTextColor;
+	}
+	public GridPickerConfigBean setUnableTextColor(int unableTextColor) {
+		this.unableTextColor = unableTextColor;
+		return this;
+	}
+	public int getEnableBackgroundColor() {
+		return enableBackgroundColor;
+	}
+	public GridPickerConfigBean setEnableBackgroundColor(int enableBackgroundColor) {
+		this.enableBackgroundColor = enableBackgroundColor;
+		return this;
+	}
+	public int getUnableBackgroundColor() {
+		return unableBackgroundColor;
+	}
+	public GridPickerConfigBean setUnableBackgroundColor(int unableBackgroundColor) {
+		this.unableBackgroundColor = unableBackgroundColor;
+		return this;
+	}
 
 }

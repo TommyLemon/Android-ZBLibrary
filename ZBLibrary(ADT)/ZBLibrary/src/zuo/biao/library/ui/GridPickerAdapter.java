@@ -42,10 +42,15 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 
 	private int currentPosition;//初始选中位置
 	private int height;//item高度
+	private int unableBackgroundColor;//不能点击的背景色
 	public GridPickerAdapter(Activity context, List<Entry<Boolean, String>> list, int currentPosition, int height) {
+		this(context, list, currentPosition, height, 0);
+	}
+	public GridPickerAdapter(Activity context, List<Entry<Boolean, String>> list, int currentPosition, int height, int unableBackgroundColor) {
 		super(context, list);
 		this.currentPosition = currentPosition;
 		this.height = height;
+		this.unableBackgroundColor = unableBackgroundColor;
 	}
 
 	public int getCurrentPosition() {
@@ -73,15 +78,19 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 
 		final Entry<Boolean, String> data = getItem(position);
 		final boolean isEnabled = data.getKey();
+		//		if (isEnabled == false && position == currentPosition) {
+		//			currentPosition ++;
+		//		}
 
 		holder.tv.setText(StringUtil.getTrimedString(data.getValue()));
 		holder.tv.setTextColor(resources.getColor(isEnabled ? R.color.black : R.color.gray_2));
-		if (isEnabled) {
-			holder.tv.setBackgroundResource(position == currentPosition
-					? R.drawable.green_rounded_rectangle_normal : R.drawable.null_drawable);
+		holder.tv.setBackgroundResource(position == currentPosition
+				? R.drawable.green_rounded_rectangle_normal : R.drawable.null_drawable);
+
+		//不好看，但星期需要		
+		if (unableBackgroundColor > 0) {
+			convertView.setBackgroundResource(isEnabled ?  R.color.alpha_complete : unableBackgroundColor);
 		}
-		
-		convertView.setBackgroundResource(isEnabled ? R.color.alpha_complete : R.color.alpha_1);
 
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -97,7 +106,7 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 		});
 
 		if (height > 0) {
-			if (layoutParams == null || layoutParams.height < height) {
+			if (layoutParams == null || layoutParams.height != height) {
 				layoutParams = convertView.getLayoutParams();
 				layoutParams.height = height;
 			}

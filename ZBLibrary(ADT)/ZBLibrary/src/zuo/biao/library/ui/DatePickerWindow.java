@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
@@ -25,6 +26,7 @@ import zuo.biao.library.bean.GridPickerConfigBean;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -211,8 +213,6 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 			@Override
 			public void run() {
-				configList = new ArrayList<GridPickerConfigBean>();
-
 				final ArrayList<Integer> selectedItemList = new ArrayList<Integer>();
 				selectedItemList.add(defaultDateDetails[0]);
 				selectedItemList.add(defaultDateDetails[1]);
@@ -233,6 +233,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 	}
 
 
+	@SuppressLint("ResourceAsColor")
 	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
 		int level = TimeUtil.LEVEL_YEAR + tabPosition;
 		if (selectedItemList == null || selectedItemList.size() != 3 || TimeUtil.isContainLevel(level) == false) {
@@ -282,7 +283,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 			configList.add(new GridPickerConfigBean(TimeUtil.NAME_MONTH, "" + selectedItemList.get(1)
 					, selectedItemList.get(1) - 1, 4, 3));
 			configList.add(new GridPickerConfigBean(TimeUtil.NAME_DAY, "" + selectedItemList.get(2)
-					, selectedItemList.get(2) - 1 + 7, 7, 6));
+					, selectedItemList.get(2) - 1 + 7, 7, 6).setUnableBackgroundColor(R.color.alpha_1));
 		}
 
 		return list;

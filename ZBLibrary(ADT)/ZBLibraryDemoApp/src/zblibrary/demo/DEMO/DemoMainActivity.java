@@ -407,8 +407,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
 			break;  
 		case R.id.llDemoMainTimePickerWindow:
-			toActivity(TimePickerWindow.createIntent(context).putExtra(TimePickerWindow.INTENT_TITLE, "时间选择器")
-					, REQUEST_TO_TIME_PICKER, false);
+			toActivity(TimePickerWindow.createIntent(context, new int[]{12, 0}), REQUEST_TO_TIME_PICKER, false);
 			break;  
 
 		default:

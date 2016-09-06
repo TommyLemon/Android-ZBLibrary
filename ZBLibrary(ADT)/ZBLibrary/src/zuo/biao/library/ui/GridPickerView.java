@@ -269,7 +269,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		}
 
 		int maxShowRows = gpcb.getMaxShowRows();
-		if (maxShowRows  <= 0) {
+		if (maxShowRows <= 0) {
 			maxShowRows = 5;
 		}
 
@@ -282,7 +282,8 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 
 		//gridView<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		adapter = new GridPickerAdapter(context, list, itemPosition, contentHeight/maxShowRows);
+		adapter = new GridPickerAdapter(context, list, itemPosition, contentHeight/maxShowRows
+				, gpcb.getUnableBackgroundColor());
 		adapter.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

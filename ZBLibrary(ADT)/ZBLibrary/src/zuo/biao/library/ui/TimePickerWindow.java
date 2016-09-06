@@ -23,6 +23,7 @@ import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
+import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
 import android.content.Context;
@@ -41,7 +42,8 @@ import android.widget.TextView;
  *      *然后在onActivityResult方法内获取data.getLongExtra(TimePickerWindow.RESULT_TIME_IN_MILLIS);
  * @warn 和android系统SDK内一样，month从0开始
  */
-public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView> implements OnClickListener {
+public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView>
+implements OnClickListener {
 	private static final String TAG = "TimePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -79,14 +81,8 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 		int[] minTimeDetail = null;
 		int[] maxTimeDetail = null;
 		if (limitTimeDetail != null && limitTimeDetail.length >= MIN_LENGHT) {
-			int[] selectedTime = TimeUtil.getTimeDetail(System.currentTimeMillis());
-			if (TimeUtil.fomerIsBigger(limitTimeDetail, selectedTime)) {
-				minTimeDetail = selectedTime;
-				maxTimeDetail = limitTimeDetail;
-			} else {
-				minTimeDetail = limitTimeDetail;
-				maxTimeDetail = selectedTime;
-			}
+			minTimeDetail = TimeUtil.getTimeDetail(System.currentTimeMillis());//基本只会选后面的时间
+			maxTimeDetail = limitTimeDetail;
 		}
 		return createIntent(context, minTimeDetail, maxTimeDetail, defaultTimeDetail);
 	}
@@ -227,8 +223,10 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 				selectedItemList.add(defaultTimeDetails[1]);
 
 				configList = new ArrayList<GridPickerConfigBean>();
-				configList.add(new GridPickerConfigBean(TimeUtil.NAME_HOUR, "" + selectedItemList.get(0), selectedItemList.get(0), 6, 4));
-				configList.add(new GridPickerConfigBean(TimeUtil.NAME_MINUTE, "" + selectedItemList.get(1), selectedItemList.get(1), 5, 6));
+				configList.add(new GridPickerConfigBean(TimeUtil.NAME_HOUR, "" + selectedItemList.get(0)
+						, selectedItemList.get(0), 6, 4));
+				configList.add(new GridPickerConfigBean(TimeUtil.NAME_MINUTE, "" + selectedItemList.get(1)
+						, selectedItemList.get(1), 5, 6));
 
 				list = getList(selectedItemList.size() - 1, selectedItemList);
 
@@ -244,25 +242,43 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 	}
 
-
+	int[] centerTimeDetail;
 	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
 		int level = TimeUtil.LEVEL_HOUR + tabPosition;
-		if (selectedItemList == null || selectedItemList.size() != MIN_LENGHT || TimeUtil.isContainLevel(level) == false) {
+		if (selectedItemList == null || selectedItemList.size() < MIN_LENGHT
+				|| TimeUtil.isContainLevel(level) == false) {
+			Log.e(TAG, "getList  (selectedItemList == null || selectedItemList.size() < MIN_LENGHT" +
+					" || TimeUtil.isContainLevel(level) == false >> return null;");
 			return null;
 		}
 
 		list = new ArrayList<Entry<Boolean, String>>();
+
+		centerTimeDetail = TimeUtil.fomerIsBigger(maxTimeDetails, minTimeDetails)
+				? maxTimeDetails : new int[]{23, 59, 59};
+		boolean isCenter0 = selectedItemList.get(0) != minTimeDetails[0] && selectedItemList.get(0) != maxTimeDetails[0];
+		boolean isCenter1 = isCenter0
+				&& selectedItemList.get(1) != minTimeDetails[1] && selectedItemList.get(1) != maxTimeDetails[1];
 		switch (level) {
 		case TimeUtil.LEVEL_HOUR:
-			int centerHour = minTimeDetails[0] <= maxTimeDetails[0] ? maxTimeDetails[0] : 23;
 			for (int i = 0; i < 24; i++) {
-				list.add(new Entry<Boolean, String>(i <= centerHour && (i >= minTimeDetails[0] || i >= maxTimeDetails[0]), String.valueOf(i)));
+//				list.add(new Entry<Boolean, String>(i <= centerTimeDetail[0]
+//						&& (i >= minTimeDetails[0] || i <= maxTimeDetails[0]), String.valueOf(i)));
+				list.add(new Entry<Boolean, String>(true, String.valueOf(i)));
 			}
 			break;
 		case TimeUtil.LEVEL_MINUTE:
-			int centerMinute = minTimeDetails[1] <= maxTimeDetails[1] ? maxTimeDetails[1] : 59;
 			for (int i = 0; i < 60; i++) {
-				list.add(new Entry<Boolean, String>(i <= centerMinute && (i >= minTimeDetails[1] || i >= maxTimeDetails[1]), String.valueOf(i)));
+//				list.add(new Entry<Boolean, String>(isCenter0 || (i <= centerTimeDetail[1]
+//						&& (i >= minTimeDetails[1] || i <= maxTimeDetails[1])), String.valueOf(i)));
+				list.add(new Entry<Boolean, String>(true, String.valueOf(i)));
+			}
+			break;
+		case TimeUtil.LEVEL_SECOND:
+			for (int i = 0; i < 60; i++) {
+//				list.add(new Entry<Boolean, String>(isCenter1 || (i <= centerTimeDetail[2]
+//						&& (i >= minTimeDetails[2] || i <= maxTimeDetails[2])), String.valueOf(i)));
+				list.add(new Entry<Boolean, String>(true, String.valueOf(i)));
 			}
 			break;
 		default:
@@ -280,7 +296,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 	}
 	@Override
 	public String getReturnName() {
-		return "no";
+		return null;
 	}
 	@Override
 	public String getForwardName() {
