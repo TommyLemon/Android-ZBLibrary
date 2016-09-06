@@ -32,8 +32,12 @@ import android.widget.TextView;
  * @author Lemon
  * @use new GridPickerAdapter(...),具体参考.DemoAdapter
  */
-public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
+public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
 	//	private static final String TAG = "GridPickerAdapter";
+
+	public static final int TYPE_CONTNET_ENABLE = 0;
+	public static final int TYPE_CONTNET_UNABLE = 1;
+	public static final int TYPE_TITLE = 2;
 
 	private OnItemSelectedListener onItemSelectedListener;
 	public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
@@ -42,15 +46,10 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 
 	private int currentPosition;//初始选中位置
 	private int height;//item高度
-	private int unableBackgroundColor;//不能点击的背景色
-	public GridPickerAdapter(Activity context, List<Entry<Boolean, String>> list, int currentPosition, int height) {
-		this(context, list, currentPosition, height, 0);
-	}
-	public GridPickerAdapter(Activity context, List<Entry<Boolean, String>> list, int currentPosition, int height, int unableBackgroundColor) {
+	public GridPickerAdapter(Activity context, List<Entry<Integer, String>> list, int currentPosition, int height) {
 		super(context, list);
 		this.currentPosition = currentPosition;
 		this.height = height;
-		this.unableBackgroundColor = unableBackgroundColor;
 	}
 
 	public int getCurrentPosition() {
@@ -76,26 +75,23 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Boolean, String>> {
 			convertView.setTag(holder);
 		}
 
-		final Entry<Boolean, String> data = getItem(position);
-		final boolean isEnabled = data.getKey();
+		final Entry<Integer, String> data = getItem(position);
+		final int type = data.getKey();
 		//		if (isEnabled == false && position == currentPosition) {
 		//			currentPosition ++;
 		//		}
 
 		holder.tv.setText(StringUtil.getTrimedString(data.getValue()));
-		holder.tv.setTextColor(resources.getColor(isEnabled ? R.color.black : R.color.gray_2));
+		holder.tv.setTextColor(resources.getColor(type == TYPE_CONTNET_ENABLE ? R.color.black : R.color.gray_2));
 		holder.tv.setBackgroundResource(position == currentPosition
 				? R.drawable.green_rounded_rectangle_normal : R.drawable.null_drawable);
 
-		//不好看，但星期需要		
-		if (unableBackgroundColor > 0) {
-			convertView.setBackgroundResource(isEnabled ?  R.color.alpha_complete : unableBackgroundColor);
-		}
+		convertView.setBackgroundResource(type == TYPE_TITLE ? R.color.alpha_1 : R.color.alpha_complete);
 
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (isEnabled) {
+				if (type == TYPE_CONTNET_ENABLE) {
 					currentPosition = position;
 					if (onItemSelectedListener != null) {
 						onItemSelectedListener.onItemSelected(null, v, position, getItemId(position));

@@ -165,8 +165,8 @@ public class TimeUtil {
 	public static final int SECOND = 5;
 
 	
-	public static final int[] minTimeDetails = {0, 0, 0};
-	public static final int[] maxTimeDetails = {23, 59, 59};
+	public static final int[] MIN_TIME_DETAILS = {0, 0, 0};
+	public static final int[] MAX_TIME_DETAILS = {23, 59, 59};
 
 
 	/**获取时间,hh:mm:ss
@@ -539,7 +539,9 @@ public class TimeUtil {
 		return birthdayDetails[1] + "月" + birthdayDetails[2] + "日";
 	}
 
-
+	public static boolean fomerIsEqualOrBigger(int[] fomer, int[] current) {
+		return fomer == current || fomerIsBigger(fomer, current);
+	}
 	public static boolean fomerIsBigger(int[] fomer, int[] current) {
 		if (fomer == null || current == null) {
 			Log.e(TAG, "fomerIsBigger  fomer == null || current == null" +
@@ -576,14 +578,14 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static boolean isInTimeArea(int[] time, int[] start, int[] end) {
-		if (fomerIsBigger(end, start)) {
-			return fomerIsBigger(time, start) && fomerIsBigger(end, time);
+		if (fomerIsEqualOrBigger(end, start)) {
+			return fomerIsEqualOrBigger(time, start) && fomerIsEqualOrBigger(end, time);
 		}
 		
-		if (fomerIsBigger(time, start) && fomerIsBigger(maxTimeDetails, time)) {
+		if (fomerIsEqualOrBigger(time, start) && fomerIsEqualOrBigger(MAX_TIME_DETAILS, time)) {
 			return true;
 		}
-		if (fomerIsBigger(time, minTimeDetails) && fomerIsBigger(end, time)) {
+		if (fomerIsEqualOrBigger(time, MIN_TIME_DETAILS) && fomerIsEqualOrBigger(end, time)) {
 			return true;
 		}
 		

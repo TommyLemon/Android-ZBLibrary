@@ -41,7 +41,7 @@ import android.widget.TextView;
  * @use toActivity(PlacePickerWindow.createIntent(...));
  *      *然后在onActivityResult方法内获取data.getStringExtra(PlacePickerWindow.RESULT_PLACE);
  */
-public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView> implements OnClickListener {
+public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> implements OnClickListener {
 	private static final String TAG = "PlacePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -107,7 +107,7 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, 
 	}
 
 
-	private List<Entry<Boolean, String>> list;
+	private List<Entry<Integer, String>> list;
 	private void setPickerView(final int tabPosition, final int itemPositon) {
 		runThread(TAG + "setPickerView", new Runnable() {
 			@Override
@@ -184,20 +184,20 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, 
 	}
 
 
-	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<String> selectedItemList) {
+	private synchronized List<Entry<Integer, String>> getList(int tabPosition, ArrayList<String> selectedItemList) {
 		int level = minLevel + tabPosition;
 		if (selectedItemList == null || selectedItemList.size() <= 0 || PlaceUtil.isContainLevel(level) == false) {
 			return null;
 		}
 
-		list = new ArrayList<Entry<Boolean, String>>();
-		List<String> cityNameList = null;
+		list = new ArrayList<Entry<Integer, String>>();
+		List<String> nameList = null;
 		switch (level) {
 		case PlaceUtil.LEVEL_PROVINCE:
-			cityNameList = cityDB.getAllProvince();
+			nameList = cityDB.getAllProvince();
 			break;
 		case PlaceUtil.LEVEL_CITY:
-			cityNameList = cityDB.getProvinceAllCity(StringUtil.getTrimedString(selectedItemList.get(0)));
+			nameList = cityDB.getProvinceAllCity(StringUtil.getTrimedString(selectedItemList.get(0)));
 			break;
 		case PlaceUtil.LEVEL_DISTRICT:
 			break;
@@ -209,9 +209,9 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, 
 			break;
 		}
 
-		if (cityNameList != null) {
-			for (String name : cityNameList) {
-				list.add(new Entry<Boolean, String>(true, name));
+		if (nameList != null) {
+			for (String name : nameList) {
+				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, name));
 			}
 		}
 		return list;
@@ -221,7 +221,7 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, 
 	
 	@Override
 	public String getTitleName() {
-		return "选择日期";
+		return "选择地区";
 	}
 	@Override
 	public String getReturnName() {

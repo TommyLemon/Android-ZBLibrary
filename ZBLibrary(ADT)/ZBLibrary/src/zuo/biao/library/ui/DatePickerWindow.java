@@ -43,7 +43,7 @@ import android.widget.TextView;
  *      *然后在onActivityResult方法内获取data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS);
  * @warn 和android系统SDK内一样，month从0开始
  */
-public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, String>>, GridPickerView> implements OnClickListener {
+public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> implements OnClickListener {
 	private static final String TAG = "DatePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -126,7 +126,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 	}
 
-	private List<Entry<Boolean, String>> list;
+	private List<Entry<Integer, String>> list;
 	private void setPickerView(final int tabPosition) {
 		runThread(TAG + "setPickerView", new Runnable() {
 			@Override
@@ -234,48 +234,42 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 
 
 	@SuppressLint("ResourceAsColor")
-	private synchronized List<Entry<Boolean, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
+	private synchronized List<Entry<Integer, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
 		int level = TimeUtil.LEVEL_YEAR + tabPosition;
 		if (selectedItemList == null || selectedItemList.size() != 3 || TimeUtil.isContainLevel(level) == false) {
 			return null;
 		}
 
-		list = new ArrayList<Entry<Boolean, String>>();
+		list = new ArrayList<Entry<Integer, String>>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(selectedItemList.get(0), selectedItemList.get(1) - 1, 1);
 		switch (level) {
 		case TimeUtil.LEVEL_YEAR:
 			for (int i = 0; i < maxDateDetails[0] - minDateDetails[0]; i++) {
-				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1 + minDateDetails[0])));
+				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, String.valueOf(i + 1 + minDateDetails[0])));
 			}
 			break;
 		case TimeUtil.LEVEL_MONTH:
 			for (int i = 0; i < 12; i++) {
-				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1)));
+				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, String.valueOf(i + 1)));
 			}
 			break;
 		case TimeUtil.LEVEL_DAY:
 			for (int i = calendar.get(Calendar.DAY_OF_WEEK) - 1; i < 7; i++) {
-				list.add(new Entry<Boolean, String>(false, TimeUtil.Day.getDayNameOfWeek(i)));
+				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_TITLE, TimeUtil.Day.getDayNameOfWeek(i)));
 			}
 			for (int i = 0; i < calendar.get(Calendar.DAY_OF_WEEK) - 1; i++) {
-				list.add(new Entry<Boolean, String>(false, TimeUtil.Day.getDayNameOfWeek(i)));
+				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_TITLE, TimeUtil.Day.getDayNameOfWeek(i)));
 			}
 			for (int i = 0; i < calendar.getActualMaximum(Calendar.DATE); i++) {
-				list.add(new Entry<Boolean, String>(true, String.valueOf(i + 1)));
+				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, String.valueOf(i + 1)));
 			}
 			break;
-			//		case TimeUtil.LEVEL_HOUR:
-			//			break;
-			//		case TimeUtil.LEVEL_MINUTE:
-			//			break;
-			//		case TimeUtil.LEVEL_SECOND:
-			//			break;
 		default:
 			break;
 		}
 
-		if (configList == null || configList.size() != 3) {
+		if (configList == null || configList.size() < 3) {
 			configList = new ArrayList<GridPickerConfigBean>();
 
 			configList.add(new GridPickerConfigBean(TimeUtil.NAME_YEAR, "" + selectedItemList.get(0)
@@ -283,7 +277,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Boolean, S
 			configList.add(new GridPickerConfigBean(TimeUtil.NAME_MONTH, "" + selectedItemList.get(1)
 					, selectedItemList.get(1) - 1, 4, 3));
 			configList.add(new GridPickerConfigBean(TimeUtil.NAME_DAY, "" + selectedItemList.get(2)
-					, selectedItemList.get(2) - 1 + 7, 7, 6).setUnableBackgroundColor(R.color.alpha_1));
+					, selectedItemList.get(2) - 1 + 7, 7, 6));
 		}
 
 		return list;

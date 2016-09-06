@@ -321,7 +321,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		return super.onTouch(v, event);
 	}
 
-
+	private int[] selectedDate = new int[]{1971, 0, 1};
+	private int[] selectedTime = new int[]{23, 59, 59};
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
@@ -407,7 +408,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
 			break;  
 		case R.id.llDemoMainTimePickerWindow:
-			toActivity(TimePickerWindow.createIntent(context, new int[]{12, 0}), REQUEST_TO_TIME_PICKER, false);
+			toActivity(TimePickerWindow.createIntent(context, selectedTime), REQUEST_TO_TIME_PICKER, false);
 			break;  
 
 		default:
@@ -511,14 +512,15 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		case REQUEST_TO_DATE_PICKER:
 			if (data != null) {
-				//					List<Integer> selectedPositionList = data.getIntegerArrayListExtra(
-				//							GridPickerWindow.RESULT_SELECTED_POSITIONS);
-				//					showShortToast("selectedPositionList.size() = " + (selectedPositionList == null
-				//							? "null" : selectedPositionList.size()));
-
 				ArrayList<Integer> list = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
 				if (list != null && list.size() >= 3) {
-					showShortToast("选择的日期为" + list.get(0) + "-" + (list.get(1) + 1) + "-" + list.get(2));
+					
+					selectedDate = new int[list.size()];
+					for (int i = 0; i < list.size(); i++) {
+						selectedDate[i] = list.get(i);
+					}
+					
+					showShortToast("选择的日期为" + selectedDate[0] + "-" + (selectedDate[1] + 1) + "-" + selectedDate[2]);
 				}
 			}
 			break;
@@ -526,11 +528,17 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			if (data != null) {
 				ArrayList<Integer> list = data.getIntegerArrayListExtra(TimePickerWindow.RESULT_TIME_DETAIL_LIST);
 				if (list != null && list.size() >= 2) {
-					String minute = "" + list.get(1);
+					
+					selectedTime = new int[list.size()];
+					for (int i = 0; i < list.size(); i++) {
+						selectedTime[i] = list.get(i);
+					}
+					
+					String minute = "" + selectedTime[1];
 					if (minute.length() < 2) {
 						minute = "0" + minute;
 					}
-					showShortToast("选择的时间为" + list.get(0) + ":" + minute);
+					showShortToast("选择的时间为" + selectedTime[0] + ":" + minute);
 				}
 			}
 			break;

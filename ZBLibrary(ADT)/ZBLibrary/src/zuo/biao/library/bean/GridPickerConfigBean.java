@@ -30,11 +30,11 @@ public class GridPickerConfigBean {
 	private int numColumns;//第一次设置后就固定不变
 	private int maxShowRows;//第一次设置后就固定不变
 
-	private int enableTextColor;
-	private int unableTextColor;
-
-	private int enableBackgroundColor;
-	private int unableBackgroundColor;
+//	private int enableTextColor;
+//	private int unableTextColor;
+//
+//	private int enableBackgroundColor;
+//	private int unableBackgroundColor;
 
 	public GridPickerConfigBean(String tabSuffix, String selectedItemName, int selectedItemPostion) {
 		this(tabSuffix, selectedItemName, selectedItemPostion, 3, 5);
@@ -69,21 +69,6 @@ public class GridPickerConfigBean {
 		return this;
 	}
 
-	/**设置颜色
-	 * @param enableTextColor
-	 * @param unableTextColor
-	 * @param enableBackgroundColor
-	 * @param unableBackgroundColor
-	 * @return
-	 */
-	public final GridPickerConfigBean setColor(int enableTextColor, int unableTextColor, int enableBackgroundColor, int unableBackgroundColor) {
-		this.enableTextColor = enableTextColor;
-		this.unableTextColor = unableTextColor;
-		this.enableBackgroundColor = enableBackgroundColor;
-		this.unableBackgroundColor = unableBackgroundColor;
-		return this;
-	}
-
 	/**带后缀
 	 * @return
 	 */
@@ -110,34 +95,49 @@ public class GridPickerConfigBean {
 		return maxShowRows;
 	}
 	
-	
-	public int getEnableTextColor() {
-		return enableTextColor;
-	}
-	public GridPickerConfigBean setEnableTextColor(int enableTextColor) {
-		this.enableTextColor = enableTextColor;
-		return this;
-	}
-	public int getUnableTextColor() {
-		return unableTextColor;
-	}
-	public GridPickerConfigBean setUnableTextColor(int unableTextColor) {
-		this.unableTextColor = unableTextColor;
-		return this;
-	}
-	public int getEnableBackgroundColor() {
-		return enableBackgroundColor;
-	}
-	public GridPickerConfigBean setEnableBackgroundColor(int enableBackgroundColor) {
-		this.enableBackgroundColor = enableBackgroundColor;
-		return this;
-	}
-	public int getUnableBackgroundColor() {
-		return unableBackgroundColor;
-	}
-	public GridPickerConfigBean setUnableBackgroundColor(int unableBackgroundColor) {
-		this.unableBackgroundColor = unableBackgroundColor;
-		return this;
-	}
+
+//	/**设置颜色
+//	 * @param enableTextColor
+//	 * @param unableTextColor
+//	 * @param enableBackgroundColor
+//	 * @param unableBackgroundColor
+//	 * @return
+//	 */
+//	public final GridPickerConfigBean setColor(int enableTextColor, int unableTextColor, int enableBackgroundColor, int unableBackgroundColor) {
+//		this.enableTextColor = enableTextColor;
+//		this.unableTextColor = unableTextColor;
+//		this.enableBackgroundColor = enableBackgroundColor;
+//		this.unableBackgroundColor = unableBackgroundColor;
+//		return this;
+//	}
+//	
+//	public int getEnableTextColor() {
+//		return enableTextColor;
+//	}
+//	public GridPickerConfigBean setEnableTextColor(int enableTextColor) {
+//		this.enableTextColor = enableTextColor;
+//		return this;
+//	}
+//	public int getUnableTextColor() {
+//		return unableTextColor;
+//	}
+//	public GridPickerConfigBean setUnableTextColor(int unableTextColor) {
+//		this.unableTextColor = unableTextColor;
+//		return this;
+//	}
+//	public int getEnableBackgroundColor() {
+//		return enableBackgroundColor;
+//	}
+//	public GridPickerConfigBean setEnableBackgroundColor(int enableBackgroundColor) {
+//		this.enableBackgroundColor = enableBackgroundColor;
+//		return this;
+//	}
+//	public int getUnableBackgroundColor() {
+//		return unableBackgroundColor;
+//	}
+//	public GridPickerConfigBean setUnableBackgroundColor(int unableBackgroundColor) {
+//		this.unableBackgroundColor = unableBackgroundColor;
+//		return this;
+//	}
 
 }
