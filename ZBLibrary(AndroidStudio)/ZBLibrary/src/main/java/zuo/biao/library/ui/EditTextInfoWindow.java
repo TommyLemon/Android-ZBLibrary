@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -214,11 +213,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
-	@Override
-	@Nullable
-	protected String getTitleName() {
-		return getIntent().getStringExtra(INTENT_TITLE);
-	}
 
 	private void saveAndExit() {
 		String editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);

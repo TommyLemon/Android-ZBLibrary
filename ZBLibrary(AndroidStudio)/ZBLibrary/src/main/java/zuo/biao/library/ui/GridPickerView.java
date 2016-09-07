@@ -43,7 +43,7 @@ import android.widget.TextView;
  * @must 调用init方法
  * @use 参考 .DemoView
  */
-public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
+public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	private static final String TAG = "GridPickerView";
 
 	/**tabs切换和gridView的内容切换
@@ -141,20 +141,20 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	}
 
 
-	public List<Entry<Boolean, String>> getList() {
+	public List<Entry<Integer, String>> getList() {
 		return adapter == null ? null : adapter.getList();
 	}
 
 
 	@Override
-	public void setView(List<Entry<Boolean, String>> l){/*do nothing,必须init**/}
+	public void setView(List<Entry<Integer, String>> l){/*do nothing,必须init**/}
 
 
 	/**初始化，必须使用且只能使用一次
 	 * @param configList
 	 * @param lastList
 	 */
-	public final void init(ArrayList<GridPickerConfigBean> configList, List<Entry<Boolean, String>> lastList) {
+	public final void init(ArrayList<GridPickerConfigBean> configList, List<Entry<Integer, String>> lastList) {
 		if (configList == null || configList.size() <= 0) {
 			Log.e(TAG, "initTabs  (configList == null || configList.size() <= 0 " +
 					">> selectedItemPostionList = new ArrayList<Integer>(); return;");
@@ -228,7 +228,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	 * @param tabPosition
 	 * @param list
 	 */
-	public void setView(final int tabPosition, List<Entry<Boolean, String>> list) {
+	public void setView(final int tabPosition, List<Entry<Integer, String>> list) {
 		setView(tabPosition, list, getSelectedItemPosition(tabPosition));
 	}
 	/**
@@ -236,9 +236,9 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	 * @param list
 	 * @param itemPosition
 	 */
-	public void setView(final int tabPosition, List<Entry<Boolean, String>> list, int itemPosition) {//GridView
+	public void setView(final int tabPosition, List<Entry<Integer, String>> list, int itemPosition) {//GridView
 		if (configList == null || configList.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Boolean, String>> list, final int itemPosition) {" +
+			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
 					" >> configList == null || configList.size() <= 0 >> return;");
 			return;
 		}
@@ -248,7 +248,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		}
 
 		if (list == null || list.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Boolean, String>> list, final int itemPosition) {" +
+			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
 					" >> list == null || list.size() <= 0 >> return;");
 			return;
 		}
@@ -269,7 +269,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		}
 
 		int maxShowRows = gpcb.getMaxShowRows();
-		if (maxShowRows  <= 0) {
+		if (maxShowRows <= 0) {
 			maxShowRows = 5;
 		}
 

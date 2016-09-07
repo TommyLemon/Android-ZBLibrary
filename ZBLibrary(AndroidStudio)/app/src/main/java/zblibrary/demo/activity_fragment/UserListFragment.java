@@ -23,7 +23,7 @@ import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.AdapterCallBack;
-import zuo.biao.library.interfaces.OnCacheCallBack;
+import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.util.Json;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +41,7 @@ import android.widget.Toast;
  *       查看 .SettingUtil 中的@must和@warn
  */
 public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>
-implements OnItemClickListener, OnCacheCallBack<User> {
+implements OnItemClickListener, CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -135,7 +135,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 			@Override
 			public void run() {
 				onHttpRequestSuccess(0, HttpRequest.RESULT_GET_USER_LIST_SUCCEED
-						, Json.toJSONString(TestUtil.getUserList(pageNum)));
+						, Json.toJSONString(TestUtil.getUserList(pageNum, getCachePageSize())));
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
@@ -158,7 +158,6 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 	public String getCacheId(User data) {
 		return data == null ? null : "" + data.getId();
 	}
-
 
 
 	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

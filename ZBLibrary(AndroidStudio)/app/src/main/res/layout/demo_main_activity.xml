@@ -260,6 +260,20 @@
 
             <View style="@style/divider_horizontal_1px" />
 
+            <LinearLayout
+                android:id="@+id/llDemoMainDemoBottomWindow"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="DemoBottomWindow" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
             <TextView
                 style="@style/text_big"
                 android:paddingBottom="6dp"
@@ -311,6 +325,20 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
+                android:id="@+id/llDemoMainPlacePickerWindow"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="PlacePickerWindow" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
+
+            <LinearLayout
                 android:id="@+id/llDemoMainDatePickerWindow"
                 style="@style/content_item_white" >
 
@@ -325,16 +353,18 @@
             <View style="@style/divider_horizontal_1px" />
 
             <LinearLayout
-                android:id="@+id/llDemoMainPlacePickerWindow"
+                android:id="@+id/llDemoMainTimePickerWindow"
                 style="@style/content_item_white" >
 
                 <TextView
                     style="@style/content_item_lf_tv"
                     android:layout_weight="1"
-                    android:text="PlacePickerWindow" />
+                    android:text="TimePickerWindow" />
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
+
+            <View style="@style/divider_horizontal_1px" />
 
             <View
                 style="@style/divider_horizontal_1px"

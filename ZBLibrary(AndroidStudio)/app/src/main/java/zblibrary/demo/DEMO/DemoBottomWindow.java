@@ -14,15 +14,13 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.base.BaseBottomWindow;
+import zuo.biao.library.base.BaseViewBottomWindow;
+import zuo.biao.library.bean.Entry;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
 import android.view.View.OnClickListener;
 
 /**使用方法：复制>粘贴>改名>改代码  */
@@ -31,7 +29,7 @@ import android.view.View.OnClickListener;
  * @use toActivity(DemoBottomWindow.createIntent(...));
  *      然后在onActivityResult方法内获取data.getStringExtra(DemoBottomWindow.RESULT_CONTACT_INFO);
  */
-public class DemoBottomWindow extends BaseBottomWindow implements OnClickListener {
+public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>, DemoView> implements OnClickListener {
 	private static final String TAG = "DemoBottomWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -52,8 +50,6 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//TODO demo_bottom_window改为你所需要的layout文件
-		setContentView(R.layout.demo_bottom_window);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -94,15 +90,29 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	}
 
 	@Override
-	@Nullable
-	protected String getTitleName() {
-		return getIntent().getStringExtra(INTENT_TITLE);
+	public String getTitleName() {
+		return "Demo";
+	}
+	@Override
+	public String getReturnName() {
+		return null;
+	}
+	@Override
+	public String getForwardName() {
+		return null;
 	}
 
+	@Override
+	@NonNull
+	protected DemoView createView() {
+		return new DemoView(context, getResources());
+	}
 
-	private void saveAndExit() {
+	@Override
+	protected void setResult() {
+		//示例代码<<<<<<<<<<<<<<<<<<<
 		setResult(RESULT_OK, new Intent().putExtra(RESULT_DATA, TAG + " saved"));
-		finish();		
+		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -120,24 +130,11 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	public void initListener() {//必须调用
 		super.initListener();
 
-		findViewById(R.id.tvDemoBottomWindowForward).setOnClickListener(this);
 	}
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvDemoBottomWindowForward:
-			saveAndExit();
-			break;
-		default:
-			super.onClick(v);
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
+
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

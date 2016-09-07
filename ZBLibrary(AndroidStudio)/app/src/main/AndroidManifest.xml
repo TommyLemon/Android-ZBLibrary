@@ -107,6 +107,11 @@
             android:name="zblibrary.demo.DEMO.DemoBroadcastReceiverActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="zblibrary.demo.DEMO.DemoBottomWindow"
+            android:screenOrientation="portrait"
+            android:theme="@style/Window"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <!-- DEMO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
@@ -155,12 +160,17 @@
             android:theme="@style/Window"
             android:windowSoftInputMode="stateVisible|adjustResize|adjustUnspecified" />
         <activity
+            android:name="zuo.biao.library.ui.PlacePickerWindow"
+            android:screenOrientation="portrait"
+            android:theme="@style/Window"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name="zuo.biao.library.ui.DatePickerWindow"
             android:screenOrientation="portrait"
             android:theme="@style/Window"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="zuo.biao.library.ui.PlacePickerWindow"
+            android:name="zuo.biao.library.ui.TimePickerWindow"
             android:screenOrientation="portrait"
             android:theme="@style/Window"
             android:windowSoftInputMode="stateAlwaysHidden" />

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/vBaseBottomWindowRoot"
+    android:id="@id/vBaseBottomWindowRoot"
     style="@style/bottom_window_page"
     android:layout_gravity="bottom" >
 
     <TextView
-        android:id="@+id/tvContainerWindowTitle"
+        android:id="@id/tvBaseViewBottomWindowTitle"
         style="@style/topbar_bg"
         android:background="@color/white"
         android:gravity="center"
@@ -18,7 +18,7 @@
         android:background="@color/black" />
 
     <LinearLayout
-        android:id="@+id/llContainerWindowContentContainer"
+        android:id="@id/llBaseViewBottomWindowContainer"
         style="@style/ll_vertical_match_wrap"
         android:background="@color/white_slight" >
     </LinearLayout>
@@ -30,14 +30,14 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvContainerWindowReturn"
+            android:id="@id/tvBaseViewBottomWindowReturn"
             style="@style/bottom_menu_btn_cancel"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px_gray" />
 
         <TextView
-            android:id="@+id/tvContainerWindowSave"
+            android:id="@id/tvBaseViewBottomWindowForward"
             style="@style/bottom_menu_btn_save"
             android:layout_weight="1" />
     </LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llDemoList"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
@@ -20,7 +19,7 @@
     <!-- 可以改为ListView，如果改的话对应DemoListActivity内也要改；padding会导致smoothScrollToPosition失效 -->
     <GridView
         android:layout_margin="18dp"
-        android:id="@+id/lvBaseList"
+        android:id="@id/lvBaseList"
         style="@style/lv"
         android:layout_weight="1"
         android:horizontalSpacing="18dp"

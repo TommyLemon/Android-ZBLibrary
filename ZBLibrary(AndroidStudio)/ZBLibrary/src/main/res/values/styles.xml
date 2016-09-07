@@ -828,7 +828,7 @@
     </style>
 
     <style name="bottom_menu_btn_save" parent="bottom_menu_btn">
-        <item name="android:text">保存</item>
+        <item name="android:text">确定</item>
     </style>
 
     <!-- bottom_menu_btn >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->

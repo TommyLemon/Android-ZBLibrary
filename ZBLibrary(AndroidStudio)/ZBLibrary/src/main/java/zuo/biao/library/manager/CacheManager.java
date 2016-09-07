@@ -99,7 +99,10 @@ public class CacheManager {
 	 * 分组中id列表,用json string的形式储存（避免排序问题）
 	 */
 	public static final String KEY_ID_LIST = "KEY_ID_LIST";
-
+	/**
+	 * 分组中列表每页最大数量
+	 */
+	public static final int MAX_PAGE_SIZE = 10;
 
 	/**获取列表
 	 * @param clazz
@@ -199,7 +202,7 @@ public class CacheManager {
 	private <T> int getPageSize(Class<T> clazz, String group) {
 		SharedPreferences sp = getSharedPreferences(
 				getClassPath(clazz) + KEY_GROUP_ + StringUtil.getTrimedString(group));
-		return sp == null ? null : sp.getInt(KEY_PAGE_SIZE, 3);
+		return sp == null ? 0 : sp.getInt(KEY_PAGE_SIZE, 0);
 	}
 
 	/**获取id列表
@@ -272,9 +275,9 @@ public class CacheManager {
 
 			//			Log.i(TAG, "\n saveList pageSize = " + getPageSize(clazz, group) + " <<<<<<<<");
 			//列表每页大小
-			if (pageSize > sp.getInt(KEY_PAGE_SIZE, 0)) {
-				if (pageSize > 10) {
-					pageSize = 10;
+			if (pageSize > 0) {//sp.getInt(KEY_PAGE_SIZE, 0)) {
+				if (pageSize > MAX_PAGE_SIZE) {
+					pageSize = MAX_PAGE_SIZE;
 				}
 				editor.remove(KEY_PAGE_SIZE).putInt(KEY_PAGE_SIZE, pageSize);
 			}
@@ -306,11 +309,11 @@ public class CacheManager {
 
 
 		//保存所有数据<<<<<<<<<<<<<<<<<<<<<<<<<
-		Cache<T> listDiskCache = new Cache<>(context, clazz, CLASS_PATH + KEY_LIST);
-		listDiskCache.saveList(map);
+		Cache<T> cache = new Cache<>(context, clazz, CLASS_PATH + KEY_LIST);
+		cache.saveList(map);
 		//保存所有数据>>>>>>>>>>>>>>>>>>>>>>>>>
 
-		Log.i(TAG, "\n saveList listDiskCache.getSize() = " + listDiskCache.getSize()
+		Log.i(TAG, "\n saveList cache.getSize() = " + cache.getSize()
 				+ "; end save >>>>>>>>>>>> ");
 		//		}
 
