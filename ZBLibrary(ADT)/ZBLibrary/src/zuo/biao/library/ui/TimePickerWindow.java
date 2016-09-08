@@ -261,6 +261,8 @@ implements OnClickListener {
 
 		list = new ArrayList<Entry<Integer, String>>();
 
+		boolean isContinuous = TimeUtil.fomerIsEqualOrBigger(maxTimeDetails, minTimeDetails);//范围是连续的
+
 		isCenter[0] = selectedItemList.get(0) != minTimeDetails[0] && selectedItemList.get(0) != maxTimeDetails[0];
 		isEqualStart[0] = selectedItemList.get(0) == minTimeDetails[0];
 
@@ -271,10 +273,10 @@ implements OnClickListener {
 			isEqualStart[1] = selectedItemList.get(1) == minTimeDetails[1];
 		}
 
+		boolean isEnable;
 		switch (level) {
 		case TimeUtil.LEVEL_HOUR:
 			for (int i = 0; i < 24; i++) {
-				boolean isContinuous = minTimeDetails[0] <= maxTimeDetails[0];//范围是连续的
 				list.add(new Entry<Integer, String>(getItemType(
 						( isContinuous && (i >= minTimeDetails[0] && i <= maxTimeDetails[0]) )
 						|| ( isContinuous == false && (i >= minTimeDetails[0] || i <= maxTimeDetails[0]) ) 
@@ -283,18 +285,35 @@ implements OnClickListener {
 			break;
 		case TimeUtil.LEVEL_MINUTE:
 			for (int i = 0; i < 60; i++) {
-				list.add(new Entry<Integer, String>(getItemType(isCenter[0]//时钟在中间
-						|| (isEqualStart[0] && i >= minTimeDetails[1])//时钟最小
-						|| (selectedItemList.get(0) == maxTimeDetails[0] && i <= maxTimeDetails[1])//时钟最大
-						), String.valueOf(i)));
+				if (minTimeDetails[0] == maxTimeDetails[0]) {// && i == minTimeDetails[0]) {
+//					if (isContinuous) {
+						isEnable = i >= minTimeDetails[1] && i <= maxTimeDetails[1];//时钟只有一个选项
+//					} else {
+//						isEnable = i >= minTimeDetails[1] || i <= maxTimeDetails[1];//时钟只有一个选项
+//					}
+				} else {
+					isEnable = isCenter[0]//时钟在中间
+							|| (isEqualStart[0] && i >= minTimeDetails[1])//时钟最小
+							|| (selectedItemList.get(0) == maxTimeDetails[0] && i <= maxTimeDetails[1]);//时钟最大
+				}
+				list.add(new Entry<Integer, String>(getItemType(isEnable), String.valueOf(i)));
 			}
 			break;
 		case TimeUtil.LEVEL_SECOND:
 			for (int i = 0; i < 60; i++) {
-				list.add(new Entry<Integer, String>(getItemType(isCenter[1]//时钟在中间
-						|| (isEqualStart[1] && i >= minTimeDetails[2])//时钟最小
-						|| (selectedItemList.get(1) == maxTimeDetails[1] && i <= maxTimeDetails[2])//时钟最大
-						), String.valueOf(i)));
+				if (minTimeDetails[0] == maxTimeDetails[0] && minTimeDetails[1] == maxTimeDetails[1]
+						&& i == minTimeDetails[1]) {
+					if (isContinuous) {
+						isEnable = i >= minTimeDetails[1] && i <= maxTimeDetails[1];//时钟只有一个选项
+					} else {
+						isEnable = i >= minTimeDetails[1] || i <= maxTimeDetails[1];//时钟只有一个选项
+					}
+				} else {
+					isEnable = isCenter[0]//时钟在中间
+							|| (isEqualStart[0] && i >= minTimeDetails[1])//时钟最小
+							|| (selectedItemList.get(0) == maxTimeDetails[0] && i <= maxTimeDetails[1]);//时钟最大
+				}
+				list.add(new Entry<Integer, String>(getItemType(isEnable), String.valueOf(i)));
 			}
 			break;
 		default:
