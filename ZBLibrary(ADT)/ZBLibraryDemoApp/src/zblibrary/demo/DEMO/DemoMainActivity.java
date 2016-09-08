@@ -322,7 +322,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	}
 
 	private int[] selectedDate = new int[]{1971, 0, 1};
-	private int[] selectedTime = new int[]{23, 59, 59};
+	private int[] selectedTime = new int[]{12, 0, 0};
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {

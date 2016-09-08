@@ -222,6 +222,7 @@ implements OnClickListener {
 				selectedItemList.add(defaultTimeDetails[0]);
 				selectedItemList.add(defaultTimeDetails[1]);
 
+				//放getList导致中间时钟对应的分钟不全
 				configList = new ArrayList<GridPickerConfigBean>();
 				configList.add(new GridPickerConfigBean(TimeUtil.NAME_HOUR, "" + selectedItemList.get(0)
 						, selectedItemList.get(0), 6, 4));
@@ -242,7 +243,13 @@ implements OnClickListener {
 
 	}
 
-	int[] centerTimeDetail;
+	boolean[] isCenter = new boolean[3];
+	boolean isEqualStart[] = new boolean[3];
+	/**获取列表
+	 * @param tabPosition
+	 * @param selectedItemList
+	 * @return
+	 */
 	private synchronized List<Entry<Integer, String>> getList(int tabPosition, ArrayList<Integer> selectedItemList) {
 		int level = TimeUtil.LEVEL_HOUR + tabPosition;
 		if (selectedItemList == null || selectedItemList.size() < MIN_LENGHT
@@ -254,31 +261,40 @@ implements OnClickListener {
 
 		list = new ArrayList<Entry<Integer, String>>();
 
-		centerTimeDetail = TimeUtil.fomerIsBigger(maxTimeDetails, minTimeDetails)
-				? maxTimeDetails : new int[]{23, 59, 59};
-		boolean isCenter0 = selectedItemList.get(0) != minTimeDetails[0] && selectedItemList.get(0) != maxTimeDetails[0];
-		boolean isCenter1 = isCenter0
-				&& selectedItemList.get(1) != minTimeDetails[1] && selectedItemList.get(1) != maxTimeDetails[1];
+		isCenter[0] = selectedItemList.get(0) != minTimeDetails[0] && selectedItemList.get(0) != maxTimeDetails[0];
+		isEqualStart[0] = selectedItemList.get(0) == minTimeDetails[0];
+
+		if (selectedItemList.size() >= 2) {
+			isCenter[1] = selectedItemList.get(1) != minTimeDetails[1] && selectedItemList.get(1) != maxTimeDetails[1];
+			isCenter[1] = isCenter[0] || isCenter[1];
+
+			isEqualStart[1] = selectedItemList.get(1) == minTimeDetails[1];
+		}
+
 		switch (level) {
 		case TimeUtil.LEVEL_HOUR:
 			for (int i = 0; i < 24; i++) {
-//				list.add(new Entry<Integer, String>(i <= centerTimeDetail[0]
-//						&& (i >= minTimeDetails[0] || i <= maxTimeDetails[0]), String.valueOf(i)));
-				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, String.valueOf(i)));
+				boolean isContinuous = minTimeDetails[0] <= maxTimeDetails[0];//范围是连续的
+				list.add(new Entry<Integer, String>(getItemType(
+						( isContinuous && (i >= minTimeDetails[0] && i <= maxTimeDetails[0]) )
+						|| ( isContinuous == false && (i >= minTimeDetails[0] || i <= maxTimeDetails[0]) ) 
+						), String.valueOf(i)));
 			}
 			break;
 		case TimeUtil.LEVEL_MINUTE:
 			for (int i = 0; i < 60; i++) {
-//				list.add(new Entry<Integer, String>(isCenter0 || (i <= centerTimeDetail[1]
-//						&& (i >= minTimeDetails[1] || i <= maxTimeDetails[1])), String.valueOf(i)));
-				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, String.valueOf(i)));
+				list.add(new Entry<Integer, String>(getItemType(isCenter[0]//时钟在中间
+						|| (isEqualStart[0] && i >= minTimeDetails[1])//时钟最小
+						|| (selectedItemList.get(0) == maxTimeDetails[0] && i <= maxTimeDetails[1])//时钟最大
+						), String.valueOf(i)));
 			}
 			break;
 		case TimeUtil.LEVEL_SECOND:
 			for (int i = 0; i < 60; i++) {
-//				list.add(new Entry<Integer, String>(isCenter1 || (i <= centerTimeDetail[2]
-//						&& (i >= minTimeDetails[2] || i <= maxTimeDetails[2])), String.valueOf(i)));
-				list.add(new Entry<Integer, String>(GridPickerAdapter.TYPE_CONTNET_ENABLE, String.valueOf(i)));
+				list.add(new Entry<Integer, String>(getItemType(isCenter[1]//时钟在中间
+						|| (isEqualStart[1] && i >= minTimeDetails[2])//时钟最小
+						|| (selectedItemList.get(1) == maxTimeDetails[1] && i <= maxTimeDetails[2])//时钟最大
+						), String.valueOf(i)));
 			}
 			break;
 		default:
@@ -286,6 +302,10 @@ implements OnClickListener {
 		}
 
 		return list;
+	}
+
+	private Integer getItemType(boolean isEnable) {
+		return isEnable ? GridPickerAdapter.TYPE_CONTNET_ENABLE : GridPickerAdapter.TYPE_CONTNET_UNABLE;
 	}
 
 
