@@ -383,8 +383,7 @@ implements OnClickListener {
 		public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
 			containerView.doOnItemSelected(containerView.getCurrentTabPosition()
 					, position, containerView.getCurrentSelectedItemName());
-			int tabPosition = containerView.getCurrentTabPosition() + 1;
-			setPickerView(tabPosition);
+			setPickerView(containerView.getCurrentTabPosition() + 1);
 		}
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) { }
