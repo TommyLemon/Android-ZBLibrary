@@ -21,12 +21,12 @@ import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.util.Log;
 import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -257,11 +257,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 			return;
 		}
 
-		if (itemPosition < 0) {
-			itemPosition = 0;
-		} else if (itemPosition >= list.size()) {
-			itemPosition = list.size() - 1;
-		}
+		itemPosition = getItemPosition(itemPosition, list);
 
 		int numColumns = gpcb.getNumColumns();
 		if (numColumns <= 0) {
@@ -291,7 +287,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 					onItemSelectedListener.onItemSelected(parent, view, position, id);
 					return;
 				}
-				doOnItemSelected(tabPosition, position, adapter.getCurrentItemName());
+				doOnItemSelected(tabPosition, position, adapter.getCurrentItemName());	
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {}
@@ -304,6 +300,43 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 		//gridView>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
+
+	private int length;
+	/**获取itemPosition，解决部分不可点击的item被选中的问题
+	 * @param itemPosition
+	 * @param list
+	 * @return
+	 */
+	private int getItemPosition(int itemPosition, List<Entry<Integer, String>> list) {
+		if (itemPosition < 0) {
+			itemPosition = 0;
+		} else if (itemPosition >= list.size()) {
+			itemPosition = list.size() - 1;
+		}
+
+		if (isItemEnabled(list, itemPosition) == false) {
+			length = Math.max(itemPosition, list.size() - itemPosition);
+			for (int i = 1; i <= length; i++) {
+				if (isItemEnabled(list, itemPosition - i)) {
+					Log.i(TAG, "getItemPosition  return " + (itemPosition - i));
+					return itemPosition - i;
+				}
+				if (isItemEnabled(list, itemPosition + i)) {
+					Log.i(TAG, "getItemPosition  return " + (itemPosition + i));
+					return itemPosition + i;
+				}
+			}
+		}
+
+		Log.i(TAG, "getItemPosition  return " + itemPosition);
+		return itemPosition;
+	}
+
+	private boolean isItemEnabled(List<Entry<Integer, String>> list, int itemPosition) {
+		return list != null && itemPosition >= 0 && itemPosition < list.size()
+				&& list.get(itemPosition).getKey() == GridPickerAdapter.TYPE_CONTNET_ENABLE;
+	}
+
 
 	/**在onItemSelected时响应,
 	 * 之后可能会跳转到下一个tab，导致 tabPositionWhenItemSelect+=1; selectedItemPosition = 0;

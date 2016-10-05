@@ -14,6 +14,8 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
+import zblibrary.demo.R;
+import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
@@ -21,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.View.OnClickListener;
 
 /**使用方法：复制>粘贴>改名>改代码  */
@@ -86,7 +89,11 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-
+		
+		data = new Entry<String, String>("Activity", TAG);
+		data.setId(1);
+		
+		containerView.setView(data);
 	}
 
 	@Override
@@ -130,11 +137,24 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	public void initListener() {//必须调用
 		super.initListener();
 
+		containerView.setOnClickListener(this);
 	}
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ivDemoViewHead:
+			if (data != null) {
+				toActivity(UserActivity.createIntent(context, data.getId()));
+			}
+			break;
+		default:
+			super.onClick(v);
+			break;
+		}
+	}
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
