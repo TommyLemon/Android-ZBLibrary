@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
@@ -138,10 +137,29 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 				}
 
 				list = getList(tabPosition, selectedItemList);
+
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
 						containerView.setView(tabPosition, list);
+
+						//防止选中非闰年2月29日
+						if (tabPosition < 2) {
+							ArrayList<String> selectedList = containerView.getSelectedItemList();
+							if (selectedList != null && selectedList.size() >= 3) {
+
+								if (TimeUtil.isLeapYear(0 + Integer.valueOf(
+										StringUtil.getNumber(selectedList.get(0)))) == false) {
+
+									if ("2".equals(StringUtil.getNumber(selectedList.get(1)))
+											&& "29".equals(StringUtil.getNumber(selectedList.get(2)))) {
+
+										onItemSelectedListener.onItemSelected(
+												null, null, containerView.getCurrentSelectedItemPosition(), 0);
+									}
+								}
+							}
+						}
 					}
 				});
 			}

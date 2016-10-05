@@ -14,10 +14,10 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -31,12 +31,12 @@ public class TimeUtil {
 
 	private TimeUtil() {/* 不能实例化**/}
 
-	
+
 	/**系统计时开始时间
 	 */
 	public static final int[] SYSTEM_START_DATE = {1970, 0, 1, 0, 0, 0};
-	
-	
+
+
 	public static final int LEVEL_YEAR = 0;
 	public static final int LEVEL_MONTH = 1;
 	public static final int LEVEL_DAY = 2;
@@ -97,8 +97,8 @@ public class TimeUtil {
 		public static final String NAME_TODAY = "今天";
 		public static final String NAME_TOMORROW = "明天";
 		public static final String NAME_THE_DAY_AFTER_TOMORROW = "后天";
-		
-		
+
+
 		public static final int TYPE_SUNDAY = 0;
 		public static final int TYPE_MONDAY = 1;
 		public static final int TYPE_TUESDAY = 2;
@@ -133,7 +133,7 @@ public class TimeUtil {
 			NAME_SATURDAY,
 		};
 
-		
+
 		/**
 		 * @param type
 		 * @return
@@ -146,17 +146,17 @@ public class TimeUtil {
 			}
 			return false;
 		}
-		
+
 		public static String getDayNameOfWeek(int type) {
 			return isContainType(type) ? DAY_OF_WEEK_NAMES[type - TYPE_SUNDAY] : "";
 		}	
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static final int YEAR = 0;
 	public static final int MONTH = 1;
 	public static final int DAY_OF_MONTH = 2;
@@ -164,9 +164,14 @@ public class TimeUtil {
 	public static final int MINUTE = 4;
 	public static final int SECOND = 5;
 
-	
+
 	public static final int[] MIN_TIME_DETAILS = {0, 0, 0};
 	public static final int[] MAX_TIME_DETAILS = {23, 59, 59};
+
+
+	public static boolean isLeapYear(int year) {
+		return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+	}
 
 
 	/**获取时间,hh:mm:ss
@@ -581,14 +586,14 @@ public class TimeUtil {
 		if (fomerIsEqualOrBigger(end, start)) {
 			return fomerIsEqualOrBigger(time, start) && fomerIsEqualOrBigger(end, time);
 		}
-		
+
 		if (fomerIsEqualOrBigger(time, start) && fomerIsEqualOrBigger(MAX_TIME_DETAILS, time)) {
 			return true;
 		}
 		if (fomerIsEqualOrBigger(time, MIN_TIME_DETAILS) && fomerIsEqualOrBigger(end, time)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
