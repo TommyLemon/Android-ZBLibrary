@@ -19,6 +19,7 @@ BaseView，自定义View竟然如此简单;
 
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/AllPages.jpg?raw=true)
 
+![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/Gif/DatePickerWindow.gif)
 
 ## 用到的开源库
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
