@@ -22,9 +22,7 @@ BaseView，自定义View竟然如此简单;
 [以下Gif图看起来比较卡，实际上手机运行很流畅] 
 
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/Gif/Cache.gif)
-
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/Gif/DatePickerWindow.gif)
-
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/Gif/PageScroller.gif)
 
 
