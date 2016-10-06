@@ -23,11 +23,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,8 +32,8 @@ import android.widget.TextView;
  * @author Lemon
  * @use BottomTabActivity.createIntent(...)
  */
-public class BottomTabActivity extends BaseActivity {
-	private static final String TAG = "BottomTabActivity";
+public class BottomTabActivity extends BaseBottomTabActivity {
+//	private static final String TAG = "BottomTabActivity";
 
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -80,21 +77,15 @@ public class BottomTabActivity extends BaseActivity {
 	private View rlBottomTabTopbar;
 	private TextView tvBottomTabTitle;	
 
-	private View[] llBottomTabTabs;
 	private ImageView[] ivBottomTabTabs;
 	private TextView[] tvBottomTabTabs;
 	@Override
 	public void initView() {// 必须调用
+		super.initView();
 		exitAnim = R.anim.bottom_push_out;
 
 		rlBottomTabTopbar = findViewById(R.id.rlBottomTabTopbar);
 		tvBottomTabTitle = (TextView) findViewById(R.id.tvBottomTabTitle);
-
-		llBottomTabTabs = new View[4];
-		llBottomTabTabs[0] = findViewById(R.id.llBottomTabTab0);
-		llBottomTabTabs[1] = findViewById(R.id.llBottomTabTab1);
-		llBottomTabTabs[2] = findViewById(R.id.llBottomTabTab2);
-		llBottomTabTabs[3] = findViewById(R.id.llBottomTabTab3);
 
 		ivBottomTabTabs = new ImageView[4];
 		ivBottomTabTabs[0] = (ImageView) findViewById(R.id.ivBottomTabTab0);
@@ -110,10 +101,13 @@ public class BottomTabActivity extends BaseActivity {
 
 	}
 
-	/**获取新的Fragment
-	 * @param position
-	 * @return
-	 */
+
+	@Override
+	protected int[] getTabIds() {
+		return new int[]{R.id.llBottomTabTab0, R.id.llBottomTabTab1, R.id.llBottomTabTab2, R.id.llBottomTabTab3};
+	}
+
+	@Override
 	protected Fragment getFragment(int position) {
 		bundle = new Bundle();
 		switch (position) {
@@ -139,44 +133,18 @@ public class BottomTabActivity extends BaseActivity {
 		{R.drawable.setting_light, R.drawable.setting}
 	};
 
-	protected int currentPosition = 0;
-	/**选择并显示fragment
-	 * @param position
-	 */
-	public void selectFragment(int position) {
-		if (currentPosition == position) {
-			if (fragments[position] != null && fragments[position].isVisible()) {
-				Log.e(TAG, "selectFragment currentPosition == position" +
-						" >> fragments[position] != null && fragments[position].isVisible()" +
-						" >> return;	");
-				return;
-			}
-		}
-
+	@Override
+	protected void selectTab(int position) {
 		//导致切换时闪屏，建议去掉BottomTabActivity中的topbar，在fragment中显示topbar
 		//		rlBottomTabTopbar.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
 
 		tvBottomTabTitle.setText(TABS[position]);
 
-		for (int i = 0; i < llBottomTabTabs.length; i++) {
+		for (int i = 0; i < getCount(); i++) {
 			ivBottomTabTabs[i].setImageResource(TAB_IMAGE_RES_IDS[i][i == position ? 1 : 0]);
 			tvBottomTabTabs[i].setTextColor(getResources().getColor(i == position ? R.color.white : R.color.black));
 		}
-
-		if (fragments[position] == null) {
-			fragments[position] = getFragment(position);
-		}
-
-		// 用全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.hide(fragments[currentPosition]);
-		if (fragments[position].isAdded() == false) {
-			fragmentTransaction.add(R.id.flBottomTabFragmentContainer, fragments[position]);
-		}
-		fragmentTransaction.show(fragments[position]).commit();
-
-		this.currentPosition = position;
-	};
+	}
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -192,17 +160,12 @@ public class BottomTabActivity extends BaseActivity {
 
 	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private Fragment[] fragments;
+
+
+
 	@Override
 	public void initData() {// 必须调用
-
-
-		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		fragments = new Fragment[TABS.length];
-		selectFragment(currentPosition);
-
-		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		super.initData();
 
 	}
 
@@ -223,17 +186,8 @@ public class BottomTabActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {// 必须调用
+		super.initListener();
 
-		for (int i = 0; i < llBottomTabTabs.length; i++) {
-			final int which = i;
-			llBottomTabTabs[which].setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					selectFragment(which);
-				}
-			});
-		}
 	}
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
