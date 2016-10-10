@@ -17,11 +17,10 @@ package zblibrary.demo.activity_fragment;
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoFragment;
 import zblibrary.demo.DEMO.DemoTabFragment;
-import zuo.biao.library.base.BaseActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
@@ -51,8 +50,7 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 

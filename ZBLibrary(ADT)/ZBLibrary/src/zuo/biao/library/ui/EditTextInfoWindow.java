@@ -17,15 +17,14 @@ package zuo.biao.library.ui;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.ContactInfoUtil;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -78,8 +77,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	}
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 

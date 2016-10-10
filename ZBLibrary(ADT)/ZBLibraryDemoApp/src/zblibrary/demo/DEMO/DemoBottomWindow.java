@@ -16,13 +16,12 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -45,8 +44,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -110,7 +108,6 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	}
 
 	@Override
-	@NonNull
 	protected DemoView createView() {
 		return new DemoView(context, getResources());
 	}

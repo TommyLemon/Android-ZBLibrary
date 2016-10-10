@@ -20,10 +20,10 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBroadcastReceiver;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.Log;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -51,8 +51,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 
 	
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 

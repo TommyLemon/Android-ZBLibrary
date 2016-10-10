@@ -18,14 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -110,8 +109,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 

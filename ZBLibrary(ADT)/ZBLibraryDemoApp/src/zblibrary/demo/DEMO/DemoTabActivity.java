@@ -14,14 +14,13 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseTabActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.WebViewActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -50,8 +49,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	
 	
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 

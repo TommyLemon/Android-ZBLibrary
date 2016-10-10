@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
+
 /**View的逻辑接口
  * @author Lemon
  * @use implements ViewPresenter
@@ -23,7 +24,7 @@ public interface ViewPresenter {
 	/**获取导航栏标题名
 	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
 	 */
-	String getTitleName();
+	String getTitleName();//@nullable导致重写没有public方法
 
 	/**获取导航栏返回按钮名
 	 * @return null - default; "" - default; "xxx" - "xxx"

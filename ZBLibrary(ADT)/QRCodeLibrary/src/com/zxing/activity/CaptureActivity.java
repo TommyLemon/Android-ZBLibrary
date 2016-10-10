@@ -14,9 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
-import android.view.Window;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.ericssonlabs.R;
