@@ -39,7 +39,7 @@ public class HttpRequest {
 	 */
 	public static void addExistParameter(List<Parameter> list, String key, Object value) {
 		if (list == null) {
-			list = new ArrayList<>();
+			list = new ArrayList<Parameter>();
 		}
 		if (StringUtil.isNotEmpty(key, true) && StringUtil.isNotEmpty(value, true) ) {
 			list.add(new Parameter(key, value));
@@ -87,7 +87,7 @@ public class HttpRequest {
 	 * @param listener
 	 */
 	public static void getUser(long userId, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<>();
+		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_USER_ID, userId);
 		HttpManager.getInstance().post(paramList, URL_BASE + "user/infomation", requestCode, listener);
@@ -103,7 +103,7 @@ public class HttpRequest {
 	 * @param listener
 	 */
 	public static void getUserList(int range, int pageNum, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<>();
+		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_RANGE, range);
 		addExistParameter(paramList, KEY_PAGE_NUM, pageNum);

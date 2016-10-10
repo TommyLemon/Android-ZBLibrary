@@ -197,7 +197,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
 
 		if (list == null) {
-			list = new ArrayList<>();
+			list = new ArrayList<Entry<String, String>>();
 		}
 		userId += list.size();
 		list.addAll(getList(userId));
