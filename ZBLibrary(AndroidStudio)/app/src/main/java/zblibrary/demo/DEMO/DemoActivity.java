@@ -23,10 +23,10 @@ import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.PageScroller;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,8 +64,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -82,7 +81,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		Toast.makeText(context, "这是一个分页列表，中速滑动直接滚动一页。\n如果不需要则把PageScroller相关代码去掉"
@@ -218,10 +217,10 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreate方法内调用
+	public void initEvent() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		findViewById(R.id.ivDemoReturn).setOnClickListener(this);
 		findViewById(R.id.tvDemoForward).setOnClickListener(this);
@@ -289,7 +288,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

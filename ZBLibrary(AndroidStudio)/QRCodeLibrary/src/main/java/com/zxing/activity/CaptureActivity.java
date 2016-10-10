@@ -14,9 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
-import android.view.Window;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.ericssonlabs.R;
@@ -65,13 +65,13 @@ public abstract class CaptureActivity extends Activity implements Callback, Deco
 	 */
 	public abstract void initView();
 	/**
-	 * data数据方法，必须在子类onCreate方法内setContentView后调用
+	 * Data数据方法，必须在子类onCreate方法内setContentView后调用
 	 */
 	public abstract void initData();
 	/**
-	 * listener事件监听方法，必须在子类onCreate方法内setContentView后调用
+	 * Event事件方法，必须在子类onCreate方法内setContentView后调用
 	 */
-	public abstract void initListener();
+	public abstract void initEvent();
 
 	
 

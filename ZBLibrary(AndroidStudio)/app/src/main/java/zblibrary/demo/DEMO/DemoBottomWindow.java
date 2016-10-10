@@ -16,13 +16,12 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -45,8 +44,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -57,7 +55,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -110,7 +108,6 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	}
 
 	@Override
-	@NonNull
 	protected DemoView createView() {
 		return new DemoView(context, getResources());
 	}
@@ -131,11 +128,11 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
 		containerView.setOnClickListener(this);
 	}
@@ -173,7 +170,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

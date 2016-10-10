@@ -91,7 +91,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		context = getActivity();
+		context = (BaseActivity) getActivity();
 		isAlive = true;
 		fragmentManager = getSupportFragmentManager();
 

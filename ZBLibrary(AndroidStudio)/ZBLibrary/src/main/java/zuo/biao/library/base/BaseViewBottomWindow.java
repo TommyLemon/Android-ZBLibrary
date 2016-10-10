@@ -15,12 +15,9 @@ limitations under the License.*/
 package zuo.biao.library.base;
 
 import zuo.biao.library.R;
-import zuo.biao.library.base.BaseBottomWindow;
-import zuo.biao.library.base.BaseView;
 import zuo.biao.library.interfaces.ViewPresenter;
 import zuo.biao.library.util.StringUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +29,7 @@ import android.widget.TextView;
  * @see #onCreate
  * @see #setContentView
  * @use extends BaseViewBottomWindow, 具体参考.DemoTabActivity
- * @must 在子类onCreate中调用initView();initData();initListener();
+ * @must 在子类onCreate中调用initView();initData();initEvent();
  */
 public abstract class BaseViewBottomWindow<T, BV extends BaseView<T>> extends BaseBottomWindow
 implements OnClickListener, ViewPresenter {
@@ -44,7 +41,7 @@ implements OnClickListener, ViewPresenter {
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,7 @@ implements OnClickListener, ViewPresenter {
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, int layoutResID) {
 		super.onCreate(savedInstanceState);
@@ -133,7 +130,7 @@ implements OnClickListener, ViewPresenter {
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	protected T data;
 	protected BV containerView;
@@ -173,14 +170,13 @@ implements OnClickListener, ViewPresenter {
 	 * 创建新的内容View
 	 * @return
 	 */
-	@NonNull
 	protected abstract BV createView();
 	/**
 	 * 设置需要返回的结果
 	 */
 	protected abstract void setResult();
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -191,11 +187,11 @@ implements OnClickListener, ViewPresenter {
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {// 必须调用
-		super.initListener();
+	public void initEvent() {// 必须调用
+		super.initEvent();
 
 		if (tvBaseViewBottomWindowReturn != null) {
 			tvBaseViewBottomWindowReturn.setOnClickListener(this);
@@ -249,7 +245,7 @@ implements OnClickListener, ViewPresenter {
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

@@ -25,7 +25,6 @@ import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,7 +66,7 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		//示例代码>>>>>>>>>>>>>>>>
 		@SuppressLint("InflateParams")
 		@Override
-		public View createView(@NonNull LayoutInflater inflater) {
+		public View createView(LayoutInflater inflater) {
 			//TODO demo_view改为你所需要的layout文件，可以根据viewType使用不同layout
 			convertView = inflater.inflate(R.layout.demo_view, null);
 

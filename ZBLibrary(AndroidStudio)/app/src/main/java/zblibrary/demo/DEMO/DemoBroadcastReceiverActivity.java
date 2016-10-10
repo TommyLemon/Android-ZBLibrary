@@ -20,10 +20,10 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBroadcastReceiver;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.Log;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -51,8 +51,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 
 	
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -64,7 +63,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -90,7 +89,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
@@ -101,7 +100,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 		//示例代码>>>>>>>>
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -110,7 +109,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	public static final String STATE = "state";
@@ -120,7 +119,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 	private HeadsetConnectionBroadcastReceiver headsetConnectionBroadcastReceiver;//外部类BaseBroadcastReceiver子类使用示例
 	//示例代码>>>>>>>>>>>>>>>>>>>
 	@Override
-	public void initListener() {//必须在onCreate方法内调用
+	public void initEvent() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		findViewById(R.id.tvDemoBroadcastReceiverReturn).setOnClickListener(this);
 
@@ -226,7 +225,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

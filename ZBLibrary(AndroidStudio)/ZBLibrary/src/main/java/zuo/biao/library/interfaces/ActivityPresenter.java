@@ -14,8 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
-import zuo.biao.library.base.BaseActivity;
-import android.support.annotation.NonNull;
+import android.app.Activity;
 
 /**Fragment的逻辑接口
  * @author Lemon
@@ -24,10 +23,8 @@ import android.support.annotation.NonNull;
 public interface ActivityPresenter extends Presenter {
 
 	/**获取Activity
-	 * @return BaseActivity而不是Activity，因为非BaseActivity的子类不需要这个方法
 	 * @must 在非抽象Activity中 return this;
 	 */
-	@NonNull
-	public BaseActivity getActivity();//无public导致有时自动生成的getActivity方法会缺少public且对此报错
+	public Activity getActivity();//无public导致有时自动生成的getActivity方法会缺少public且对此报错
 
 }

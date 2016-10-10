@@ -14,14 +14,13 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseTabActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.WebViewActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -50,8 +49,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	
 	
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -64,7 +62,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -143,11 +141,11 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreate方法内调用
-		super.initListener();
+	public void initEvent() {//必须在onCreate方法内调用
+		super.initEvent();
 		//示例代码<<<<<<<<
 		topRightButton.setOnClickListener(new OnClickListener() {
 
@@ -186,7 +184,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

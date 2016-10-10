@@ -23,13 +23,13 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -77,8 +77,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	}
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -91,7 +90,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		//必须调用<<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//必须调用>>>>>>>>>>
 
 	}
@@ -152,7 +151,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final int TYPE_NICK = EditTextInfoWindow.TYPE_NICK;
 	public static final int TYPE_NAME = EditTextInfoWindow.TYPE_NAME;
@@ -265,7 +264,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		}
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -274,14 +273,14 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String inputedString;
 
 	private static final long SEARCH_DELAY_TIME = 240;
 	private Handler searchHandler;
 	@Override
-	public void initListener() {//必须调用
+	public void initEvent() {//必须调用
 
 		findViewById(R.id.ivEditTextInfoReturn).setOnClickListener(this);
 		tvEditTextInfoForward.setOnClickListener(this);
@@ -347,7 +346,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 					public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 						if (adapter != null && lvEditTextInfo.getLastVisiblePosition() >= adapter.getCount() - 1) {
 							requestSize += 20;
-							Log.i(TAG, "initListener  lvEditTextInfo.setOnScrollListener( >> onScroll getlist(intentType);requestSize = " + requestSize);
+							Log.i(TAG, "initEvent  lvEditTextInfo.setOnScrollListener( >> onScroll getlist(intentType);requestSize = " + requestSize);
 							getlist(intentType);
 						}
 					}
@@ -451,7 +450,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

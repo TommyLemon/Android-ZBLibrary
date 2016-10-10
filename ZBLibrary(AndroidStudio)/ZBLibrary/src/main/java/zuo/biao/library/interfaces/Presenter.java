@@ -35,10 +35,10 @@ public interface Presenter {
 	 */
 	void initData();
 	/**
-	 * Listener事件监听方法(只要存在事件监听代码就是)
+	 * Event事件方法(只要存在事件监听代码就是)
 	 * @must Activity-在子类onCreate方法内初始化View(setContentView)后调用；Fragment-在子类onCreateView方法内初始化View后调用
 	 */
-	void initListener();
+	void initEvent();
 
 
 	/**

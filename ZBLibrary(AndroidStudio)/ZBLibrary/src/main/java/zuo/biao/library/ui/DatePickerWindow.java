@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.bean.GridPickerConfigBean;
@@ -26,10 +25,10 @@ import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -98,8 +97,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -110,7 +108,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -179,7 +177,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	//	private long minDate;
@@ -317,7 +315,6 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 	}
 
 	@Override
-	@NonNull
 	protected GridPickerView createView() {
 		return new GridPickerView(context, getResources());
 	}
@@ -347,7 +344,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 	}
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -356,11 +353,11 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
 		containerView.setOnTabClickListener(onTabClickListener);
 		containerView.setOnItemSelectedListener(onItemSelectedListener);
@@ -401,7 +398,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

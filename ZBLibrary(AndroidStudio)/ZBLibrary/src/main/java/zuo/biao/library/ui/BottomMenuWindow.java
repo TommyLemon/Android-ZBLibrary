@@ -18,14 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -110,8 +109,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -123,7 +121,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -215,11 +213,11 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
 		lvBottomMenu.setOnItemClickListener(this);
 		tvBottomMenuCancel.setOnClickListener(this);
@@ -275,7 +273,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

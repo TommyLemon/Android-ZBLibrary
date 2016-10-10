@@ -43,7 +43,7 @@ import android.widget.TextView;
  * @see #onCreateView
  * @see #setContentView
  * @use extends BaseTabFragment, 具体参考.DemoTabFragment
- * @must 在子类onCreateView中调用initView();initData();initListener();
+ * @must 在子类onCreateView中调用initView();initData();initEvent();
  */
 public abstract class BaseTabFragment extends BaseFragment implements OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabFragment";
@@ -53,7 +53,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 */
 	private OnTabSelectedListener onTabSelectedListener;
 	/**设置tab被选中监听
-	 * @warn 在子类super.initListener();前使用才有效
+	 * @warn 在子类super.initEvent();前使用才有效
 	 * @param onTabSelectedListener
 	 */
 	public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
@@ -80,7 +80,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
-	 *       initView();initData();initListener(); return view;
+	 *       initView();initData();initEvent(); return view;
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
-	 *       initView();initData();initListener(); return view;
+	 *       initView();initData();initEvent(); return view;
 	 */
 	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
 			, int layoutResID) {
@@ -222,7 +222,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String topReturnButtonName;
 
@@ -377,7 +377,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -388,10 +388,10 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {// 必须调用
+	public void initEvent() {// 必须调用
 
 		if (ivBaseTabReturn != null) {
 			ivBaseTabReturn.setOnClickListener(this);
@@ -450,7 +450,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
