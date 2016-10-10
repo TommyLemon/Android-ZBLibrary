@@ -42,7 +42,7 @@ import android.widget.TextView;
  * @see #onCreate
  * @see #setContentView
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
- * @must 在子类onCreate中调用initView();initData();initListener();
+ * @must 在子类onCreate中调用initView();initData();initEvent();
  */
 public abstract class BaseTabActivity extends BaseActivity implements OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabActivity";
@@ -52,7 +52,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 */
 	private OnTabSelectedListener onTabSelectedListener;
 	/**设置tab被选中监听
-	 * @warn 在initListener前使用才有效
+	 * @warn 在initEvent前使用才有效
 	 * @param onTabSelectedListener
 	 */
 	public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
@@ -67,7 +67,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, int layoutResID) {
 		onCreate(savedInstanceState, layoutResID, null);
@@ -90,7 +90,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
 		onCreate(savedInstanceState, 0, listener);
@@ -102,7 +102,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
 		super.onCreate(savedInstanceState);
@@ -221,7 +221,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String topReturnButtonName;
 
@@ -376,7 +376,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -387,10 +387,10 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {// 必须调用
+	public void initEvent() {// 必须调用
 
 		if (ivBaseTabReturn != null) {
 			ivBaseTabReturn.setOnClickListener(this);
@@ -446,7 +446,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

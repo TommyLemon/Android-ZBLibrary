@@ -46,7 +46,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		onRefresh();
@@ -126,11 +126,11 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreateView方法内调用
-		super.initListener();
+	public void initEvent() {//必须在onCreateView方法内调用
+		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
@@ -166,7 +166,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

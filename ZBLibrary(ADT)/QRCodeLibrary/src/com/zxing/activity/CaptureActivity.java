@@ -65,13 +65,13 @@ public abstract class CaptureActivity extends Activity implements Callback, Deco
 	 */
 	public abstract void initView();
 	/**
-	 * data数据方法，必须在子类onCreate方法内setContentView后调用
+	 * Data数据方法，必须在子类onCreate方法内setContentView后调用
 	 */
 	public abstract void initData();
 	/**
-	 * listener事件监听方法，必须在子类onCreate方法内setContentView后调用
+	 * Event事件方法，必须在子类onCreate方法内setContentView后调用
 	 */
-	public abstract void initListener();
+	public abstract void initEvent();
 
 	
 

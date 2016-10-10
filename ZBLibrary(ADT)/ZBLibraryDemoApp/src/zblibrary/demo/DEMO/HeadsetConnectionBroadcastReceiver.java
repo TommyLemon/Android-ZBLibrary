@@ -28,7 +28,7 @@ import android.content.Intent;
  *      demoBroadcastReceiver.register();demoBroadcastReceiver.setOnReceiveListener(onReceiveListener);
  *      >> Activity或Fragment的onDestroy内 
  *      demoBroadcastReceiver.unregister();
- *      具体参考.DemoFragmentActivity(initListener方法内)
+ *      具体参考.DemoFragmentActivity(initEvent方法内)
  */
 public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver { 
 	private static final String TAG = "HeadsetConnectionBroadcastReceiver"; 
