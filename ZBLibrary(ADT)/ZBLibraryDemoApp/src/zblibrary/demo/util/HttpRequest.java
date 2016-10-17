@@ -85,7 +85,7 @@ public class HttpRequest {
 	 * @param password
 	 * @param listener
 	 */
-	public void register(final String phone, final String password,
+	public static void register(final String phone, final String password,
 			final int requestCode, final OnHttpResponseListener listener) {
 		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, KEY_PHONE, phone);
@@ -99,7 +99,7 @@ public class HttpRequest {
 	 * @param password
 	 * @param listener
 	 */
-	public void login(final String phone, final String password,
+	public static void login(final String phone, final String password,
 			final int requestCode, final OnHttpResponseListener listener) {
 		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, KEY_PHONE, phone);
@@ -122,7 +122,7 @@ public class HttpRequest {
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_USER_ID, userId);
 		
-		HttpManager.getInstance().post(paramList, URL_BASE + "user/infomation", requestCode, listener);
+		HttpManager.getInstance().post(paramList, URL_BASE + "user/information", requestCode, listener);
 	}
 	public static final int RESULT_GET_USER_SUCCEED = 100;
 
