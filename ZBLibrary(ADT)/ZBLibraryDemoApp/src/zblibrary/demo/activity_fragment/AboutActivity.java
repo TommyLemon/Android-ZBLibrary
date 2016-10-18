@@ -139,7 +139,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			public void run() {
 
 				try {
-					qRCodeBitmap = EncodingHandler.createQRCode(Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE
+					qRCodeBitmap = EncodingHandler.createQRCode(Constant.APP_DOWNLOAD_WEBSITE
 							, (int) (2 * getResources().getDimension(R.dimen.qrcode_size)));
 				} catch (WriterException e) {
 					e.printStackTrace();
@@ -164,7 +164,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		runThread(TAG + "downloadApp", new Runnable() {
 			@Override
 			public void run() {
-				File file = DownloadUtil.downLoadFile(context, "HungryBat", ".apk", Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE);
+				File file = DownloadUtil.downLoadFile(context, "HungryBat", ".apk", Constant.APP_DOWNLOAD_WEBSITE);
 				dismissProgressDialog();
 				DownloadUtil.openFile(context, file);
 			}
