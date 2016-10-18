@@ -186,7 +186,7 @@
                         style="@style/text_middle"
                         android:layout_marginBottom="180dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:text="扫一扫二维码 下载蝙蝠饿了" />
+                        android:text="扫一扫二维码 下载ZBLibrary" />
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
