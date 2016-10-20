@@ -46,8 +46,9 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="zblibrary.demo.activity_fragment.AboutActivity"
+            android:name="zblibrary.demo.activity_fragment.SplashActivity"
             android:label="@string/app_name"
+            android:theme="@style/SplashTheme"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,6 +56,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="zblibrary.demo.activity_fragment.AboutActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name="zblibrary.demo.activity_fragment.BottomTabActivity"
             android:label="@string/app_name"
