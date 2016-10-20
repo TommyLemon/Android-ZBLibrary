@@ -1,26 +1,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <style name="user_item_site" parent="text_middle">
-        <item name="android:textColor">#ef7d23</item>
-        <item name="android:textSize">15sp</item>
+    <style name="SplashTheme" parent="android:Theme.NoTitleBar.Fullscreen">
+        <!-- 闪屏背景，可用图片 -->
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
-
-    <style name="ll_user_detail_icon" parent="ll_vertical_wrap_wrap">
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-    </style>
-    <style name="ll_user_detail_icon_gone" parent="ll_user_detail_icon">
-        <item name="android:visibility">gone</item>
-    </style>
-
-    <style name="ll_user_detail_icon_iv" parent="text_middle">
-        <item name="android:textSize">35dp</item>
-    </style>
-
-    <style name="ll_user_detail_icon_tv" parent="text_small_black">
-        <item name="android:singleLine">true</item>
-    </style>
-
 
 </resources>
