@@ -50,6 +50,10 @@ UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google�
 [PagedListView](https://github.com/TommyLemon/PagedListView)
 Scroll ListView faster, more accurate and comfortable.
 
+##关于作者
+* Email： <tommylemon@qq.com>   QQ群：595514898
+* 有任何建议或者使用中遇到问题都可以给我发邮件，也可以加群，交流技术，分享经验 *_*
+
 ## 欢迎Star，欢迎Fork
 
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
