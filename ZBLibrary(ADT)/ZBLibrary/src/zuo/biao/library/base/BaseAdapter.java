@@ -57,7 +57,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	protected Resources resources;
 	public BaseAdapter(Activity context, List<T> list) {
 		this.context = context;
-		this.list = new ArrayList<>(list);
+		this.list = new ArrayList<T>(list);
 
 		inflater = context.getLayoutInflater();
 		resources = context.getResources();
@@ -93,7 +93,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 */
 	public synchronized void refresh(List<T> list) {
 		if (list != null && list.size() > 0) {
-			this.list = new ArrayList<>(list);
+			this.list = new ArrayList<T>(list);
 		}
 		notifyDataSetChanged();
 	}

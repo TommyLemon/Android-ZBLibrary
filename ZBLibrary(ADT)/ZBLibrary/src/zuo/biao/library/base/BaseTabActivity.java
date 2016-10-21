@@ -295,7 +295,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Nullable
-	private List<View> topRightButtonList = new ArrayList<>();
+	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮
 	 * @warn 在initData前使用才有效
 	 * @param topRightButton 不会在这个类设置监听,需要自行设置

@@ -136,7 +136,7 @@ public class CacheManager {
 	public <T> List<T> getList(Class<T> clazz, String group, int start) {
 		Log.i(TAG, "getList  group = " + group +"; start = " + start);
 
-		Cache<T> cacheList = clazz == null ? null : new Cache<>(context, clazz, getClassPath(clazz)
+		Cache<T> cacheList = clazz == null ? null : new Cache<T>(context, clazz, getClassPath(clazz)
 				+ KEY_LIST);
 
 		if (StringUtil.isNotEmpty(group, true) == false) {
@@ -188,7 +188,7 @@ public class CacheManager {
 	 */
 	public <T> T get(Class<T> clazz, String id) {
 		Cache<T> cacheList = clazz == null
-				? null : new Cache<>(context, clazz, getClassPath(clazz) + KEY_LIST);
+				? null : new Cache<T>(context, clazz, getClassPath(clazz) + KEY_LIST);
 		return cacheList == null ? null : cacheList.get(id);
 	}
 
@@ -286,7 +286,7 @@ public class CacheManager {
 			//id列表
 			List<String> idList = Json.parseArray(sp.getString(KEY_ID_LIST, null), String.class);
 			if (idList == null) {
-				idList = new ArrayList<>();
+				idList = new ArrayList<String>();
 			}
 			if (start < 0) {
 				start = idList.size();
@@ -309,7 +309,7 @@ public class CacheManager {
 
 
 		//保存所有数据<<<<<<<<<<<<<<<<<<<<<<<<<
-		Cache<T> cache = new Cache<>(context, clazz, CLASS_PATH + KEY_LIST);
+		Cache<T> cache = new Cache<T>(context, clazz, CLASS_PATH + KEY_LIST);
 		cache.saveList(map);
 		//保存所有数据>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -348,7 +348,7 @@ public class CacheManager {
 
 		List<String> idList = getIdList(clazz, group);
 		if (idList == null) {
-			idList = new ArrayList<>();
+			idList = new ArrayList<String>();
 		}
 		if (idList.contains(id)) {
 			Log.e(TAG, "save idList.contains(id) >> return;");
@@ -358,7 +358,7 @@ public class CacheManager {
 		idList.add(0, id);
 		sp.edit().remove(KEY_ID_LIST).putString(KEY_ID_LIST, Json.toJSONString(idList)).commit();
 
-		new Cache<>(context, clazz, getListPath(clazz)).save(id, data);
+		new Cache<T>(context, clazz, getListPath(clazz)).save(id, data);
 	}
 
 	/**清空类
@@ -386,7 +386,7 @@ public class CacheManager {
 		Log.i(TAG, "clear  group = " + group + "; removeAllInGroup = " + removeAllInGroup);
 		List<String> list = removeAllInGroup == false ? null : getIdList(clazz, group);
 		if (list != null) {
-			Cache<T> cache = new Cache<>(context, clazz, getListPath(clazz));
+			Cache<T> cache = new Cache<T>(context, clazz, getListPath(clazz));
 			for (String id : list) {
 				cache.remove(id);
 			}
@@ -409,7 +409,7 @@ public class CacheManager {
 			Log.e(TAG, "remove  clazz == null >> return;");
 			return;
 		}
-		new Cache<>(context, clazz, getListPath(clazz)).remove(id);
+		new Cache<T>(context, clazz, getListPath(clazz)).remove(id);
 	}
 
 }

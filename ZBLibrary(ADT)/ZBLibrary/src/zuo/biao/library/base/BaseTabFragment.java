@@ -296,7 +296,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Nullable
-	private List<View> topRightButtonList = new ArrayList<>();
+	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮
 	 * @must 在super.initData前调用
 	 * @param topRightButton 不会在这个类设置监听,需要自行设置

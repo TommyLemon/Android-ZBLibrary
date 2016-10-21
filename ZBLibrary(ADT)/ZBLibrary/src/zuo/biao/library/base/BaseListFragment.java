@@ -333,7 +333,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public synchronized void handleList(List<T> newList_, boolean isCache) {
 		this.newList = newList_;
 		if (newList == null) {
-			newList = new ArrayList<>();
+			newList = new ArrayList<T>();
 		}
 		Log.i(TAG, "handleList  newList.size = " + newList_.size() + "; isCache = " + isCache);
 
@@ -349,7 +349,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 				isHaveMore = false;
 			} else {
 				if (list == null) {
-					list = new ArrayList<>();
+					list = new ArrayList<T>();
 				}
 				list.addAll(newList);
 			}
@@ -423,7 +423,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 			return;
 		}
 
-		LinkedHashMap<String, T> map = new LinkedHashMap<>();
+		LinkedHashMap<String, T> map = new LinkedHashMap<String, T>();
 		for (T data : newList) {
 			if (data != null) {
 				map.put(cacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
