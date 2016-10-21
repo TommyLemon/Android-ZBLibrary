@@ -50,21 +50,6 @@ UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google�
 [PagedListView](https://github.com/TommyLemon/PagedListView)
 Scroll ListView faster, more accurate and comfortable.
 
-##关于作者
-* Email： <tommylemon@qq.com>   QQ群：595514898
-* 有任何建议或者使用中遇到问题都可以给我发邮件，也可以加群，交流技术，分享经验 *_*
-
-## 欢迎Star，欢迎Fork
-
-[https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
-
-## 下载试用
-
-[ZBLibraryDemoApp.apk](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
-
-
-
-
 ##相关推荐
 [Android快速开发框架-ZBLibrary介绍](http://my.oschina.net/u/2437072/blog/662017)
 
@@ -89,3 +74,16 @@ Scroll ListView faster, more accurate and comfortable.
 [Android HTTPS如何10分钟实现自签名SSL证书](http://my.oschina.net/u/2437072/blog/669041)
 
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
+
+
+##关于作者
+* Email： <tommylemon@qq.com>   QQ群：595514898
+* 有任何建议或者使用中遇到问题都可以给我发邮件，也可以加群，交流技术，分享经验 *_*
+
+## 欢迎Star，欢迎Fork
+
+[https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
+
+## 下载试用
+
+[ZBLibraryDemoApp.apk](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
