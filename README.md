@@ -77,7 +77,7 @@ Scroll ListView faster, more accurate and comfortable.
 
 
 ##关于作者
-Email： <tommylemon@qq.com>   QQ群：595514898
+Email： <tommylemon@qq.com>   QQ群：<595514898>
 
 有任何建议或者使用中遇到问题都可以给我发邮件，也可以加群，交流技术，分享经验 ^_^
 
