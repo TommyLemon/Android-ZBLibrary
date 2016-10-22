@@ -24,16 +24,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**使用BroadcastReceiver的Activity示例
  * @author Lemon
  * @use toActivity(DemoBroadcastReceiverActivity.createIntent(...));
  */
-public class DemoBroadcastReceiverActivity extends BaseActivity implements OnClickListener
-, OnBottomDragListener {
+public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "DemoBroadcastReceiverActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -121,7 +118,6 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoBroadcastReceiverReturn).setOnClickListener(this);
 
 		//BaseBroadcastReceiver直接使用示例 <<<<<<<<<<<<<<
 		baseBroadcastReceiver = new BaseBroadcastReceiver(context) {//除了onReceive内代码，其它代码都是复制过来的
@@ -186,18 +182,6 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnCli
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvDemoBroadcastReceiverReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

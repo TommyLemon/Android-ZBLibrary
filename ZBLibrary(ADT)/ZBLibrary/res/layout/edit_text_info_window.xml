@@ -89,14 +89,12 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvEditTextInfoReturn"
             style="@style/bottom_menu_btn_cancel"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px_gray" />
 
         <TextView
-            android:id="@+id/tvEditTextInfoForward"
             style="@style/bottom_menu_btn_save"
             android:layout_weight="1" />
     </LinearLayout>

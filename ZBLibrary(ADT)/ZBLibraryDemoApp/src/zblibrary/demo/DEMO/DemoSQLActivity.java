@@ -340,9 +340,6 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 
-		findViewById(R.id.ivDemoSQLReturn).setOnClickListener(this);
-		findViewById(R.id.tvDemoSQLForward).setOnClickListener(this);
-
 		findViewById(R.id.btnDemoSQLInsert).setOnClickListener(this);
 		findViewById(R.id.btnDemoSQLDelete).setOnClickListener(this);
 		findViewById(R.id.btnDemoSQLUpdate).setOnClickListener(this);
@@ -366,13 +363,6 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivDemoSQLReturn:
-			onDragBottom(false);
-			break;
-		case R.id.tvDemoSQLForward:
-			onDragBottom(true);
-			break;
-
 		case R.id.btnDemoSQLInsert:
 			insert();
 			break;

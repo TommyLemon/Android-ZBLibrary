@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -42,7 +41,7 @@ import android.widget.TextView;
  * @use toActivity(DemoListActivity.createIntent(...));
  */
 public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView, GridAdapter>
-implements OnClickListener, OnBottomDragListener {
+implements OnBottomDragListener {
 //	private static final String TAG = "DemoListActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -200,7 +199,6 @@ implements OnClickListener, OnBottomDragListener {
 	public void initEvent() {//必须在onCreate方法内调用
 		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.ivDemoListReturn).setOnClickListener(this);
 
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -228,18 +226,6 @@ implements OnClickListener, OnBottomDragListener {
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.ivDemoListReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 

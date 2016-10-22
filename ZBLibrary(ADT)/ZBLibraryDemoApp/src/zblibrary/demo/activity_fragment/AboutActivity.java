@@ -185,9 +185,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void initEvent() {
 
-		findViewById(R.id.ivAboutReturn).setOnClickListener(this);
-		findViewById(R.id.tvAboutForward).setOnClickListener(this);
-
 		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 		findViewById(R.id.llAboutBottomTabActivity).setOnClickListener(this);
 
@@ -226,13 +223,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivAboutReturn:
-			onDragBottom(false);
-			break;
-		case R.id.tvAboutForward:
-			onDragBottom(true);
-			break;
-
 		case R.id.llAboutZBLibraryMainActivity:
 			startActivity(DemoMainActivity.createIntent(context));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);

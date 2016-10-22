@@ -18,14 +18,12 @@
 
         <TextView
             android:id="@+id/tvBaseBottomWindowReturn"
-            style="@style/bottom_menu_btn_cancel"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px" />
 
         <TextView
             android:id="@+id/tvDemoBottomWindowForward"
-            style="@style/bottom_menu_btn_save"
             android:layout_weight="1" />
     </LinearLayout>
 

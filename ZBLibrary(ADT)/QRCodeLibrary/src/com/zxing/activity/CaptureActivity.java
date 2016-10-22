@@ -60,20 +60,6 @@ public abstract class CaptureActivity extends Activity implements Callback, Deco
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
-	/**
-	 * UI显示方法，必须在子类onCreate方法内setContentView后调用
-	 */
-	public abstract void initView();
-	/**
-	 * Data数据方法，必须在子类onCreate方法内setContentView后调用
-	 */
-	public abstract void initData();
-	/**
-	 * Event事件方法，必须在子类onCreate方法内setContentView后调用
-	 */
-	public abstract void initEvent();
-
-	
 
 	private CaptureActivityHandler handler;
 	private boolean hasSurface;

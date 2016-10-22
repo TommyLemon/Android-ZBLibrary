@@ -4,9 +4,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivDemoSQLReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvDemoSQLTitle"
@@ -15,13 +13,12 @@
             android:text="SQLite" />
 
         <TextView
-            android:id="@+id/tvDemoSQLForward"
             style="@style/topbar_right_img"
             android:text="重置" />
     </RelativeLayout>
 
     <TextView
-         android:id="@+id/tvDemoSQLInfo"
+        android:id="@+id/tvDemoSQLInfo"
         style="@style/text_big_black"
         android:layout_width="match_parent"
         android:editable="true"

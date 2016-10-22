@@ -119,12 +119,12 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		view = inflater.inflate(layoutResID, null);
 		view.setOnTouchListener(this);
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@Override
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
-		
+
 		// 状态栏沉浸，4.4+生效 <<<<<<<<<<<<<<<<<
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			getWindow().setFlags(
@@ -135,9 +135,9 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		tintManager.setStatusBarTintEnabled(true);
 		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
 		// 状态栏沉浸，4.4+生效 >>>>>>>>>>>>>>>>>
-		
+
 	}
-	
+
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -380,6 +380,36 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	}
 
 	//运行线程 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	//Activity的返回按钮和底部弹窗的取消按钮几乎是必备，正好原生支持反射；而其它比如Fragment极少用到，也不支持反射<<<<<<<<<
+	/**返回按钮被点击，默认处理是onBottomDragListener.onDragBottom(false)，重写可自定义事件处理
+	 * @param v
+	 * @use layout.xml中的组件添加android:onClick="onBackClick"即可
+	 * @warn 只能在Activity对应的contentView layout中使用
+	 */
+	@Override
+	public void onBackClick(View v) {
+		Log.d(TAG, "onBackClick >>>");
+		if (onBottomDragListener != null) {
+			onBottomDragListener.onDragBottom(false);
+		} else {
+			onBackPressed();//会从最外层子类调finish();BaseBottomWindow就是示例
+		}
+	}
+	/**前进按钮被点击，默认处理是onBottomDragListener.onDragBottom(true)，重写可自定义事件处理
+	 * @param v
+	 * @use layout.xml中的组件添加android:onClick="onForwardClick"即可
+	 * @warn 只能在Activity对应的contentView layout中使用
+	 */
+	@Override
+	public void onForwardClick(View v) {
+		Log.d(TAG, "onForwardClick >>>");
+		if (onBottomDragListener != null) {
+			onBottomDragListener.onDragBottom(true);
+		}
+	}
+	//Activity常用导航栏右边按钮，而且底部弹窗BottomWindow的确定按钮是必备；而其它比如Fragment极少用到，也不支持反射>>>>>
 
 
 	@Override

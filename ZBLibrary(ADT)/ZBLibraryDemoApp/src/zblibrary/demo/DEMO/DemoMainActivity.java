@@ -213,10 +213,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void initEvent() {//必须调用
 
-		findViewById(R.id.tvDemoMainReturn).setOnClickListener(this);
-		findViewById(R.id.ivDemoMainMenu).setOnClickListener(this);
-
-
 		findViewById(R.id.llDemoMainItemDialog).setOnClickListener(this);
 		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
@@ -326,14 +322,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
-		case R.id.tvDemoMainReturn:
-			onDragBottom(false);
-			break;     
-		case R.id.ivDemoMainMenu:
-			onDragBottom(true);
-			break;     
-
-			
 		case R.id.ivDemoMainHead:
 			selectPicture();
 			break;     

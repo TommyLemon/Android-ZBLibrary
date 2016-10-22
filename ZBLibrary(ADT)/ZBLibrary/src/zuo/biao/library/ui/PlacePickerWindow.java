@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
@@ -40,7 +39,7 @@ import android.widget.TextView;
  * @use toActivity(PlacePickerWindow.createIntent(...));
  *      *然后在onActivityResult方法内获取data.getStringExtra(PlacePickerWindow.RESULT_PLACE);
  */
-public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> implements OnClickListener {
+public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> {
 	private static final String TAG = "PlacePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

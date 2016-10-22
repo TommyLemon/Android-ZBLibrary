@@ -145,9 +145,6 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	@Override
 	public void initEvent() {//必须调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.ivDemoTimeRefresherReturn).setOnClickListener(this);
-		findViewById(R.id.ivDemoTimeRefresherForward).setOnClickListener(this);
-
 		tvDemoTimeRefresherCount.setOnClickListener(this);
 		findViewById(R.id.ibtnDemoTimeRefresher).setOnClickListener(this);
 		//示例代码>>>>>>>>>>>>>>>>>>>
@@ -188,12 +185,6 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivDemoTimeRefresherReturn:
-			onDragBottom(false);
-			break;
-		case R.id.ivDemoTimeRefresherForward:
-			onDragBottom(true);
-			break;
 		case R.id.tvDemoTimeRefresherCount:
 			stopOrContinu();
 			break;

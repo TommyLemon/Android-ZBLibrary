@@ -29,7 +29,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -42,7 +41,7 @@ import android.widget.Toast;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoActivity.createIntent(...));
  */
-public class DemoActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "DemoActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -61,7 +60,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+
 
 	@Override
 	public Activity getActivity() {
@@ -201,7 +200,7 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 		userId += list.size();
 		list.addAll(getList(userId));
-		
+
 		if (adapter != null) {
 			adapter.refresh(list);
 		}
@@ -222,8 +221,6 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.ivDemoReturn).setOnClickListener(this);
-		findViewById(R.id.tvDemoForward).setOnClickListener(this);
 
 		lvDemo.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -232,13 +229,14 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 				finish();
 			}
 		});
-		
+
 		//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
 		new PageScroller(lvDemo).init();
 		//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
+	
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
@@ -247,29 +245,14 @@ public class DemoActivity extends BaseActivity implements OnClickListener, OnBot
 
 			return;
 		}	
-
+		showShortToast("onDragBottom");
 		finish();
 	}
 
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.ivDemoReturn:
-			onDragBottom(false);
-			break;
-		case R.id.tvDemoForward:
-			onDragBottom(true);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
+
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

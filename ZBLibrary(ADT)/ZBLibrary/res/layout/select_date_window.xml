@@ -21,14 +21,12 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvSelectDateWindowReturn"
             style="@style/bottom_menu_btn_cancel"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px" />
 
         <TextView
-            android:id="@+id/tvSelectDateWindowSave"
             style="@style/bottom_menu_btn_save"
             android:layout_weight="1" />
     </LinearLayout>

@@ -5,18 +5,16 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivDemoReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvDemoTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
+            android:onClick="onBackClick"
             android:text="标题" />
 
         <ImageView
-            android:id="@+id/tvDemoForward"
             style="@style/topbar_right_img"
             android:src="@drawable/add" />
     </RelativeLayout>

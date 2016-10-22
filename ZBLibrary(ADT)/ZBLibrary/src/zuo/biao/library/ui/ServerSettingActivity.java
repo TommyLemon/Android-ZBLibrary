@@ -209,9 +209,6 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void initEvent() {//必须调用
 
-		findViewById(R.id.ivServerSettingReturn).setOnClickListener(this);
-		findViewById(R.id.tvServerSettingForward).setOnClickListener(this);
-
 		findViewById(R.id.tvServerSettingNormalSet).setOnClickListener(this);
 		findViewById(R.id.tvServerSettingNormalOpen).setOnClickListener(this);
 
@@ -266,11 +263,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ivServerSettingReturn) {
-			onDragBottom(false);
-		} else if (v.getId() == R.id.tvServerSettingForward) {
-			onDragBottom(true);
-		} else if (v.getId() == R.id.tvServerSettingNormalSet) {
+		if (v.getId() == R.id.tvServerSettingNormalSet) {
 			saveAndExit(false);
 		} else if (v.getId() == R.id.tvServerSettingTestSet) {
 			saveAndExit(true);

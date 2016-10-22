@@ -184,8 +184,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void initEvent() {//必须调用
 
-		findViewById(R.id.ivUserReturn).setOnClickListener(this);
-		
 		findViewById(R.id.llUserTag).setOnClickListener(this);
 		
 		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
@@ -243,10 +241,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivUserReturn:
-			onDragBottom(false);
-			break;
-			
 		case R.id.llUserTag:
 			toActivity(EditTextInfoActivity.createIntent(context, "标签"
 					, StringUtil.getTrimedString(tvUserTag)), REQUEST_TO_EDIT_TEXT_INFO);

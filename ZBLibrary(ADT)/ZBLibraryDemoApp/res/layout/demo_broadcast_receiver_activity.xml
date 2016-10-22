@@ -5,9 +5,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/tvDemoBroadcastReceiverReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvDemoBroadcastReceiverTitle"

@@ -262,6 +262,11 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 		finish();
 	}
 
+	@Override
+	protected void setResult() {
+		
+	}
+
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

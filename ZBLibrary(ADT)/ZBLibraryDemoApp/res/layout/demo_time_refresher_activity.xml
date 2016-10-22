@@ -5,9 +5,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivDemoTimeRefresherReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvDemoTimeRefresherTitle"
@@ -16,7 +14,6 @@
             android:text="使用时间刷新器" />
 
         <ImageView
-            android:id="@+id/ivDemoTimeRefresherForward"
             style="@style/topbar_right_btn"
             android:src="@drawable/delete_light" />
     </RelativeLayout>

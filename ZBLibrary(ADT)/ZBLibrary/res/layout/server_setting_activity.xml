@@ -5,9 +5,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivServerSettingReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvServerSettingTitle"
@@ -16,7 +14,6 @@
             android:text="服务器设置" />
 
         <TextView
-            android:id="@+id/tvServerSettingForward"
             style="@style/topbar_right_btn"
             android:text="重置" />
     </RelativeLayout>
@@ -27,11 +24,11 @@
         android:text="只保存切换至的地址" />
 
     <TextView
+        android:id="@+id/tvServerSettingNormalName"
         style="@style/text_big"
         android:layout_width="match_parent"
         android:layout_marginTop="30dp"
         android:background="@color/white"
-        android:id="@+id/tvServerSettingNormalName"
         android:text="正式服务器"
         android:textColor="@color/green" />
 
@@ -76,8 +73,8 @@
         android:layout_marginBottom="60dp" />
 
     <TextView
-        style="@style/text_big"
         android:id="@+id/tvServerSettingTestName"
+        style="@style/text_big"
         android:layout_width="match_parent"
         android:background="@color/white"
         android:text="测试服务器"

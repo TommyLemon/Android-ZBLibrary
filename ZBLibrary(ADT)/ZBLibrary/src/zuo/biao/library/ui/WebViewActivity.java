@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -37,7 +36,7 @@ import android.widget.TextView;
  * @author Lemon
  * @use toActivity(WebViewActivity.createIntent(...));
  */
-public class WebViewActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class WebViewActivity extends BaseActivity implements OnBottomDragListener {
 	public static final String TAG = "WebViewActivity";
 
 	public static final String INTENT_RETURN = "INTENT_RETURN";
@@ -151,7 +150,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void initEvent() {
 
-		findViewById(R.id.ivWebViewReturn).setOnClickListener(this);
 
 	}
 
@@ -166,14 +164,13 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		onBackPressed();
 	}
 
+	@Override
+	public void onBackClick(View v) {
+		finish();
+	}
+	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.ivWebViewReturn) {
-			finish();
-		}
-	}
 	@Override
 	public void onBackPressed() {
 		if (wvWebView.canGoBack()) {

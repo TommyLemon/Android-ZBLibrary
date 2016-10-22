@@ -24,7 +24,6 @@
             android:background="@color/white_alpha" >
 
             <TextView
-                android:id="@+id/tvCameraScanReturn"
                 style="@style/topbar_left_btn"
                 android:text="          " />
 
@@ -61,7 +60,7 @@
                 android:paddingTop="4dp" >
 
                 <ImageView
-                    android:id="@+id/ivCameraScanReturn"
+                    android:onClick="onBackClick"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"
                     android:padding="12dp"
@@ -103,7 +102,7 @@
                 android:paddingTop="4dp" >
 
                 <ImageView
-                    android:id="@+id/ivCameraScanMyQRCode"
+                    android:onClick="onForwardClick"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"
                     android:padding="12dp"

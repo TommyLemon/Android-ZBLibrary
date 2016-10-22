@@ -211,19 +211,14 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
-
-	private void saveAndExit() {
-		String editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);
-		if (editedValue.equals("" + getIntent().getStringExtra(INTENT_VALUE))) {
-			CommonUtil.showShortToast(context, "内容没有改变哦~");
-		} else {
-			intent = new Intent();
-			intent.putExtra(RESULT_TYPE, getIntent().getIntExtra(INTENT_TYPE, -1));
-			intent.putExtra(RESULT_VALUE, editedValue);
-			setResult(RESULT_OK, intent);
-			finish();
-		}		
+	@Override
+	protected void setResult() {
+		intent = new Intent();
+		intent.putExtra(RESULT_TYPE, getIntent().getIntExtra(INTENT_TYPE, -1));
+		intent.putExtra(RESULT_VALUE, editedValue);
+		setResult(RESULT_OK, intent);
 	}
+
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -241,8 +236,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	public void initEvent() {//必须调用
 		super.initEvent();
 
-		findViewById(R.id.tvEditTextInfoReturn).setOnClickListener(this);
-		findViewById(R.id.tvEditTextInfoForward).setOnClickListener(this);
 		tvEditTextInfoPlace.setOnClickListener(this);
 
 		etEditTextInfo.addTextChangedListener(new TextWatcher() {
@@ -274,6 +267,16 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
+	private String editedValue;
+	@Override
+	public void onForwardClick(View v) {
+		editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);
+		if (editedValue.equals("" + getIntent().getStringExtra(INTENT_VALUE))) {
+			CommonUtil.showShortToast(context, "内容没有改变哦~");
+			return;
+		}
+		super.onForwardClick(v);
+	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -286,11 +289,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvEditTextInfoReturn) {
-			finish();
-		} else if (v.getId() == R.id.tvEditTextInfoForward) {
-			saveAndExit();
-		} else if (v.getId() == R.id.tvEditTextInfoPlace) {
+		if (v.getId() == R.id.tvEditTextInfoPlace) {
 			CommonUtil.toActivity(context, PlacePickerWindow.createIntent(
 					context, packageName, 2), REQUEST_TO_PLACE_PICKER, false);
 		}
@@ -305,29 +304,29 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-			case REQUEST_TO_PLACE_PICKER:
-				List<String> list = data == null ? null : data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
-				if (list == null || list.size() < 2) {
-					CommonUtil.showShortToast(context, "请先选择地址哦~");
-					CommonUtil.toActivity(context, PlacePickerWindow.createIntent(
-							context, packageName, 2), REQUEST_TO_PLACE_PICKER, false);
-					return;
-				}
-				String place = "";
-				for (String s : list) {
-					place += s;
-				}
-				tvEditTextInfoPlace.setText(place);
-				break;
-			default:
-				break;
-			}
+		if (resultCode != RESULT_OK) {
+			return;
 		}
-
-
+		switch (requestCode) {
+		case REQUEST_TO_PLACE_PICKER:
+			List<String> list = data == null ? null : data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
+			if (list == null || list.size() < 2) {
+				CommonUtil.showShortToast(context, "请先选择地址哦~");
+				CommonUtil.toActivity(context, PlacePickerWindow.createIntent(
+						context, packageName, 2), REQUEST_TO_PLACE_PICKER, false);
+				return;
+			}
+			String place = "";
+			for (String s : list) {
+				place += s;
+			}
+			tvEditTextInfoPlace.setText(place);
+			break;
+		default:
+			break;
+		}
 	}
+
 
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

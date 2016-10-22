@@ -50,9 +50,18 @@ import android.widget.TextView;
  * @use toActivity或startActivityForResult(EditTextInfoActivity.createIntent) > onActivityResult方法内data.getStringExtra(
  * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
  */
-public class EditTextInfoActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class EditTextInfoActivity extends BaseActivity implements OnBottomDragListener {
 	public static final String TAG = "EditTextInfoActivity";
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	public static final String RESULT_TYPE = "RESULT_TYPE";
+	public static final String RESULT_KEY = "RESULT_KEY";
+	public static final String RESULT_VALUE = "RESULT_VALUE";
+	public static final String RESULT_URL = "RESULT_URL";
+	public static final String RESULT_ID = "RESULT_ID";
+	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
+	
 	/**
 	 * @param context
 	 * @param key
@@ -75,6 +84,10 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 				putExtra(INTENT_KEY, key).
 				putExtra(INTENT_VALUE, value);
 	}
+	
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	
 
 	@Override
 	public Activity getActivity() {
@@ -99,7 +112,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private TextView tvEditTextInfoTitle;
-	private View tvEditTextInfoForward;
 
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
@@ -110,7 +122,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	public void initView() {//必须调用
 
 		tvEditTextInfoTitle = (TextView) findViewById(R.id.tvEditTextInfoTitle);
-		tvEditTextInfoForward = findViewById(R.id.tvEditTextInfoForward);
 
 		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
@@ -282,9 +293,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void initEvent() {//必须调用
 
-		findViewById(R.id.ivEditTextInfoReturn).setOnClickListener(this);
-		tvEditTextInfoForward.setOnClickListener(this);
-
 		searchHandler = new Handler(new Callback() {
 			@Override
 			public boolean handleMessage(Message msg) {
@@ -395,49 +403,19 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		finish();
 	}
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String RESULT_TYPE = "RESULT_TYPE";
-	public static final String RESULT_KEY = "RESULT_KEY";
-	public static final String RESULT_VALUE = "RESULT_VALUE";
-	public static final String RESULT_URL = "RESULT_URL";
-	public static final String RESULT_ID = "RESULT_ID";
-	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
-	//@Override
-	//public void onClick(View v) {
-	//	switch (v.getId()) {
-	//		case R.id.ivEditTextInfoReturn:
-	//			onPageReturn();
-	//			break;
-	//		case R.id.tvEditTextInfoForward:
-	//			if (hasUrl == false) {
-	//				saveAndExit();
-	//			} else {
-	//				Message msg = new Message();
-	//				msg.obj = inputedString;
-	//				searchHandler.sendMessage(msg);
-	//			}
-	//			break;
-	//		default:
-	//			break;
-	//	}
-	//}
-	//Library内switch方法中case R.id.idx:报错
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.ivEditTextInfoReturn) {
-			onDragBottom(false);
-		} else if (v.getId() ==  R.id.tvEditTextInfoForward) {
-			if (hasUrl == false) {
-				onDragBottom(true);
-			} else {
-				Message msg = new Message();
-				msg.obj = inputedString;
-				searchHandler.sendMessage(msg);
-			}
+	public void onForwardClick(View v) {
+		if (hasUrl == false) {
+			onDragBottom(true);
+		} else {
+			Message msg = new Message();
+			msg.obj = inputedString;
+			searchHandler.sendMessage(msg);
 		}
 	}
-
+	
+	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 

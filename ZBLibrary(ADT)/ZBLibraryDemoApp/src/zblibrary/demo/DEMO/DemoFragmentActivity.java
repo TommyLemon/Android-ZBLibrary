@@ -22,8 +22,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
@@ -31,7 +29,7 @@ import android.widget.TextView;
  * @author Lemon
  * @use toActivity(DemoFragmentActivity.createIntent(...));
  */
-public class DemoFragmentActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class DemoFragmentActivity extends BaseActivity implements OnBottomDragListener {
 	//	private static final String TAG = "DemoFragmentActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -137,9 +135,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoFragmentActivityReturn).setOnClickListener(this);
-		//示例代码>>>>>>>>>>>>>>>>>>>
+
 	}
 
 
@@ -155,19 +151,6 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvDemoFragmentActivityReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

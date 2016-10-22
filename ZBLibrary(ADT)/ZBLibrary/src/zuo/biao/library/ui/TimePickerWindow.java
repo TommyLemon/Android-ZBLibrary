@@ -30,7 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
@@ -41,8 +40,7 @@ import android.widget.TextView;
  *      *然后在onActivityResult方法内获取data.getLongExtra(TimePickerWindow.RESULT_TIME_IN_MILLIS);
  * @warn 和android系统SDK内一样，month从0开始
  */
-public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView>
-implements OnClickListener {
+public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> {
 	private static final String TAG = "TimePickerWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

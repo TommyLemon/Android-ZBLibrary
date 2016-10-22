@@ -5,9 +5,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivEditTextInfoReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
             android:id="@+id/tvEditTextInfoTitle"
@@ -16,7 +14,6 @@
             android:text="编辑" />
 
         <TextView
-            android:id="@+id/tvEditTextInfoForward"
             style="@style/topbar_right_btn"
             android:text="保存" />
     </RelativeLayout>
