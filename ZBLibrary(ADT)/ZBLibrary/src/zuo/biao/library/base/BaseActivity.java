@@ -147,10 +147,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 * 用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
 	 */
 	protected Intent intent = null;
-	/**
-	 * 用于activity，fragment等之前的intent传值
-	 */
-	protected Bundle bundle = null;
 
 	/**
 	 * 退出时之前的界面进入动画,可在finish();前通过改变它的值来改变动画效果
@@ -515,7 +511,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		threadNameList = null;
 
 		intent = null;
-		bundle = null;
 
 		context = null;
 	}

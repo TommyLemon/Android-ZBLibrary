@@ -48,8 +48,19 @@ implements OnItemClickListener, CacheCallBack<User> {
 
 	public static final String ARGUMENT_RANGE = "ARGUMENT_RANGE";
 
+	public static UserListFragment createInstance(int range) {
+		UserListFragment fragment = new UserListFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putInt(ARGUMENT_RANGE, range);
+		
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+	
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
 
 	public static final int RANGE_ALL = HttpRequest.USER_LIST_RANGE_ALL;
 	public static final int RANGE_RECOMMEND = HttpRequest.USER_LIST_RANGE_RECOMMEND;

@@ -15,7 +15,7 @@ limitations under the License.*/
 package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoFragment;
+import zblibrary.demo.DEMO.DemoListFragment;
 import zblibrary.demo.DEMO.DemoTabFragment;
 import android.app.Activity;
 import android.content.Context;
@@ -32,7 +32,7 @@ import android.widget.TextView;
  * @use BottomTabActivity.createIntent(...)
  */
 public class BottomTabActivity extends BaseBottomTabActivity {
-//	private static final String TAG = "BottomTabActivity";
+	private static final String TAG = "BottomTabActivity";
 
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -105,19 +105,15 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 	@Override
 	protected Fragment getFragment(int position) {
-		bundle = new Bundle();
 		switch (position) {
 		case 1:
-			return new DemoFragment();
+			return DemoListFragment.createInstance();
 		case 2:
-			return new DemoTabFragment();
+			return DemoTabFragment.createInstance("杭州");
 		case 3:
-			return new SettingFragment();
+			return SettingFragment.createInstance();
 		default:
-			bundle.putInt(UserListFragment.ARGUMENT_RANGE, UserListFragment.RANGE_ALL);
-			UserListFragment fragment = new UserListFragment();
-			fragment.setArguments(bundle);
-			return fragment;
+			return UserListFragment.createInstance(UserListFragment.RANGE_ALL);
 		}
 	};
 

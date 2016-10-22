@@ -64,12 +64,6 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 
 	/**
-	 * 用于activity，fragment等之前的intent传值
-	 */
-	protected Bundle bundle = null;
-
-
-	/**
 	 * FragmentManager
 	 */
 	protected FragmentManager fragmentManager = null;

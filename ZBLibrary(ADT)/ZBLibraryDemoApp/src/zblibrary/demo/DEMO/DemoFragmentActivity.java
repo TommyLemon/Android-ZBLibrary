@@ -38,7 +38,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param title
+	 * @param userId
 	 * @return
 	 */
 	public static Intent createIntent(Context context, long userId) {
@@ -47,6 +47,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
 	@Override
 	public Activity getActivity() {
 		return this;
@@ -98,15 +99,8 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 		super.initData();
 		
 		//示例代码<<<<<<<<
-		intent = getIntent();
-
-		showShortToast("userId = " + intent.getLongExtra(INTENT_USER_ID, 0));
-
-		bundle = new Bundle();
-		bundle.putLong(DemoFragment.ARGUMENT_USER_ID, intent.getLongExtra(INTENT_USER_ID, 0));
-		demoFragment = new DemoFragment();
-		demoFragment.setArguments(bundle);
-
+		demoFragment = DemoFragment.createInstance(getIntent().getLongExtra(INTENT_USER_ID, 0));
+		
 		fragmentManager
 		.beginTransaction()
 		.add(R.id.flDemoFragmentActivityContainer, demoFragment)

@@ -237,8 +237,8 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 			addList();
 
 			return;
-		}	
-		showShortToast("onDragBottom");
+		}
+		
 		finish();
 	}
 

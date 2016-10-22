@@ -33,7 +33,7 @@ import android.widget.TextView;
  * @use toActivity(DemoTabActivity.createIntent(...));
  */
 public class DemoTabActivity extends BaseTabActivity implements OnClickListener, OnBottomDragListener {
-//	private static final String TAG = "DemoTabActivity";
+	//	private static final String TAG = "DemoTabActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -46,8 +46,8 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	
+
+
 	@Override
 	public Activity getActivity() {
 		return this;
@@ -69,14 +69,14 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	//示例代码<<<<<<<<
 	private TextView topRightButton;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		super.initView();
-		
+
 		//示例代码<<<<<<<<
 		topRightButton = addTopRightButton(newTopRightTextView(context, "了解"));
 		//示例代码>>>>>>>>
@@ -121,12 +121,15 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 	@Override
 	protected Fragment getFragment(int position) {
-		
-		DemoListFragment fragment = new DemoListFragment();
-		bundle = new Bundle();
-		bundle.putInt(DemoFragment.ARGUMENT_POSITION, position);
+
+		DemoListFragment fragment = DemoListFragment.createInstance();
+		Bundle bundle = fragment.getArguments();
+		if (bundle == null) {
+			bundle = new Bundle();
+		}
+		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
 		fragment.setArguments(bundle);
-		
+
 		return fragment;
 	}
 
@@ -164,10 +167,10 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
 			return;
 		}	
-		
+
 		finish();
 	}
-	
+
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

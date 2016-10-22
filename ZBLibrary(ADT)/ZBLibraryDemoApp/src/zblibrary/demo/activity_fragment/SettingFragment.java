@@ -32,15 +32,22 @@ import android.widget.ImageView;
 public class SettingFragment extends BaseFragment implements OnClickListener, OnDialogButtonClickListener {
 //	private static final String TAG = "SettingFragment";
 
-	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	/**创建一个Fragment实例
+	 * @return
+	 */
+	public static SettingFragment createInstance() {
+		return new SettingFragment();
+	}
+	
+	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
+	
 	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
+		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
 		super.onCreateView(inflater, container, savedInstanceState);
 		setContentView(R.layout.setting_fragment);
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>

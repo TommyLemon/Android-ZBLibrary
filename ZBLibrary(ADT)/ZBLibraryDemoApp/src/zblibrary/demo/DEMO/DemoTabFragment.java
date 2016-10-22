@@ -41,13 +41,24 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
 	public static final String ARGUMENT_CITY = "ARGUMENT_CITY";
 
+	/**创建一个Fragment实例
+	 * @return
+	 */
+	public static DemoTabFragment createInstance(String city) {
+		DemoTabFragment fragment = new DemoTabFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putString(ARGUMENT_CITY, city);
+
+		fragment.setArguments(bundle);
+		return fragment;
+	}
 
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+
 	private String city;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +67,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 		argument = getArguments();
 		if (argument != null) {
-			city = argument.getString(ARGUMENT_CITY);
+			city = argument.getString(ARGUMENT_CITY, city);
 		}
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -120,10 +131,13 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	protected Fragment getFragment(int position) {
-		
-		DemoListFragment fragment = new DemoListFragment();
-		bundle = new Bundle();
-		bundle.putInt(DemoFragment.ARGUMENT_POSITION, position);
+
+		DemoListFragment fragment = DemoListFragment.createInstance();
+		Bundle bundle = fragment.getArguments();
+		if (bundle == null) {
+			bundle = new Bundle();
+		}
+		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
 		fragment.setArguments(bundle);
 
 		return fragment;
