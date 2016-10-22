@@ -73,7 +73,6 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 	@SuppressWarnings("unused")
 	private View rlBottomTabTopbar;
-	private TextView tvBottomTabTitle;	
 
 	private ImageView[] ivBottomTabTabs;
 	private TextView[] tvBottomTabTabs;
@@ -83,7 +82,6 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 		exitAnim = R.anim.bottom_push_out;
 
 		rlBottomTabTopbar = findViewById(R.id.rlBottomTabTopbar);
-		tvBottomTabTitle = (TextView) findViewById(R.id.tvBottomTabTitle);
 
 		ivBottomTabTabs = new ImageView[4];
 		ivBottomTabTabs[0] = (ImageView) findViewById(R.id.ivBottomTabTab0);
@@ -136,7 +134,7 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 		//导致切换时闪屏，建议去掉BottomTabActivity中的topbar，在fragment中显示topbar
 		//		rlBottomTabTopbar.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
 
-		tvBottomTabTitle.setText(tvBottomTabTabs[position].getText());
+		tvBaseTitle.setText(tvBottomTabTabs[position].getText());
 
 		for (int i = 0; i < getCount(); i++) {
 			ivBottomTabTabs[i].setImageResource(TAB_IMAGE_RES_IDS[i][i == position ? 1 : 0]);

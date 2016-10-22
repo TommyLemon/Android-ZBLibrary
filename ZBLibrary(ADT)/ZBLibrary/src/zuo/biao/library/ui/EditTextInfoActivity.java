@@ -111,8 +111,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvEditTextInfoTitle;
-
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
 	private TextView tvEditTextInfoRemind;
@@ -120,9 +118,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	//	private XListView lvEditTextInfo;
 	@Override
 	public void initView() {//必须调用
-
-		tvEditTextInfoTitle = (TextView) findViewById(R.id.tvEditTextInfoTitle);
-
+		super.initView();
+		
 		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
 		tvEditTextInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoRemind);
@@ -193,11 +190,12 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	private ArrayList<String> list;
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
+		
 		intent = getIntent();
 		intentType = intent.getIntExtra(INTENT_TYPE, 0);
 		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_KEY), true)) {
-			tvEditTextInfoTitle.setText(StringUtil.getCurrentString());
+			tvBaseTitle.setText(StringUtil.getCurrentString());
 		}
 
 		if (intentType == TYPE_NICK) {
@@ -292,7 +290,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	private Handler searchHandler;
 	@Override
 	public void initEvent() {//必须调用
-
+		super.initEvent();
+		
 		searchHandler = new Handler(new Callback() {
 			@Override
 			public boolean handleMessage(Message msg) {

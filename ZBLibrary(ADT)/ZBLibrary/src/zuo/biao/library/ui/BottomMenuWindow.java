@@ -28,13 +28,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**通用底部弹出菜单
  * @author lemon
@@ -45,7 +43,7 @@ import android.widget.TextView;
 	或
 	data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE) 可得到点击的(int) intentCode
  */
-public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickListener, OnClickListener {
+public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickListener {
 	private static final String TAG = "BottomMenuWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -129,16 +127,12 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvBottomMenuTitle;
 	private ListView lvBottomMenu;
-	private View tvBottomMenuCancel;
 	@Override
 	public void initView() {//必须调用
 		super.initView();
 
-		tvBottomMenuTitle = (TextView) findViewById(R.id.tvBottomMenuTitle);
 		lvBottomMenu = (ListView) findViewById(R.id.lvBottomMenu);
-		tvBottomMenuCancel = findViewById(R.id.tvBottomMenuCancel);
 	}
 
 
@@ -169,10 +163,10 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 		title = intent.getStringExtra(INTENT_TITLE);
 		if (StringUtil.isNotEmpty(title, true)) {
-			tvBottomMenuTitle.setVisibility(View.VISIBLE);
-			tvBottomMenuTitle.setText(StringUtil.getCurrentString());
+			tvBaseTitle.setVisibility(View.VISIBLE);
+			tvBaseTitle.setText(StringUtil.getCurrentString());
 		} else {
-			tvBottomMenuTitle.setVisibility(View.GONE);
+			tvBaseTitle.setVisibility(View.GONE);
 		}
 
 
@@ -220,7 +214,6 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 		super.initEvent();
 
 		lvBottomMenu.setOnItemClickListener(this);
-		tvBottomMenuCancel.setOnClickListener(this);
 		
 		vBaseBottomWindowRoot.setOnTouchListener(new OnTouchListener() {
 			
@@ -243,16 +236,9 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.tvBottomMenuCancel) {
-			finish();
-		}
-	}
-
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		intent = new Intent()
-		.putExtra(RESULT_TITLE, StringUtil.getTrimedString(tvBottomMenuTitle))
+		.putExtra(RESULT_TITLE, StringUtil.getTrimedString(tvBaseTitle))
 		.putExtra(RESULT_ITEM_ID, position);
 		if (idList != null && idList.size() > position) {
 			intent.putExtra(RESULT_ITEM_ID, idList.get(position));

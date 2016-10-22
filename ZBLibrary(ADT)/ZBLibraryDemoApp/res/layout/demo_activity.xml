@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llDemo"
+    android:id="@+id/llDemoRoot"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
@@ -8,10 +8,8 @@
         <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvDemoTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
-            android:onClick="onBackClick"
             android:text="标题" />
 
         <ImageView

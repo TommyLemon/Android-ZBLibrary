@@ -48,6 +48,7 @@ public abstract class BaseBottomWindow extends BaseActivity {
 	 */
 	@Override
 	public void initView() {// 必须调用
+		super.initView();
 		enterAnim = exitAnim = R.anim.null_anim;
 
 		vBaseBottomWindowRoot = findViewById(R.id.vBaseBottomWindowRoot);
@@ -70,7 +71,8 @@ public abstract class BaseBottomWindow extends BaseActivity {
 
 	@Override
 	public void initData() {// 必须调用
-
+		super.initData();
+		
 	}
 
 	/**
@@ -93,7 +95,8 @@ public abstract class BaseBottomWindow extends BaseActivity {
 
 	@Override
 	public void initEvent() {// 必须调用
-
+		super.initEvent();
+		
 		//			vBaseBottomWindowRoot.setOnClickListener(new OnClickListener() {
 		//
 		//				@Override
@@ -105,7 +108,7 @@ public abstract class BaseBottomWindow extends BaseActivity {
 	}
 	
 //	@Override
-//	public void onBackClick(View v) {
+//	public void onReturnClick(View v) {
 //		finish();
 //	}
 	

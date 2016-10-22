@@ -103,13 +103,13 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	@Nullable
-	protected String getTitleName() {
+	public String getTitleName() {
 		return null;
 	}
 
 	@Override
 	@Nullable
-	protected String getTopReturnButtonName() {
+	public String getReturnName() {
 		return null;
 	}
 

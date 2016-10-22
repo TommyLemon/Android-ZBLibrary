@@ -129,7 +129,7 @@ public class ScanActivity extends CaptureActivity implements Callback, ActivityP
 
 
 	@Override
-	public void onBackClick(View v) {
+	public void onReturnClick(View v) {
 		finish();
 	}	
 	@Override

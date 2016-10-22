@@ -19,6 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.interfaces.ViewPresenter;
 import zuo.biao.library.ui.TopTabView;
 import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
 import zuo.biao.library.util.StringUtil;
@@ -44,7 +45,8 @@ import android.widget.TextView;
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
  * @must 在子类onCreate中调用initView();initData();initEvent();
  */
-public abstract class BaseTabActivity extends BaseActivity implements OnClickListener, OnTabSelectedListener {
+public abstract class BaseTabActivity extends BaseActivity implements ViewPresenter
+, OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabActivity";
 
 	/**
@@ -234,7 +236,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 			tvBaseTabTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
 
-		topReturnButtonName = getTopReturnButtonName();
+		topReturnButtonName = getReturnName();
 
 		if (topReturnButtonName == null) {
 			if (ivBaseTabReturn != null) {
@@ -279,21 +281,16 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 	}
 
-	/**获取导航栏标题名
-	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTitleName();
-
-	/**获取导航栏返回按钮名
-	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTopReturnButtonName();
 
 
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	@Override
+	@Nullable
+	public String getForwardName() {
+		return null;
+	}
+	
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮

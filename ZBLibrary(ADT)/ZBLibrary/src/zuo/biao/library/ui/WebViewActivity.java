@@ -26,11 +26,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 /**通用网页Activity
  * @author Lemon
@@ -61,7 +59,6 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.web_view_activity, this);//传this是为了全局滑动返回
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -75,13 +72,11 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvWebViewTitle;
 	private WebView wvWebView;
 	@Override
 	public void initView() {
-
-		tvWebViewTitle = (TextView) findViewById(R.id.tvWebViewTitle);
-
+		super.initView();
+		
 		wvWebView = (WebView) findViewById(R.id.wvWebView);
 	}
 
@@ -106,12 +101,8 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
 	public void initData() {
-
-		intent = getIntent();
-		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
-			tvWebViewTitle.setText("" + StringUtil.getCurrentString());
-		}
-
+		super.initData();
+		
 		WebSettings webSettings = wvWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 
@@ -149,7 +140,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	public void initEvent() {
-
+		super.initEvent();
 
 	}
 
@@ -165,7 +156,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	}
 
 	@Override
-	public void onBackClick(View v) {
+	public void onReturnClick(View v) {
 		finish();
 	}
 	
@@ -197,7 +188,6 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 		}
 		
 		wvWebView = null;
-		tvWebViewTitle = null;
 	}
 
 

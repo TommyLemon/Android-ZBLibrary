@@ -131,7 +131,8 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initView() {//必须调用
-		//TODO
+		super.initView();
+		
 	}
 
 
@@ -191,7 +192,8 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
+		
 		startPhotoZoom(originalPicturePath, cuttedWidth, cuttedHeight);
 	}
 
@@ -210,7 +212,8 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initEvent() {//必须调用
-
+		super.initEvent();
+		
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

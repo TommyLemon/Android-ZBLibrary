@@ -23,7 +23,6 @@ import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.GridAdapter;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**列表Activity示例
@@ -76,7 +74,7 @@ implements OnBottomDragListener {
 		intent = getIntent();
 		range = intent.getIntExtra(INTENT_RANGE, range);
 
-//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .OnCacheCallBack
+//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .CacheCallBack
 		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -90,18 +88,10 @@ implements OnBottomDragListener {
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<
-	private TextView tvDemoListTitle;
-	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		super.initView();
 
-		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		tvDemoListTitle = (TextView) findViewById(R.id.tvDemoListTitle);
-
-		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 	@Override
@@ -141,10 +131,8 @@ implements OnBottomDragListener {
 		super.initData();
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvDemoListTitle.setText(StringUtil.getCurrentString());
-		}
-
+		tvBaseTitle.setText("" + lvBaseList.getClass().getSimpleName());
+		
 		showShortToast("range = " + range);
 
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

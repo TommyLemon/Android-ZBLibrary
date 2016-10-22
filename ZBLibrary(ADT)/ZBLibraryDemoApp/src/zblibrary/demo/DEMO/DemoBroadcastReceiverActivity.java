@@ -70,7 +70,8 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-
+		super.initView();
+		
 	}
 
 
@@ -91,7 +92,8 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-
+		super.initData();
+		
 		//示例代码<<<<<<<<
 
 		//示例代码>>>>>>>>
@@ -117,6 +119,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 	//示例代码>>>>>>>>>>>>>>>>>>>
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
+		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
 		//BaseBroadcastReceiver直接使用示例 <<<<<<<<<<<<<<

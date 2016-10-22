@@ -93,7 +93,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutQRCode;
 	@Override
 	public void initView() {
-
+		super.initView();
+		
 		ivAboutGesture = (ImageView) findViewById(R.id.ivAboutGesture);
 		ivAboutGesture.setVisibility(SettingUtil.isFirstStart ? View.VISIBLE : View.GONE);
 		if (SettingUtil.isFirstStart) {
@@ -121,7 +122,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initData() {
-
+		super.initData();
+		
 		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
 				+ "\n" + DemoApplication.getInstance().getAppVersion());
 
@@ -184,7 +186,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initEvent() {
-
+		super.initEvent();
+		
 		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 		findViewById(R.id.llAboutBottomTabActivity).setOnClickListener(this);
 

@@ -9,7 +9,7 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvBottomMenuTitle"
+            android:id="@id/tvBaseTitle"
             style="@style/text_big_black"
             android:layout_width="match_parent"
             android:padding="12dp"
@@ -31,6 +31,7 @@
         <TextView
             android:id="@+id/tvBottomMenuCancel"
             style="@style/text_middle"
+            android:onClick="onReturnClick"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:background="@drawable/menu_member_manage_cancel_bg"

@@ -22,7 +22,6 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.PageScroller;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**使用方法：复制>粘贴>改名>改代码  */
@@ -91,15 +89,13 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private TextView tvDemoTitle;
 	private ListView lvDemo;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-
+		super.initView();
+		
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		tvDemoTitle = (TextView) findViewById(R.id.tvDemoTitle);
 
 		lvDemo = (ListView) findViewById(R.id.lvDemo);
 
@@ -148,13 +144,9 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	//示例代码>>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-
+		super.initData();
+		
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvDemoTitle.setText(StringUtil.getCurrentString());
-		}
-
 		showProgressDialog(R.string.loading);
 
 		runThread(TAG + "initData", new Runnable() {
@@ -220,6 +212,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
+		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
 		lvDemo.setOnItemClickListener(new OnItemClickListener() {

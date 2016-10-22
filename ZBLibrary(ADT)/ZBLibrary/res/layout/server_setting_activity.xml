@@ -8,7 +8,6 @@
         <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvServerSettingTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="服务器设置" />

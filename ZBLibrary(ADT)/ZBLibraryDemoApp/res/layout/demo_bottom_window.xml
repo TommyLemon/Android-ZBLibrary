@@ -4,7 +4,7 @@
     style="@style/bottom_window_page" >
 
     <TextView
-        android:id="@+id/tvBaseBottomWindowTitle"
+        android:id="@id/tvBaseTabTitle"
         style="@style/text_middle_black"
         android:layout_width="match_parent"
         android:layout_marginBottom="20dp"

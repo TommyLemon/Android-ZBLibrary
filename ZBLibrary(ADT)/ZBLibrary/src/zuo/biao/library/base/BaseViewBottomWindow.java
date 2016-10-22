@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**基础带标签的FragmentActivity
  * @author Lemon
@@ -91,8 +90,6 @@ implements ViewPresenter {
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	@Nullable
-	protected TextView tvBaseViewBottomWindowTitle;
 
 	@Nullable
 	protected ViewGroup llBaseViewBottomWindowContainer;
@@ -105,10 +102,7 @@ implements ViewPresenter {
 	public void initView() {// 必须调用
 		super.initView();
 
-		tvBaseViewBottomWindowTitle = (TextView) findViewById(R.id.tvBaseViewBottomWindowTitle);
-
 		llBaseViewBottomWindowContainer = (ViewGroup) findViewById(R.id.llBaseViewBottomWindowContainer);
-
 	}
 
 
@@ -131,13 +125,13 @@ implements ViewPresenter {
 	public void initData() {// 必须调用
 		super.initData();
 
-		if (tvBaseViewBottomWindowTitle != null) {
+		if (tvBaseTitle != null) {
 			String title = getIntent().getStringExtra(INTENT_TITLE);
 			if (StringUtil.isNotEmpty(title, true) == false) {
 				title = getTitleName();
 			}
-			tvBaseViewBottomWindowTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
-			tvBaseViewBottomWindowTitle.setText(StringUtil.getTrimedString(title));
+			tvBaseTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
+			tvBaseTitle.setText(StringUtil.getTrimedString(title));
 		}
 
 		llBaseViewBottomWindowContainer.removeAllViews();
@@ -194,10 +188,7 @@ implements ViewPresenter {
 
 		containerView = null;
 
-		tvBaseViewBottomWindowTitle = null;
-
 		llBaseViewBottomWindowContainer = null;
-
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

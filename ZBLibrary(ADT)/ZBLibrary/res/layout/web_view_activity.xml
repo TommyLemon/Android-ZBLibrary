@@ -8,10 +8,8 @@
         <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvWebViewTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:text="网页" />
     </RelativeLayout>
 

@@ -8,7 +8,6 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvEditTextInfoTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="编辑"

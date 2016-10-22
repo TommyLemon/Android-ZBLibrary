@@ -33,7 +33,7 @@ public interface ActivityPresenter extends Presenter {
 	 * *Activity的返回按钮和底部弹窗的取消按钮几乎是必备，正好原生支持反射；而其它比如Fragment极少用到，也不支持反射
 	 * @param v
 	 */
-	public void onBackClick(View v);
+	public void onReturnClick(View v);
 	
 	/**前进按钮被点击
 	 * *Activity常用导航栏右边按钮，而且底部弹窗BottomWindow的确定按钮是必备；而其它比如Fragment极少用到，也不支持反射

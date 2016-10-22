@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.interfaces.ViewPresenter;
 import zuo.biao.library.ui.TopTabView;
 import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
 import zuo.biao.library.util.StringUtil;
@@ -45,7 +46,8 @@ import android.widget.TextView;
  * @use extends BaseTabFragment, 具体参考.DemoTabFragment
  * @must 在子类onCreateView中调用initView();initData();initEvent();
  */
-public abstract class BaseTabFragment extends BaseFragment implements OnClickListener, OnTabSelectedListener {
+public abstract class BaseTabFragment extends BaseFragment implements ViewPresenter
+, OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabFragment";
 
 	/**
@@ -138,6 +140,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 
 
+
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -181,7 +184,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	/**
 	 * 当前显示的tab所在位置，对应fragment所在位置
 	 */
-	protected int currentPosition;
+	protected int currentPosition = 0;
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -235,7 +238,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 			tvBaseTabTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
 
-		topReturnButtonName = getTopReturnButtonName();
+		topReturnButtonName = getReturnName();
 
 		if (topReturnButtonName == null) {
 			if (ivBaseTabReturn != null) {
@@ -280,25 +283,20 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 
 	}
 
-	/**获取导航栏标题名
-	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTitleName();
-
-	/**获取导航栏返回按钮名
-	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTopReturnButtonName();
 
 
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	@Override
+	@Nullable
+	public String getForwardName() {
+		return null;
+	}
+	
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮
-	 * @must 在super.initData前调用
+	 * @warn 在initData前使用才有效
 	 * @param topRightButton 不会在这个类设置监听,需要自行设置
 	 */
 	public <V extends View> V addTopRightButton(V topRightButton) {
@@ -313,7 +311,7 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 	 * @return
 	 */
 	public ImageView newTopRightImageView(Context context, int drawable) {
-		return newTopRightImageView(context, context.getResources().getDrawable(drawable));
+		return newTopRightImageView(context, getResources().getDrawable(drawable));
 	}
 	/**新建右上方导航栏按钮
 	 * @param context
@@ -440,9 +438,6 @@ public abstract class BaseTabFragment extends BaseFragment implements OnClickLis
 		topRightButtonList = null;
 		
 		onTabSelectedListener = null;
-		
-		fragmentManager = null;
-		bundle = null;
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

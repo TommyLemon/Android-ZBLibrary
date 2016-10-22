@@ -89,7 +89,8 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 	private View ivQRCodeProgress;
 	@Override
 	public void initView() {//必须调用
-
+		super.initView();
+		
 		ivQRCodeHead = (ImageView) findViewById(R.id.ivQRCodeHead);
 		tvQRCodeName = (TextView) findViewById(R.id.tvQRCodeName);
 
@@ -115,7 +116,8 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 	private User user;
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
+		
 		ivQRCodeProgress.setVisibility(View.VISIBLE);
 		runThread(TAG + "initData", new Runnable() {
 
@@ -181,7 +183,7 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 
 	@Override
 	public void initEvent() {//必须调用
-
+		super.initEvent();
 
 	}
 

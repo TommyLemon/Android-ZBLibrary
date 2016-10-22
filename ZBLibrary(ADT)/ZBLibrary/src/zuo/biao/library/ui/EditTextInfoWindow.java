@@ -98,7 +98,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvEditTextInfoTitle;
 	private TextView tvEditTextInfoPlace;
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
@@ -106,8 +105,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	@Override
 	public void initView() {//必须调用
 		super.initView();
-
-		tvEditTextInfoTitle = (TextView) findViewById(R.id.tvEditTextInfoTitle);
 
 		tvEditTextInfoPlace = (TextView) findViewById(R.id.tvEditTextInfoPlace);
 		tvEditTextInfoPlace.setVisibility(View.GONE);
@@ -167,7 +164,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 		intentType = intent.getIntExtra(INTENT_TYPE, 0);
 		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_KEY), true)) {
-			tvEditTextInfoTitle.setText(StringUtil.getCurrentString());
+			tvBaseTitle.setText(StringUtil.getCurrentString());
 		}
 		etEditTextInfo.setSingleLine(intentType != TYPE_NOTE);
 

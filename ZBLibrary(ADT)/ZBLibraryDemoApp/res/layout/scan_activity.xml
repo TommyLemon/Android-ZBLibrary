@@ -60,7 +60,7 @@
                 android:paddingTop="4dp" >
 
                 <ImageView
-                    android:onClick="onBackClick"
+                    android:onClick="onReturnClick"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"
                     android:padding="12dp"

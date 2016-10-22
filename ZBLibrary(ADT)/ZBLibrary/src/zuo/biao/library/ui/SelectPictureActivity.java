@@ -73,7 +73,8 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initView() {//必须调用
-		//TODO
+		super.initView();
+		
 	}
 
 
@@ -93,7 +94,8 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 	private String picturePath = "";
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
+		
 	}
 
 	private File cameraFile;
@@ -175,7 +177,8 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initEvent() {//必须调用
-
+		super.initEvent();
+		
 		findViewById(R.id.llSelectPictureBg).setOnClickListener(this);
 
 		toActivity(new Intent(context, BottomMenuWindow.class)

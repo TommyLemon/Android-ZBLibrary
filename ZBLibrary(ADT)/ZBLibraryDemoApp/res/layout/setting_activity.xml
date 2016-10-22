@@ -7,7 +7,6 @@
         <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvSettingTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="设置" />

@@ -76,7 +76,6 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvDemoSQLTitle;
 	private TextView tvDemoSQLInfo;
 
 	private ScrollView svDemoSQL;
@@ -91,8 +90,8 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	private EditText etDemoSQLEditValue;
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-
-		tvDemoSQLTitle = (TextView) findViewById(R.id.tvDemoSQLTitle);
+		super.initView();
+		
 		tvDemoSQLInfo = (TextView) findViewById(R.id.tvDemoSQLInfo);
 
 		svDemoSQL = (ScrollView) findViewById(R.id.svDemoSQL);
@@ -159,11 +158,8 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	private SQLHelper sqlHelper;
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvDemoSQLTitle.setText(StringUtil.getCurrentString());
-		}
-
+		super.initData();
+		
 		sqlHelper = new SQLHelper(context);
 
 		tvDemoSQLInfo.setText(SQLHelper.TABLE_NAME + "(" + SQLHelper.COLUMN_ID + ", " + SQLHelper.COLUMN_NAME
@@ -339,12 +335,12 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-
+		super.initEvent();
+		
 		findViewById(R.id.btnDemoSQLInsert).setOnClickListener(this);
 		findViewById(R.id.btnDemoSQLDelete).setOnClickListener(this);
 		findViewById(R.id.btnDemoSQLUpdate).setOnClickListener(this);
 		findViewById(R.id.btnDemoSQLQuery).setOnClickListener(this);
-
 	}
 
 	@Override

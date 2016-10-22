@@ -104,13 +104,13 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 	@Override
 	@Nullable
-	protected String getTitleName() {
+	public String getTitleName() {
 		return "账单";
 	}
 
 	@Override
 	@Nullable
-	protected String getTopReturnButtonName() {
+	public String getReturnName() {
 		return "";
 	}
 

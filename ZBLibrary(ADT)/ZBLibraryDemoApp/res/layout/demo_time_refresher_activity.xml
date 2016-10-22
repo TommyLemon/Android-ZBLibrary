@@ -8,7 +8,6 @@
         <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvDemoTimeRefresherTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="使用时间刷新器" />

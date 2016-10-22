@@ -5,7 +5,7 @@
     android:layout_gravity="bottom" >
 
     <TextView
-        android:id="@id/tvBaseViewBottomWindowTitle"
+        android:id="@id/tvBaseTitle"
         style="@style/topbar_bg"
         android:background="@color/white"
         android:gravity="center"

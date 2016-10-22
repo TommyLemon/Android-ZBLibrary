@@ -17,12 +17,10 @@ package zblibrary.demo.DEMO;
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragmentActivity示例
@@ -71,15 +69,10 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<
-	private TextView tvDemoFragmentActivityTitle;
-	private DemoFragment demoFragment;
-	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-		//示例代码<<<<<<<<
-		tvDemoFragmentActivityTitle = (TextView) findViewById(R.id.tvDemoFragmentActivityTitle);
-		//示例代码>>>>>>>>
+		super.initView();
+
 	}
 
 
@@ -97,15 +90,15 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	//示例代码<<<<<<<<
+	private DemoFragment demoFragment;
+	//示例代码>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-
+		super.initData();
+		
 		//示例代码<<<<<<<<
 		intent = getIntent();
-		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
-			tvDemoFragmentActivityTitle.setText("" + StringUtil.getCurrentString());
-		}
 
 		showShortToast("userId = " + intent.getLongExtra(INTENT_USER_ID, 0));
 
@@ -135,7 +128,8 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-
+		super.initEvent();
+		
 	}
 
 
