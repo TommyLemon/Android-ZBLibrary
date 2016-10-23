@@ -5,23 +5,32 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView style="@style/topbar_return_img" />
+        <ImageView
+            android:id="@+id/imageView1"
+            style="@style/topbar_return_img" />
 
         <TextView
+            android:id="@+id/tvWebViewTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
+            android:ellipsize="none"
+            android:singleLine="true"
             android:text="网页" />
     </RelativeLayout>
 
-    <WebView
-        android:id="@+id/wvWebView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    <RelativeLayout style="@style/match_match" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </LinearLayout>
+        <WebView
+            android:id="@+id/wvWebView"
+            style="@style/match_match" />
+
+        <ProgressBar
+            android:id="@+id/pbWebView"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentTop="true"
+            android:progressDrawable="@drawable/progress_color_horizontal" />
+    </RelativeLayout>
 
 </LinearLayout>

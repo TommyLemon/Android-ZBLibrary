@@ -23,12 +23,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**通用网页Activity
  * @author Lemon
@@ -72,11 +75,15 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	private TextView tvWebViewTitle;
+	private ProgressBar pbWebView;
 	private WebView wvWebView;
 	@Override
 	public void initView() {
 		super.initView();
 		
+		tvWebViewTitle = (TextView) findViewById(R.id.tvWebViewTitle);
+		pbWebView = (ProgressBar) findViewById(R.id.pbWebView);
 		wvWebView = (WebView) findViewById(R.id.wvWebView);
 	}
 
@@ -96,8 +103,6 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	@SuppressWarnings("unused")
-	private Handler webHandler = new Handler();
 	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
 	public void initData() {
@@ -114,15 +119,44 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 		}
 
 		wvWebView.requestFocus();
-		wvWebView.loadUrl(url);
+		
+        // 设置setWebChromeClient对象  
+        wvWebView.setWebChromeClient(new WebChromeClient() {  
+            @Override  
+            public void onReceivedTitle(WebView view, String title) {  
+                super.onReceivedTitle(view, title);
+                tvWebViewTitle.setText(StringUtil.getTrimedString(title));
+            }  
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+            	super.onProgressChanged(view, newProgress);
+            	pbWebView.setProgress(newProgress);
+            }
+        });  
+		
 		wvWebView.setWebViewClient(new WebViewClient(){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
-
-				return false;
+				wvWebView.loadUrl(url);
+				return true;
+			}
+			
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
+				tvWebViewTitle.setText(StringUtil.getTrimedString(wvWebView.getUrl()));
+				pbWebView.setVisibility(View.VISIBLE);
+			}
+			
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				tvWebViewTitle.setText(StringUtil.getTrimedString(wvWebView.getTitle()));
+				pbWebView.setVisibility(View.GONE);
 			}
 		});
-
+	
+		wvWebView.loadUrl(url);
 	}
 
 
@@ -141,7 +175,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	@Override
 	public void initEvent() {
 		super.initEvent();
-
+		
 	}
 
 	@Override
@@ -174,22 +208,27 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        wvWebView.onPause();
+    }
+    
+    @Override
+    protected void onResume() {
+        wvWebView.onResume();
+        super.onResume();
+    }
+    
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		if (wvWebView != null) {
-			try {
-				wvWebView.destroyDrawingCache();
-				wvWebView.destroy();
-			} catch (Exception e) {
-				Log.w(TAG, "onDestroy  try { wvWebView.destroy(); ..." +
-						" >> } catch (Exception e) {\n" + e.getMessage());
-			}
-		}
-		
+            wvWebView.destroy();
+            wvWebView = null;
+        }
 		wvWebView = null;
 	}
-
 
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
