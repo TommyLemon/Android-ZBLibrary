@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**基础带标签的FragmentActivity
  * @author Lemon
@@ -30,8 +31,8 @@ import android.view.ViewGroup;
  * @must 在子类onCreate中调用initView();initData();initEvent();
  */
 public abstract class BaseViewBottomWindow<T, BV extends BaseView<T>> extends BaseBottomWindow
-implements ViewPresenter {
-//	private static final String TAG = "BaseViewBottomWindow";
+		implements ViewPresenter {
+	//	private static final String TAG = "BaseViewBottomWindow";
 
 
 	/**
@@ -48,7 +49,6 @@ implements ViewPresenter {
 	/**
 	 * @param savedInstanceState
 	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_tab_activity
-	 * @param listener this - 滑动返回 ; null - 没有滑动返回
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
@@ -91,9 +91,12 @@ implements ViewPresenter {
 
 
 
-	@Nullable
 	protected ViewGroup llBaseViewBottomWindowContainer;
 
+	@Nullable
+	protected TextView tvBaseViewBottomWindowReturn;
+	@Nullable
+	protected TextView tvBaseViewBottomWindowForward;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -103,6 +106,9 @@ implements ViewPresenter {
 		super.initView();
 
 		llBaseViewBottomWindowContainer = (ViewGroup) findViewById(R.id.llBaseViewBottomWindowContainer);
+
+		tvBaseViewBottomWindowReturn = (TextView) findViewById(R.id.tvBaseViewBottomWindowReturn);
+		tvBaseViewBottomWindowForward = (TextView) findViewById(R.id.tvBaseViewBottomWindowForward);
 	}
 
 
@@ -133,6 +139,14 @@ implements ViewPresenter {
 			tvBaseTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
 			tvBaseTitle.setText(StringUtil.getTrimedString(title));
 		}
+
+		if (tvBaseViewBottomWindowReturn != null && StringUtil.isNotEmpty(getReturnName(), true)) {
+			tvBaseViewBottomWindowReturn.setText(StringUtil.getCurrentString());
+		}
+		if (tvBaseViewBottomWindowForward != null && StringUtil.isNotEmpty(getForwardName(), true)) {
+			tvBaseViewBottomWindowForward.setText(StringUtil.getCurrentString());
+		}
+
 
 		llBaseViewBottomWindowContainer.removeAllViews();
 		if (containerView == null) {
@@ -177,18 +191,15 @@ implements ViewPresenter {
 	@Override
 	protected void onDestroy() {
 		data = null;
-		if (llBaseViewBottomWindowContainer != null) {
-			llBaseViewBottomWindowContainer.removeAllViews();
-		}
+		llBaseViewBottomWindowContainer.removeAllViews();
 		if (containerView != null) {
 			containerView.onDestroy();
 		}
 
 		super.onDestroy();
 
-		containerView = null;
-
 		llBaseViewBottomWindowContainer = null;
+		containerView = null;
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

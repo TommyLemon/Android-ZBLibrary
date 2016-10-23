@@ -54,7 +54,7 @@
 
         <TextView
             android:id="@+id/tvServerSettingNormalSet"
-            style="@style/bottom_menu_btn_cancel"
+            style="@style/bottom_menu_btn_return"
             android:layout_weight="1"
             android:text="切换至" />
 
@@ -62,7 +62,7 @@
 
         <TextView
             android:id="@+id/tvServerSettingNormalOpen"
-            style="@style/bottom_menu_btn_save"
+            style="@style/bottom_menu_btn_forward"
             android:layout_weight="1"
             android:text="打开网址" />
     </LinearLayout>
@@ -102,7 +102,7 @@
 
         <TextView
             android:id="@+id/tvServerSettingTestSet"
-            style="@style/bottom_menu_btn_cancel"
+            style="@style/bottom_menu_btn_return"
             android:layout_weight="1"
             android:text="切换至" />
 
@@ -110,7 +110,7 @@
 
         <TextView
             android:id="@+id/tvServerSettingTestOpen"
-            style="@style/bottom_menu_btn_save"
+            style="@style/bottom_menu_btn_forward"
             android:layout_weight="1"
             android:text="打开网址" />
     </LinearLayout>

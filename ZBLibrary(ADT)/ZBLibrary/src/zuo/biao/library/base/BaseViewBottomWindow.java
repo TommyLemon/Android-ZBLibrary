@@ -49,7 +49,6 @@ implements ViewPresenter {
 	/**
 	 * @param savedInstanceState
 	 * @param layoutResID activity全局视图view的布局资源id，默认值为R.layout.base_tab_activity
-	 * @param listener this - 滑动返回 ; null - 没有滑动返回
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
@@ -92,7 +91,6 @@ implements ViewPresenter {
 
 
 
-	@Nullable
 	protected ViewGroup llBaseViewBottomWindowContainer;
 
 	@Nullable
@@ -149,7 +147,7 @@ implements ViewPresenter {
 			tvBaseViewBottomWindowForward.setText(StringUtil.getCurrentString());
 		}
 
-		
+
 		llBaseViewBottomWindowContainer.removeAllViews();
 		if (containerView == null) {
 			containerView = createView();
@@ -193,18 +191,15 @@ implements ViewPresenter {
 	@Override
 	protected void onDestroy() {
 		data = null;
-		if (llBaseViewBottomWindowContainer != null) {
-			llBaseViewBottomWindowContainer.removeAllViews();
-		}
+		llBaseViewBottomWindowContainer.removeAllViews();
 		if (containerView != null) {
 			containerView.onDestroy();
 		}
 
 		super.onDestroy();
 
-		containerView = null;
-
 		llBaseViewBottomWindowContainer = null;
+		containerView = null;
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
