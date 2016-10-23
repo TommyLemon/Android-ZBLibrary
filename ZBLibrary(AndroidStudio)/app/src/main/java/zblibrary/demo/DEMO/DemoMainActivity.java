@@ -105,6 +105,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	private ScrollView svDemoMain;
 	@Override
 	public void initView() {//必须调用
+		super.initView();
 		exitAnim = R.anim.bottom_push_out;
 
 		rlDemoMainTopbar = findViewById(R.id.rlDemoMainTopbar);
@@ -195,7 +196,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
+		
 	}
 
 
@@ -212,11 +214,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	@Override
 	public void initEvent() {//必须调用
-
-		findViewById(R.id.tvDemoMainReturn).setOnClickListener(this);
-		findViewById(R.id.ivDemoMainMenu).setOnClickListener(this);
-
-
+		super.initEvent();
+		
 		findViewById(R.id.llDemoMainItemDialog).setOnClickListener(this);
 		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
@@ -326,14 +325,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void onClick(View v) {//直接调用不会显示v被点击效果
 		switch (v.getId()) {
-		case R.id.tvDemoMainReturn:
-			onDragBottom(false);
-			break;     
-		case R.id.ivDemoMainMenu:
-			onDragBottom(true);
-			break;     
-
-			
 		case R.id.ivDemoMainHead:
 			selectPicture();
 			break;     

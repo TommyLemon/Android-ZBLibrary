@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
+import android.support.annotation.Nullable;
 
 /**View的逻辑接口
  * @author Lemon
@@ -24,16 +25,19 @@ public interface ViewPresenter {
 	/**获取导航栏标题名
 	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
 	 */
-	String getTitleName();//@nullable导致重写没有public方法
+	@Nullable
+	public String getTitleName();
 
 	/**获取导航栏返回按钮名
 	 * @return null - default; "" - default; "xxx" - "xxx"
 	 */
-	String getReturnName();
+	@Nullable
+	public String getReturnName();
 	
 	/**获取导航栏前进按钮名
 	 * @return null - default; "" - default; "xxx" - "xxx"
 	 */
-	String getForwardName();
+	@Nullable
+	public String getForwardName();
 
 }

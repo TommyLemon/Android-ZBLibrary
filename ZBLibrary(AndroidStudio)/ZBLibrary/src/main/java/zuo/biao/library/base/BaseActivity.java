@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.GestureDetector;
@@ -44,6 +45,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法
@@ -119,12 +121,12 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		view = inflater.inflate(layoutResID, null);
 		view.setOnTouchListener(this);
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@Override
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
-		
+
 		// 状态栏沉浸，4.4+生效 <<<<<<<<<<<<<<<<<
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			getWindow().setFlags(
@@ -135,9 +137,9 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		tintManager.setStatusBarTintEnabled(true);
 		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
 		// 状态栏沉浸，4.4+生效 >>>>>>>>>>>>>>>>>
-		
+
 	}
-	
+
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -145,10 +147,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 * 用于 打开activity以及activity之间的通讯（传值）等；一些通讯相关基本操作（打电话、发短信等）
 	 */
 	protected Intent intent = null;
-	/**
-	 * 用于activity，fragment等之前的intent传值
-	 */
-	protected Bundle bundle = null;
 
 	/**
 	 * 退出时之前的界面进入动画,可在finish();前通过改变它的值来改变动画效果
@@ -163,12 +161,24 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 * 进度弹窗
 	 */
 	protected ProgressDialog progressDialog = null;
+	
+	
 	/**
 	 * activity退出时隐藏软键盘需要，需要在调用finish方法前赋值
 	 */
+	@Nullable
 	protected View toGetWindowTokenView = null;
-
-
+	
+	/**
+	 * activity的标题TextView，layout.xml中用@id/tvBaseTitle绑定会优先使用INTENT_TITLE
+	 */
+	@Nullable
+	protected TextView tvBaseTitle;
+	@Override
+	public void initView() {
+		tvBaseTitle = (TextView) findViewById(R.id.tvBaseTitle);
+	}
+	
 	//	/**通过id查找并获取控件，使用时不需要强转
 	//	 * @param id
 	//	 * @return 
@@ -340,6 +350,15 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+	@Override
+	public void initData() {
+		//将title显示为上个Activity传入的值
+		if (tvBaseTitle != null && StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
+			tvBaseTitle.setText(StringUtil.getCurrentString());
+		}		
+	}
+	
+	
 	//运行线程 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**在UI线程中运行，建议用这个方法代替runOnUiThread
@@ -380,6 +399,44 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	}
 
 	//运行线程 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	
+	
+	@Override
+	public void initEvent() {
+		
+	}
+
+	//Activity的返回按钮和底部弹窗的取消按钮几乎是必备，正好原生支持反射；而其它比如Fragment极少用到，也不支持反射<<<<<<<<<
+	/**返回按钮被点击，默认处理是onBottomDragListener.onDragBottom(false)，重写可自定义事件处理
+	 * @param v
+	 * @use layout.xml中的组件添加android:onClick="onReturnClick"即可
+	 * @warn 只能在Activity对应的contentView layout中使用；
+	 * *给对应View setOnClickListener会导致android:onClick="onReturnClick"失效
+	 */
+	@Override
+	public void onReturnClick(View v) {
+		Log.d(TAG, "onReturnClick >>>");
+		if (onBottomDragListener != null) {
+			onBottomDragListener.onDragBottom(false);
+		} else {
+			onBackPressed();//会从最外层子类调finish();BaseBottomWindow就是示例
+		}
+	}
+	/**前进按钮被点击，默认处理是onBottomDragListener.onDragBottom(true)，重写可自定义事件处理
+	 * @param v
+	 * @use layout.xml中的组件添加android:onClick="onForwardClick"即可
+	 * @warn 只能在Activity对应的contentView layout中使用；
+	 * *给对应View setOnClickListener会导致android:onClick="onForwardClick"失效
+	 */
+	@Override
+	public void onForwardClick(View v) {
+		Log.d(TAG, "onForwardClick >>>");
+		if (onBottomDragListener != null) {
+			onBottomDragListener.onDragBottom(true);
+		}
+	}
+	//Activity常用导航栏右边按钮，而且底部弹窗BottomWindow的确定按钮是必备；而其它比如Fragment极少用到，也不支持反射>>>>>
 
 
 	@Override
@@ -443,17 +500,17 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		isAlive = false;
 		isRunning = false;
 		super.onDestroy();
-
+		
 		inflater = null;
 		view = null;
 		toGetWindowTokenView = null;
+		tvBaseTitle = null;
 
 		fragmentManager = null;
 		progressDialog = null;
 		threadNameList = null;
 
 		intent = null;
-		bundle = null;
 
 		context = null;
 	}

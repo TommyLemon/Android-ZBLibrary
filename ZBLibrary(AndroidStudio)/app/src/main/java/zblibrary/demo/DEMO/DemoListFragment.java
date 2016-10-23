@@ -38,11 +38,22 @@ import android.widget.ListView;
 public class DemoListFragment extends BaseListFragment<Entry<String, String>, ListView, DemoAdapter> {
 //	private static final String TAG = "DemoListFragment";
 
+	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**创建一个Fragment实例
+	 * @return
+	 */
+	public static DemoListFragment createInstance() {
+		return new DemoListFragment();
+	}
+	
+	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState, R.layout.demo_list_fragment);
-
+		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -132,7 +143,6 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	public void initEvent() {//必须在onCreateView方法内调用
 		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
-
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

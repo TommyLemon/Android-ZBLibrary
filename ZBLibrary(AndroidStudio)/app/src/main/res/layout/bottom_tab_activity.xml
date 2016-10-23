@@ -7,7 +7,6 @@
         style="@style/topbar_bg" >
 
         <TextView
-            android:id="@+id/tvBottomTabTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="主页" />

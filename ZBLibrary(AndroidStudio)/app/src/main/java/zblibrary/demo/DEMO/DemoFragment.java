@@ -41,11 +41,37 @@ public class DemoFragment extends BaseFragment {
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
+	public static final String ARGUMENT_USER_NAME = "ARGUMENT_USER_NAME";
 
+	/**创建一个Fragment实例
+	 * @param userId
+	 * @return
+	 */
+	public static DemoFragment createInstance(long userId) {
+		return createInstance(userId, null);
+	}
+	/**创建一个Fragment实例
+	 * @param userId
+	 * @param userName
+	 * @return
+	 */
+	public static DemoFragment createInstance(long userId, String userName) {
+		DemoFragment fragment = new DemoFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putLong(ARGUMENT_USER_ID, userId);
+		bundle.putString(ARGUMENT_USER_NAME, userName);
+		
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+	
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	
+	
 	private long userId = 0;
+	private String userName = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
@@ -54,7 +80,8 @@ public class DemoFragment extends BaseFragment {
 
 		argument = getArguments();
 		if (argument != null) {
-			userId = argument.getLong(ARGUMENT_USER_ID);
+			userId = argument.getLong(ARGUMENT_USER_ID, userId);
+			userName = argument.getString(ARGUMENT_USER_NAME, userName);
 		}
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -126,6 +153,8 @@ public class DemoFragment extends BaseFragment {
 
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+		showShortToast(TAG + ": userId = " + userId + "; userName = " + userName);
+		
 		showProgressDialog(R.string.loading);
 
 		runThread(TAG + "initData", new Runnable() {

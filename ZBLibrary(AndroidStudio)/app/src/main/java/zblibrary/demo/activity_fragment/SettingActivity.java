@@ -17,7 +17,7 @@ import android.widget.ImageView;
  * @author Lemon
  * @use toActivity(SettingActivity.createIntent(...));
  */
-public class SettingActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class SettingActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "SettingActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -57,7 +57,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 	private ImageView[] ivSettings;
 	@Override
 	public void initView() {//必须调用
-
+		super.initView();
+		
 		ivSettings = new ImageView[5];
 		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingVoice); 
 		ivSettings[1] = (ImageView) findViewById(R.id.ivSettingVibrate); 
@@ -105,7 +106,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
 
 		showProgressDialog(R.string.loading);
 
@@ -150,9 +151,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initEvent() {//必须调用
-		findViewById(R.id.ivSettingReturn).setOnClickListener(this);
-		findViewById(R.id.tvSettingForward).setOnClickListener(this);
-
+		super.initEvent();
+		
 		for (int i = 0; i < ivSettings.length; i++) {
 			final int which = i;
 			ivSettings[which].setOnClickListener(new OnClickListener() {
@@ -179,19 +179,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener, On
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.ivSettingReturn:
-			onDragBottom(false);
-			break;
-		case R.id.tvSettingForward:
-			onDragBottom(true);
-			break;
-		default:
-			break;
-		}
-	}
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

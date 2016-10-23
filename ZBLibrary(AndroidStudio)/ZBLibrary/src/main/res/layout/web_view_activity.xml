@@ -5,16 +5,12 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivWebViewReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvWebViewTitle"
             style="@style/topbar_title"
-            android:text="网页"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
+            android:text="网页" />
     </RelativeLayout>
 
     <WebView

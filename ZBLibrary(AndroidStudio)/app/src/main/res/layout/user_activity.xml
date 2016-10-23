@@ -4,12 +4,9 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivUserReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvUserTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="详细资料" />

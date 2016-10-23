@@ -14,6 +14,9 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
+import zblibrary.demo.R;
+import zblibrary.demo.DEMO.DemoListFragment;
+import zblibrary.demo.DEMO.DemoTabFragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,16 +27,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import zblibrary.demo.DEMO.DemoFragment;
-import zblibrary.demo.DEMO.DemoTabFragment;
-import zblibrary.demo.R;
-
 /**应用主页
  * @author Lemon
  * @use BottomTabActivity.createIntent(...)
  */
 public class BottomTabActivity extends BaseBottomTabActivity {
-//	private static final String TAG = "BottomTabActivity";
+	private static final String TAG = "BottomTabActivity";
 
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -74,7 +73,6 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 	@SuppressWarnings("unused")
 	private View rlBottomTabTopbar;
-	private TextView tvBottomTabTitle;	
 
 	private ImageView[] ivBottomTabTabs;
 	private TextView[] tvBottomTabTabs;
@@ -84,7 +82,6 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 		exitAnim = R.anim.bottom_push_out;
 
 		rlBottomTabTopbar = findViewById(R.id.rlBottomTabTopbar);
-		tvBottomTabTitle = (TextView) findViewById(R.id.tvBottomTabTitle);
 
 		ivBottomTabTabs = new ImageView[4];
 		ivBottomTabTabs[0] = (ImageView) findViewById(R.id.ivBottomTabTab0);
@@ -108,19 +105,15 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 	@Override
 	protected Fragment getFragment(int position) {
-		bundle = new Bundle();
 		switch (position) {
 		case 1:
-			return new DemoFragment();
+			return DemoListFragment.createInstance();
 		case 2:
-			return new DemoTabFragment();
+			return DemoTabFragment.createInstance("杭州");
 		case 3:
-			return new SettingFragment();
+			return SettingFragment.createInstance();
 		default:
-			bundle.putInt(UserListFragment.ARGUMENT_RANGE, UserListFragment.RANGE_ALL);
-			UserListFragment fragment = new UserListFragment();
-			fragment.setArguments(bundle);
-			return fragment;
+			return UserListFragment.createInstance(UserListFragment.RANGE_ALL);
 		}
 	};
 
@@ -137,7 +130,7 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 		//导致切换时闪屏，建议去掉BottomTabActivity中的topbar，在fragment中显示topbar
 		//		rlBottomTabTopbar.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
 
-		tvBottomTabTitle.setText(tvBottomTabTabs[position].getText());
+		tvBaseTitle.setText(tvBottomTabTabs[position].getText());
 
 		for (int i = 0; i < getCount(); i++) {
 			ivBottomTabTabs[i].setImageResource(TAB_IMAGE_RES_IDS[i][i == position ? 1 : 0]);

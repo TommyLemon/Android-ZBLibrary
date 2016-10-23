@@ -7,17 +7,14 @@
         <RelativeLayout style="@style/topbar_bg" >
 
             <ImageView
-                android:id="@+id/ivAboutReturn"
                 style="@style/topbar_return_img" />
 
             <TextView
-                android:id="@+id/tvAboutTitle"
                 style="@style/topbar_title"
                 android:layout_centerHorizontal="true"
                 android:text="关于" />
 
             <TextView
-                android:id="@+id/tvAboutForward"
                 style="@style/topbar_right_btn"
                 android:text="GitHub" />
         </RelativeLayout>

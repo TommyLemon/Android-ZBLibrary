@@ -78,7 +78,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		//示例代码<<<<<<<<<<<<<<<<
 		if (data == null) {
 			Log.e(TAG, "setView data == null >> data = new Entry<>(); ");
-			data = new Entry<>();
+			data = new Entry<String, String>();
 		}
 		this.data = data;
 

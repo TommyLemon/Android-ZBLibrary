@@ -29,7 +29,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +38,7 @@ import com.zxing.encoding.EncodingHandler;
 /**二维码界面Activity
  * @author Lemon
  */
-public class QRCodeActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class QRCodeActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "QRCodeActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -90,7 +89,8 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 	private View ivQRCodeProgress;
 	@Override
 	public void initView() {//必须调用
-
+		super.initView();
+		
 		ivQRCodeHead = (ImageView) findViewById(R.id.ivQRCodeHead);
 		tvQRCodeName = (TextView) findViewById(R.id.tvQRCodeName);
 
@@ -116,7 +116,8 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 	private User user;
 	@Override
 	public void initData() {//必须调用
-
+		super.initData();
+		
 		ivQRCodeProgress.setVisibility(View.VISIBLE);
 		runThread(TAG + "initData", new Runnable() {
 
@@ -182,8 +183,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 
 	@Override
 	public void initEvent() {//必须调用
-
-		findViewById(R.id.tvQRCodeReturn).setOnClickListener(this);
+		super.initEvent();
 
 	}
 
@@ -199,18 +199,6 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 		finish();
 	}
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvQRCodeReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

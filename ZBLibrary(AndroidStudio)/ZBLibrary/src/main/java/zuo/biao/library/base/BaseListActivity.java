@@ -80,7 +80,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initView() {// 必须调用
-
+		super.initView();
+		
 		lvBaseList = (LV) findViewById(R.id.lvBaseList);
 	}
 
@@ -139,7 +140,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	protected boolean isToSaveCache;
 	@Override
 	public void initData() {// 必须调用
-
+		super.initData();
+		
 		isToSaveCache = cacheCallBack != null && cacheCallBack.getCacheClass() != null;
 		isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(cacheCallBack.getCacheGroup(), true);
 	}
@@ -266,7 +268,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	public synchronized void handleList(List<T> newList_, boolean isCache) {
 		this.newList = newList_;
 		if (newList == null) {
-			newList = new ArrayList<>();
+			newList = new ArrayList<T>();
 		}
 		Log.i(TAG, "handleList  newList.size = " + newList_.size() + "; isCache = " + isCache);
 
@@ -282,7 +284,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 				isHaveMore = false;
 			} else {
 				if (list == null) {
-					list = new ArrayList<>();
+					list = new ArrayList<T>();
 				}
 				list.addAll(newList);
 			}
@@ -356,7 +358,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 			return;
 		}
 
-		LinkedHashMap<String, T> map = new LinkedHashMap<>();
+		LinkedHashMap<String, T> map = new LinkedHashMap<String, T>();
 		for (T data : newList) {
 			if (data != null) {
 				map.put(cacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
@@ -385,7 +387,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 
 	@Override
 	public void initEvent() {
-
+		super.initEvent();
+		
 	}
 
 

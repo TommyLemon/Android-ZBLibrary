@@ -26,18 +26,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 /**通用网页Activity
  * @author Lemon
  * @use toActivity(WebViewActivity.createIntent(...));
  */
-public class WebViewActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class WebViewActivity extends BaseActivity implements OnBottomDragListener {
 	public static final String TAG = "WebViewActivity";
 
 	public static final String INTENT_RETURN = "INTENT_RETURN";
@@ -62,7 +59,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.web_view_activity, this);//传this是为了全局滑动返回
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
@@ -76,13 +72,11 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvWebViewTitle;
 	private WebView wvWebView;
 	@Override
 	public void initView() {
-
-		tvWebViewTitle = (TextView) findViewById(R.id.tvWebViewTitle);
-
+		super.initView();
+		
 		wvWebView = (WebView) findViewById(R.id.wvWebView);
 	}
 
@@ -107,12 +101,8 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
 	public void initData() {
-
-		intent = getIntent();
-		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
-			tvWebViewTitle.setText("" + StringUtil.getCurrentString());
-		}
-
+		super.initData();
+		
 		WebSettings webSettings = wvWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 
@@ -150,8 +140,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initEvent() {
-
-		findViewById(R.id.ivWebViewReturn).setOnClickListener(this);
+		super.initEvent();
 
 	}
 
@@ -166,14 +155,13 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		onBackPressed();
 	}
 
+	@Override
+	public void onReturnClick(View v) {
+		finish();
+	}
+	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.ivWebViewReturn) {
-			finish();
-		}
-	}
 	@Override
 	public void onBackPressed() {
 		if (wvWebView.canGoBack()) {
@@ -200,7 +188,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener, On
 		}
 		
 		wvWebView = null;
-		tvWebViewTitle = null;
 	}
 
 

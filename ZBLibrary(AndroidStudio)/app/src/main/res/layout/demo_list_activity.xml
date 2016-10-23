@@ -4,23 +4,20 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivDemoListReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvDemoListTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="标题" />
-
     </RelativeLayout>
 
     <!-- 可以改为ListView，如果改的话对应DemoListActivity内也要改；padding会导致smoothScrollToPosition失效 -->
+
     <GridView
-        android:layout_margin="18dp"
         android:id="@id/lvBaseList"
         style="@style/lv"
+        android:layout_margin="18dp"
         android:layout_weight="1"
         android:horizontalSpacing="18dp"
         android:numColumns="3"

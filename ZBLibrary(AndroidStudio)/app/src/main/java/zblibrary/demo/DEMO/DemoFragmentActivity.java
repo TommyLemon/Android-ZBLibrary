@@ -17,21 +17,17 @@ package zblibrary.demo.DEMO;
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**fragmentActivity示例
  * @author Lemon
  * @use toActivity(DemoFragmentActivity.createIntent(...));
  */
-public class DemoFragmentActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class DemoFragmentActivity extends BaseActivity implements OnBottomDragListener {
 	//	private static final String TAG = "DemoFragmentActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -42,7 +38,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param title
+	 * @param userId
 	 * @return
 	 */
 	public static Intent createIntent(Context context, long userId) {
@@ -51,6 +47,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	
 	@Override
 	public Activity getActivity() {
 		return this;
@@ -73,15 +70,10 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<
-	private TextView tvDemoFragmentActivityTitle;
-	private DemoFragment demoFragment;
-	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-		//示例代码<<<<<<<<
-		tvDemoFragmentActivityTitle = (TextView) findViewById(R.id.tvDemoFragmentActivityTitle);
-		//示例代码>>>>>>>>
+		super.initView();
+
 	}
 
 
@@ -99,23 +91,16 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	//示例代码<<<<<<<<
+	private DemoFragment demoFragment;
+	//示例代码>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-
+		super.initData();
+		
 		//示例代码<<<<<<<<
-		intent = getIntent();
-		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_TITLE), true)) {
-			tvDemoFragmentActivityTitle.setText("" + StringUtil.getCurrentString());
-		}
-
-		showShortToast("userId = " + intent.getLongExtra(INTENT_USER_ID, 0));
-
-		bundle = new Bundle();
-		bundle.putLong(DemoFragment.ARGUMENT_USER_ID, intent.getLongExtra(INTENT_USER_ID, 0));
-		demoFragment = new DemoFragment();
-		demoFragment.setArguments(bundle);
-
+		demoFragment = DemoFragment.createInstance(getIntent().getLongExtra(INTENT_USER_ID, 0));
+		
 		fragmentManager
 		.beginTransaction()
 		.add(R.id.flDemoFragmentActivityContainer, demoFragment)
@@ -137,9 +122,8 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.tvDemoFragmentActivityReturn).setOnClickListener(this);
-		//示例代码>>>>>>>>>>>>>>>>>>>
+		super.initEvent();
+		
 	}
 
 
@@ -155,19 +139,6 @@ public class DemoFragmentActivity extends BaseActivity implements OnClickListene
 	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvDemoFragmentActivityReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

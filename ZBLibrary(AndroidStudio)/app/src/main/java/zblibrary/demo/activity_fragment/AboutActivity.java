@@ -93,7 +93,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutQRCode;
 	@Override
 	public void initView() {
-
+		super.initView();
+		
 		ivAboutGesture = (ImageView) findViewById(R.id.ivAboutGesture);
 		ivAboutGesture.setVisibility(SettingUtil.isFirstStart ? View.VISIBLE : View.GONE);
 		if (SettingUtil.isFirstStart) {
@@ -121,7 +122,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initData() {
-
+		super.initData();
+		
 		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
 				+ "\n" + DemoApplication.getInstance().getAppVersion());
 
@@ -184,10 +186,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initEvent() {
-
-		findViewById(R.id.ivAboutReturn).setOnClickListener(this);
-		findViewById(R.id.tvAboutForward).setOnClickListener(this);
-
+		super.initEvent();
+		
 		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 		findViewById(R.id.llAboutBottomTabActivity).setOnClickListener(this);
 
@@ -226,13 +226,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivAboutReturn:
-			onDragBottom(false);
-			break;
-		case R.id.tvAboutForward:
-			onDragBottom(true);
-			break;
-
 		case R.id.llAboutZBLibraryMainActivity:
 			startActivity(DemoMainActivity.createIntent(context));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);

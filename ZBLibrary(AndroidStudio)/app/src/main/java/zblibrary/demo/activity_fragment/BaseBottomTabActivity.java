@@ -35,13 +35,14 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 	protected static int[] tabIds;
-	
+
 	protected View[] vTabs;
 	@Override
 	public void initView() {// 必须调用
+		super.initView();
 
 		tabIds = getTabIds();
-		
+
 		vTabs = new View[tabIds.length];
 		for (int i = 0; i < tabIds.length; i++) {
 			vTabs[i] = findViewById(tabIds[i]);
@@ -106,7 +107,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected Fragment[] fragments;
 	@Override
 	public void initData() {// 必须调用
-
+		super.initData();
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -116,8 +117,8 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
-	
-	
+
+
 	/**获取tab的id
 	 * @param position
 	 * @return
@@ -152,7 +153,8 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 	@Override
 	public void initEvent() {// 必须调用
-
+		super.initEvent();
+		
 		for (int i = 0; i < vTabs.length; i++) {
 			final int which = i;
 			vTabs[which].setOnClickListener(new OnClickListener() {

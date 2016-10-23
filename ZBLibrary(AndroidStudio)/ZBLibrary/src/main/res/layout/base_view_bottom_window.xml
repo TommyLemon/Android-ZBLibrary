@@ -5,7 +5,7 @@
     android:layout_gravity="bottom" >
 
     <TextView
-        android:id="@id/tvBaseViewBottomWindowTitle"
+        android:id="@id/tvBaseTitle"
         style="@style/topbar_bg"
         android:background="@color/white"
         android:gravity="center"
@@ -30,14 +30,12 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@id/tvBaseViewBottomWindowReturn"
             style="@style/bottom_menu_btn_cancel"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px_gray" />
 
         <TextView
-            android:id="@id/tvBaseViewBottomWindowForward"
             style="@style/bottom_menu_btn_save"
             android:layout_weight="1" />
     </LinearLayout>

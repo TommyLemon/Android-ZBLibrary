@@ -148,7 +148,6 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 			}
 			break;
 		default:
-			super.onClick(v);
 			break;
 		}
 	}

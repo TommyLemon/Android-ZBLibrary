@@ -5,12 +5,9 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/tvDemoFragmentActivityReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvDemoFragmentActivityTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="标题" />

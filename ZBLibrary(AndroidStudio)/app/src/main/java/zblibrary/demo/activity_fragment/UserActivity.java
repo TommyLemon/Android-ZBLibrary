@@ -80,8 +80,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvUserTitle;
-
 	private ViewGroup llUserBusinessCardContainer;
 	private UserView userView;
 	
@@ -92,9 +90,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	private BottomMenuView bottomMenuView;
 	@Override
 	public void initView() {//必须调用
-
-		tvUserTitle = (TextView) findViewById(R.id.tvUserTitle);
-
+		super.initView();
+		
 		//添加用户名片<<<<<<<<<<<<<<<<<<<<<<
 		llUserBusinessCardContainer = (ViewGroup) findViewById(R.id.llUserBusinessCardContainer);
 		llUserBusinessCardContainer.removeAllViews();
@@ -148,11 +145,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	@Override
 	public void initData() {//必须调用
-
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), true)) {
-			tvUserTitle.setText(StringUtil.getCurrentString());
-		}
-
+		super.initData();
+		
 		bottomMenuView.setView(BottomMenuUtil.getMenuList(BottomMenuUtil.USER));
 
 		runThread(TAG + "initData", new Runnable() {
@@ -183,8 +177,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	@Override
 	public void initEvent() {//必须调用
-
-		findViewById(R.id.ivUserReturn).setOnClickListener(this);
+		super.initEvent();
 		
 		findViewById(R.id.llUserTag).setOnClickListener(this);
 		
@@ -243,10 +236,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivUserReturn:
-			onDragBottom(false);
-			break;
-			
 		case R.id.llUserTag:
 			toActivity(EditTextInfoActivity.createIntent(context, "标签"
 					, StringUtil.getTrimedString(tvUserTag)), REQUEST_TO_EDIT_TEXT_INFO);

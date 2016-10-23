@@ -14,11 +14,10 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
+import zblibrary.demo.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-
-import zblibrary.demo.R;
 
 /**闪屏activity
  * @author Lemon
