@@ -827,13 +827,15 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="bottom_menu_btn_cancel" parent="bottom_menu_btn">
+    <style name="bottom_menu_btn_return" parent="bottom_menu_btn">
+        <item name="android:id">@id/tvBaseViewBottomWindowReturn</item>
         <item name="android:text">取消</item>
         <item name="android:textColor">@color/gray_3</item>
         <item name="android:onClick">onReturnClick</item>
     </style>
 
-    <style name="bottom_menu_btn_save" parent="bottom_menu_btn">
+    <style name="bottom_menu_btn_forward" parent="bottom_menu_btn">
+        <item name="android:id">@id/tvBaseViewBottomWindowForward</item>
         <item name="android:text">确定</item>
         <item name="android:onClick">onForwardClick</item>
     </style>

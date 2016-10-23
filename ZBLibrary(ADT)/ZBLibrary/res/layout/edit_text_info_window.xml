@@ -88,13 +88,13 @@
         android:background="@color/white" >
 
         <TextView
-            style="@style/bottom_menu_btn_cancel"
+            style="@style/bottom_menu_btn_return"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px_gray" />
 
         <TextView
-            style="@style/bottom_menu_btn_save"
+            style="@style/bottom_menu_btn_forward"
             android:layout_weight="1" />
     </LinearLayout>
 

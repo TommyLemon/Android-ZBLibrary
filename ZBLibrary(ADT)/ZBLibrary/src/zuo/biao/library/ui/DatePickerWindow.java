@@ -318,9 +318,6 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 		return new GridPickerView(context, getResources());
 	}
 
-	/**
-	 * @warn 和android系统SDK内一样，month从0开始
-	 */
 	@Override
 	protected void setResult() {
 		intent = new Intent();

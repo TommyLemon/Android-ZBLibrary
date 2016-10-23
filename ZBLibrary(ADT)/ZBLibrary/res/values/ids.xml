@@ -11,5 +11,7 @@
     <item name="flBaseTabFragmentContainer" type="id">false</item>
     <item name="vBaseBottomWindowRoot" type="id">false</item>
     <item name="llBaseViewBottomWindowContainer" type="id">false</item>
+    <item name="tvBaseViewBottomWindowReturn" type="id">false</item>
+    <item name="tvBaseViewBottomWindowForward" type="id">false</item>
 
 </resources>

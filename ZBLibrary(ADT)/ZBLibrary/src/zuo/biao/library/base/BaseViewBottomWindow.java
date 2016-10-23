@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**基础带标签的FragmentActivity
  * @author Lemon
@@ -31,7 +32,7 @@ import android.view.ViewGroup;
  */
 public abstract class BaseViewBottomWindow<T, BV extends BaseView<T>> extends BaseBottomWindow
 implements ViewPresenter {
-//	private static final String TAG = "BaseViewBottomWindow";
+	//	private static final String TAG = "BaseViewBottomWindow";
 
 
 	/**
@@ -94,6 +95,10 @@ implements ViewPresenter {
 	@Nullable
 	protected ViewGroup llBaseViewBottomWindowContainer;
 
+	@Nullable
+	protected TextView tvBaseViewBottomWindowReturn;
+	@Nullable
+	protected TextView tvBaseViewBottomWindowForward;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -103,6 +108,9 @@ implements ViewPresenter {
 		super.initView();
 
 		llBaseViewBottomWindowContainer = (ViewGroup) findViewById(R.id.llBaseViewBottomWindowContainer);
+
+		tvBaseViewBottomWindowReturn = (TextView) findViewById(R.id.tvBaseViewBottomWindowReturn);
+		tvBaseViewBottomWindowForward = (TextView) findViewById(R.id.tvBaseViewBottomWindowForward);
 	}
 
 
@@ -134,6 +142,14 @@ implements ViewPresenter {
 			tvBaseTitle.setText(StringUtil.getTrimedString(title));
 		}
 
+		if (tvBaseViewBottomWindowReturn != null && StringUtil.isNotEmpty(getReturnName(), true)) {
+			tvBaseViewBottomWindowReturn.setText(StringUtil.getCurrentString());
+		}
+		if (tvBaseViewBottomWindowForward != null && StringUtil.isNotEmpty(getForwardName(), true)) {
+			tvBaseViewBottomWindowForward.setText(StringUtil.getCurrentString());
+		}
+
+		
 		llBaseViewBottomWindowContainer.removeAllViews();
 		if (containerView == null) {
 			containerView = createView();
