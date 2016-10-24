@@ -149,6 +149,8 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	private View ivBaseTabReturn;
 	@Nullable
 	private TextView tvBaseTabReturn;
+	@Nullable
+	private TextView tvBaseTabForward;
 
 	@Nullable
 	private ViewGroup llBaseTabTopRightButtonContainer;
@@ -183,6 +185,19 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	 * 当前显示的tab所在位置，对应fragment所在位置
 	 */
 	protected int currentPosition = 0;
+	
+	/**选择下一个tab和fragment
+	 */
+	public void selectNext() {
+		select((getCurrentPosition() + 1) % getCount());
+	}
+	/**选择tab和fragment
+	 * @param position
+	 */
+	public void select(int position) {
+		topTabView.select(position);
+	}
+	
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -225,8 +240,6 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 
 	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private String topReturnButtonName;
-
 	private Fragment[] fragments;
 	@Override
 	public void initData() {// 必须调用
@@ -236,9 +249,10 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 			tvBaseTabTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
 
-		topReturnButtonName = getReturnName();
+		//返回按钮<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		String returnName = getReturnName();
 
-		if (topReturnButtonName == null) {
+		if (returnName == null) {
 			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(View.GONE);
 			}
@@ -246,14 +260,21 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 				tvBaseTabReturn.setVisibility(View.GONE);
 			}
 		} else {
-			boolean isReturnButtonHasName = StringUtil.isNotEmpty(topReturnButtonName, true);
+			boolean isReturnButtonHasName = StringUtil.isNotEmpty(returnName, true);
 			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(isReturnButtonHasName ? View.GONE : View.VISIBLE);
 			}
 			if (tvBaseTabReturn != null) {
 				tvBaseTabReturn.setVisibility(isReturnButtonHasName ? View.VISIBLE : View.GONE);
-				tvBaseTabReturn.setText(StringUtil.getTrimedString(topReturnButtonName));
+				tvBaseTabReturn.setText(StringUtil.getTrimedString(returnName));
 			}
+		}
+		//返回按钮>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
+		//前进按钮<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		String forwardName = getForwardName();
+		if (StringUtil.isNotEmpty(forwardName, true)) {
+			tvBaseTabForward = addTopRightButton(newTopRightTextView(context, StringUtil.getTrimedString(forwardName)));
 		}
 
 		if (llBaseTabTopRightButtonContainer != null
@@ -264,13 +285,17 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 				llBaseTabTopRightButtonContainer.addView(btn);
 			}
 		}
-
+		//前进按钮>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
+		
+		//tab<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		topTabView = new TopTabView(context, getResources());
 		llBaseTabTabContainer.removeAllViews();
 		llBaseTabTabContainer.addView(topTabView.createView(getLayoutInflater()));
 		topTabView.setCurrentPosition(currentPosition);
 		topTabView.setView(getTabNames());
-
+		//tab>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -281,15 +306,28 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 
 	}
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 */
+	@Override
+	@Nullable
+	public abstract String getTitleName();
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 */
+	@Override
+	@Nullable
+	public abstract String getReturnName();
 
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
 	@Override
 	@Nullable
-	public String getForwardName() {
-		return null;
-	}
+	public abstract String getForwardName();
 	
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<View>();
@@ -395,6 +433,15 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		if (tvBaseTabReturn != null) {
 			tvBaseTabReturn.setOnClickListener(this);
 		}
+		if (tvBaseTabForward != null) {
+			tvBaseTabForward.setOnClickListener(new OnClickListener() {//没有id
+				
+				@Override
+				public void onClick(View v) {
+					onForwardClick(v);
+				}
+			});
+		}
 
 		topTabView.setOnTabSelectedListener(onTabSelectedListener != null ? onTabSelectedListener : this);
 	}
@@ -428,7 +475,6 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		llBaseTabTabContainer = null;
 		
 		tvBaseTabTitle = null;
-		topReturnButtonName = null;
 		
 		currentPosition = 0;
 		needReload = false;

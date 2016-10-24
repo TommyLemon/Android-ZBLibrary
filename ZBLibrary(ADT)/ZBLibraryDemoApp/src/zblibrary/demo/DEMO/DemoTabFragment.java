@@ -91,6 +91,17 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		tvDemoTabLeft = (TextView) findViewById(R.id.tvDemoTabLeft);
 	}
 
+	/**一行代码没必要新建方法，这里是为了给DemoBottomTabActivity调用
+	 */
+	public void selectPlace() {
+		toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 2)
+				, REQUEST_TO_PLACE_PICKER, false);
+	}
+	/**一行代码没必要新建方法，这里是为了给DemoBottomTabActivity调用
+	 */
+	public void selectMan() {
+		toActivity(DemoListActivity.createIntent(context, 0).putExtra(DemoTabActivity.INTENT_TITLE, "筛选"));
+	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -164,7 +175,6 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		findViewById(R.id.tvDemoTabRight).setOnClickListener(this);
 	}
 
-
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -173,11 +183,10 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tvDemoTabLeft:
-			toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 2)
-					, REQUEST_TO_PLACE_PICKER, false);
+			selectPlace();
 			break;
 		case R.id.tvDemoTabRight:
-			toActivity(DemoListActivity.createIntent(context, 0).putExtra(DemoTabActivity.INTENT_TITLE, "筛选"));
+			selectMan();
 			break;
 		default:
 		}

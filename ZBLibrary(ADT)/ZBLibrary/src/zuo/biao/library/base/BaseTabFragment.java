@@ -97,7 +97,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
 		super.onCreateView(inflater, container, savedInstanceState);
 		//调用这个类的setContentView而崩溃 super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID);
-		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_list_fragment : layoutResID, container, false);
+		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, container, false);
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		fragmentManager = context.getSupportFragmentManager();
@@ -179,6 +179,19 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	 * 当前显示的tab所在位置，对应fragment所在位置
 	 */
 	protected int currentPosition = 0;
+
+	/**选择下一个tab和fragment
+	 */
+	public void selectNext() {
+		select((getCurrentPosition() + 1) % getCount());
+	}
+	/**选择tab和fragment
+	 * @param position
+	 */
+	public void select(int position) {
+		topTabView.select(position);
+	}
+
 	/**选择并显示fragment
 	 * @param position
 	 */
@@ -283,10 +296,10 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 	@Override
 	@Nullable
-	public String getForwardName() {
+	public final String getForwardName() {
 		return null;
 	}
-	
+
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮
@@ -417,20 +430,20 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 		super.onDestroy();
 		topTabView = null;
 		fragments = null;
-		
+
 		ivBaseTabReturn = null;
 		tvBaseTabReturn = null;
 		llBaseTabTopRightButtonContainer = null;
 		llBaseTabTabContainer = null;
-		
+
 		tvBaseTabTitle = null;
 		topReturnButtonName = null;
-		
+
 		currentPosition = 0;
 		needReload = false;
-		
+
 		topRightButtonList = null;
-		
+
 		onTabSelectedListener = null;
 	}
 

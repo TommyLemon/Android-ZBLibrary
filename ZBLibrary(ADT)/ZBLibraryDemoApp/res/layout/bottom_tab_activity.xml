@@ -22,76 +22,71 @@
     <View style="@style/divider_horizontal_1px_gray" />
 
     <LinearLayout
-        android:background="@color/alpha_6"
         style="@style/ll_horizontal_match_wrap"
-        android:layout_height="@dimen/topbar_height" >
+        android:layout_height="@dimen/topbar_height"
+        android:background="@color/alpha_6" >
 
         <LinearLayout
             android:id="@+id/llBottomTabTab0"
-            style="@style/ll_vertical_match_match"
-            android:layout_width="0dp"
+            style="@style/bottom_tab_ll"
             android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/ivBottomTabTab0"
-                style="@style/img_btn"
-                android:src="@drawable/earth" />
+                style="@style/bottom_tab_iv"
+                android:src="@drawable/earth_selector" />
 
             <TextView
                 android:id="@+id/tvBottomTabTab0"
-                style="@style/text_micro"
-                android:text="主页"
-                android:textColor="@color/white" />
+                style="@style/bottom_tab_tv"
+                android:text="主页" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llBottomTabTab1"
-            style="@style/ll_vertical_match_match"
-            android:layout_width="0dp"
+            style="@style/bottom_tab_ll"
             android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/ivBottomTabTab1"
-                style="@style/img_btn"
-                android:src="@drawable/mail_light" />
+                style="@style/bottom_tab_iv"
+                android:src="@drawable/mail_selector" />
 
             <TextView
                 android:id="@+id/tvBottomTabTab1"
-                style="@style/text_micro"
+                style="@style/bottom_tab_tv"
                 android:text="消息" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llBottomTabTab2"
-            style="@style/ll_vertical_match_match"
-            android:layout_width="0dp"
+            style="@style/bottom_tab_ll"
             android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/ivBottomTabTab2"
-                style="@style/img_btn"
-                android:src="@drawable/search_light" />
+                style="@style/bottom_tab_iv"
+                android:src="@drawable/search_selector" />
 
             <TextView
                 android:id="@+id/tvBottomTabTab2"
-                style="@style/text_micro"
+                style="@style/bottom_tab_tv"
                 android:text="发现" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llBottomTabTab3"
-            style="@style/ll_vertical_match_match"
-            android:layout_width="0dp"
+            style="@style/bottom_tab_ll"
             android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/ivBottomTabTab3"
-                style="@style/img_btn"
-                android:src="@drawable/setting_light" />
+                style="@style/bottom_tab_iv"
+                android:src="@drawable/setting_selector" />
 
             <TextView
                 android:id="@+id/tvBottomTabTab3"
-                style="@style/text_micro"
+                style="@style/bottom_tab_tv"
                 android:text="设置" />
         </LinearLayout>
     </LinearLayout>
