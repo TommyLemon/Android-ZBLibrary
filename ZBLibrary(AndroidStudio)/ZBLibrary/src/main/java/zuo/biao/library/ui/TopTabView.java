@@ -207,7 +207,7 @@ public class TopTabView extends BaseView<String[]> {
 	 * @param position
 	 * @param tabType
 	 */
-	private void select(int position) {
+	public void select(int position) {
 		Log.i(TAG, "select  position = " + position);
 		if (position < 0 || position >= getCount()) {
 			Log.e(TAG, "select  position < 0 || position >= getCount() >> return;");

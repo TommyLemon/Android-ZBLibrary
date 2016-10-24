@@ -31,7 +31,7 @@ import android.widget.TextView;
  * @must 在子类onCreate中调用initView();initData();initEvent();
  */
 public abstract class BaseViewBottomWindow<T, BV extends BaseView<T>> extends BaseBottomWindow
-		implements ViewPresenter {
+implements ViewPresenter {
 	//	private static final String TAG = "BaseViewBottomWindow";
 
 

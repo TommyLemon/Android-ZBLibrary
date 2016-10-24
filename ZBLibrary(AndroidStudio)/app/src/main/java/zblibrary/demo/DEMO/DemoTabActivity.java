@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseTabActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.WebViewActivity;
@@ -21,14 +22,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
-/**带标签的FragmentActivity示例
+/**带标签的Activity示例
  * @author Lemon
  * @use toActivity(DemoTabActivity.createIntent(...));
  */
@@ -71,14 +72,19 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private TextView topRightButton;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		super.initView();
 
 		//示例代码<<<<<<<<
-		topRightButton = addTopRightButton(newTopRightTextView(context, "了解"));
+		addTopRightButton(newTopRightImageView(context, R.drawable.add_small)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showShortToast("添加");
+			}
+		});
 		//示例代码>>>>>>>>
 	}
 
@@ -115,13 +121,19 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	}
 
 	@Override
+	@Nullable
+	public String getForwardName() {
+		return "了解";
+	}
+
+	@Override
 	protected String[] getTabNames() {
 		return new String[] {"全部", "收入", "支出"};
 	}
 
 	@Override
 	protected Fragment getFragment(int position) {
-
+		//示例代码<<<<<<<<<<<<<<<<<<
 		DemoListFragment fragment = DemoListFragment.createInstance();
 		Bundle bundle = fragment.getArguments();
 		if (bundle == null) {
@@ -129,7 +141,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 		}
 		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
 		fragment.setArguments(bundle);
-
+		//示例代码>>>>>>>>>>>>>>>>>>
 		return fragment;
 	}
 
@@ -149,26 +161,31 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		super.initEvent();
-		//示例代码<<<<<<<<
-		topRightButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				onDragBottom(true);
-			}
-		});
-		//示例代码>>>>>>>>
+		//示例代码:自动切换tab一个周期
+		for (int i = 0; i < getCount(); i++) {
+			new Handler().postDelayed(new Runnable() {
 
+				@Override
+				public void run() {
+					if (isRunning()) {
+						selectNext();
+					}
+				}
+			}, 1000 * (i + 1));
+		}
 	}
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
+		//示例代码<<<<<<<<<<<<<<<<<<
 		if (rightToLeft) {
 			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
 			return;
 		}	
 
 		finish();
+		//示例代码>>>>>>>>>>>>>>>>>>
 	}
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

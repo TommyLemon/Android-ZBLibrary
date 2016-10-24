@@ -16,9 +16,9 @@ package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.util.Log;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -34,20 +34,32 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	protected static int[] tabIds;
+	protected static int[] tabClickIds;
 
-	protected View[] vTabs;
+	protected View[] vTabClickViews;
+	protected View[][] vTabSelectViews;
 	@Override
 	public void initView() {// 必须调用
 		super.initView();
 
-		tabIds = getTabIds();
+		tabClickIds = getTabClickIds();
 
-		vTabs = new View[tabIds.length];
-		for (int i = 0; i < tabIds.length; i++) {
-			vTabs[i] = findViewById(tabIds[i]);
+		vTabClickViews = new View[getCount()];
+		for (int i = 0; i < getCount(); i++) {
+			vTabClickViews[i] = findViewById(tabClickIds[i]);
 		}
 
+		int[][] tabSelectIds = getTabSelectIds();
+		if (tabSelectIds != null && tabSelectIds.length > 0) {
+			vTabSelectViews = new View[tabSelectIds.length][getCount()];
+			for (int i = 0; i < tabSelectIds.length; i++) {
+				if (tabSelectIds[i] != null) {
+					for (int j = 0; j < tabSelectIds[i].length; j++) {
+						vTabSelectViews[i][j] = findViewById(tabSelectIds[i][j]);
+					}
+				}
+			}
+		}
 	}
 
 
@@ -56,11 +68,35 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	 */
 	protected abstract void selectTab(int position);
 
+	/**设置选中状态
+	 * @param position 
+	 */
+	protected void setTabSelection(int position) {
+		if (vTabSelectViews == null) {
+			Log.e(TAG, "setTabSelection  vTabSelectViews == null >> return;");
+			return;
+		}
+		for (int i = 0; i < vTabSelectViews.length; i++) {
+			if (vTabSelectViews[i] == null) {
+				Log.w(TAG, "setTabSelection  vTabSelectViews[" + i + "] == null >> continue;");
+				continue;
+			}
+			for (int j = 0; j < vTabSelectViews[i].length; j++) {
+				vTabSelectViews[i][j].setSelected(j == position);
+			}
+		}
+	}
+
 	protected int currentPosition = 0;
 	/**选择并显示fragment
 	 * @param position
 	 */
 	public void selectFragment(int position) {
+		//消耗资源很少，不像Fragment<<<<<<
+		setTabSelection(position);
+		selectTab(position);
+		//消耗资源很少，不像Fragment>>>>>>
+
 		if (currentPosition == position) {
 			if (fragments[position] != null && fragments[position].isVisible()) {
 				Log.e(TAG, "selectFragment currentPosition == position" +
@@ -69,8 +105,6 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 				return;
 			}
 		}
-
-		selectTab(position);
 
 		if (fragments[position] == null) {
 			fragments[position] = getFragment(position);
@@ -111,7 +145,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		fragments = new Fragment[tabIds.length];
+		fragments = new Fragment[getCount()];
 		selectFragment(currentPosition);
 
 		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -119,11 +153,17 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	}
 
 
-	/**获取tab的id
+	/**获取tab内设置点击事件的View的id
 	 * @param position
 	 * @return
 	 */
-	protected abstract int[] getTabIds();
+	protected abstract int[] getTabClickIds();
+
+	/**获取tab内设置选择事件的View的id，setSelected(position == currentPositon)
+	 * @return
+	 * @warn 返回int[leghth0][leghth1]必须满足leghth0 >= 1 && leghth1 = getCount() = getTabClickIds().length
+	 */
+	protected abstract int[][] getTabSelectIds();
 
 	/**获取新的Fragment
 	 * @param position
@@ -135,7 +175,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	 * @return
 	 */
 	public int getCount() {
-		return tabIds == null ? 0 : tabIds.length;
+		return tabClickIds == null ? 0 :tabClickIds.length;
 	}
 
 	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -154,10 +194,10 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	@Override
 	public void initEvent() {// 必须调用
 		super.initEvent();
-		
-		for (int i = 0; i < vTabs.length; i++) {
+
+		for (int i = 0; i < vTabClickViews.length; i++) {
 			final int which = i;
-			vTabs[which].setOnClickListener(new OnClickListener() {
+			vTabClickViews[which].setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {

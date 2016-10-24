@@ -46,7 +46,7 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param contactBeanJsonString
+	 * @param userId
 	 * @return
 	 */
 	public static Intent createIntent(Context context, long userId) {

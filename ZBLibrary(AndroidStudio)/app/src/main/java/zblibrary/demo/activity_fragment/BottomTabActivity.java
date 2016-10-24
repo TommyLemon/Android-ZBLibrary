@@ -17,22 +17,20 @@ package zblibrary.demo.activity_fragment;
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoListFragment;
 import zblibrary.demo.DEMO.DemoTabFragment;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /**应用主页
  * @author Lemon
  * @use BottomTabActivity.createIntent(...)
  */
-public class BottomTabActivity extends BaseBottomTabActivity {
-	private static final String TAG = "BottomTabActivity";
+public class BottomTabActivity extends BaseBottomTabActivity implements OnBottomDragListener {
+	//	private static final String TAG = "BottomTabActivity";
 
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -57,7 +55,7 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.bottom_tab_activity);
+		setContentView(R.layout.bottom_tab_activity, this);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
@@ -71,45 +69,36 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-	@SuppressWarnings("unused")
-	private View rlBottomTabTopbar;
-
-	private ImageView[] ivBottomTabTabs;
-	private TextView[] tvBottomTabTabs;
+	private DemoTabFragment demoTabFragment;
 	@Override
 	public void initView() {// 必须调用
 		super.initView();
 		exitAnim = R.anim.bottom_push_out;
 
-		rlBottomTabTopbar = findViewById(R.id.rlBottomTabTopbar);
-
-		ivBottomTabTabs = new ImageView[4];
-		ivBottomTabTabs[0] = (ImageView) findViewById(R.id.ivBottomTabTab0);
-		ivBottomTabTabs[1] = (ImageView) findViewById(R.id.ivBottomTabTab1);
-		ivBottomTabTabs[2] = (ImageView) findViewById(R.id.ivBottomTabTab2);
-		ivBottomTabTabs[3] = (ImageView) findViewById(R.id.ivBottomTabTab3);
-
-		tvBottomTabTabs = new TextView[4];
-		tvBottomTabTabs[0] = (TextView) findViewById(R.id.tvBottomTabTab0);
-		tvBottomTabTabs[1] = (TextView) findViewById(R.id.tvBottomTabTab1);
-		tvBottomTabTabs[2] = (TextView) findViewById(R.id.tvBottomTabTab2);
-		tvBottomTabTabs[3] = (TextView) findViewById(R.id.tvBottomTabTab3);
-
+		demoTabFragment = DemoTabFragment.createInstance("杭州");
 	}
 
 
 	@Override
-	protected int[] getTabIds() {
+	protected int[] getTabClickIds() {
 		return new int[]{R.id.llBottomTabTab0, R.id.llBottomTabTab1, R.id.llBottomTabTab2, R.id.llBottomTabTab3};
 	}
-
+	
+	@Override
+	protected int[][] getTabSelectIds() {
+		return new int[][]{
+				new int[]{R.id.ivBottomTabTab0, R.id.ivBottomTabTab1, R.id.ivBottomTabTab2, R.id.ivBottomTabTab3},//顶部图标
+				new int[]{R.id.tvBottomTabTab0, R.id.tvBottomTabTab1, R.id.tvBottomTabTab2, R.id.tvBottomTabTab3}//底部文字
+		};
+	}
+	
 	@Override
 	protected Fragment getFragment(int position) {
 		switch (position) {
 		case 1:
 			return DemoListFragment.createInstance();
 		case 2:
-			return DemoTabFragment.createInstance("杭州");
+			return demoTabFragment;
 		case 3:
 			return SettingFragment.createInstance();
 		default:
@@ -117,24 +106,17 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 		}
 	};
 
-
-	private static final int[][] TAB_IMAGE_RES_IDS = {
-		{R.drawable.earth_light, R.drawable.earth},
-		{R.drawable.mail_light, R.drawable.mail},
-		{R.drawable.search_light, R.drawable.search},
-		{R.drawable.setting_light, R.drawable.setting}
-	};
-
+	private static final String[] TAB_NAMES = {"主页", "消息", "发现", "设置"};
 	@Override
 	protected void selectTab(int position) {
 		//导致切换时闪屏，建议去掉BottomTabActivity中的topbar，在fragment中显示topbar
 		//		rlBottomTabTopbar.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
 
-		tvBaseTitle.setText(tvBottomTabTabs[position].getText());
-
-		for (int i = 0; i < getCount(); i++) {
-			ivBottomTabTabs[i].setImageResource(TAB_IMAGE_RES_IDS[i][i == position ? 1 : 0]);
-			tvBottomTabTabs[i].setTextColor(getResources().getColor(i == position ? R.color.white : R.color.black));
+		tvBaseTitle.setText(TAB_NAMES[position]);
+		
+		//点击底部tab切换顶部tab，非必要
+		if (position == 2 && position == currentPosition && demoTabFragment != null) {
+			demoTabFragment.selectNext();
 		}
 	}
 
@@ -182,8 +164,29 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 	}
 
+	@Override
+	public void onDragBottom(boolean rightToLeft) {
+		//将Activity的onDragBottom事件传递到Fragment，非必要<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		switch (currentPosition) {
+		case 2:
+			if (demoTabFragment != null) {
+				if (rightToLeft) {
+					demoTabFragment.selectMan();
+				} else {
+					demoTabFragment.selectPlace();
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		//将Activity的onDragBottom事件传递到Fragment，非必要>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	}
+	
+
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	//双击手机返回键退出<<<<<<<<<<<<<<<<<<<<<
 	private long firstTime = 0;//第一次返回按钮计时
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -202,6 +205,7 @@ public class BottomTabActivity extends BaseBottomTabActivity {
 
 		return super.onKeyUp(keyCode, event);
 	}
+	//双击手机返回键退出>>>>>>>>>>>>>>>>>>>>>
 
 	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
