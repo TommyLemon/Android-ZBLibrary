@@ -19,8 +19,8 @@ import java.util.List;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
-import zuo.biao.library.ui.XListView;
-import zuo.biao.library.ui.XListView.IXListViewListener;
+import zuo.biao.library.ui.xlistview.XListView;
+import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import android.view.View;
 import android.widget.BaseAdapter;
 

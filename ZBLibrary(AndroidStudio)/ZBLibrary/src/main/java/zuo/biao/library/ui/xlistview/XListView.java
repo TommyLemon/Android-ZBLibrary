@@ -1,4 +1,4 @@
-package zuo.biao.library.ui;
+package zuo.biao.library.ui.xlistview;
 
 import zuo.biao.library.R;
 import android.annotation.SuppressLint;
