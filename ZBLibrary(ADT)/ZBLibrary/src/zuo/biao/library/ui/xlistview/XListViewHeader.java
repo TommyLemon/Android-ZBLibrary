@@ -4,7 +4,7 @@
  * @author Maxwin
  * @description XListView's header
  */
-package zuo.biao.library.ui;
+package zuo.biao.library.ui.xlistview;
 
 import zuo.biao.library.R;
 import android.content.Context;
