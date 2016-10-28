@@ -470,9 +470,9 @@ public class StringUtil {
 			return "";
 		}
 
-		if (! url.endsWith("/") && ! url.endsWith(".html")) {
-			url = url + "/";
-		}
+//		if (! url.endsWith("/") && ! url.endsWith(".html")) {
+//			url = url + "/";
+//		}
 
 		if (isUrl(url) == false) {
 			return URL_PREFIX + url;

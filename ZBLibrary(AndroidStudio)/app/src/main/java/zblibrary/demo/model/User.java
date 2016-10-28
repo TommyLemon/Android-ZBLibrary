@@ -93,9 +93,4 @@ public class User extends BaseModel {
 		return id > 0;// && StringUtil.isNotEmpty(phone, true);
 	}
 
-	@Override
-	public String toString() {
-		return "姓名：" + name + "\n电话：" + phone;
-	}
-
 }
