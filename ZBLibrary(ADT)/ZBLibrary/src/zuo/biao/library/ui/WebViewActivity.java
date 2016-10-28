@@ -118,6 +118,8 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 			return;
 		}
 
+		Log.d(TAG, "initData  url = " + url);
+		
 		wvWebView.requestFocus();
 		
         // 设置setWebChromeClient对象  
