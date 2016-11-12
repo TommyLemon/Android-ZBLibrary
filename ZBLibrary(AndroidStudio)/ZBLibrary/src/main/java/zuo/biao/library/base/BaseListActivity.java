@@ -411,7 +411,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void onDestroy() {
+	protected void onDestroy() {
 		stopLoadData();
 
 		super.onDestroy();

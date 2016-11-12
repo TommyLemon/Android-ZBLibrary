@@ -25,12 +25,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import zuo.biao.library.base.BaseApplication;
 import zuo.biao.library.bean.Parameter;
 import zuo.biao.library.util.Log;
-import zuo.biao.library.util.MD5Util;
 import zuo.biao.library.util.SSLUtil;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
@@ -54,21 +54,15 @@ public class HttpManager {
 	 */
 	public interface OnHttpResponseListener {
 		/**
-		 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-		 * @param resultCode 服务器返回结果码
-		 * @param resultData 服务器返回的Json串
+		 * @param requestCode 请求码，自定义，在发起请求的类中可以用requestCode来区分各个请求
+		 * @param resultJson 服务器返回的Json串
+		 * @param e 异常
 		 */
-		void onHttpRequestSuccess(int requestCode, int resultCode, String resultData);
-
-		/**
-		 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-		 * @param exception OKHTTP中请求异常
-		 */
-		void onHttpRequestError(int requestCode, Exception exception);
+		void onHttpResponse(int requestCode, String resultJson, Exception e);
 	}
 
-	
-	
+
+
 	private Context context;
 	private static HttpManager instance;// 单例
 	private static SSLSocketFactory socketFactory;// 单例
@@ -84,105 +78,32 @@ public class HttpManager {
 					"\t\t} catch (Exception e) {\n" + e.getMessage());
 		}
 	}
-	
+
 	public synchronized static HttpManager getInstance() {
 		if (instance == null) {
 			instance = new HttpManager(BaseApplication.getInstance());
 		}
 		return instance;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
 	 */
 	public static final int PAGE_NUM_0 = 0;
-	
-	
-	
 
-	/**
-	 * @param paramList
-	 *            请求参数列表，（可以一个键对应多个值）
-	 * @param url
-	 *            接口url
+	public static final String KEY_TOKEN = "token";
+	public static final String KEY_COOKIE = "cookie";
+
+
+	/**GET请求
+	 * @param paramList 请求参数列表，（可以一个键对应多个值）
+	 * @param url 接口url
 	 * @param requestCode
-	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式<br/>
-	 *            ， 发起多个网络请求时，请求结束后都会回调
-	 *            {@link OnHttpResponseListener#onHttpRequestError(int, Exception)}
-	 *            或 <br/>
-	 *            {@link OnHttpResponseListener#onHttpRequestError(int, Exception)}
-	 * <br/>
-	 *            在activity中可以以requestCode来区分各个请求，serverResultCode是服务器返回的状态码，
-	 *            json是数据json，可能为 空字符串
-	 *
-	 * @param listener
-	 */
-	public void post(final List<Parameter> paramList, final String url,
-			final int requestCode, final OnHttpResponseListener listener) {
-
-		new AsyncTask<Void, Void, Exception>() {
-
-			int resultCode;
-			String resultData;
-
-			@Override
-			protected Exception doInBackground(Void... params) {
-				OkHttpClient client = getHttpClient(url);
-				if (client == null) {
-					return new Exception("httpPost  AsyncTask.doInBackground  client == null >> return;");
-				}
-
-				FormEncodingBuilder fBuilder = new FormEncodingBuilder();
-				if (paramList != null) {
-					for (Parameter p : paramList) {
-						fBuilder.add(StringUtil.getTrimedString(p.key), StringUtil.getTrimedString(p.value));
-					}
-				}
-
-				JSONObject jsonObject = null;
-				try {
-					jsonObject = getResponseObject(client, new Request.Builder()
-					.addHeader("token", getToken(paramList)).url(StringUtil.getNoBlankString(url))
-					.post(fBuilder.build()).build());
-				} catch (Exception e) {
-					Log.e(TAG, "httpPost  AsyncTask.doInBackground  try {  jsonObject = getResponseObject(..." +
-							"} catch (Exception e) {\n" + e.getMessage());
-					return e;
-				}
-
-				resultCode = getResponseCode(jsonObject);
-				resultData = getResponseData(jsonObject);
-
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(Exception exception) {
-				super.onPostExecute(exception);
-				httpPostExecute(listener, requestCode, exception, resultCode, resultData);
-			}
-
-		}.execute();
-	}
-
-
-	/**
-	 * @param paramList
-	 *            请求参数列表，（可以一个键对应多个值）
-	 * @param url
-	 *            接口url
-	 * @param requestCode
-	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式<br/>
-	 *            ， 发起多个网络请求时，请求结束后都会回调
-	 *            {@link OnHttpResponseListener#onHttpRequestError(int, Exception)}
-	 *            或 <br/>
-	 *            {@link OnHttpResponseListener#onHttpRequestError(int, Exception)}
-	 * <br/>
-	 *            在activity中可以以requestCode来区分各个请求，serverResultCode是服务器返回的状态码，
-	 *            json是数据json，可能为 空字符串
-	 *
+	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */
 	public void get(final List<Parameter> paramList, final String url,
@@ -190,14 +111,12 @@ public class HttpManager {
 
 		new AsyncTask<Void, Void, Exception>() {
 
-			int resultCode;
-			String resultData;
-
+			String result;
 			@Override
 			protected Exception doInBackground(Void... params) {
 				OkHttpClient client = getHttpClient(url);
 				if (client == null) {
-					return new Exception("httpGet  AsyncTask.doInBackground  client == null >> return;");
+					return new Exception(TAG + ".get  AsyncTask.doInBackground  client == null >> return;");
 				}
 
 				StringBuffer sb = new StringBuffer();
@@ -213,19 +132,17 @@ public class HttpManager {
 					}
 				}
 
-				JSONObject jsonObject = null;
 				try {
-					jsonObject = getResponseObject(client, new Request.Builder()
-					.addHeader("token", getToken(paramList))
+					result = getResponseJson(client, new Request.Builder()
+					.addHeader(KEY_TOKEN, getToken(url))
 					.url(sb.toString()).build());
+					//TODO 注释或删除以下 测试HttpRequest.getUser接口的数据 
+					result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
 				} catch (Exception e) {
-					Log.e(TAG, "httpGet  AsyncTask.doInBackground  try {  jsonObject = getResponseObject(..." +
+					Log.e(TAG, "get  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());
 					return e;
 				}
-
-				resultCode = getResponseCode(jsonObject);
-				resultData = getResponseData(jsonObject);
 
 				return null;
 			}
@@ -233,12 +150,67 @@ public class HttpManager {
 			@Override
 			protected void onPostExecute(Exception exception) {
 				super.onPostExecute(exception);
-				httpPostExecute(listener, requestCode, exception, resultCode, resultData);
+				listener.onHttpResponse(requestCode, result, exception);
 			}
 
 		}.execute();
 
 	}
+
+
+	/**POST请求
+	 * @param paramList 请求参数列表，（可以一个键对应多个值）
+	 * @param url 接口url
+	 * @param requestCode
+	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            在发起请求的类中可以用requestCode来区分各个请求
+	 * @param listener
+	 */
+	public void post(final List<Parameter> paramList, final String url,
+			final int requestCode, final OnHttpResponseListener listener) {
+
+		new AsyncTask<Void, Void, Exception>() {
+
+			String result;
+			@Override
+			protected Exception doInBackground(Void... params) {
+				OkHttpClient client = getHttpClient(url);
+				if (client == null) {
+					return new Exception(TAG + ".post  AsyncTask.doInBackground  client == null >> return;");
+				}
+
+				FormEncodingBuilder fBuilder = new FormEncodingBuilder();
+				if (paramList != null) {
+					for (Parameter p : paramList) {
+						fBuilder.add(StringUtil.getTrimedString(p.key), StringUtil.getTrimedString(p.value));
+					}
+				}
+
+				try {
+					result = getResponseJson(client, new Request.Builder()
+					.addHeader(KEY_TOKEN, getToken(url)).url(StringUtil.getNoBlankString(url))
+					.post(fBuilder.build()).build());
+					//TODO 注释或删除以下 测试HttpRequest.register接口的数据 
+					result = "{\"code\":102}";
+				} catch (Exception e) {
+					Log.e(TAG, "post  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
+							"} catch (Exception e) {\n" + e.getMessage());
+					return e;
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Exception exception) {
+				super.onPostExecute(exception);
+				listener.onHttpResponse(requestCode, result, exception);
+			}
+
+		}.execute();
+	}
+
 
 	//httpGet/httpPost 内调用方法 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -271,25 +243,22 @@ public class HttpManager {
 	 * @must demo_***改为服务器设定值
 	 * @return
 	 */
-	public String getToken(List<Parameter> paramList) {
-		if (paramList == null) {
-			return "";
-		}
-		
-		String token = "";
-		Parameter p;
-		for (int i = 0; i < paramList.size(); i++) {
-			if (i > 0) {
-				token += "&";
-			}
-			p = paramList.get(i);
-			token += (p.key + "=" + p.value);
-		}
-		token += "demo_***";//TODO 这里的demo_***改为你自己服务器的设定值
-		return MD5Util.MD5(token);
+	public String getToken(String tag) {
+		return context.getSharedPreferences(KEY_TOKEN, Context.MODE_PRIVATE).getString(KEY_TOKEN + tag, "");
+	}
+	/**
+	 * @param tag
+	 * @param value
+	 */
+	public void saveToken(String tag, String value) {
+		context.getSharedPreferences(KEY_TOKEN, Context.MODE_PRIVATE)
+		.edit()
+		.remove(KEY_TOKEN + tag)
+		.putString(KEY_TOKEN + tag, value)
+		.commit();
 	}
 
-	private static final String KEY_COOKIE = "cookie";
+
 	/**
 	 * @return
 	 */
@@ -300,7 +269,11 @@ public class HttpManager {
 	 * @param value
 	 */
 	public void saveCookie(String value) {
-		context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE).edit().putString(KEY_COOKIE, value).commit();
+		context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE)
+		.edit()
+		.remove(KEY_COOKIE)
+		.putString(KEY_COOKIE, value)
+		.commit();
 	}
 
 
@@ -310,74 +283,44 @@ public class HttpManager {
 	 * @return
 	 * @throws Exception
 	 */
-	private JSONObject getResponseObject(OkHttpClient client, Request request) throws Exception {
+	private String getResponseJson(OkHttpClient client, Request request) throws Exception {
 		if (client == null || request == null) {
-			Log.e(TAG, "getResponseObject  client == null || request == null >> return null;");
+			Log.e(TAG, "getResponseJson  client == null || request == null >> return null;");
 			return null;
 		}
 		Response response = client.newCall(request).execute();
-		return response.isSuccessful() ? new JSONObject(response.body().string()) : null;
-	}
-	/**
-	 * @param object
-	 * @return
-	 */
-	private int getResponseCode(JSONObject object) {
-		try {
-			return object.getInt("result");//TODO result 改为你服务器设定的key
-		} catch (Exception e) {
-			Log.e(TAG, "getResponseCode  try { return object.getInt(result);"
-					+ "} catch (Exception e) {\n" + e.getMessage());
-		}
-		return 0;
-	}
-	/**
-	 * @param object
-	 * @return
-	 */
-	private String getResponseData(JSONObject object) {
-		try {
-			return object.getString("data");//TODO data 改为你服务器设定的key
-		} catch (Exception e) {
-			Log.e(TAG, "httpPost  getResponseData  try { return object.getString(data);"
-					+ "} catch (Exception e) {\n" + e.getMessage());
-		}
-		return null;
+		return response.isSuccessful() ? response.body().string() : null;
 	}
 
-	/**
-	 * @param listener
-	 * @param requestCode
-	 * @param exception
-	 * @param resultCode
-	 * @param resultData
+	/**从object中获取key对应的值
+	 * *获取如果T是基本类型容易崩溃，所以需要try-catch
+	 * @param json
+	 * @param key
+	 * @return
+	 * @throws JSONException 
 	 */
-	private void httpPostExecute(OnHttpResponseListener listener, int requestCode
-			, Exception exception, int resultCode, String resultData) {
-		if (listener == null) {
-			Log.e(TAG, "httpPostExecute  listener == null >> return;");
-			return;
-		}
-
-		if (exception == null || resultCode > 0 || StringUtil.isNotEmpty(resultData, true)) {
-			Log.i(TAG, "httpPostExecute requestCode = "
-					+ requestCode + "; resultCode = " + resultCode + "; result = <<<<<<<<<<<<<<<<<<<< \n"
-					+ resultData + "\n>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-			listener.onHttpRequestSuccess(requestCode, resultCode, resultData);
-		} else {
-			Log.w(TAG, "httpPostExecute requestCode = "
-					+ requestCode + "\n  exception = <<<<<<<<<<<<<<<<<<<< \n"
-					+ exception.getMessage() + "\n>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-			listener.onHttpRequestError(requestCode, exception);
-		}
+	public <T> T getValue(String json, String key) throws JSONException {
+		return getValue(new JSONObject(json), key);
+	}
+	/**从object中获取key对应的值
+	 * *获取如果T是基本类型容易崩溃，所以需要try-catch
+	 * @param object
+	 * @param key
+	 * @return
+	 * @throws JSONException 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(JSONObject object, String key) throws JSONException {
+		return (T) object.get(key);
 	}
 
 	//httpGet/httpPost 内调用方法 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
 
 
 
+	/**http请求头
+	 */
 	public class HttpHead extends CookieHandler {
 		public HttpHead() {
 		}
@@ -410,8 +353,8 @@ public class HttpManager {
 		}
 
 	}
-	
-	
-	
+
+
+
 
 }

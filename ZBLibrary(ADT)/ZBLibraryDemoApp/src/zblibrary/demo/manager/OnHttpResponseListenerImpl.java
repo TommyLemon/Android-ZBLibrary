@@ -32,14 +32,14 @@ import zuo.biao.library.util.Log;
    <br/> }
  * @author Lemon
  * @see UserActivity#initData()
- * @use 把请求中的listener替换成new OnHttpResonseListenerImpl(listener)
+ * @use 把请求中的listener替换成new OnHttpResponseListenerImpl(listener)
  */
-public class OnHttpResonseListenerImpl implements OnHttpResponseListener
+public class OnHttpResponseListenerImpl implements OnHttpResponseListener
 , zuo.biao.library.manager.HttpManager.OnHttpResponseListener {
-	private static final String TAG = "OnHttpResonseListenerImpl";
+	private static final String TAG = "OnHttpResponseListenerImpl";
 
 	OnHttpResponseListener listener;
-	public OnHttpResonseListenerImpl(OnHttpResponseListener listener) {
+	public OnHttpResponseListenerImpl(OnHttpResponseListener listener) {
 		this.listener = listener;
 	}
 

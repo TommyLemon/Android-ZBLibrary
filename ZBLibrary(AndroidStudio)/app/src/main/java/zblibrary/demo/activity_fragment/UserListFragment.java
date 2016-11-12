@@ -145,8 +145,7 @@ implements OnItemClickListener, CacheCallBack<User> {
 
 			@Override
 			public void run() {
-				onHttpRequestSuccess(0, HttpRequest.RESULT_GET_USER_LIST_SUCCEED
-						, Json.toJSONString(TestUtil.getUserList(pageNum, getCachePageSize())));
+				onHttpResponse(0, Json.toJSONString(TestUtil.getUserList(pageNum, getCachePageSize())), null);
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>

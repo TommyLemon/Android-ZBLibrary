@@ -167,7 +167,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 				setUser(CacheManager.getInstance().get(User.class, "" + userId));//先加载缓存数据，比网络请求快很多
 				//TODO 修改以下请求
 				//通用 HttpRequest.getUser(userId, 0, UserActivity.this);//http请求获取一个User
-				//更方便但对字符串格式有要求 HttpRequest.getUser(userId, 0, new OnHttpResonseListenerImpl(UserActivity.this));
+				//更方便但对字符串格式有要求 HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this));
 			}
 		});
 	}
@@ -233,7 +233,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
 		User user = null;
-		try {//如果服务器返回的json一定在最外层有个data，可以用OnHttpResonseListenerImpl解析
+		try {//如果服务器返回的json一定在最外层有个data，可以用OnHttpResponseListenerImpl解析
 			JSONObject jsonObject = new JSONObject(resultJson);
 			JSONObject data = jsonObject.getJSONObject("data");
 			user = Json.parseObject("" + data, User.class);
@@ -250,7 +250,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 	//对应HttpRequest.getUser(userId, 0, UserActivity.this); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResonseListenerImpl(UserActivity.this)); <<<<<
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); <<<<<
 	//	@Override
 	//	public void onHttpSuccess(int requestCode, int resultCode, String resultData) {
 	//		setUser(Json.parseObject(resultData, User.class));
@@ -260,7 +260,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	//	public void onHttpError(int requestCode, Exception e) {
 	//		showShortToast(R.string.get_failed);
 	//	}
-	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResonseListenerImpl(UserActivity.this)); >>>>
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); >>>>
 
 
 

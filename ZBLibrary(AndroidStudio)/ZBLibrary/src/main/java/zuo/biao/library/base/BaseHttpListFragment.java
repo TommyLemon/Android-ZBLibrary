@@ -135,30 +135,22 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 		});
 	}
 
-	/**
-	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-	 * @param resultCode 服务器返回结果码
-	 * @param json 服务器返回的Json串，用parseArray方法解析
-	 */
 	@Override
-	public void onHttpRequestSuccess(int requestCode, int resultCode, final String json) {
-		runThread(TAG + "onHttpRequestSuccess", new Runnable() {
+	public void onHttpResponse(int requestCode, final String resultJson, final Exception e) {
+		runThread(TAG + "onHttpResponse", new Runnable() {
 
 			@Override
 			public void run() {
-				onLoadSucceed(parseArray(json));
+				List<T> array = parseArray(resultJson);
+				if ((array == null || array.isEmpty()) && e != null) {
+					onLoadFailed(e);
+				} else {
+					onLoadSucceed(array);
+				}
 			}
-		});
+		});		
 	}
-	/**里面只有stopLoadData();showShortToast(R.string.get_failed); 不能满足需求时可重写该方法
-	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-	 * @param e OKHTTP中请求异常
-	 */
-	@Override
-	public void onHttpRequestError(int requestCode, Exception e) {
-		onLoadFailed(e);
-	}
-
+	
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

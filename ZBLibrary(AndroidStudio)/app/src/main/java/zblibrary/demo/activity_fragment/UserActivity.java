@@ -14,21 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import zblibrary.demo.R;
-import zblibrary.demo.model.User;
-import zblibrary.demo.util.BottomMenuUtil;
-import zblibrary.demo.view.UserView;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.CacheManager;
-import zuo.biao.library.ui.BottomMenuView;
-import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
-import zuo.biao.library.ui.BottomMenuWindow;
-import zuo.biao.library.ui.EditTextInfoActivity;
-import zuo.biao.library.ui.TextClearSuit;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.Log;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,10 +24,32 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import zblibrary.demo.R;
+import zblibrary.demo.model.User;
+import zblibrary.demo.util.BottomMenuUtil;
+import zblibrary.demo.view.UserView;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.base.BaseModel;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.CacheManager;
+import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
+import zuo.biao.library.ui.BottomMenuView;
+import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
+import zuo.biao.library.ui.BottomMenuWindow;
+import zuo.biao.library.ui.EditTextInfoActivity;
+import zuo.biao.library.ui.TextClearSuit;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.Json;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.StringUtil;
+
 /**联系人资料界面
  * @author Lemon
  */
-public class UserActivity extends BaseActivity implements OnClickListener, OnBottomDragListener, OnBottomMenuItemClickListener {
+public class UserActivity extends BaseActivity implements OnClickListener, OnBottomDragListener
+, OnBottomMenuItemClickListener, OnHttpResponseListener {
 	public static final String TAG = "UserActivity";
 
 	/**获取启动UserActivity的intent
@@ -78,11 +85,11 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private ViewGroup llUserBusinessCardContainer;
 	private UserView userView;
-	
+
 	private EditText etUserRemark;
 	private TextView tvUserTag;
 
@@ -91,7 +98,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void initView() {//必须调用
 		super.initView();
-		
+
 		//添加用户名片<<<<<<<<<<<<<<<<<<<<<<
 		llUserBusinessCardContainer = (ViewGroup) findViewById(R.id.llUserBusinessCardContainer);
 		llUserBusinessCardContainer.removeAllViews();
@@ -103,8 +110,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 		etUserRemark = (EditText) findViewById(R.id.etUserRemark);
 		tvUserTag = (TextView) findViewById(R.id.tvUserTag);
-		
-		
+
+
 		//添加底部菜单<<<<<<<<<<<<<<<<<<<<<<
 		llUserBottomMenuContainer = (ViewGroup) findViewById(R.id.llUserBottomMenuContainer);
 		llUserBottomMenuContainer.removeAllViews();
@@ -123,13 +130,19 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			user = new User();
 		}
 
-		userView.setView(user);
-		
-		tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
+		runUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				userView.setView(user);
+
+				tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
+			}
+		});
 	}
 
-	
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -140,31 +153,27 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-		
+
 		bottomMenuView.setView(BottomMenuUtil.getMenuList(BottomMenuUtil.USER));
 
 		runThread(TAG + "initData", new Runnable() {
 			@Override
 			public void run() {
-
-				user = CacheManager.getInstance().get(User.class, "" + userId);
-				runUiThread(new Runnable() {
-					@Override
-					public void run() {
-						setUser(user);
-					}
-				});
+				setUser(CacheManager.getInstance().get(User.class, "" + userId));//先加载缓存数据，比网络请求快很多
+				//TODO 修改以下请求
+				//通用 HttpRequest.getUser(userId, 0, UserActivity.this);//http请求获取一个User
+				//更方便但对字符串格式有要求 HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this));
 			}
 		});
 	}
 
-	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -173,14 +182,14 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initEvent() {//必须调用
 		super.initEvent();
-		
+
 		findViewById(R.id.llUserTag).setOnClickListener(this);
-		
+
 		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
 
 		bottomMenuView.setOnMenuItemClickListener(this);//底部菜单点击监听
@@ -194,7 +203,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 		switch (intentCode) {
 		case BottomMenuUtil.INTENT_CODE_SEND:
-			CommonUtil.shareInfo(context, user.toString());
+			CommonUtil.shareInfo(context, Json.toJSONString(user));
 			break;
 		case BottomMenuUtil.INTENT_CODE_QRCODE:
 			toActivity(QRCodeActivity.createIntent(context, userId));
@@ -220,6 +229,42 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			break;
 		}
 	}
+
+	//对应HttpRequest.getUser(userId, 0, UserActivity.this); <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
+		User user = null;
+		try {//如果服务器返回的json一定在最外层有个data，可以用OnHttpResponseListenerImpl解析
+			JSONObject jsonObject = new JSONObject(resultJson);
+			JSONObject data = jsonObject.getJSONObject("data");
+			user = Json.parseObject("" + data, User.class);
+		} catch (Exception e1) {
+			Log.e(TAG, "onHttpResponse  try { user = Json.parseObject(... >>" +
+					" } catch (JSONException e1) {\n" + e1.getMessage());
+		}
+
+		if (BaseModel.isCorrect(user) == false && e != null) {
+			showShortToast(R.string.get_failed);
+		} else {
+			setUser(user);
+		}		
+	}
+	//对应HttpRequest.getUser(userId, 0, UserActivity.this); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); <<<<<
+	//	@Override
+	//	public void onHttpSuccess(int requestCode, int resultCode, String resultData) {
+	//		setUser(Json.parseObject(resultData, User.class));
+	//	}
+	//
+	//	@Override
+	//	public void onHttpError(int requestCode, Exception e) {
+	//		showShortToast(R.string.get_failed);
+	//	}
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); >>>>
+
+
+
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -274,12 +319,21 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
+	@Override
+	public void finish() {
+		CacheManager.getInstance().save(User.class, user, "" + user.getId());//更新缓存
+		super.finish();
+	}
+
+
+
+
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

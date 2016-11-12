@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
+import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseListActivity;
 import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.AdapterCallBack;
@@ -155,21 +156,7 @@ implements OnBottomDragListener {
 	 * @return
 	 */
 	private String getPictureUrl(int userId) {
-		switch (userId % 6) {
-		case 0:
-			return "http://images2015.cnblogs.com/blog/660067/201604/660067-20160404191409609-2089759742.png";
-		case 1:
-			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
-		case 2:
-			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
-		case 3:
-			return "https://www.baidu.com/img/bd_logo1.png";
-		case 4:
-			return "http://common.cnblogs.com/images/icon_weibo_24.png";
-		case 5:
-			return "http://common.cnblogs.com/images/wechat.png";
-		}
-		return null;
+		return TestUtil.getPicture(userId % 6);
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
