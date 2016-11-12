@@ -14,21 +14,11 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import org.json.JSONObject;
 
 import zblibrary.demo.R;
 import zblibrary.demo.model.User;
-import zblibrary.demo.util.BottomMenuUtil;
+import zblibrary.demo.util.MenuUtil;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseModel;
@@ -44,6 +34,15 @@ import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Json;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**联系人资料界面
  * @author Lemon
@@ -160,7 +159,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void initData() {//必须调用
 		super.initData();
 
-		bottomMenuView.setView(BottomMenuUtil.getMenuList(BottomMenuUtil.USER));
+		bottomMenuView.setView(MenuUtil.getMenuList(MenuUtil.USER));
 
 		runThread(TAG + "initData", new Runnable() {
 			@Override
@@ -202,10 +201,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			return;
 		}
 		switch (intentCode) {
-		case BottomMenuUtil.INTENT_CODE_SEND:
+		case MenuUtil.INTENT_CODE_SEND:
 			CommonUtil.shareInfo(context, Json.toJSONString(user));
 			break;
-		case BottomMenuUtil.INTENT_CODE_QRCODE:
+		case MenuUtil.INTENT_CODE_QRCODE:
 			toActivity(QRCodeActivity.createIntent(context, userId));
 			break;
 		default:
@@ -214,13 +213,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 				return;
 			}
 			switch (intentCode) {
-			case BottomMenuUtil.INTENT_CODE_SEND_MESSAGE:
+			case MenuUtil.INTENT_CODE_SEND_MESSAGE:
 				CommonUtil.toMessageChat(context, user.getPhone());
 				break;
-			case BottomMenuUtil.INTENT_CODE_CALL:
+			case MenuUtil.INTENT_CODE_CALL:
 				CommonUtil.call(context, phone);
 				break;
-			case BottomMenuUtil.INTENT_CODE_SEND_EMAIL:
+			case MenuUtil.INTENT_CODE_SEND_EMAIL:
 				CommonUtil.sendEmail(context, phone + "@qq.com");
 				break;
 			default:

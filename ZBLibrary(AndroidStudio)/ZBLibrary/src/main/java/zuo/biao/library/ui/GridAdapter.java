@@ -19,7 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;

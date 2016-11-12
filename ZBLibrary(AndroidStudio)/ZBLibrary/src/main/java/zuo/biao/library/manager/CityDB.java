@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import zuo.biao.library.bean.City;
+import zuo.biao.library.model.City;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
 import android.database.Cursor;

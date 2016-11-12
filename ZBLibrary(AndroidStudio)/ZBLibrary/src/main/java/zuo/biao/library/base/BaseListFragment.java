@@ -246,7 +246,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int pageNum_, final boolean isToLoadCache) {
 		Log.i(TAG, "loadData  pageNum_ = " + pageNum_ + "; isToLoadCache = " + isToLoadCache);
 		if (isLoading) {
-			Log.e(TAG, "loadData  isLoading >> return;");
+			Log.w(TAG, "loadData  isLoading >> return;");
 			return;
 		}
 		isLoading = true;
@@ -305,7 +305,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		}
 
 		if (onStopLoadListener == null) {
-			Log.e(TAG, "stopLoadData  onStopLoadListener == null >> return;");
+			Log.w(TAG, "stopLoadData  onStopLoadListener == null >> return;");
 			return;
 		}
 		if (pageNum <= HttpManager.PAGE_NUM_0) {

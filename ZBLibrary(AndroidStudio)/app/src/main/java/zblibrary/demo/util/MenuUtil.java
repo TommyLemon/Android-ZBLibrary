@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
-import zuo.biao.library.bean.FunctionServiceBean;
+import zuo.biao.library.model.Menu;
 
 /**底部菜单工具类
  * @author Lemon
  */
-public class BottomMenuUtil {
+public class MenuUtil {
 
 	public static final String NAME_SEND_MESSAGE = "发信息";//信息记录显示在通话记录左边
 	public static final String NAME_CALL = "呼叫";//信息记录显示在通话记录左边
@@ -46,22 +46,22 @@ public class BottomMenuUtil {
 	public static final int INTENT_CODE_DELETE = 9;
 	public static final int INTENT_CODE_SEND_EMAIL = 10;
 
-	public static FunctionServiceBean FSB_SEND_MESSAGE = new FunctionServiceBean(NAME_SEND_MESSAGE, R.drawable.mail_light, INTENT_CODE_SEND_MESSAGE);
-	public static FunctionServiceBean FSB_CALL = new FunctionServiceBean(NAME_CALL, R.drawable.call_light, INTENT_CODE_CALL);
-	public static FunctionServiceBean FSB_SEND = new FunctionServiceBean(NAME_SEND, R.drawable.send_light, INTENT_CODE_SEND);
-	public static FunctionServiceBean FSB_QRCODE = new FunctionServiceBean(NAME_QRCODE, R.drawable.qrcode, INTENT_CODE_QRCODE);
-//	public static FunctionServiceBean FSB_SETTING = new FunctionServiceBean(NAME_SETTING, R.drawable.setting_light, INTENT_CODE_SETTING);
-	public static FunctionServiceBean FSB_ADD_TO = new FunctionServiceBean(NAME_ADD_TO, R.drawable.add_light, INTENT_CODE_ADD_TO);
-	public static FunctionServiceBean FSB_EDIT = new FunctionServiceBean(NAME_EDIT, R.drawable.edit_light, INTENT_CODE_EDIT);
-	public static FunctionServiceBean FSB_EDIT_ALL = new FunctionServiceBean(NAME_EDIT_ALL, R.drawable.edit_light, INTENT_CODE_EDIT_ALL);
-	public static FunctionServiceBean FSB_DELETE = new FunctionServiceBean(NAME_DELETE, R.drawable.delete_light, INTENT_CODE_DELETE);
-	public static FunctionServiceBean FSB_SEND_EMAIL = new FunctionServiceBean(NAME_SEND_EMAIL, R.drawable.mail_light, INTENT_CODE_SEND_EMAIL);
+	public static Menu FSB_SEND_MESSAGE = new Menu(NAME_SEND_MESSAGE, R.drawable.mail_light, INTENT_CODE_SEND_MESSAGE);
+	public static Menu FSB_CALL = new Menu(NAME_CALL, R.drawable.call_light, INTENT_CODE_CALL);
+	public static Menu FSB_SEND = new Menu(NAME_SEND, R.drawable.send_light, INTENT_CODE_SEND);
+	public static Menu FSB_QRCODE = new Menu(NAME_QRCODE, R.drawable.qrcode, INTENT_CODE_QRCODE);
+//	public static Menu FSB_SETTING = new Menu(NAME_SETTING, R.drawable.setting_light, INTENT_CODE_SETTING);
+	public static Menu FSB_ADD_TO = new Menu(NAME_ADD_TO, R.drawable.add_light, INTENT_CODE_ADD_TO);
+	public static Menu FSB_EDIT = new Menu(NAME_EDIT, R.drawable.edit_light, INTENT_CODE_EDIT);
+	public static Menu FSB_EDIT_ALL = new Menu(NAME_EDIT_ALL, R.drawable.edit_light, INTENT_CODE_EDIT_ALL);
+	public static Menu FSB_DELETE = new Menu(NAME_DELETE, R.drawable.delete_light, INTENT_CODE_DELETE);
+	public static Menu FSB_SEND_EMAIL = new Menu(NAME_SEND_EMAIL, R.drawable.mail_light, INTENT_CODE_SEND_EMAIL);
 
 	public static final int CONTACT_LIST_FRAGMENT_MULTI = 1;
 
 	public static final int USER = 1;
-	public static List<FunctionServiceBean> getMenuList(int which) {
-		List<FunctionServiceBean> list = new ArrayList<FunctionServiceBean>();
+	public static List<Menu> getMenuList(int which) {
+		List<Menu> list = new ArrayList<Menu>();
 		switch (which) {
 		case USER:
 			list.add(FSB_SEND_MESSAGE);

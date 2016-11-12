@@ -13,10 +13,9 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/flBottomTabFragmentContainer"
+        android:id="@+id/flMainTabFragmentContainer"
         style="@style/match_match"
-        android:layout_weight="1"
-        android:background="@color/activity_bg" >
+        android:layout_weight="1" >
     </FrameLayout>
 
     <View style="@style/divider_horizontal_1px_gray" />

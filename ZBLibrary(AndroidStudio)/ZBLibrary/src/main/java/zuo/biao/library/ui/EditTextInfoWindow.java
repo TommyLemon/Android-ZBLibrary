@@ -19,7 +19,7 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.ContactInfoUtil;
+import zuo.biao.library.util.ContactUtil;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -132,22 +132,22 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	public static final String INTENT_PACKAGE_NAME = "INTENT_PACKAGE_NAME";
 
-	public static final int TYPE_NICK = 200 + ContactInfoUtil.TYPE_NICK;
-	public static final int TYPE_NAME = 200 + ContactInfoUtil.TYPE_NAME;
+	public static final int TYPE_NICK = 200 + ContactUtil.TYPE_NICK;
+	public static final int TYPE_NAME = 200 + ContactUtil.TYPE_NAME;
 
-	public static final int TYPE_PHONE = 200 + ContactInfoUtil.TYPE_PHONE;
-	public static final int TYPE_WEBSITE = 200 + ContactInfoUtil.TYPE_WEBSITE;
-	public static final int TYPE_EMAIL = 200 + ContactInfoUtil.TYPE_EMAIL;
-	public static final int TYPE_FAX = 200 + ContactInfoUtil.TYPE_FAX;
+	public static final int TYPE_PHONE = 200 + ContactUtil.TYPE_PHONE;
+	public static final int TYPE_WEBSITE = 200 + ContactUtil.TYPE_WEBSITE;
+	public static final int TYPE_EMAIL = 200 + ContactUtil.TYPE_EMAIL;
+	public static final int TYPE_FAX = 200 + ContactUtil.TYPE_FAX;
 
-	public static final int TYPE_USUALADDRESS = 200 + ContactInfoUtil.TYPE_USUALADDRESS;
-	public static final int TYPE_MAILADDRESS = 200 + ContactInfoUtil.TYPE_MAILADDRESS;
-	public static final int TYPE_SCHOOL = 200 + ContactInfoUtil.TYPE_SCHOOL;
-	public static final int TYPE_COMPANY = 200 + ContactInfoUtil.TYPE_COMPANY;
+	public static final int TYPE_USUALADDRESS = 200 + ContactUtil.TYPE_USUALADDRESS;
+	public static final int TYPE_MAILADDRESS = 200 + ContactUtil.TYPE_MAILADDRESS;
+	public static final int TYPE_SCHOOL = 200 + ContactUtil.TYPE_SCHOOL;
+	public static final int TYPE_COMPANY = 200 + ContactUtil.TYPE_COMPANY;
 
-	public static final int TYPE_PROFESSION = 200 + ContactInfoUtil.TYPE_PROFESSION;
-	public static final int TYPE_NOTE = 200 + ContactInfoUtil.TYPE_NOTE;
-	//	public static final int TYPE_OTHER = 200 + ContactInfoUtil.TYPE_OTHER;
+	public static final int TYPE_PROFESSION = 200 + ContactUtil.TYPE_PROFESSION;
+	public static final int TYPE_NOTE = 200 + ContactUtil.TYPE_NOTE;
+	//	public static final int TYPE_OTHER = 200 + ContactUtil.TYPE_OTHER;
 
 	public static final String INTENT_TYPE = "INTENT_TYPE";
 	public static final String INTENT_KEY = "INTENT_KEY";

@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.application.DemoApplication;
-import zuo.biao.library.bean.Parameter;
 import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
+import zuo.biao.library.model.Parameter;
 import zuo.biao.library.util.MD5Util;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;

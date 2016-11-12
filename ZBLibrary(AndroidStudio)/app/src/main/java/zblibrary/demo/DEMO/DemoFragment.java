@@ -20,7 +20,7 @@ import java.util.List;
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

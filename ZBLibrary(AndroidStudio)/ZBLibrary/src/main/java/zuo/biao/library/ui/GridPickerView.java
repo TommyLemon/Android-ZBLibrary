@@ -19,8 +19,8 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.Entry;
-import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.model.GridPickerConfig;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
@@ -87,13 +87,13 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	}
 
 
-	public ArrayList<GridPickerConfigBean> getConfigList() {
+	public ArrayList<GridPickerConfig> getConfigList() {
 		return configList;
 	}
 
 	public ArrayList<String> getSelectedItemList() {
 		ArrayList<String> list = new ArrayList<String>();
-		for (GridPickerConfigBean gpcb : configList) {
+		for (GridPickerConfig gpcb : configList) {
 			list.add(gpcb.getSelectedItemName());
 		}
 		return list;
@@ -154,7 +154,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	 * @param configList
 	 * @param lastList
 	 */
-	public final void init(ArrayList<GridPickerConfigBean> configList, List<Entry<Integer, String>> lastList) {
+	public final void init(ArrayList<GridPickerConfig> configList, List<Entry<Integer, String>> lastList) {
 		if (configList == null || configList.size() <= 0) {
 			Log.e(TAG, "initTabs  (configList == null || configList.size() <= 0 " +
 					">> selectedItemPostionList = new ArrayList<Integer>(); return;");
@@ -222,7 +222,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 
 	private static final int MAX_NUM_TABS = 12;//最大标签数量
 
-	private ArrayList<GridPickerConfigBean> configList;
+	private ArrayList<GridPickerConfig> configList;
 	private GridPickerAdapter adapter;
 	/**设置并显示内容//可能导致每次都不变
 	 * @param tabPosition
@@ -242,7 +242,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 					" >> configList == null || configList.size() <= 0 >> return;");
 			return;
 		}
-		GridPickerConfigBean gpcb = configList.get(tabPosition);
+		GridPickerConfig gpcb = configList.get(tabPosition);
 		if (gpcb == null) {
 			return;
 		}

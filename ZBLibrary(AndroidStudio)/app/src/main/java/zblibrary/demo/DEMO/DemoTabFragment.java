@@ -170,7 +170,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		super.initEvent();
-
+		
 		tvDemoTabLeft.setOnClickListener(this);
 		findViewById(R.id.tvDemoTabRight).setOnClickListener(this);
 	}

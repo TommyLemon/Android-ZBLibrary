@@ -29,7 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import zuo.biao.library.base.BaseApplication;
-import zuo.biao.library.bean.Parameter;
+import zuo.biao.library.model.Parameter;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SSLUtil;
 import zuo.biao.library.util.StringUtil;
