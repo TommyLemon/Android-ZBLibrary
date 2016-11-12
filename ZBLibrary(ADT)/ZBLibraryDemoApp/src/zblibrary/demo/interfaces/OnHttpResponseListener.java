@@ -12,10 +12,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-/**
- * UI显示类所在包
- */
-/**
+package zblibrary.demo.interfaces;
+
+/**网络请求回调接口
  * @author Lemon
  */
-package zuo.biao.library.ui;
+public interface OnHttpResponseListener {
+	/**
+	 * @param requestCode 请求码，自定义，在发起请求的类中可以用requestCode来区分各个请求
+	 * @param resultCode 服务器返回状态码
+	 * @param resultData 服务器返回的Json串
+	 */
+	void onHttpSuccess(int requestCode, int resultCode, String resultData);
+	/**
+	 * @param requestCode 请求码，自定义，在发起请求的类中可以用requestCode来区分各个请求
+	 * @param e 请求异常
+	 */
+	void onHttpError(int requestCode, Exception e);
+}

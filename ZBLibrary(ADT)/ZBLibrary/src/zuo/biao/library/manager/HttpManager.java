@@ -93,11 +93,8 @@ public class HttpManager {
 	 */
 	public static final int PAGE_NUM_0 = 0;
 
-	public static final String KEY_CODE = "code";//TODO code 改为你服务器设定的key
-	public static final String KEY_DATA = "data";//TODO data 改为你服务器设定的key
-
-	private static final String KEY_TOKEN = "token";
-	private static final String KEY_COOKIE = "cookie";
+	public static final String KEY_TOKEN = "token";
+	public static final String KEY_COOKIE = "cookie";
 
 
 	/**GET请求
@@ -139,8 +136,8 @@ public class HttpManager {
 					result = getResponseJson(client, new Request.Builder()
 					.addHeader(KEY_TOKEN, getToken(url))
 					.url(sb.toString()).build());
-					//测试HttpRequest.getUser接口的数据 
-					//result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
+					//TODO 注释或删除以下 测试HttpRequest.getUser接口的数据 
+					result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
 				} catch (Exception e) {
 					Log.e(TAG, "get  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());
@@ -194,7 +191,8 @@ public class HttpManager {
 					result = getResponseJson(client, new Request.Builder()
 					.addHeader(KEY_TOKEN, getToken(url)).url(StringUtil.getNoBlankString(url))
 					.post(fBuilder.build()).build());
-					//测试HttpRequest.register接口的数据 result = "{\"code\":102}";
+					//TODO 注释或删除以下 测试HttpRequest.register接口的数据 
+					result = "{\"code\":102}";
 				} catch (Exception e) {
 					Log.e(TAG, "post  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());

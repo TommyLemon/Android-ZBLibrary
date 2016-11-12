@@ -14,13 +14,11 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import zblibrary.demo.R;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.BottomMenuUtil;
-import zblibrary.demo.util.HttpRequest;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseModel;
@@ -86,7 +84,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private ViewGroup llUserBusinessCardContainer;
 	private UserView userView;
@@ -143,7 +141,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -154,7 +152,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
@@ -167,12 +165,14 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			@Override
 			public void run() {
 				setUser(CacheManager.getInstance().get(User.class, "" + userId));//先加载缓存数据，比网络请求快很多
-				//TODO 修改请求 HttpRequest.getUser(userId, 0, UserActivity.this);//http请求获取一个User
+				//TODO 修改以下请求
+				//通用 HttpRequest.getUser(userId, 0, UserActivity.this);//http请求获取一个User
+				//更方便但对字符串格式有要求 HttpRequest.getUser(userId, 0, new OnHttpResonseListenerImpl(UserActivity.this));
 			}
 		});
 	}
 
-	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -181,7 +181,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initEvent() {//必须调用
@@ -229,6 +229,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 	}
 
+	//对应HttpRequest.getUser(userId, 0, UserActivity.this); <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
 		User user = null;
@@ -236,17 +237,33 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			JSONObject jsonObject = new JSONObject(resultJson);
 			JSONObject data = jsonObject.getJSONObject("data");
 			user = Json.parseObject("" + data, User.class);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			Log.e(TAG, "onHttpResponse  try { user = Json.parseObject(... >>" +
 					" } catch (JSONException e1) {\n" + e1.getMessage());
 		}
-		
+
 		if (BaseModel.isCorrect(user) == false && e != null) {
 			showShortToast(R.string.get_failed);
 		} else {
 			setUser(user);
 		}		
 	}
+	//对应HttpRequest.getUser(userId, 0, UserActivity.this); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResonseListenerImpl(UserActivity.this)); <<<<<
+	//	@Override
+	//	public void onHttpSuccess(int requestCode, int resultCode, String resultData) {
+	//		setUser(Json.parseObject(resultData, User.class));
+	//	}
+	//
+	//	@Override
+	//	public void onHttpError(int requestCode, Exception e) {
+	//		showShortToast(R.string.get_failed);
+	//	}
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResonseListenerImpl(UserActivity.this)); >>>>
+
+
+
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -308,12 +325,14 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
+
+
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
