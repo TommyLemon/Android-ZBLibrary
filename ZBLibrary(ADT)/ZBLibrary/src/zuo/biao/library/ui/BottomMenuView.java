@@ -19,7 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.FunctionServiceBean;
+import zuo.biao.library.model.Menu;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
@@ -40,7 +40,7 @@ import android.widget.TextView;
  *      bottomMenuView.setOnMenuItemClickListener(onBottomMenuItemClickListener);
  *      *具体参考.UserActivity
  */
-public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
+public class BottomMenuView extends BaseView<List<Menu>> {
 	private static final String TAG = "BottomMenuView";
 
 	public interface OnBottomMenuItemClickListener{
@@ -80,15 +80,15 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 	}
 
 	@Override
-	public List<FunctionServiceBean> getData() {
+	public List<Menu> getData() {
 		return list;
 	}
 
-	private List<FunctionServiceBean> list;//传进来的数据
+	private List<Menu> list;//传进来的数据
 	private ArrayList<String> moreMenuNameList;
 	private ArrayList<Integer> moreMenuIntentCodeList;
 	@Override
-	public void setView(final List<FunctionServiceBean> menuList){
+	public void setView(final List<Menu> menuList){
 		if (menuList == null || menuList.isEmpty()) {
 			Log.e(TAG, "setView  menuList == null || menuList.isEmpty() >> return;");
 			return;
@@ -97,7 +97,7 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 
 		llBottomMenuViewMainItemContainer.removeAllViews();
 		final int mainItemCount = list.size() > 4 ? 3 : list.size();//不包括 更多 按钮
-		FunctionServiceBean fsb;
+		Menu fsb;
 		for (int i = 0; i < mainItemCount; i++) {
 			fsb = list.get(i);
 			if (fsb.getImageRes() > 0) {
@@ -114,7 +114,7 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 			//弹出底部菜单
 			moreMenuNameList = new ArrayList<String>();
 			moreMenuIntentCodeList = new ArrayList<Integer>();
-			FunctionServiceBean moreFsb;
+			Menu moreFsb;
 			for (int i = 3; i < list.size(); i++) {
 				moreFsb = list.get(i);
 				if (moreFsb != null) {
@@ -131,7 +131,7 @@ public class BottomMenuView extends BaseView<List<FunctionServiceBean>> {
 	 * @param fsb
 	 */
 	@SuppressLint("InflateParams")
-	private void addItem(final boolean isMoreButton, final int position, final FunctionServiceBean fsb) {
+	private void addItem(final boolean isMoreButton, final int position, final Menu fsb) {
 		if (isMoreButton == false) {
 			if (position < 0 || fsb == null || StringUtil.isNotEmpty(fsb.getName(), true) == false
 					|| fsb.getImageRes() <= 0) {

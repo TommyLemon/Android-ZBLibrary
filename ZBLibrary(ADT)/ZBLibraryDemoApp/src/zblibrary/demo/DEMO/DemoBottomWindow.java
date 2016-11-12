@@ -17,7 +17,7 @@ package zblibrary.demo.DEMO;
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

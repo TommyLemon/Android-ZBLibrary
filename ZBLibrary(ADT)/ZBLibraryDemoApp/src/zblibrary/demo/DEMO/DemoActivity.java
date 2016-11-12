@@ -19,8 +19,8 @@ import java.util.List;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.model.Entry;
 import zuo.biao.library.ui.PageScroller;
 import android.app.Activity;
 import android.content.Context;

@@ -49,19 +49,6 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 , OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabActivity";
 
-	/**
-	 * tab被选中监听类的实例
-	 */
-	private OnTabSelectedListener onTabSelectedListener;
-	/**设置tab被选中监听
-	 * @warn 在initEvent前使用才有效
-	 * @param onTabSelectedListener
-	 */
-	public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
-		this.onTabSelectedListener = onTabSelectedListener;
-	}
-
-
 
 
 	/**
@@ -156,7 +143,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	private ViewGroup llBaseTabTopRightButtonContainer;
 
 	private ViewGroup llBaseTabTabContainer;
-	private TopTabView topTabView;
+	protected TopTabView topTabView;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -204,7 +191,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	public void selectFragment(int position) {
 		if (currentPosition == position) {
 			if (needReload == false && fragments[position] != null && fragments[position].isVisible()) {
-				Log.e(TAG, "selectFragment currentPosition == position" +
+				Log.w(TAG, "selectFragment currentPosition == position" +
 						" >> fragments[position] != null && fragments[position].isVisible()" +
 						" >> return;	");
 				return;
@@ -443,7 +430,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 			});
 		}
 
-		topTabView.setOnTabSelectedListener(onTabSelectedListener != null ? onTabSelectedListener : this);
+		topTabView.setOnTabSelectedListener(this);
 	}
 
 	@Override
@@ -480,8 +467,6 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		needReload = false;
 		
 		topRightButtonList = null;
-		
-		onTabSelectedListener = null;
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

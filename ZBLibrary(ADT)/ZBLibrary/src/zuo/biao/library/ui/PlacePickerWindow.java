@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.bean.Entry;
-import zuo.biao.library.bean.GridPickerConfigBean;
 import zuo.biao.library.manager.CityDB;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.model.GridPickerConfig;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.PlaceUtil;
 import zuo.biao.library.util.StringUtil;
@@ -164,12 +164,12 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, 
 							getIntent().getStringExtra(INTENT_PACKAGE_NAME)));
 				}
 
-				final ArrayList<GridPickerConfigBean> configList = new ArrayList<GridPickerConfigBean>();
-				configList.add(new GridPickerConfigBean("", "浙江", 10));
-				configList.add(new GridPickerConfigBean("", "杭州", 0));
+				final ArrayList<GridPickerConfig> configList = new ArrayList<GridPickerConfig>();
+				configList.add(new GridPickerConfig("", "浙江", 10));
+				configList.add(new GridPickerConfig("", "杭州", 0));
 
 				final ArrayList<String> selectedItemNameList = new ArrayList<String>();
-				for (GridPickerConfigBean gpcb : configList) {
+				for (GridPickerConfig gpcb : configList) {
 					selectedItemNameList.add(gpcb.getSelectedItemName());
 				}
 

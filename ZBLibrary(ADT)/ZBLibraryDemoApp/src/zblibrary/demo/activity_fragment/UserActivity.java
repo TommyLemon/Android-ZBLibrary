@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import zblibrary.demo.R;
 import zblibrary.demo.model.User;
-import zblibrary.demo.util.BottomMenuUtil;
+import zblibrary.demo.util.MenuUtil;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseModel;
@@ -159,7 +159,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void initData() {//必须调用
 		super.initData();
 
-		bottomMenuView.setView(BottomMenuUtil.getMenuList(BottomMenuUtil.USER));
+		bottomMenuView.setView(MenuUtil.getMenuList(MenuUtil.USER));
 
 		runThread(TAG + "initData", new Runnable() {
 			@Override
@@ -201,10 +201,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			return;
 		}
 		switch (intentCode) {
-		case BottomMenuUtil.INTENT_CODE_SEND:
+		case MenuUtil.INTENT_CODE_SEND:
 			CommonUtil.shareInfo(context, Json.toJSONString(user));
 			break;
-		case BottomMenuUtil.INTENT_CODE_QRCODE:
+		case MenuUtil.INTENT_CODE_QRCODE:
 			toActivity(QRCodeActivity.createIntent(context, userId));
 			break;
 		default:
@@ -213,13 +213,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 				return;
 			}
 			switch (intentCode) {
-			case BottomMenuUtil.INTENT_CODE_SEND_MESSAGE:
+			case MenuUtil.INTENT_CODE_SEND_MESSAGE:
 				CommonUtil.toMessageChat(context, user.getPhone());
 				break;
-			case BottomMenuUtil.INTENT_CODE_CALL:
+			case MenuUtil.INTENT_CODE_CALL:
 				CommonUtil.call(context, phone);
 				break;
-			case BottomMenuUtil.INTENT_CODE_SEND_EMAIL:
+			case MenuUtil.INTENT_CODE_SEND_EMAIL:
 				CommonUtil.sendEmail(context, phone + "@qq.com");
 				break;
 			default:

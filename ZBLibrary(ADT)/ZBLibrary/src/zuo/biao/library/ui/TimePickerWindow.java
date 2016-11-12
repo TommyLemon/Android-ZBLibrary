@@ -19,8 +19,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.bean.Entry;
-import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.model.GridPickerConfig;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -132,7 +132,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 			public void run() {
 
 				final ArrayList<Integer> selectedItemList = new ArrayList<Integer>();
-				for (GridPickerConfigBean gpcb : configList) {
+				for (GridPickerConfig gpcb : configList) {
 					selectedItemList.add(0 + Integer.valueOf(StringUtil.getNumber(gpcb.getSelectedItemName())));
 				}
 
@@ -171,7 +171,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 	private int[] maxTimeDetails;
 	private int[] defaultTimeDetails;
 
-	private ArrayList<GridPickerConfigBean> configList;
+	private ArrayList<GridPickerConfig> configList;
 	@Override
 	public void initData() {//必须调用
 		super.initData();
@@ -219,10 +219,10 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 				selectedItemList.add(defaultTimeDetails[1]);
 
 				//放getList导致中间时钟对应的分钟不全
-				configList = new ArrayList<GridPickerConfigBean>();
-				configList.add(new GridPickerConfigBean(TimeUtil.NAME_HOUR, "" + selectedItemList.get(0)
+				configList = new ArrayList<GridPickerConfig>();
+				configList.add(new GridPickerConfig(TimeUtil.NAME_HOUR, "" + selectedItemList.get(0)
 						, selectedItemList.get(0), 6, 4));
-				configList.add(new GridPickerConfigBean(TimeUtil.NAME_MINUTE, "" + selectedItemList.get(1)
+				configList.add(new GridPickerConfig(TimeUtil.NAME_MINUTE, "" + selectedItemList.get(1)
 						, selectedItemList.get(1), 5, 6));
 
 				list = getList(selectedItemList.size() - 1, selectedItemList);

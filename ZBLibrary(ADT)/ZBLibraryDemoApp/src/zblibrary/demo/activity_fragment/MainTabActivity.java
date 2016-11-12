@@ -17,6 +17,7 @@ package zblibrary.demo.activity_fragment;
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoListFragment;
 import zblibrary.demo.DEMO.DemoTabFragment;
+import zuo.biao.library.base.BaseBottomTabActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.app.Activity;
 import android.content.Context;
@@ -27,10 +28,10 @@ import android.view.KeyEvent;
 
 /**应用主页
  * @author Lemon
- * @use BottomTabActivity.createIntent(...)
+ * @use MainTabActivity.createIntent(...)
  */
-public class BottomTabActivity extends BaseBottomTabActivity implements OnBottomDragListener {
-	//	private static final String TAG = "BottomTabActivity";
+public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDragListener {
+	//	private static final String TAG = "MainTabActivity";
 
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -40,7 +41,7 @@ public class BottomTabActivity extends BaseBottomTabActivity implements OnBottom
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		return new Intent(context, BottomTabActivity.class);
+		return new Intent(context, MainTabActivity.class);
 	}
 
 
@@ -90,6 +91,11 @@ public class BottomTabActivity extends BaseBottomTabActivity implements OnBottom
 				new int[]{R.id.ivBottomTabTab0, R.id.ivBottomTabTab1, R.id.ivBottomTabTab2, R.id.ivBottomTabTab3},//顶部图标
 				new int[]{R.id.tvBottomTabTab0, R.id.tvBottomTabTab1, R.id.tvBottomTabTab2, R.id.tvBottomTabTab3}//底部文字
 		};
+	}
+	
+	@Override
+	public int getFragmentContainerResId() {
+		return R.id.flMainTabFragmentContainer;
 	}
 	
 	@Override

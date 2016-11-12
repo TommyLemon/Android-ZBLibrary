@@ -19,8 +19,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.bean.Entry;
-import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.model.GridPickerConfig;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
@@ -129,7 +129,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 			public void run() {
 
 				final ArrayList<Integer> selectedItemList = new ArrayList<Integer>();
-				for (GridPickerConfigBean gpcb : configList) {
+				for (GridPickerConfig gpcb : configList) {
 					selectedItemList.add(0 + Integer.valueOf(StringUtil.getNumber(gpcb.getSelectedItemName())));
 				}
 
@@ -186,7 +186,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 	private int[] maxDateDetails;
 	private int[] defaultDateDetails;
 
-	private ArrayList<GridPickerConfigBean> configList;
+	private ArrayList<GridPickerConfig> configList;
 	@Override
 	public void initData() {//必须调用
 		super.initData();
@@ -285,13 +285,13 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 		}
 
 		if (configList == null || configList.size() < 3) {
-			configList = new ArrayList<GridPickerConfigBean>();
+			configList = new ArrayList<GridPickerConfig>();
 
-			configList.add(new GridPickerConfigBean(TimeUtil.NAME_YEAR, "" + selectedItemList.get(0)
+			configList.add(new GridPickerConfig(TimeUtil.NAME_YEAR, "" + selectedItemList.get(0)
 					, selectedItemList.get(0) - 1 - minDateDetails[0], 5, 4));
-			configList.add(new GridPickerConfigBean(TimeUtil.NAME_MONTH, "" + selectedItemList.get(1)
+			configList.add(new GridPickerConfig(TimeUtil.NAME_MONTH, "" + selectedItemList.get(1)
 					, selectedItemList.get(1) - 1, 4, 3));
-			configList.add(new GridPickerConfigBean(TimeUtil.NAME_DAY, "" + selectedItemList.get(2)
+			configList.add(new GridPickerConfig(TimeUtil.NAME_DAY, "" + selectedItemList.get(2)
 					, selectedItemList.get(2) - 1 + 7, 7, 6));
 		}
 

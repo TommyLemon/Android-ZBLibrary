@@ -16,7 +16,7 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
