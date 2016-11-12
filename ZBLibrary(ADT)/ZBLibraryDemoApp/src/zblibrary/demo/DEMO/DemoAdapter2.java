@@ -92,10 +92,6 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		//示例代码<<<<<<<<<<<<<<<<
 		@Override
 		public void onClick(View v) {
-			if (onClickListener != null) {
-				onClickListener.onClick(v);
-				return;
-			}
 			switch (v.getId()) {
 			case R.id.ivDemoViewHead:
 				toActivity(DemoFragmentActivity.createIntent(context, position)
@@ -104,9 +100,6 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 			case R.id.tvDemoViewName:
 				data.setKey("New " + data.getKey());
 				setView(data);
-				if (onDataChangedListener != null) {
-					onDataChangedListener.onDataChanged();
-				}
 				break;
 			default:
 				break;

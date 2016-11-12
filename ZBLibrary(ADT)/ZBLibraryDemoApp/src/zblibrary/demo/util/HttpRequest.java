@@ -28,6 +28,8 @@ import zuo.biao.library.util.StringUtil;
 /**HTTP请求工具类
  * @author Lemon
  * @use 添加请求方法xxxMethod >> HttpRequest.xxxMethod(...)
+ * @must 所有请求的url、请求方法(GET, POST等)、请求参数(key-value方式，必要key一定要加，没提供的key不要加，value要符合指定范围)
+ *       都要符合后端给的接口文档
  */
 public class HttpRequest {
 //	private static final String TAG = "HttpRequest";
@@ -122,7 +124,7 @@ public class HttpRequest {
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_USER_ID, userId);
 		
-		HttpManager.getInstance().post(paramList, URL_BASE + "user/information", requestCode, listener);
+		HttpManager.getInstance().get(paramList, URL_BASE + "user/information", requestCode, listener);
 	}
 	public static final int RESULT_GET_USER_SUCCEED = 100;
 
