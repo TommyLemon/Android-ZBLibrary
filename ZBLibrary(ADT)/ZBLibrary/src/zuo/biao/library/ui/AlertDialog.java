@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**通用对话框类
- * @author lemon
+ * @author Lemon
  * @use new AlertDialog(...).show();
  */
 public class AlertDialog extends Dialog implements android.view.View.OnClickListener {

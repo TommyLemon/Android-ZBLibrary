@@ -212,16 +212,16 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		}
 	}
 	/**展示加载进度条,无标题
-	 * @param dialogMessage
+	 * @param message
 	 */
-	public void showProgressDialog(String dialogMessage){
-		showProgressDialog(null, dialogMessage);
+	public void showProgressDialog(String message){
+		showProgressDialog(null, message);
 	}
 	/**展示加载进度条
-	 * @param dialogTitle 标题
-	 * @param dialogMessage 信息
+	 * @param title 标题
+	 * @param message 信息
 	 */
-	public void showProgressDialog(final String dialogTitle, final String dialogMessage){
+	public void showProgressDialog(final String title, final String message){
 		runUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -231,11 +231,11 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 				if(progressDialog.isShowing() == true) {
 					progressDialog.dismiss();
 				}
-				if (dialogTitle != null && ! "".equals(dialogTitle.trim())) {
-					progressDialog.setTitle(dialogTitle);
+				if (StringUtil.isNotEmpty(title, false)) {
+					progressDialog.setTitle(title);
 				}
-				if (dialogMessage != null && ! "".equals(dialogMessage.trim())) {
-					progressDialog.setMessage(dialogMessage);
+				if (StringUtil.isNotEmpty(message, false)) {
+					progressDialog.setMessage(message);
 				}
 				progressDialog.setCanceledOnTouchOutside(false);
 				progressDialog.show();
@@ -267,21 +267,21 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	/**打开新的Activity，向左滑入效果
 	 * @param intent
 	 */
-	public void toActivity(final Intent intent) {
+	public void toActivity(Intent intent) {
 		toActivity(intent, true);
 	}
 	/**打开新的Activity
 	 * @param intent
 	 * @param showAnimation
 	 */
-	public void toActivity(final Intent intent, final boolean showAnimation) {
+	public void toActivity(Intent intent, boolean showAnimation) {
 		toActivity(intent, -1, showAnimation);
 	}
 	/**打开新的Activity，向左滑入效果
 	 * @param intent
 	 * @param requestCode
 	 */
-	public void toActivity(final Intent intent, final int requestCode) {
+	public void toActivity(Intent intent, int requestCode) {
 		toActivity(intent, requestCode, true);
 	}
 	/**打开新的Activity
@@ -329,7 +329,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
 	 * @param string
 	 */
-	public void showShortToast(final String string) {
+	public void showShortToast(String string) {
 		showShortToast(string, false);
 	}
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
@@ -471,14 +471,18 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 
 	@Override
 	protected void onResume() {
+		Log.d(TAG, "\n onResume <<<<<<<<<<<<<<<<<<<<<<<");
 		super.onResume();
 		isRunning = true;
+		Log.d(TAG, "onResume >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
 	@Override
 	protected void onPause() {
+		Log.d(TAG, "\n onPause <<<<<<<<<<<<<<<<<<<<<<<");
 		super.onPause();
 		isRunning = false;
+		Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
 	/**销毁并回收内存
@@ -486,6 +490,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 */
 	@Override
 	protected void onDestroy() {
+		Log.d(TAG, "\n onDestroy <<<<<<<<<<<<<<<<<<<<<<<");
 		dismissProgressDialog();
 		ThreadManager.getInstance().destroyThread(threadNameList);
 		if (view != null) {
@@ -513,6 +518,8 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		intent = null;
 
 		context = null;
+
+		Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
 

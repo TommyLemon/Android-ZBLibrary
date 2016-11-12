@@ -202,7 +202,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 		switch (intentCode) {
 		case BottomMenuUtil.INTENT_CODE_SEND:
-			CommonUtil.shareInfo(context, user.toString());
+			CommonUtil.shareInfo(context, Json.toJSONString(user));
 			break;
 		case BottomMenuUtil.INTENT_CODE_QRCODE:
 			toActivity(QRCodeActivity.createIntent(context, userId));
@@ -233,7 +233,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
 		User user = null;
-		try {//如果服务器返回的json一定在最外层有个data，可以放HttpManager里解析
+		try {//如果服务器返回的json一定在最外层有个data，可以用OnHttpResonseListenerImpl解析
 			JSONObject jsonObject = new JSONObject(resultJson);
 			JSONObject data = jsonObject.getJSONObject("data");
 			user = Json.parseObject("" + data, User.class);

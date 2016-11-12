@@ -92,4 +92,8 @@ public class TestUtil {
 		"http://my.oschina.net/img/portrait.gif?t=1451961935000"
 	};
 
+	public static String getPicture(int index) {
+		return index < 0 || index >= URLS.length ? null : URLS[index];
+	}
+
 }
