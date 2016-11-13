@@ -737,19 +737,19 @@
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/white_to_black_selector</item>
     </style>
 
     <style name="topbar_tab_tv_left" parent="topbar_tab_tv">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/tab_bg_left_full_white</item>
+        <item name="android:background">@drawable/tab_bg_left_selector</item>
     </style>
 
     <style name="topbar_tab_tv_center" parent="topbar_tab_tv">
-        <item name="android:background">@color/alpha_complete</item>
+        <item name="android:background">@drawable/tab_bg_center_selector</item>
     </style>
 
     <style name="topbar_tab_tv_right" parent="topbar_tab_tv">
-        <item name="android:background">@drawable/tab_bg_right_full_white</item>
+        <item name="android:background">@drawable/tab_bg_right_selector</item>
     </style>
     <!-- topbar tab >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 

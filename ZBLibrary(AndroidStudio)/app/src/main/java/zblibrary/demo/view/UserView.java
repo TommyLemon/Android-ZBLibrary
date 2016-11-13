@@ -80,8 +80,8 @@ public class UserView extends BaseView<User> implements OnClickListener {
 	@Override
 	public void setView(User data){
 		if (data == null) {
-			Log.e(TAG, "setView  data == null >> return;");
-			return;
+			Log.e(TAG, "setView data == null >> data = new User(); ");
+			data = new User();
 		}
 		this.data = data;
 

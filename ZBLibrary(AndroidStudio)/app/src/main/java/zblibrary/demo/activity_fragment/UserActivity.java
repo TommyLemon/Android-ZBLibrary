@@ -86,7 +86,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private ViewGroup llUserBusinessCardContainer;
+	//	private BaseViewLayout<User> bvlUser;//方式一
+	//	private UserViewLayout uvlUser;//方式二
+
+	private ViewGroup llUserBusinessCardContainer;//方式三
 	private UserView userView;
 
 	private EditText etUserRemark;
@@ -98,13 +101,21 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void initView() {//必须调用
 		super.initView();
 
-		//添加用户名片<<<<<<<<<<<<<<<<<<<<<<
+		//添加用户名片，这些方式都可<<<<<<<<<<<<<<<<<<<<<<
+		//		//方式一
+		//		bvlUser = (BaseViewLayout<User>) findViewById(R.id.bvlUser);
+		//		bvlUser.createView(new UserView(context, getResources()));
+		//		
+		//		//方式二
+		//		uvlUser = (UserViewLayout) findViewById(R.id.uvlUser);
+
+		//方式三
 		llUserBusinessCardContainer = (ViewGroup) findViewById(R.id.llUserBusinessCardContainer);
 		llUserBusinessCardContainer.removeAllViews();
 
 		userView = new UserView(context, getResources());
 		llUserBusinessCardContainer.addView(userView.createView(getLayoutInflater()));
-		//添加用户名片>>>>>>>>>>>>>>>>>>>>>>>
+		//添加用户名片，这些方式都可>>>>>>>>>>>>>>>>>>>>>>>
 
 
 		etUserRemark = (EditText) findViewById(R.id.etUserRemark);
@@ -133,7 +144,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 			@Override
 			public void run() {
-				userView.setView(user);
+				//				bvlUser.setView(user);//方式一
+				//				uvlUser.setView(user);//方式二
+				userView.setView(user);//方式三
 
 				tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
 			}
