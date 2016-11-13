@@ -20,6 +20,19 @@
 
         <LinearLayout style="@style/ll_vertical_match_match" >
 
+            <!-- 这些方式也可<<<<<<<<<<<<<<<<<<< -->
+            <!-- <zblibrary.demo.view.BaseViewLayout -->
+            <!-- android:id="@+id/bvlUser" -->
+            <!-- style="@style/match_wrap" > -->
+            <!-- </zblibrary.demo.view.BaseViewLayout> -->
+
+
+            <!-- <zblibrary.demo.view.UserViewLayout -->
+            <!-- android:id="@+id/uvlUser" -->
+            <!-- style="@style/match_wrap" > -->
+            <!-- </zblibrary.demo.view.UserViewLayout> -->
+            <!-- 这些方式也可>>>>>>>>>>>>>>>>>>> -->
+
             <LinearLayout
                 android:id="@+id/llUserBusinessCardContainer"
                 style="@style/ll_vertical_match_wrap"
