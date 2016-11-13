@@ -55,12 +55,8 @@ public class TopTabView extends BaseView<String[]> {
 	}
 
 	private int minWidth;
-	public TopTabView(Activity context, Resources resources, int[] tabBgResId) {
-		this(context, resources, tabBgResId, 0);
-	}
-	public TopTabView(Activity context, Resources resources, int[] tabBgResId, int minWidth) {
+	public TopTabView(Activity context, Resources resources, int minWidth) {
 		this(context, resources);
-		this.tabBgResId = tabBgResId;
 		this.minWidth = minWidth;
 	}
 	public TopTabView(Activity context, Resources resources) {
@@ -185,23 +181,6 @@ public class TopTabView extends BaseView<String[]> {
 		select(currentPosition);
 	}
 
-	public int[] tabBgResId = {
-			R.drawable.tab_bg_left_full_white,
-			R.drawable.tab_bg_center_full_white,
-			R.drawable.tab_bg_right_full_white,
-	};
-
-	public static final int TAB_TYPE_LEFT = 0;
-	public static final int TAB_TYPE_CENTER = 1;
-	public static final int TAB_TYPE_RIGHT = 2;
-
-	//	/**选择tab
-	//	 * tabType = TAB_TYPE_CENTER
-	//	 * @param position
-	//	 */
-	//	private void select(int position) {
-	//		select(position, TAB_TYPE_CENTER);
-	//	}
 	private TextView[] tvTabs;
 	/**选择tab
 	 * @param position
@@ -213,22 +192,11 @@ public class TopTabView extends BaseView<String[]> {
 			Log.e(TAG, "select  position < 0 || position >= getCount() >> return;");
 			return;
 		}
-//		if (onTabSelectedListener != null) {
-//			onTabSelectedListener.beforeTabSelected(tvTabs[currentPosition]
-//					, currentPosition, tvTabs[currentPosition].getId());
-//		}
-
-		int tabType = TAB_TYPE_CENTER;
-		if (position == 0) {
-			tabType = TAB_TYPE_LEFT;
-		} else if (position == lastPosition) {
-			tabType = TAB_TYPE_RIGHT;
-		}
 
 		for (int i = 0; i < tvTabs.length; i++) {
-			tvTabs[i].setTextColor(getColor(i == position ? R.color.black : R.color.white));
-			tvTabs[i].setBackgroundResource(i == position ? tabBgResId[tabType] : R.drawable.null_drawable);
+			tvTabs[i].setSelected(i == position);
 		}
+		
 		if (onTabSelectedListener != null) {
 			onTabSelectedListener.onTabSelected(tvTabs[position]
 					, position, tvTabs[position].getId());
