@@ -14,39 +14,36 @@ limitations under the License.*/
 
 package zblibrary.demo.adapter;
 
-import java.util.List;
-
+import zblibrary.demo.adapter.UserAdapter3.ItemView;
 import zblibrary.demo.model.User;
 import zblibrary.demo.view.UserView;
-import zuo.biao.library.base.BaseAdapter;
+import zuo.biao.library.base.BaseCacheAdapter;
+import zuo.biao.library.base.BaseCacheAdapter.CacheItemView;
+import zuo.biao.library.interfaces.CacheCallBack;
 import android.app.Activity;
-import android.view.View;
 import android.view.ViewGroup;
 
-/**用户adapter
+/**用户adapter，异步加载更流畅
  * @author Lemon
  */
-public class UserAdapter2 extends BaseAdapter<User> {
-	//	private static final String TAG = "UserAdapter";
+public class UserAdapter3 extends BaseCacheAdapter<User, UserView, ItemView> {
+	//	private static final String TAG = "UserAdapter3";
 
-	public UserAdapter2(Activity context, List<User> list) {
-		super(context, list);
+	public UserAdapter3(Activity context, CacheCallBack<User> cacheCallBack) {
+		super(context, cacheCallBack);
 	}
-
 
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-		UserView userView = convertView == null ? null : (UserView) convertView.getTag();
-		if (convertView == null) {
-			userView = new UserView(context, resources);
-			convertView = userView.createView(inflater, getItemViewType(position));
-
-			convertView.setTag(userView);
-		}
-
-		userView.setView(getItem(position), position, getItemViewType(position));
-
-		return super.getView(position, convertView, parent);
+	public ItemView createView(int position, ViewGroup parent) {
+		return new ItemView(new UserView(context, resources));
 	}
 
+	static class ItemView extends CacheItemView<User, UserView> {
+
+		public ItemView(UserView bv) {
+			super(bv);
+		}
+		
+	}
+	
 }

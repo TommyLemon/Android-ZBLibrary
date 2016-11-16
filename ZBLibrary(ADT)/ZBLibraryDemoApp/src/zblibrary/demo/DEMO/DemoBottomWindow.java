@@ -91,7 +91,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 		data = new Entry<String, String>("Activity", TAG);
 		data.setId(1);
 		
-		containerView.setView(data);
+		containerView.bindView(data);
 	}
 
 	@Override

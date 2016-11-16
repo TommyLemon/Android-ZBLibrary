@@ -16,7 +16,6 @@ package zblibrary.demo.view;
 
 import zblibrary.demo.activity_fragment.UserActivity;
 import zblibrary.demo.model.User;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -26,7 +25,7 @@ import android.util.AttributeSet;
  * @author Lemon
  * @see UserActivity#initView()
  * @use uvl = (BaseViewLayout<Model>) findViewById(R.id.uvl);
- *      uvl.setView(model);
+ *      uvl.bindView(model);
  */
 public class UserViewLayout extends BaseViewLayout<User> {
 
@@ -39,7 +38,6 @@ public class UserViewLayout extends BaseViewLayout<User> {
 	public UserViewLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
-	@SuppressLint("NewApi")
 	public UserViewLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 	}

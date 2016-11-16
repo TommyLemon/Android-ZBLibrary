@@ -153,7 +153,7 @@ implements ViewPresenter {
 			containerView = createView();
 			llBaseViewBottomWindowContainer.addView(containerView.createView(inflater));
 		}
-		containerView.setView(null);
+		containerView.bindView(null);
 	}
 
 	/**

@@ -22,7 +22,6 @@ import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseFragment;
 import zuo.biao.library.model.Entry;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,19 +116,11 @@ public class DemoFragment extends BaseFragment {
 	 * @param list
 	 */
 	private void setList(List<Entry<String, String>> list) {
-		if (list == null || list.isEmpty()) {
-			Log.i(TAG, "setList list == null || list.isEmpty() >> lvDemoFragment.setAdapter(null); return;");
-			adapter = null;
-			lvDemoFragment.setAdapter(null);
-			return;
-		}
-
 		if (adapter == null) {
-			adapter = new DemoAdapter(context, list);
+			adapter = new DemoAdapter(context);
 			lvDemoFragment.setAdapter(adapter);
-		} else {
-			adapter.refresh(list);
 		}
+		adapter.refresh(list);
 	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

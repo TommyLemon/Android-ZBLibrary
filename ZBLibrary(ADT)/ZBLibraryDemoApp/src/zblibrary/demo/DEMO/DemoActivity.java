@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -110,19 +109,11 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	 * @param list
 	 */
 	private void setList(List<Entry<String, String>> list) {
-		if (list == null || list.size() <= 0) {
-			Log.i(TAG, "setList list == null || list.size() <= 0 >> lvDemo.setAdapter(null); return;");
-			adapter = null;
-			lvDemo.setAdapter(null);
-			return;
-		}
-
 		if (adapter == null) {
-			adapter = new DemoAdapter2(context, list);
+			adapter = new DemoAdapter2(context);
 			lvDemo.setAdapter(adapter);
-		} else {
-			adapter.refresh(list);
 		}
+		adapter.refresh(list);
 	}
 
 

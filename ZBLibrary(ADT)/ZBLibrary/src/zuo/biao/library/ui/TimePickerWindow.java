@@ -140,7 +140,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						containerView.setView(tabPosition, list);
+						containerView.bindView(tabPosition, list);
 					}
 				});
 			}

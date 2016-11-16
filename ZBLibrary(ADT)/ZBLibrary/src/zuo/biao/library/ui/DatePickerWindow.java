@@ -138,7 +138,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						containerView.setView(tabPosition, list);
+						containerView.bindView(tabPosition, list);
 
 						//防止选中非闰年2月29日
 						if (tabPosition < 2) {

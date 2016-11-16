@@ -44,10 +44,6 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 */
 	protected Activity context;
 	/**
-	 * 传进来的数据列表
-	 */
-	protected List<T> list;
-	/**
 	 * 布局解释器,用来实例化列表的item的界面
 	 */
 	protected LayoutInflater inflater;
@@ -55,21 +51,31 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 * 资源获取器，用于获取res目录下的文件及文件中的内容等
 	 */
 	protected Resources resources;
-	public BaseAdapter(Activity context, List<T> list) {
+	public BaseAdapter(Activity context) {
 		this.context = context;
-		this.list = new ArrayList<T>(list);
 
 		inflater = context.getLayoutInflater();
 		resources = context.getResources();
 	}
 
+	/**
+	 * 传进来的数据列表
+	 */
+	protected List<T> list;
+	/**刷新列表
+	 */
+	public synchronized void refresh(List<T> list) {
+		this.list = list == null ? null : new ArrayList<T>(list);
+		notifyDataSetChanged();
+	}
+	
 	public List<T> getList() {
 		return list;
 	}
 
 	@Override
 	public int getCount() {
-		return list.size();
+		return list == null ? 0 : list.size();
 	}
 	/**获取item数据
 	 */
@@ -86,18 +92,6 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		return position;
 	}
 
-
-	/**刷新列表
-	 * 建议使用refresh(null)替代notifyDataSetChanged();
-	 * @param list 什么时候开始list为空也不会崩溃了？？
-	 */
-	public synchronized void refresh(List<T> list) {
-		if (list != null && list.size() > 0) {
-			this.list = new ArrayList<T>(list);
-		}
-		notifyDataSetChanged();
-	}
-	
 	
 	//预加载，可不使用 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	

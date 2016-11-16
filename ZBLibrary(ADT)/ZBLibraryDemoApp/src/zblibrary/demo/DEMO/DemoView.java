@@ -36,10 +36,10 @@ import android.widget.TextView;
 	DemoView demoView = new DemoView(context, resources);
 	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
 	convertView = demoView.createView(inflater);
-	demoView.setView(position, data);
+	demoView.bindView(position, data);
     或  其它类中使用 
     containerView.addView(demoView.createView(inflater));
-    demoView.setView(data);
+    demoView.bindView(data);
     然后
 	demoView.setOnDataChangedListener(onDataChangedListener);data = demoView.getData();//非必需
 	demoView.setOnClickListener(onClickListener);//非必需
@@ -75,10 +75,10 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 
 
 	@Override
-	public void setView(Entry<String, String> data){
+	public void bindView(Entry<String, String> data){
 		//示例代码<<<<<<<<<<<<<<<<
 		if (data == null) {
-			Log.e(TAG, "setView data == null >> data = new Entry<>(); ");
+			Log.e(TAG, "bindView data == null >> data = new Entry<>(); ");
 			data = new Entry<String, String>();
 		}
 		this.data = data;
@@ -102,7 +102,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		switch (v.getId()) {
 		case R.id.tvDemoViewName:
 			data.setKey("New " + data.getKey());
-			setView(data);
+			bindView(data);
 			if (onDataChangedListener != null) {
 				onDataChangedListener.onDataChanged();
 			}
