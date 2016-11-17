@@ -353,7 +353,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		if (newList == null) {
 			newList = new ArrayList<T>();
 		}
-		Log.i(TAG, "handleList  newList.size = " + newList_.size() + "; isCache = " + isCache);
+		Log.i(TAG, "handleList  newList.size = " + newList.size() + "; isCache = " + isCache);
 
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
 			saveCacheStart = 0;

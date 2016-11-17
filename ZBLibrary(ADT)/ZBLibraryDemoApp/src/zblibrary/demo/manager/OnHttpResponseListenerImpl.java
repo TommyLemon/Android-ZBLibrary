@@ -18,8 +18,8 @@ import org.json.JSONObject;
 
 import zblibrary.demo.activity_fragment.UserActivity;
 import zblibrary.demo.interfaces.OnHttpResponseListener;
-import zuo.biao.library.util.Json;
 import zuo.biao.library.util.Log;
+import zuo.biao.library.util.StringUtil;
 
 /**Http请求结果解析类
  * *适合类似以下固定的json格式
@@ -49,25 +49,30 @@ public class OnHttpResponseListenerImpl implements OnHttpResponseListener
 	 */
 	@Override
 	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
+		Log.i(TAG, "onHttpResponse  requestCode = " + requestCode + "; resultJson = " + resultJson
+				+ "; \n\ne = " + (e == null ? null : e.getMessage()));
+
 		int resultCode = 0;
 		String resultData = null;
-		JSONObject jsonObject = null;
+		Exception exception = null;
 		try {
-			jsonObject = new JSONObject(resultJson);
-			resultCode = jsonObject.getInt("code");//TODO code改为接口文档给的key
-			resultData = "" + jsonObject.getJSONObject("data");//TODO data改为接口文档给的key
+			JSONObject jsonObject = new JSONObject(resultJson);
+			resultCode = jsonObject.getInt("result");//TODO code改为接口文档给的key
+			resultData = jsonObject.getString("data");//TODO data改为接口文档给的key
 		} catch (Exception e1) {
-			Log.e(TAG, "onHttpResponse  try { user = Json.parseObject(... >>" +
+			Log.e(TAG, "onHttpResponse  try { sonObject = new JSONObject(resultJson);... >>" +
 					" } catch (JSONException e1) {\n" + e1.getMessage());
+			exception = e1;
 		}
+		Log.i(TAG, "onHttpResponse  resultCode = " + resultCode + "; resultData = " + resultData);
 		
 		if (listener == null) {
 			listener = this;
 		}		
-		if (requestCode > 0 || Json.isJsonCorrect(resultData)) {
+		if (exception == null || resultCode > 0 || StringUtil.isNotEmpty(resultData, true)) {
 			listener.onHttpSuccess(requestCode, resultCode, resultData);
 		} else {
-			listener.onHttpError(requestCode, e);
+			listener.onHttpError(requestCode, new Exception(TAG + ": e = " + e + "; \n exception = " + exception));
 		}
 	}
 
