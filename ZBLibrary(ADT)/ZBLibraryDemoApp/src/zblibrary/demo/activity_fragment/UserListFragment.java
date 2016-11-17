@@ -113,27 +113,8 @@ implements OnItemClickListener, CacheCallBack<User> {
 				adapter.refresh(list);
 			}
 		});
-		//ListView内容太复杂（比如微信朋友圈）时容易卡顿，可使用以下方式异步加载
-		//		setListAsync(list, new OnResultListener<List<String>>() {
-		//
-		//			@Override
-		//			public void onResult(final List<String> result) {
-		//				setList(new AdapterCallBack<UserAdapter3>() {
-		//
-		//					@Override
-		//					public UserAdapter3 createAdapter() {
-		//						return new UserAdapter3(context, UserListFragment.this);
-		//					}
-		//
-		//					@Override
-		//					public void refreshAdapter() {
-		//						adapter.refresh(result);
-		//					}
-		//				});
-		//			}
-		//		});
 
-		//ListView内容太复杂（比如微信朋友圈）时容易卡顿，可使用以下方式异步加载
+		//		//ListView内容太复杂（比如微信朋友圈）时容易卡顿，可使用以下方式异步加载
 		//		setListAsync(list, new OnResultListener<List<String>>() {
 		//
 		//			@Override

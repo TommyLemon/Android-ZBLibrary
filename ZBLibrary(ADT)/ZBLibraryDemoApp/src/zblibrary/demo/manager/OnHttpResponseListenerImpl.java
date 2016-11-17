@@ -57,7 +57,7 @@ public class OnHttpResponseListenerImpl implements OnHttpResponseListener
 		Exception exception = null;
 		try {
 			JSONObject jsonObject = new JSONObject(resultJson);
-			resultCode = jsonObject.getInt("result");//TODO code改为接口文档给的key
+			resultCode = jsonObject.getInt("code");//TODO code改为接口文档给的key
 			resultData = jsonObject.getString("data");//TODO data改为接口文档给的key
 		} catch (Exception e1) {
 			Log.e(TAG, "onHttpResponse  try { sonObject = new JSONObject(resultJson);... >>" +
@@ -69,7 +69,7 @@ public class OnHttpResponseListenerImpl implements OnHttpResponseListener
 		if (listener == null) {
 			listener = this;
 		}		
-		if (exception == null || resultCode > 0 || StringUtil.isNotEmpty(resultData, true)) {
+		if ((e == null && exception == null) || resultCode > 0 || StringUtil.isNotEmpty(resultData, true)) {
 			listener.onHttpSuccess(requestCode, resultCode, resultData);
 		} else {
 			listener.onHttpError(requestCode, new Exception(TAG + ": e = " + e + "; \n exception = " + exception));
