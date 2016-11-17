@@ -14,11 +14,10 @@ limitations under the License.*/
 
 package zblibrary.demo.adapter;
 
+import zblibrary.demo.adapter.BaseCacheAdapter.CacheItemView;
 import zblibrary.demo.adapter.UserAdapter3.ItemView;
 import zblibrary.demo.model.User;
 import zblibrary.demo.view.UserView;
-import zuo.biao.library.base.BaseCacheAdapter;
-import zuo.biao.library.base.BaseCacheAdapter.CacheItemView;
 import zuo.biao.library.interfaces.CacheCallBack;
 import android.app.Activity;
 import android.view.ViewGroup;
