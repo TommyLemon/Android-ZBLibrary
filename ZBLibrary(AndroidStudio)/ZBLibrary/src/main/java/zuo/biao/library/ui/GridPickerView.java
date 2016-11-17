@@ -142,12 +142,12 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 
 
 	public List<Entry<Integer, String>> getList() {
-		return adapter == null ? null : adapter.getList();
+		return adapter == null ? null : adapter.list;
 	}
 
 
 	@Override
-	public void setView(List<Entry<Integer, String>> l){/*do nothing,必须init**/}
+	public void bindView(List<Entry<Integer, String>> l){/*do nothing,必须init**/}
 
 
 	/**初始化，必须使用且只能使用一次
@@ -175,7 +175,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 
 		this.configList = configList;
 
-		setView(currentTabPosition, lastList, configList.get(currentTabPosition).getSelectedItemPostion());
+		bindView(currentTabPosition, lastList, configList.get(currentTabPosition).getSelectedItemPostion());
 	}
 
 
@@ -212,7 +212,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 					onTabClickListener.onTabClick(tabPosition, tvTab);
 					return;
 				}
-				//点击就是要切换list，这些配置都要改setView(tabSuffix, tabPosition, tabName, list, numColumns, maxShowRows, itemPosition)
+				//点击就是要切换list，这些配置都要改bindView(tabSuffix, tabPosition, tabName, list, numColumns, maxShowRows, itemPosition)
 			}
 		});
 		llGridPickerViewTabContainer.addView(tvTab);
@@ -228,17 +228,17 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	 * @param tabPosition
 	 * @param list
 	 */
-	public void setView(final int tabPosition, List<Entry<Integer, String>> list) {
-		setView(tabPosition, list, getSelectedItemPosition(tabPosition));
+	public void bindView(final int tabPosition, List<Entry<Integer, String>> list) {
+		bindView(tabPosition, list, getSelectedItemPosition(tabPosition));
 	}
 	/**
 	 * @param tabPosition
 	 * @param list
 	 * @param itemPosition
 	 */
-	public void setView(final int tabPosition, List<Entry<Integer, String>> list, int itemPosition) {//GridView
+	public void bindView(final int tabPosition, List<Entry<Integer, String>> list, int itemPosition) {//GridView
 		if (configList == null || configList.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
+			Log.e(TAG, "bindView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
 					" >> configList == null || configList.size() <= 0 >> return;");
 			return;
 		}
@@ -248,12 +248,12 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 		}
 
 		if (list == null || list.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
+			Log.e(TAG, "bindView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
 					" >> list == null || list.size() <= 0 >> return;");
 			return;
 		}
 		if (tabPosition >= MAX_NUM_TABS) {
-			Log.e(TAG, "setView  tabPosition >= MAX_NUM_TABS,防止恶意添加标签导致数量过多选择困难甚至崩溃 >> return;");
+			Log.e(TAG, "bindView  tabPosition >= MAX_NUM_TABS,防止恶意添加标签导致数量过多选择困难甚至崩溃 >> return;");
 			return;
 		}
 
@@ -278,7 +278,8 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 
 		//gridView<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		adapter = new GridPickerAdapter(context, list, itemPosition, contentHeight/maxShowRows);
+		adapter = new GridPickerAdapter(context, itemPosition, contentHeight/maxShowRows);
+		adapter.refresh(list);
 		adapter.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

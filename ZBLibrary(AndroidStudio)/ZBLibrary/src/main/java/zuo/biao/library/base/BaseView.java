@@ -38,8 +38,8 @@ public abstract class BaseView<T> {
 	/**
 	 * 传入的Activity,可在子类直接使用
 	 */
-	protected Activity context;
-	private Resources resources;
+	public Activity context;
+	public Resources resources;
 	public BaseView(Activity context, Resources resources) {
 		this.context = context;
 		this.resources = resources;
@@ -115,12 +115,24 @@ public abstract class BaseView<T> {
 	 * 视图类型，部分情况下需要根据viewType使用不同layout，对应Adapter的itemViewType
 	 */
 	protected int viewType = 0;
+	/**
+	 * data在列表中的位置
+	 * @must 只使用bindView(int position, T data)方法来设置position，保证position与data对应正确
+	 */
+	protected int position = 0;
+	/**获取data在列表中的位置
+	 */
+	public int getPosition() {
+		return position;
+	}
+	
 	/**创建一个新的View
 	 * @param inflater
 	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
 	 * @return
 	 */
-	public View createView(LayoutInflater inflater, int viewType) {
+	public View createView(LayoutInflater inflater, int position, int viewType) {
+		this.position = position;
 		this.viewType = viewType;
 		return createView(inflater);
 	}
@@ -155,33 +167,23 @@ public abstract class BaseView<T> {
 		return data;
 	}
 	
-	/**
-	 * data在列表中的位置
-	 * @must 只使用setView(int position, T data)方法来设置position，保证position与data对应正确
-	 */
-	protected int position = 0;
-	/**获取data在列表中的位置
-	 */
-	public int getPosition() {
-		return position;
-	}
 	
-	/**设置并显示内容，建议在子类setView内this.data = data;
+	/**设置并显示内容，建议在子类bindView内this.data = data;
 	 * @warn 只能在createView后使用
 	 * @param data - 传入的数据
 	 * @param position - data在列表中的位置
 	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
 	 */
-	public void setView(T data, int position, int viewType) {
+	public void bindView(T data, int position, int viewType) {
 		this.position = position;
 		this.viewType = viewType;
-		setView(data);
+		bindView(data);
 	}
-	/**设置并显示内容，建议在子类setView内this.data = data;
+	/**设置并显示内容，建议在子类bindView内this.data = data;
 	 * @warn 只能在createView后使用
 	 * @param data - 传入的数据
 	 */
-	public abstract void setView(T data);
+	public abstract void bindView(T data);
 
 	/**获取可见性
 	 * @warn 只能在createView后使用

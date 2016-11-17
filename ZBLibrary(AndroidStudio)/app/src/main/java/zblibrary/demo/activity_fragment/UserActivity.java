@@ -144,9 +144,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 			@Override
 			public void run() {
-				//				bvlUser.setView(user);//方式一
-				//				uvlUser.setView(user);//方式二
-				userView.setView(user);//方式三
+				//				bvlUser.bindView(user);//方式一
+				//				uvlUser.bindView(user);//方式二
+				userView.bindView(user);//方式三
 
 				tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
 			}
@@ -172,7 +172,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void initData() {//必须调用
 		super.initData();
 
-		bottomMenuView.setView(MenuUtil.getMenuList(MenuUtil.USER));
+		bottomMenuView.bindView(MenuUtil.getMenuList(MenuUtil.USER));
 
 		runThread(TAG + "initData", new Runnable() {
 			@Override

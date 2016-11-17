@@ -37,17 +37,17 @@ import android.widget.TextView;
 	UserView userView = new UserView(context, resources);
 	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
 	convertView = userView.createView(inflater);
-	userView.setView(position, data);
+	userView.bindView(position, data);
     或  其它类中使用 
     containerView.addView(userView.createView(inflater));
-    userView.setView(data);
+    userView.bindView(data);
     然后
 	userView.setOnDataChangedListener(onDataChangedListener);data = userView.getData();//非必需
 	userView.setOnClickListener(onClickListener);//非必需
  */
 public class UserView extends BaseView<User> implements OnClickListener {
 	private static final String TAG = "UserView";
-	
+
 	public UserView(Activity context, Resources resources) {
 		super(context, resources);
 	}
@@ -78,9 +78,9 @@ public class UserView extends BaseView<User> implements OnClickListener {
 	}
 
 	@Override
-	public void setView(User data){
+	public void bindView(User data){
 		if (data == null) {
-			Log.e(TAG, "setView data == null >> data = new User(); ");
+			Log.e(TAG, "bindView data == null >> data = new User(); ");
 			data = new User();
 		}
 		this.data = data;
@@ -107,15 +107,16 @@ public class UserView extends BaseView<User> implements OnClickListener {
 		case R.id.ivUserViewHead:
 			toActivity(WebViewActivity.createIntent(context, data.getName(), data.getHead()));
 			break;
-		case R.id.ivUserViewStar:
-			data.setStarred(! data.getStarred());
-			setView(data);
-			break;
-		case R.id.tvUserViewSex:
-			data.setSex(data.getSex() == User.SEX_FEMAIL ? User.SEX_MAIL : User.SEX_FEMAIL);
-			setView(data);
-			break;
 		default:
+			switch (v.getId()) {
+			case R.id.ivUserViewStar:
+				data.setStarred(! data.getStarred());
+				break;
+			case R.id.tvUserViewSex:
+				data.setSex(data.getSex() == User.SEX_FEMAIL ? User.SEX_MAIL : User.SEX_FEMAIL);
+				break;
+			}
+			bindView(data);
 			break;
 		}		
 	}

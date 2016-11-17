@@ -14,8 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.List;
-
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.model.Entry;
@@ -36,8 +34,8 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 //	private static final String TAG = "DemoAdapter";
 
 
-	public DemoAdapter(Activity context, List<Entry<String, String>> list) {
-		super(context, list);
+	public DemoAdapter(Activity context) {
+		super(context);
 	}
 
 

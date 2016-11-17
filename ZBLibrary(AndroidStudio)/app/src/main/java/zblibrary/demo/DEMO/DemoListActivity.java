@@ -98,7 +98,7 @@ implements OnBottomDragListener {
 	@Override
 	public void setList(final List<Entry<String, String>> list) {
 		//示例代码<<<<<<<<<<<<<<<
-		setList(list, new AdapterCallBack<GridAdapter>() {
+		setList(new AdapterCallBack<GridAdapter>() {
 
 			@Override
 			public void refreshAdapter() {
@@ -107,7 +107,7 @@ implements OnBottomDragListener {
 			
 			@Override
 			public GridAdapter createAdapter() {
-				return new GridAdapter(context, list);
+				return new GridAdapter(context);
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>

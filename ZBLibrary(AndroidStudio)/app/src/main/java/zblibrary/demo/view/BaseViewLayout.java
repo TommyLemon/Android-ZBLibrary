@@ -29,7 +29,7 @@ import android.widget.FrameLayout;
  * @see UserActivity#initView()
  * @use bvl = (BaseViewLayout<Model>) findViewById(R.id.bvl);
  *      bvl.createView(new ModelView(context, getResources()));
- *      bvl.setView(model);
+ *      bvl.bindView(model);
  */
 public class BaseViewLayout<T> extends FrameLayout {
 	private static final String TAG = "BaseViewLayout";
@@ -51,29 +51,29 @@ public class BaseViewLayout<T> extends FrameLayout {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		init((Activity) context);
 	}
-	
+
 	private Activity context;
 	protected void init(Activity context) {
 		this.context = context;
 	}
-	
-	
+
+
 	public BaseView<T> bv;
 	public void createView(BaseView<T> bv) {
 		this.bv = bv;
-		
+
 		removeAllViews();
 		super.addView(bv.createView(context.getLayoutInflater()));
-		setView(null);
+		bindView(null);
 	}
-	
+
 	@Override
 	public void addView(View child) {
 		throw new UnsupportedOperationException(TAG + "不支持该方法");
 	}
-	
-	public void setView(T data) {
-		bv.setView(data);
+
+	public void bindView(T data) {
+		bv.bindView(data);
 	}
 
 }

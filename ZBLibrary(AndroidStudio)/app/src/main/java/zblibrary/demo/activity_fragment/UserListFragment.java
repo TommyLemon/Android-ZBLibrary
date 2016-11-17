@@ -40,7 +40,7 @@ import android.widget.Toast;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>
+public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>//CacheAdapter<User, UserView, UserAdapter>>//
 implements OnItemClickListener, CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
@@ -53,14 +53,14 @@ implements OnItemClickListener, CacheCallBack<User> {
 
 		Bundle bundle = new Bundle();
 		bundle.putInt(ARGUMENT_RANGE, range);
-		
+
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
+
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+
 
 	public static final int RANGE_ALL = HttpRequest.USER_LIST_RANGE_ALL;
 	public static final int RANGE_RECOMMEND = HttpRequest.USER_LIST_RANGE_RECOMMEND;
@@ -101,18 +101,40 @@ implements OnItemClickListener, CacheCallBack<User> {
 
 	@Override
 	public void setList(final List<User> list) {
-		setList(list, new AdapterCallBack<UserAdapter>() {
+		setList(new AdapterCallBack<UserAdapter>() {
+
+			@Override
+			public UserAdapter createAdapter() {
+				return new UserAdapter(context);
+			}
 
 			@Override
 			public void refreshAdapter() {
 				adapter.refresh(list);
 			}
-			
-			@Override
-			public UserAdapter createAdapter() {
-				return new UserAdapter(context, list);
-			}
 		});
+
+		//		//ListView内容太复杂（比如微信朋友圈）时容易卡顿，可使用以下方式异步加载
+		//		setListAsync(list, new OnResultListener<List<String>>() {
+		//
+		//			@Override
+		//			public void onResult(final List<String> result) {
+		//				setList(new AdapterCallBack<CacheAdapter<User, UserView, UserAdapter>>() {
+		//
+		//					@Override
+		//					public CacheAdapter<User, UserView, UserAdapter> createAdapter() {
+		//						return new CacheAdapter<User, UserView, UserAdapter>(
+		//								new UserAdapter(context), UserListFragment.this);
+		//					}
+		//
+		//					@Override
+		//					public void refreshAdapter() {
+		//						adapter.refresh(result);
+		//					}
+		//				});
+		//			}
+		//		});
+
 	}
 
 
@@ -200,7 +222,7 @@ implements OnItemClickListener, CacheCallBack<User> {
 			return;
 		}
 
-		User user = adapter.getItem(position);	
+		User user = list.get(position);//adapter.getItem(position);	
 		if (BaseModel.isCorrect(user)) {//相当于 user != null && user.getId() > 0
 			toActivity(UserActivity.createIntent(context, user.getId()));
 		}

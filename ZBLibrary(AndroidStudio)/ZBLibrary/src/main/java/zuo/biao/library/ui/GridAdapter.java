@@ -41,14 +41,14 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	private HashMap<Integer, Boolean> hashMap;//实现选中标记的列表，不需要可以删除
 	private int layoutRes;//item视图资源
 	private boolean hasCheck = false;//是否使用标记功能
-	public GridAdapter(Activity context, List<Entry<String, String>> list) {
-		this(context, list, false);
+	public GridAdapter(Activity context) {
+		this(context, false);
 	}
-	public GridAdapter(Activity context, List<Entry<String, String>> list, boolean hasCheck) {
-		this(context, list, R.layout.grid_item, hasCheck);
+	public GridAdapter(Activity context, boolean hasCheck) {
+		this(context, R.layout.grid_item, hasCheck);
 	}
-	public GridAdapter(Activity context, List<Entry<String, String>> list, int layoutRes, boolean hasCheck) {
-		super(context, list);
+	public GridAdapter(Activity context, int layoutRes, boolean hasCheck) {
+		super(context);
 		this.layoutRes = layoutRes;
 		this.hasCheck = hasCheck;
 
@@ -69,7 +69,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 			return;
 		}
 		hashMap.put(position, isChecked);
-		refresh(null);
+		notifyDataSetChanged();
 	}
 	//item标记功能，不需要可以删除>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -121,7 +121,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	}
 
 
-	/**刷新列表，建议使用refresh(null)
+	/**刷新列表
 	 * @param list
 	 */
 	@Override

@@ -16,7 +16,7 @@
 
             <TextView
                 style="@style/topbar_right_btn"
-                android:text="GitHub" />
+                android:text="博客" />
         </RelativeLayout>
 
         <RelativeLayout

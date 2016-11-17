@@ -14,8 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.List;
-
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.model.Entry;
@@ -46,8 +44,8 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
 
 	private int currentPosition;//初始选中位置
 	private int height;//item高度
-	public GridPickerAdapter(Activity context, List<Entry<Integer, String>> list, int currentPosition, int height) {
-		super(context, list);
+	public GridPickerAdapter(Activity context, int currentPosition, int height) {
+		super(context);
 		this.currentPosition = currentPosition;
 		this.height = height;
 	}

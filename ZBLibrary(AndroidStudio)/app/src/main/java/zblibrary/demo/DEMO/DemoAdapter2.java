@@ -14,8 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.List;
-
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoAdapter2.ItemView;
 import zuo.biao.library.base.BaseView;
@@ -40,12 +38,12 @@ import android.widget.TextView;
  */
 public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemView> {
 
-	public DemoAdapter2(Activity context, List<Entry<String, String>> list) {
-		super(context, list);
+	public DemoAdapter2(Activity context) {
+		super(context);
 	}
 
 	@Override
-	public ItemView createView(int position, View convertView, ViewGroup parent) {
+	public ItemView createView(int position, ViewGroup parent) {
 		return new ItemView(context, resources);
 	}
 
@@ -80,7 +78,7 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		}
 
 		@Override
-		public void setView(Entry<String, String> data){
+		public void bindView(Entry<String, String> data){
 			//示例代码<<<<<<<<<<<<<<<<
 			this.data = data;
 
@@ -99,7 +97,7 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 				break;
 			case R.id.tvDemoViewName:
 				data.setKey("New " + data.getKey());
-				setView(data);
+				bindView(data);
 				break;
 			default:
 				break;

@@ -36,7 +36,7 @@ import android.widget.TextView;
 TopTabView modleView = new TopTabView(context, inflater);
 adapter中使用convertView = modleView.getView();//[具体见.TopTabAdapter] 或  其它类中使用
 containerView.addView(modleView.getConvertView());
-modleView.setView(object);
+modleView.bindView(object);
 modleView.setOnTabSelectedListener(onItemSelectedListener);
  */
 public class TopTabView extends BaseView<String[]> {
@@ -110,18 +110,18 @@ public class TopTabView extends BaseView<String[]> {
 	/**
 	 * @param nameList
 	 */
-	public void setView(List<String> nameList){
+	public void bindView(List<String> nameList){
 		if (nameList != null) {
 			for (int i = 0; i < nameList.size(); i++) {
 				names[i] = nameList.get(i);
 			}
 		}
-		setView(names);
+		bindView(names);
 	}
 	private int width;
 	private int maxWidth;
 	@Override
-	public void setView(String[] names){
+	public void bindView(String[] names){
 		if (names == null || names.length < 2) {
 			Log.e(TAG, "setInerView names == null || names.length < 2 >> return; ");
 			return;

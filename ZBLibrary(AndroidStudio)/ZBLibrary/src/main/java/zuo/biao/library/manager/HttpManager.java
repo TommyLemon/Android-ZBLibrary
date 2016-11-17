@@ -14,6 +14,18 @@ limitations under the License.*/
 
 package zuo.biao.library.manager;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.text.TextUtils;
+
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
@@ -25,22 +37,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import zuo.biao.library.base.BaseApplication;
 import zuo.biao.library.model.Parameter;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SSLUtil;
 import zuo.biao.library.util.StringUtil;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.text.TextUtils;
-
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 /**HTTP请求管理类
  * @author Lemon
@@ -107,7 +108,7 @@ public class HttpManager {
 	 * @param listener
 	 */
 	public void get(final List<Parameter> paramList, final String url,
-			final int requestCode, final OnHttpResponseListener listener) {
+					final int requestCode, final OnHttpResponseListener listener) {
 
 		new AsyncTask<Void, Void, Exception>() {
 
@@ -134,8 +135,8 @@ public class HttpManager {
 
 				try {
 					result = getResponseJson(client, new Request.Builder()
-					.addHeader(KEY_TOKEN, getToken(url))
-					.url(sb.toString()).build());
+							.addHeader(KEY_TOKEN, getToken(url))
+							.url(sb.toString()).build());
 					//TODO 注释或删除以下 测试HttpRequest.getUser接口的数据 
 					result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
 				} catch (Exception e) {
@@ -168,7 +169,7 @@ public class HttpManager {
 	 * @param listener
 	 */
 	public void post(final List<Parameter> paramList, final String url,
-			final int requestCode, final OnHttpResponseListener listener) {
+					 final int requestCode, final OnHttpResponseListener listener) {
 
 		new AsyncTask<Void, Void, Exception>() {
 
@@ -189,10 +190,10 @@ public class HttpManager {
 
 				try {
 					result = getResponseJson(client, new Request.Builder()
-					.addHeader(KEY_TOKEN, getToken(url)).url(StringUtil.getNoBlankString(url))
-					.post(fBuilder.build()).build());
-					//TODO 注释或删除以下 测试HttpRequest.register接口的数据 
-					result = "{\"code\":102}";
+							.addHeader(KEY_TOKEN, getToken(url)).url(StringUtil.getNoBlankString(url))
+							.post(fBuilder.build()).build());
+					//TODO 注释或删除以下 测试HttpRequest.register接口的数据
+					// 	result = "{\"code\":102}";
 				} catch (Exception e) {
 					Log.e(TAG, "post  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());
@@ -239,8 +240,6 @@ public class HttpManager {
 	}
 
 	/**
-	 * @param paramList
-	 * @must demo_***改为服务器设定值
 	 * @return
 	 */
 	public String getToken(String tag) {
@@ -252,10 +251,10 @@ public class HttpManager {
 	 */
 	public void saveToken(String tag, String value) {
 		context.getSharedPreferences(KEY_TOKEN, Context.MODE_PRIVATE)
-		.edit()
-		.remove(KEY_TOKEN + tag)
-		.putString(KEY_TOKEN + tag, value)
-		.commit();
+				.edit()
+				.remove(KEY_TOKEN + tag)
+				.putString(KEY_TOKEN + tag, value)
+				.commit();
 	}
 
 
@@ -270,10 +269,10 @@ public class HttpManager {
 	 */
 	public void saveCookie(String value) {
 		context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE)
-		.edit()
-		.remove(KEY_COOKIE)
-		.putString(KEY_COOKIE, value)
-		.commit();
+				.edit()
+				.remove(KEY_COOKIE)
+				.putString(KEY_COOKIE, value)
+				.commit();
 	}
 
 
@@ -297,7 +296,7 @@ public class HttpManager {
 	 * @param json
 	 * @param key
 	 * @return
-	 * @throws JSONException 
+	 * @throws JSONException
 	 */
 	public <T> T getValue(String json, String key) throws JSONException {
 		return getValue(new JSONObject(json), key);
@@ -307,7 +306,7 @@ public class HttpManager {
 	 * @param object
 	 * @param key
 	 * @return
-	 * @throws JSONException 
+	 * @throws JSONException
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(JSONObject object, String key) throws JSONException {

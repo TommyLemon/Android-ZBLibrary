@@ -77,7 +77,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	@Override
 	public void setList(final List<Entry<String, String>> list) {
 		//示例代码<<<<<<<<<<<<<<<
-		setList(list, new AdapterCallBack<DemoAdapter>() {
+		setList(new AdapterCallBack<DemoAdapter>() {
 
 			@Override
 			public void refreshAdapter() {
@@ -86,7 +86,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 			
 			@Override
 			public DemoAdapter createAdapter() {
-				return new DemoAdapter(context, list);
+				return new DemoAdapter(context);
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>

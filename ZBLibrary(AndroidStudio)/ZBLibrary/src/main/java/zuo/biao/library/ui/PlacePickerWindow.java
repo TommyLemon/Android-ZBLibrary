@@ -115,7 +115,7 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, 
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						containerView.setView(tabPosition, list, itemPositon);
+						containerView.bindView(tabPosition, list, itemPositon);
 					}
 				});
 			}

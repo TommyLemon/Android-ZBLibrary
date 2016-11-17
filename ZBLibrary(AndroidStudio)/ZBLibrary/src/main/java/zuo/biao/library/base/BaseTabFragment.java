@@ -267,7 +267,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 		llBaseTabTabContainer.removeAllViews();
 		llBaseTabTabContainer.addView(topTabView.createView(context.getLayoutInflater()));
 		topTabView.setCurrentPosition(currentPosition);
-		topTabView.setView(getTabNames());
+		topTabView.bindView(getTabNames());
 
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

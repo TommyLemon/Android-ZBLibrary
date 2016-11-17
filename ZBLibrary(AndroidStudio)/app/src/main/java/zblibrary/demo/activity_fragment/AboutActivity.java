@@ -204,7 +204,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			toActivity(WebViewActivity.createIntent(context, "ZBLibrary", Constant.APP_OFFICIAL_WEBSITE));
+			toActivity(WebViewActivity.createIntent(context, "博客", Constant.APP_OFFICIAL_BLOG));
 
 			ivAboutGesture.setImageResource(R.drawable.gesture_right);
 			return;

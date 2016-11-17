@@ -36,7 +36,7 @@ import android.widget.TextView;
 /**自定义嵌入式菜单View
  * @author Lemon
  * @use BottomMenuView bottomMenuView = new BottomMenuView(context, resources, toBottomMenuWindowRequestCode);
- *      bottomMenuView.setView(menuList);
+ *      bottomMenuView.bindView(menuList);
  *      bottomMenuView.setOnMenuItemClickListener(onBottomMenuItemClickListener);
  *      *具体参考.UserActivity
  */
@@ -88,9 +88,9 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 	private ArrayList<String> moreMenuNameList;
 	private ArrayList<Integer> moreMenuIntentCodeList;
 	@Override
-	public void setView(final List<Menu> menuList){
+	public void bindView(final List<Menu> menuList){
 		if (menuList == null || menuList.isEmpty()) {
-			Log.e(TAG, "setView  menuList == null || menuList.isEmpty() >> return;");
+			Log.e(TAG, "bindView  menuList == null || menuList.isEmpty() >> return;");
 			return;
 		}
 		this.list = menuList;

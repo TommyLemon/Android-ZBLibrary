@@ -14,13 +14,10 @@ limitations under the License.*/
 
 package zblibrary.demo.adapter;
 
-import java.util.List;
-
 import zblibrary.demo.model.User;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseViewAdapter;
 import android.app.Activity;
-import android.view.View;
 import android.view.ViewGroup;
 
 /**用户adapter
@@ -29,12 +26,12 @@ import android.view.ViewGroup;
 public class UserAdapter extends BaseViewAdapter<User, UserView> {
 	//	private static final String TAG = "UserAdapter";
 
-	public UserAdapter(Activity context, List<User> list) {
-		super(context, list);
+	public UserAdapter(Activity context) {
+		super(context);
 	}
 
 	@Override
-	public UserView createView(int position, View convertView, ViewGroup parent) {
+	public UserView createView(int position, ViewGroup parent) {
 		return new UserView(context, resources);
 	}
 

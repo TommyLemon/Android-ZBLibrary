@@ -14,8 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.List;
-
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.model.Entry;
@@ -32,11 +30,11 @@ import android.widget.TextView;
 public class KeyValueAdapter extends BaseAdapter<Entry<String, String>> {
 
 	private int layoutRes;//布局id
-	public KeyValueAdapter(Activity context, List<Entry<String, String>> list) {     
-		this(context, list, R.layout.key_value_item);
+	public KeyValueAdapter(Activity context) {     
+		this(context, R.layout.key_value_item);
 	}   
-	public KeyValueAdapter(Activity context, List<Entry<String, String>> list, int layoutRes) {     
-		super(context, list);
+	public KeyValueAdapter(Activity context, int layoutRes) {     
+		super(context);
 		
 		this.layoutRes = layoutRes;
 	}   

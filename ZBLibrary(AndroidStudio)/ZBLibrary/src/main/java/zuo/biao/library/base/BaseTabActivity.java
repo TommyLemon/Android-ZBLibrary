@@ -280,7 +280,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		llBaseTabTabContainer.removeAllViews();
 		llBaseTabTabContainer.addView(topTabView.createView(getLayoutInflater()));
 		topTabView.setCurrentPosition(currentPosition);
-		topTabView.setView(getTabNames());
+		topTabView.bindView(getTabNames());
 		//tab>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		
 

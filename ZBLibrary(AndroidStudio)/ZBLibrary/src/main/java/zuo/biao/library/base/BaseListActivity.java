@@ -21,9 +21,10 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
+import zuo.biao.library.interfaces.OnResultListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
-import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.manager.CacheManager;
+import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.widget.AbsListView;
@@ -74,6 +75,10 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	 */
 	protected LV lvBaseList;
 	/**
+	 * 管理LV的Item的Adapter
+	 */
+	protected BA adapter;
+	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 */
@@ -81,37 +86,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@Override
 	public void initView() {// 必须调用
 		super.initView();
-		
+
 		lvBaseList = (LV) findViewById(R.id.lvBaseList);
-	}
-
-	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<BA> callBack)
-	 * @param list
-	 */
-	public abstract void setList(List<T> list);
-
-	/**
-	 * 管理LV的Item的Adapter
-	 */
-	protected BA adapter;
-	/**显示列表，这个方法符合一般需求，建议使用。
-	 * @param l this.list = l;
-	 * @param callBack createAdapter可以直接用这个类的list，refreshAdapter无需判断adapter
-	 * @use 在setList(List<T> list)方法内调用
-	 */
-	public void setList(List<T> l, AdapterCallBack<BA> callBack) {
-		this.list = l;
-		if (list == null || list.isEmpty()) {
-			Log.e(TAG, "setList list == null || list.isEmpty() >> setAdapter(null); return;");
-			setAdapter(null);
-			return;
-		}
-
-		if (adapter == null) {
-			setAdapter(callBack.createAdapter());
-		} else {
-			callBack.refreshAdapter();
-		}
 	}
 
 	/**设置adapter
@@ -120,6 +96,46 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	public void setAdapter(BA adapter) {
 		this.adapter = adapter;
 		lvBaseList.setAdapter(adapter);
+	}
+
+	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<BA> callBack)
+	 * @param list
+	 */
+	public abstract void setList(List<T> list);
+	
+	/**显示列表（已在UI线程中）
+	 * @param list
+	 */
+	public void setList(AdapterCallBack<BA> callBack) {
+		if (adapter == null) {
+			setAdapter(callBack.createAdapter());
+		}
+		callBack.refreshAdapter();
+	}
+	
+	/**显示列表（已在UI线程中），异步加载列表内容，提高列表流畅性
+	 * @param list
+	 * @param listener
+	 * @must cacheCallBack != null 且 cacheCallBack.getCacheId(data) 有正确返回值。可以通过initCache设置cacheCallBack
+	 * @use 调用后使用 .CacheAdapter 加载idList
+	 */
+	public void setListAsync(final List<T> list, final OnResultListener<List<String>> listener) {
+		runThread(TAG + "setListAsync", new Runnable() {
+
+			@Override
+			public void run() {
+				final List<String> idList = new ArrayList<String>();
+				for (T data : list) {
+					idList.add(cacheCallBack.getCacheId(data));
+				}
+				runUiThread(new Runnable() {
+					@Override
+					public void run() {
+						listener.onResult(idList);
+					}
+				});
+			}
+		});
 	}
 
 
@@ -270,7 +286,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 		if (newList == null) {
 			newList = new ArrayList<T>();
 		}
-		Log.i(TAG, "handleList  newList.size = " + newList_.size() + "; isCache = " + isCache);
+		Log.i(TAG, "handleList  newList.size = " + newList.size() + "; isCache = " + isCache);
 
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
 			saveCacheStart = 0;
@@ -311,6 +327,10 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 				Log.i(TAG, "onLoadSucceed  isCache = " + isCache + " >> handleList...");
 				handleList(newList, isCache);
 
+				if (isToSaveCache && isCache == false) {
+					saveCache();
+				}
+
 				runUiThread(new Runnable() {
 
 					@Override
@@ -319,10 +339,6 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 						stopLoadData(isCache);
 					}
 				});
-
-				if (isToSaveCache && isCache == false) {
-					saveCache();
-				}
 			}
 		});
 	}
@@ -388,7 +404,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@Override
 	public void initEvent() {
 		super.initEvent();
-		
+
 	}
 
 
