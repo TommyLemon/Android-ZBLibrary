@@ -142,7 +142,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 
 
 	public List<Entry<Integer, String>> getList() {
-		return adapter == null ? null : adapter.getList();
+		return adapter == null ? null : adapter.list;
 	}
 
 

@@ -42,15 +42,15 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	/**
 	 * 管理整个界面的Activity实例
 	 */
-	protected Activity context;
+	public Activity context;
 	/**
 	 * 布局解释器,用来实例化列表的item的界面
 	 */
-	protected LayoutInflater inflater;
+	public LayoutInflater inflater;
 	/**
 	 * 资源获取器，用于获取res目录下的文件及文件中的内容等
 	 */
-	protected Resources resources;
+	public Resources resources;
 	public BaseAdapter(Activity context) {
 		this.context = context;
 
@@ -61,7 +61,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	/**
 	 * 传进来的数据列表
 	 */
-	protected List<T> list;
+	public List<T> list;
 	/**刷新列表
 	 */
 	public synchronized void refresh(List<T> list) {
@@ -69,10 +69,6 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		notifyDataSetChanged();
 	}
 	
-	public List<T> getList() {
-		return list;
-	}
-
 	@Override
 	public int getCount() {
 		return list == null ? 0 : list.size();
