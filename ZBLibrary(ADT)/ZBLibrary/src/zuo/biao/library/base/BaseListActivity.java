@@ -117,7 +117,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	 * @param list
 	 * @param listener
 	 * @must cacheCallBack != null 且 cacheCallBack.getCacheId(data) 有正确返回值。可以通过initCache设置cacheCallBack
-	 * @use 调用后使用BaseCacheAdapter的子Adapter加载idList
+	 * @use 调用后使用 .CacheAdapter 加载idList
 	 */
 	public void setListAsync(final List<T> list, final OnResultListener<List<String>> listener) {
 		runThread(TAG + "setListAsync", new Runnable() {
