@@ -14,6 +14,13 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,12 +30,6 @@ import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /**通用网格Adapter(url, name)
  * *适用于gridView
@@ -84,7 +85,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 			holder = new ViewHolder();
 			holder.ivHead = (ImageView) convertView.findViewById(R.id.ivGridItemHead);
 			holder.tvName = (TextView) convertView.findViewById(R.id.tvGridItemName);
-			if (hasCheck == true) {
+			if (hasCheck) {
 				holder.ivCheck = (ImageView) convertView.findViewById(R.id.ivGridItemCheck);
 			}
 
@@ -99,7 +100,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		holder.tvName.setVisibility(StringUtil.isNotEmpty(name, true) ? View.VISIBLE : View.GONE);
 		holder.tvName.setText(StringUtil.getTrimedString(name));
 
-		if (hasCheck == true) {
+		if (hasCheck) {
 			holder.ivCheck.setVisibility(View.VISIBLE);
 
 			holder.ivCheck.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +130,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		if (list != null && list.size() > 0) {
 			initList(list);
 		}
-		if (hasCheck == true) {
+		if (hasCheck) {
 			selectedCount = 0;
 			for (int i = 0; i < this.list.size(); i++) {
 				if (getItemChecked(i) == true) {
@@ -149,10 +150,12 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	@SuppressLint("UseSparseArrays")
 	private void initList(List<Entry<String, String>> list) {
 		this.list = list;
-		if (hasCheck == true) {
+		if (hasCheck) {
 			hashMap = new HashMap<Integer, Boolean>();
-			for (int i = 0; i < list.size(); i++) {
-				hashMap.put(i, false);
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					hashMap.put(i, false);
+				}
 			}
 		}
 	}
