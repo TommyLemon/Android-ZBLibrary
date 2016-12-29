@@ -99,7 +99,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	private BottomMenuView bottomMenuView;
 	@Override
 	public void initView() {//必须调用
-		super.initView();
 
 		//添加用户名片，这些方式都可<<<<<<<<<<<<<<<<<<<<<<
 		//		//方式一
@@ -170,7 +169,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	@Override
 	public void initData() {//必须调用
-		super.initData();
 
 		bottomMenuView.bindView(MenuUtil.getMenuList(MenuUtil.USER));
 
@@ -198,7 +196,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	@Override
 	public void initEvent() {//必须调用
-		super.initEvent();
 
 		findViewById(R.id.llUserTag).setOnClickListener(this);
 

@@ -16,7 +16,6 @@ package zblibrary.demo.view;
 
 import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseView;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -44,11 +43,6 @@ public class BaseViewLayout<T> extends FrameLayout {
 	}
 	public BaseViewLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		init((Activity) context);
-	}
-	@SuppressLint("NewApi")
-	public BaseViewLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
 		init((Activity) context);
 	}
 

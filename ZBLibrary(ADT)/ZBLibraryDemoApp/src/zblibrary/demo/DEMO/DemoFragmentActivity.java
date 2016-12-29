@@ -72,7 +72,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-		super.initView();
+		autoSetTitle();
 
 	}
 
@@ -96,8 +96,6 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 	//示例代码>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-		super.initData();
-		
 		//示例代码<<<<<<<<
 		demoFragment = DemoFragment.createInstance(getIntent().getLongExtra(INTENT_USER_ID, 0));
 		
@@ -122,7 +120,6 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		super.initEvent();
 		
 	}
 

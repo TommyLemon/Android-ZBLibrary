@@ -22,10 +22,10 @@ import zuo.biao.library.interfaces.ActivityPresenter;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.SystemBarTintManager;
 import zuo.biao.library.manager.ThreadManager;
-import zuo.biao.library.ui.EditTextManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -61,8 +61,7 @@ import android.widget.Toast;
  * @see #onDestroy
  * @use extends BaseActivity, 具体参考 .DemoActivity 和 .DemoFragmentActivity
  */
-public abstract class BaseActivity extends FragmentActivity implements ActivityPresenter
-, OnGestureListener, OnTouchListener {
+public abstract class BaseActivity extends FragmentActivity implements ActivityPresenter, OnGestureListener {
 	private static final String TAG = "BaseActivity";
 
 	/**
@@ -99,28 +98,16 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 
 		inflater = getLayoutInflater();
 
-		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
 		threadNameList = new ArrayList<String>();
 	}
 
-	//底部滑动实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	private OnBottomDragListener onBottomDragListener;
-	private GestureDetector gestureDetector;
-	/**设置该Activity界面布局，并设置底部左右滑动手势监听
-	 * @param layoutResID
-	 * @param listener
-	 * @use 在子类中
-	 * *1.onCreate中super.onCreate后setContentView(layoutResID, this);
-	 * *2.重写onDragBottom方法并实现滑动事件处理
-	 * *3.在导航栏左右按钮的onClick事件中调用onDragBottom方法
+	/**
+	 * activity的默认标题TextView，layout.xml中用@id/tvBaseTitle绑定。子Activity内调用autoSetTitle方法 会优先使用INTENT_TITLE
+	 * @see #autoSetTitle
+	 * @warn 如果子Activity的layout中没有android:id="@id/tvBaseTitle"的TextView，使用tvBaseTitle前必须在子Activity中赋值
 	 */
-	public void setContentView(int layoutResID, OnBottomDragListener listener) {
-		setContentView(layoutResID);
-
-		onBottomDragListener = listener;
-		view = inflater.inflate(layoutResID, null);
-		view.setOnTouchListener(this);
-	}
+	@Nullable
+	protected TextView tvBaseTitle;
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@Override
@@ -138,6 +125,36 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
 		// 状态栏沉浸，4.4+生效 >>>>>>>>>>>>>>>>>
 
+		tvBaseTitle = (TextView) findViewById(R.id.tvBaseTitle);//绑定默认标题TextView
+	}
+
+	//底部滑动实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	private OnBottomDragListener onBottomDragListener;
+	private GestureDetector gestureDetector;
+	/**设置该Activity界面布局，并设置底部左右滑动手势监听
+	 * @param layoutResID
+	 * @param listener
+	 * @use 在子类中
+	 * *1.onCreate中super.onCreate后setContentView(layoutResID, this);
+	 * *2.重写onDragBottom方法并实现滑动事件处理
+	 * *3.在导航栏左右按钮的onClick事件中调用onDragBottom方法
+	 */
+	public void setContentView(int layoutResID, OnBottomDragListener listener) {
+		setContentView(layoutResID);
+
+		onBottomDragListener = listener;
+		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
+
+		view = inflater.inflate(layoutResID, null);
+		view.setOnTouchListener(new OnTouchListener() {
+			
+			@SuppressLint("ClickableViewAccessibility")
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return gestureDetector.onTouchEvent(event);
+			}
+		});
 	}
 
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -157,28 +174,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 */
 	protected int exitAnim = R.anim.right_push_out;
 
-	/**
-	 * 进度弹窗
-	 */
-	protected ProgressDialog progressDialog = null;
-	
-	
-	/**
-	 * activity退出时隐藏软键盘需要，需要在调用finish方法前赋值
-	 */
-	@Nullable
-	protected View toGetWindowTokenView = null;
-	
-	/**
-	 * activity的标题TextView，layout.xml中用@id/tvBaseTitle绑定会优先使用INTENT_TITLE
-	 */
-	@Nullable
-	protected TextView tvBaseTitle;
-	@Override
-	public void initView() {
-		tvBaseTitle = (TextView) findViewById(R.id.tvBaseTitle);
-	}
-	
 	//	/**通过id查找并获取控件，使用时不需要强转
 	//	 * @param id
 	//	 * @return 
@@ -199,8 +194,36 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		return v;
 	}
 
+	//自动设置标题方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**自动把标题设置为上个Activity传入的INTENT_TITLE，建议在子类initView中使用
+	 * *这个方法没有return，tvTitle = tvBaseTitle，直接用tvBaseTitle
+	 * @must 在UI线程中调用
+	 */
+	protected void autoSetTitle() {
+		autoSetTitle(tvBaseTitle);
+	}
+	/**自动把标题设置为上个Activity传入的INTENT_TITLE，建议在子类initView中使用
+	 * @param tvTitle
+	 * @return tvTitle 返回tvTitle是为了可以写成一行，如 tvTitle = autoSetTitle((TextView) findViewById(titleResId));
+	 * @must 在UI线程中调用
+	 */
+	protected TextView autoSetTitle(TextView tvTitle) {
+		if (tvTitle != null && StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
+			tvTitle.setText(StringUtil.getCurrentString());
+		}
+		return tvTitle;
+	}
+
+	//自动设置标题方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//显示与关闭进度弹窗方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**
+	 * 进度弹窗
+	 */
+	protected ProgressDialog progressDialog = null;
+
 	/**展示加载进度条,无标题
 	 * @param stringResId
 	 */
@@ -350,15 +373,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	//show short toast 方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	@Override
-	public void initData() {
-		//将title显示为上个Activity传入的值
-		if (tvBaseTitle != null && StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvBaseTitle.setText(StringUtil.getCurrentString());
-		}		
-	}
-	
-	
+
 	//运行线程 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**在UI线程中运行，建议用这个方法代替runOnUiThread
@@ -400,12 +415,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 
 	//运行线程 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
-	
-	@Override
-	public void initEvent() {
-		
-	}
+
 
 	//Activity的返回按钮和底部弹窗的取消按钮几乎是必备，正好原生支持反射；而其它比如Fragment极少用到，也不支持反射<<<<<<<<<
 	/**返回按钮被点击，默认处理是onBottomDragListener.onDragBottom(false)，重写可自定义事件处理
@@ -454,9 +464,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		runUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (toGetWindowTokenView != null) {
-					EditTextManager.hideKeyboard(context, toGetWindowTokenView);
-				}
 				if (enterAnim > 0 && exitAnim > 0) {
 					try {
 						overridePendingTransition(enterAnim, exitAnim);
@@ -505,10 +512,9 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		isAlive = false;
 		isRunning = false;
 		super.onDestroy();
-		
+
 		inflater = null;
 		view = null;
-		toGetWindowTokenView = null;
 		tvBaseTitle = null;
 
 		fragmentManager = null;
@@ -627,13 +633,11 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	}
 	@Override  
 	public boolean dispatchTouchEvent(MotionEvent ev) {  
-		gestureDetector.onTouchEvent(ev);  
+		if (gestureDetector != null) {
+			gestureDetector.onTouchEvent(ev);  
+		}
 		return super.dispatchTouchEvent(ev);
 	}
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		return gestureDetector.onTouchEvent(event);
-	}  
 
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

@@ -131,7 +131,6 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initView() {//必须调用
-		super.initView();
 		
 	}
 
@@ -192,7 +191,6 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initData() {//必须调用
-		super.initData();
 		
 		startPhotoZoom(originalPicturePath, cuttedWidth, cuttedHeight);
 	}
@@ -212,7 +210,6 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initEvent() {//必须调用
-		super.initEvent();
 		
 	}
 

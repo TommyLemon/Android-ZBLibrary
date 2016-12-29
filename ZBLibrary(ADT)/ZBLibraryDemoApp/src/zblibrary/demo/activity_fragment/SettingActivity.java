@@ -57,7 +57,6 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 	private ImageView[] ivSettings;
 	@Override
 	public void initView() {//必须调用
-		super.initView();
 		
 		ivSettings = new ImageView[5];
 		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingVoice); 
@@ -106,7 +105,6 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	public void initData() {//必须调用
-		super.initData();
 
 		showProgressDialog(R.string.loading);
 
@@ -151,7 +149,6 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	public void initEvent() {//必须调用
-		super.initEvent();
 		
 		for (int i = 0; i < ivSettings.length; i++) {
 			final int which = i;
