@@ -85,7 +85,6 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initView() {// 必须调用
-		super.initView();
 
 		lvBaseList = (LV) findViewById(R.id.lvBaseList);
 	}
@@ -156,7 +155,6 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	protected boolean isToSaveCache;
 	@Override
 	public void initData() {// 必须调用
-		super.initData();
 		
 		isToSaveCache = cacheCallBack != null && cacheCallBack.getCacheClass() != null;
 		isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(cacheCallBack.getCacheGroup(), true);
@@ -403,7 +401,6 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 
 	@Override
 	public void initEvent() {
-		super.initEvent();
 
 	}
 

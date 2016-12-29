@@ -135,7 +135,6 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	private EditText etServerSettingTest;
 	@Override
 	public void initView() {//必须调用
-		super.initView();
 		
 		tvServerSettingNormalName = (TextView) findViewById(R.id.tvServerSettingNormalName);
 		tvServerSettingTestName = (TextView) findViewById(R.id.tvServerSettingTestName);
@@ -166,7 +165,6 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initData() {//必须调用
-		super.initData();
 		
 		//获取并显网址
 		etServerSettingNormal.setText(StringUtil.getNoBlankString(normalAddress));
@@ -210,7 +208,6 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initEvent() {//必须调用
-		super.initEvent();
 		
 		findViewById(R.id.tvServerSettingNormalSet).setOnClickListener(this);
 		findViewById(R.id.tvServerSettingNormalOpen).setOnClickListener(this);

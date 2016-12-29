@@ -41,6 +41,7 @@ import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -57,7 +59,7 @@ import android.widget.TextView;
  * @author Lemon
  */
 public class DemoMainActivity extends BaseActivity implements OnClickListener, OnBottomDragListener
-, OnDialogButtonClickListener, OnDialogItemClickListener {
+, OnDialogButtonClickListener, OnDialogItemClickListener, OnTouchListener {
 	private static final String TAG = "DemoMainActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -105,7 +107,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	private ScrollView svDemoMain;
 	@Override
 	public void initView() {//必须调用
-		super.initView();
 		exitAnim = R.anim.bottom_push_out;
 
 		rlDemoMainTopbar = findViewById(R.id.rlDemoMainTopbar);
@@ -196,7 +197,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	@Override
 	public void initData() {//必须调用
-		super.initData();
 		
 	}
 
@@ -214,7 +214,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	@Override
 	public void initEvent() {//必须调用
-		super.initEvent();
 		
 		findViewById(R.id.llDemoMainItemDialog).setOnClickListener(this);
 		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
@@ -290,6 +289,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 
 	private long touchDownTime = 0;
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) {
@@ -317,7 +317,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		}
 
-		return super.onTouch(v, event);
+		return false;
 	}
 
 	private int[] selectedDate = new int[]{1971, 0, 1};

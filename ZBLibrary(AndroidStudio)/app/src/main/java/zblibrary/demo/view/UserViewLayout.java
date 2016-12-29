@@ -38,9 +38,6 @@ public class UserViewLayout extends BaseViewLayout<User> {
 	public UserViewLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
-	public UserViewLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
-	}
 
 	@Override
 	protected void init(Activity context) {

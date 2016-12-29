@@ -31,7 +31,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 /**通用网页Activity
  * @author Lemon
@@ -75,14 +74,12 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvWebViewTitle;
 	private ProgressBar pbWebView;
 	private WebView wvWebView;
 	@Override
 	public void initView() {
-		super.initView();
+		autoSetTitle();
 		
-		tvWebViewTitle = (TextView) findViewById(R.id.tvWebViewTitle);
 		pbWebView = (ProgressBar) findViewById(R.id.pbWebView);
 		wvWebView = (WebView) findViewById(R.id.wvWebView);
 	}
@@ -106,7 +103,6 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
 	public void initData() {
-		super.initData();
 		
 		WebSettings webSettings = wvWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
@@ -127,7 +123,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
             @Override  
             public void onReceivedTitle(WebView view, String title) {  
                 super.onReceivedTitle(view, title);
-                tvWebViewTitle.setText(StringUtil.getTrimedString(title));
+                tvBaseTitle.setText(StringUtil.getTrimedString(title));
             }  
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -146,14 +142,14 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
-				tvWebViewTitle.setText(StringUtil.getTrimedString(wvWebView.getUrl()));
+				tvBaseTitle.setText(StringUtil.getTrimedString(wvWebView.getUrl()));
 				pbWebView.setVisibility(View.VISIBLE);
 			}
 			
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				tvWebViewTitle.setText(StringUtil.getTrimedString(wvWebView.getTitle()));
+				tvBaseTitle.setText(StringUtil.getTrimedString(wvWebView.getTitle()));
 				pbWebView.setVisibility(View.GONE);
 			}
 		});
@@ -176,7 +172,6 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	public void initEvent() {
-		super.initEvent();
 		
 	}
 

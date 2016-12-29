@@ -90,7 +90,6 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	private EditText etDemoSQLEditValue;
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-		super.initView();
 		
 		tvDemoSQLInfo = (TextView) findViewById(R.id.tvDemoSQLInfo);
 
@@ -158,7 +157,6 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	private SQLHelper sqlHelper;
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-		super.initData();
 		
 		sqlHelper = new SQLHelper(context);
 
@@ -335,7 +333,6 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		super.initEvent();
 		
 		findViewById(R.id.btnDemoSQLInsert).setOnClickListener(this);
 		findViewById(R.id.btnDemoSQLDelete).setOnClickListener(this);

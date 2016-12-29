@@ -38,7 +38,6 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected View[][] vTabSelectViews;
 	@Override
 	public void initView() {// 必须调用
-		super.initView();
 
 		tabClickIds = getTabClickIds();
 
@@ -137,7 +136,6 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected Fragment[] fragments;
 	@Override
 	public void initData() {// 必须调用
-		super.initData();
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -194,7 +192,6 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 	@Override
 	public void initEvent() {// 必须调用
-		super.initEvent();
 
 		for (int i = 0; i < vTabClickViews.length; i++) {
 			final int which = i;

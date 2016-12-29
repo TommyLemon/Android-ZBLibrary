@@ -10,7 +10,6 @@
             style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvWebViewTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:ellipsize="none"

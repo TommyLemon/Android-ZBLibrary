@@ -92,7 +92,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-		super.initView();
+		autoSetTitle();//自动设置标题为上个Activity传入的INTENT_TITLE
 		
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -135,7 +135,6 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	//示例代码>>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-		super.initData();
 		
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		showProgressDialog(R.string.loading);
@@ -203,7 +202,6 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
 		lvDemo.setOnItemClickListener(new OnItemClickListener() {

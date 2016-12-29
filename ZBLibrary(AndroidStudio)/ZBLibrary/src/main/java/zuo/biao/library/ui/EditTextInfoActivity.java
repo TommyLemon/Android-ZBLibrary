@@ -118,7 +118,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	//	private XListView lvEditTextInfo;
 	@Override
 	public void initView() {//必须调用
-		super.initView();
 		
 		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
@@ -190,7 +189,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	private ArrayList<String> list;
 	@Override
 	public void initData() {//必须调用
-		super.initData();
 		
 		intent = getIntent();
 		intentType = intent.getIntExtra(INTENT_TYPE, 0);
@@ -290,7 +288,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	private Handler searchHandler;
 	@Override
 	public void initEvent() {//必须调用
-		super.initEvent();
 		
 		searchHandler = new Handler(new Callback() {
 			@Override

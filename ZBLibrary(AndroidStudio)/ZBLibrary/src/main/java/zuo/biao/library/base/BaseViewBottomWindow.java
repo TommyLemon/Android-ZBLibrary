@@ -104,6 +104,7 @@ implements ViewPresenter {
 	@Override
 	public void initView() {// 必须调用
 		super.initView();
+		autoSetTitle();
 
 		llBaseViewBottomWindowContainer = (ViewGroup) findViewById(R.id.llBaseViewBottomWindowContainer);
 
