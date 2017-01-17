@@ -24,15 +24,15 @@ public class User extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	public static final int SEX_MAIL = 0;
-	public static final int SEX_FEMAIL = 1;
-	public static final int SEX_UNKNOW = 2;
+	public static final int SEX_FEMALE = 1;
+	public static final int SEX_UNKNOWN = 2;
 
-	int sex;
-	String head; //头像
-	String name; //名字
-	String phone; //电话号码
-	String tag; //标签
-	boolean starred; //星标
+	private int sex; //性别
+	private String head; //头像
+	private String name; //名字
+	private String phone; //电话号码
+	private String tag; //标签
+	private boolean starred; //星标
 
 	/**默认构造方法，JSON等解析时必须要有
 	 */
@@ -40,17 +40,22 @@ public class User extends BaseModel {
 		//default
 	}
 	public User(long id) {
-		this(id, null);
-	}
-	public User(String name) {
-		this(-1, name);
+		this();
+		this.id = id;
 	}
 	public User(long id, String name) {
-		this.id = id;
+		this(id);
 		this.name = name;
 	}
 	
 
+	/**
+	 * 以下getter和setter可以自动生成
+	 * eclipse: 右键菜单 > Source > Generate Getters and Setters
+	 * android studio: 右键菜单 > Generate > Getter and Setter
+	 */
+	
+	
 	public int getSex() {
 		return sex;
 	}
@@ -89,7 +94,7 @@ public class User extends BaseModel {
 	}
 
 	@Override
-	public boolean isCorrect() {//根据自己的需求决定，也可以直接 return true
+	protected boolean isCorrect() {//根据自己的需求决定，也可以直接 return true
 		return id > 0;// && StringUtil.isNotEmpty(phone, true);
 	}
 

@@ -14,13 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,6 +23,12 @@ import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**通用网格Adapter(url, name)
  * *适用于gridView

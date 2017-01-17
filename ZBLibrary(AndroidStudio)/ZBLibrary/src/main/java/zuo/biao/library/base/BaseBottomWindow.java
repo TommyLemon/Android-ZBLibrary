@@ -104,10 +104,6 @@ public abstract class BaseBottomWindow extends BaseActivity {
 
 	}
 	
-//	@Override
-//	public void onReturnClick(View v) {
-//		finish();
-//	}
 	
 	@Override
 	public void onForwardClick(View v) {

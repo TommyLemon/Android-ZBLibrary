@@ -16,6 +16,7 @@ package zuo.biao.library.interfaces;
 
 /**进度回调
  * @author Lemon
+ * @param <T>
  */
 public interface OnProgressListener {
 	
