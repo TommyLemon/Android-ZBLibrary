@@ -217,7 +217,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 		}
 		etEditTextInfo.setMaxEms(MaxLen);
 
-		getlist(intentType);
+		getList(intentType);
 
 	}
 
@@ -227,16 +227,16 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	 * @param listType
 	 * @return
 	 */
-	protected void getlist(final int listType) {
+	protected void getList(final int listType) {
 		if (hasList == false) {
 			return;
 		}
 
 		list = new ArrayList<String>();
-		runThread(TAG + "getlist", new Runnable() {//baseRunnable已在baseFragment中新建
+		runThread(TAG + "getList", new Runnable() {
 			@Override
 			public void run() {
-				Log.i(TAG, "getlist  listType = " + listType);
+				Log.i(TAG, "getList  listType = " + listType);
 				if (listType == TYPE_PROFESSION) {
 					list = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.profesions)));
 				}
@@ -300,7 +300,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 				Log.i(TAG, "inputedString = " + inputedString + "msg.obj = " + msg.obj);
 				if(inputedString != null){
 					if (inputedString.equals(msg.obj)) {
-						getlist(intentType);
+						getList(intentType);
 					}
 				}
 				return false;
@@ -350,8 +350,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 					public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 						if (adapter != null && lvEditTextInfo.getLastVisiblePosition() >= adapter.getCount() - 1) {
 							requestSize += 20;
-							Log.i(TAG, "initEvent  lvEditTextInfo.setOnScrollListener( >> onScroll getlist(intentType);requestSize = " + requestSize);
-							getlist(intentType);
+							Log.i(TAG, "initEvent  lvEditTextInfo.setOnScrollListener( >> onScroll getList(intentType);requestSize = " + requestSize);
+							getList(intentType);
 						}
 					}
 				});

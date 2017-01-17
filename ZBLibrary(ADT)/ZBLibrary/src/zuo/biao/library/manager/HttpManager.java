@@ -240,7 +240,6 @@ public class HttpManager {
 
 	/**
 	 * @param paramList
-	 * @must demo_***改为服务器设定值
 	 * @return
 	 */
 	public String getToken(String tag) {

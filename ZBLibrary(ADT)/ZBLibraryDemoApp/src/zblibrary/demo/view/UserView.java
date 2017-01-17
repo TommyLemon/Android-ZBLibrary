@@ -88,10 +88,10 @@ public class UserView extends BaseView<User> implements OnClickListener {
 		ImageLoaderUtil.loadImage(ivUserViewHead, data.getHead(), ImageLoaderUtil.TYPE_OVAL);
 		ivUserViewStar.setImageResource(data.getStarred() ? R.drawable.star_light : R.drawable.star);
 
-		tvUserViewSex.setBackgroundResource(data.getSex() == User.SEX_FEMAIL
+		tvUserViewSex.setBackgroundResource(data.getSex() == User.SEX_FEMALE
 				? R.drawable.circle_pink : R.drawable.circle_blue);
-		tvUserViewSex.setText(data.getSex() == User.SEX_FEMAIL ?  "女" : "男");
-		tvUserViewSex.setTextColor(getColor(data.getSex() == User.SEX_FEMAIL ? R.color.pink : R.color.blue));
+		tvUserViewSex.setText(data.getSex() == User.SEX_FEMALE ?  "女" : "男");
+		tvUserViewSex.setTextColor(getColor(data.getSex() == User.SEX_FEMALE ? R.color.pink : R.color.blue));
 
 		tvUserViewName.setText(StringUtil.getTrimedString(data.getName()));
 		tvUserViewId.setText("ID:" + data.getId());
@@ -113,7 +113,7 @@ public class UserView extends BaseView<User> implements OnClickListener {
 				data.setStarred(! data.getStarred());
 				break;
 			case R.id.tvUserViewSex:
-				data.setSex(data.getSex() == User.SEX_FEMAIL ? User.SEX_MAIL : User.SEX_FEMAIL);
+				data.setSex(data.getSex() == User.SEX_FEMALE ? User.SEX_MAIL : User.SEX_FEMALE);
 				break;
 			}
 			bindView(data);

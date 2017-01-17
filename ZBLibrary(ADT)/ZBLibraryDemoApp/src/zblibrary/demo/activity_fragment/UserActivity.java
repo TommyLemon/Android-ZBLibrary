@@ -132,6 +132,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 	private User user;
+	/**显示用户
+	 * @param user_
+	 */
 	private void setUser(User user_) {
 		this.user = user_;
 		if (user == null) {
@@ -330,8 +333,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	@Override
 	public void finish() {
-		CacheManager.getInstance().save(User.class, user, "" + user.getId());//更新缓存
 		super.finish();
+		CacheManager.getInstance().save(User.class, user, "" + user.getId());//更新缓存
 	}
 
 
