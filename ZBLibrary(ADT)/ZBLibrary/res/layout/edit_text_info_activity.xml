@@ -29,8 +29,7 @@
             android:layout_marginLeft="@dimen/common_item_left_tv_padding"
             android:layout_weight="1"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:maxLength="30" >
+            android:focusableInTouchMode="true" >
 
             <requestFocus />
         </EditText>

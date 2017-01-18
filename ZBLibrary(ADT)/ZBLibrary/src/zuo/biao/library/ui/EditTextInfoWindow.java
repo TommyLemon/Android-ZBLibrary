@@ -65,6 +65,16 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	 * @param type
 	 * @param key
 	 * @param value
+	 * @return
+	 */
+	public static Intent createIntent(Context context, int type, String key, String value) {
+		return createIntent(context, type, key, value, "zuo.biao.library");
+	}
+	/**
+	 * @param context
+	 * @param type
+	 * @param key
+	 * @param value
 	 * @param packageName type == TYPE_MAILADDRESS || type == TYPE_USUALADDRESS时必须不为空
 	 * @return
 	 */
@@ -81,7 +91,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 		return this;
 	}
 
-	private int MaxLen = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,6 +164,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	private String packageName;
 	private int intentType = 0;
+	private int maxEms = 30;
 	@Override
 	public void initData() {//必须调用
 		super.initData();
@@ -170,35 +180,34 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 		switch (intentType) {
 		case TYPE_NICK:
-			MaxLen = 20;
+			maxEms = 20;
 			break;
 		case TYPE_PHONE:
 			etEditTextInfo.setInputType(InputType.TYPE_CLASS_PHONE);
-			MaxLen = 11;
+			maxEms = 11;
 			break;
 		case TYPE_EMAIL:
 			etEditTextInfo.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-			MaxLen = 60;
+			maxEms = 60;
 			break;
 		case TYPE_WEBSITE:
 			etEditTextInfo.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
-			MaxLen = 60;
+			maxEms = 200;
 			break;
 		case TYPE_MAILADDRESS:
-			MaxLen = 60;
+			maxEms = 60;
 			break;
 		case TYPE_PROFESSION:
 			tvEditTextInfoRemind.setText("所属行业");
-			MaxLen = 15;
+			maxEms = 15;
 		case TYPE_NOTE:
-			MaxLen = 100;
+			maxEms = 100;
 			break;
 		default:
-			MaxLen = 30;
 			break;
 		}
-		etEditTextInfo.setMaxEms(MaxLen);
-		tvEditTextInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
+		etEditTextInfo.setMaxEms(maxEms);
+		tvEditTextInfoRemind.setText("限" + maxEms/2 + "个字（或" + maxEms + "个字符）");
 
 		if (intentType == TYPE_MAILADDRESS || intentType == TYPE_USUALADDRESS) {
 			tvEditTextInfoPlace.setVisibility(View.VISIBLE);
