@@ -13,6 +13,9 @@
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:ellipsize="none"
+            android:padding="0dp"
+            android:layout_marginLeft="@dimen/topbar_title_padding"
+            android:layout_marginRight="@dimen/topbar_title_padding"
             android:singleLine="true"
             android:text="网页" />
     </RelativeLayout>

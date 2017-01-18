@@ -410,7 +410,11 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	@Override
+	public void finish() {
+		super.finish();
+		EditTextManager.showKeyboard(context, etEditTextInfo, false);
+	}
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

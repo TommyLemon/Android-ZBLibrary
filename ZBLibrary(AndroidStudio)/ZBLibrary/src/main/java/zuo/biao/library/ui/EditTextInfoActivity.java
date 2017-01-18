@@ -94,7 +94,6 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 		return this;
 	}
 
-	private int MaxLen = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -182,7 +181,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	public static final String INTENT_VALUE = EditTextInfoWindow.INTENT_VALUE;
 
 	private int intentType = 0;
-
+	private int maxEms = 30;
 	private boolean hasList = false;
 	private boolean hasUrl = false;
 
@@ -198,24 +197,22 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 
 		if (intentType == TYPE_NICK) {
 			tvEditTextInfoRemind.setText("限10个字（或20个字符）");
-			MaxLen = 20;
-			//			etEditTextInfo.setMaxEms(10);
+			maxEms = 20;
 			//etEditTextInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
 		} else if (intentType == TYPE_PHONE) {
 			tvEditTextInfoRemind.setText("只能填电话号码哦");
-			MaxLen = 11;
+			maxEms = 11;
 			//etEditTextInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
 		} else if (intentType == TYPE_PROFESSION) {
 			hasList = true;
 			tvEditTextInfoRemind.setText("所属行业");
-			MaxLen = 30;
 			//			etEditTextInfo.setFocusable(false);
 			//			etEditTextInfo.setFocusableInTouchMode(false);
 			//			etEditTextInfo.setEnabled(false);
 		} else {
-			tvEditTextInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
+			tvEditTextInfoRemind.setText("限" + maxEms/2 + "个字（或" + maxEms + "个字符）");
 		}
-		etEditTextInfo.setMaxEms(MaxLen);
+		etEditTextInfo.setMaxEms(maxEms);
 
 		getList(intentType);
 
@@ -417,7 +414,11 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	@Override
+	public void finish() {
+		super.finish();
+		EditTextManager.showKeyboard(context, etEditTextInfo, false);
+	}
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

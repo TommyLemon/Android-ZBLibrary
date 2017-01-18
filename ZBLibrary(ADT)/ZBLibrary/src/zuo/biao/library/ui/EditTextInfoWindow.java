@@ -306,6 +306,13 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	@Override
+	public void finish() {
+		super.finish();
+		EditTextManager.showKeyboard(context, etEditTextInfo, false);
+	}
+	
+	
 	public static final int REQUEST_TO_PLACE_PICKER = 11;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
