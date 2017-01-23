@@ -10,7 +10,7 @@
         <TextView
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
-            android:text="使用时间刷新器" />
+            android:text="时间刷新器" />
 
         <ImageView
             style="@style/topbar_right_btn"

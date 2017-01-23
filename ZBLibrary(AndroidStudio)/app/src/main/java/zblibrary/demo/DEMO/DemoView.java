@@ -33,17 +33,17 @@ import android.widget.TextView;
  * @author Lemon
  * @see DemoAdapter2#getView(int, View, android.view.ViewGroup)
  * @use
-	DemoView demoView = new DemoView(context, resources);
-	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
-	convertView = demoView.createView(inflater);
-	demoView.bindView(position, data);
-    或  其它类中使用 
-    containerView.addView(demoView.createView(inflater));
-    demoView.bindView(data);
-    然后
-	demoView.setOnDataChangedListener(onDataChangedListener);data = demoView.getData();//非必需
-	demoView.setOnClickListener(onClickListener);//非必需
-	...
+ * <br> DemoView demoView = new DemoView(context, resources);
+ * <br> adapter中使用:[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+ * <br> convertView = demoView.createView(inflater);
+ * <br> demoView.bindView(position, data);
+ * <br> 或 其它类中使用: 
+ * <br> containerView.addView(demoView.createView(inflater));
+ * <br> demoView.bindView(data);
+ * <br> 然后
+ * <br> demoView.setOnDataChangedListener(onDataChangedListener); data = demoView.getData();//非必需
+ * <br> demoView.setOnClickListener(onClickListener);//非必需
+ * <br> ...
  */
 public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
 	private static final String TAG = "DemoView";

@@ -23,8 +23,8 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**带清除按钮EditText或TextView套件，如果输入为空则隐藏清除按钮
- * @author lemon
- * @use new TextClearSuit().addClearListener;
+ * @author Lemon
+ * @use new TextClearSuit().addClearListener(...);
  */
 public class TextClearSuit {
 	private static final String TAG = "TextClearSuit";

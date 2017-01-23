@@ -139,7 +139,6 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	private ViewGroup llBaseTabTopRightButtonContainer;
 
 	private ViewGroup llBaseTabTabContainer;
-	protected TopTabView topTabView;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -224,7 +223,8 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String topReturnButtonName;
-
+	
+	protected TopTabView topTabView;
 	private Fragment[] fragments;
 	@Override
 	public void initData() {// 必须调用

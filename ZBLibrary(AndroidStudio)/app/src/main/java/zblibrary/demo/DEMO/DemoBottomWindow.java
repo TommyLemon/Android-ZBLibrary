@@ -28,8 +28,9 @@ import android.view.View.OnClickListener;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**底部弹出窗口界面示例
  * @author Lemon
- * @use toActivity(DemoBottomWindow.createIntent(...));
- *      然后在onActivityResult方法内获取data.getStringExtra(DemoBottomWindow.RESULT_CONTACT_INFO);
+ * <br> toActivity或startActivityForResult (DemoBottomWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(DemoBottomWindow.RESULT_DATA); 可得到返回值
  */
 public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>, DemoView> implements OnClickListener {
 	private static final String TAG = "DemoBottomWindow";

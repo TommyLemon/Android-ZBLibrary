@@ -23,13 +23,13 @@ import zuo.biao.library.util.StringUtil;
 
 /**Http请求结果解析类
  * *适合类似以下固定的json格式
- * <br/> {
-   <br/>   "code": 100,
-   <br/>   "data": {//可以为任何实体类json，通过Json.parseObject(json, Class<T>)解析；
+ * <br>   {
+   <br>     "code": 100,
+   <br>     "data": {//可以为任何实体类json，通过Json.parseObject(json, Class<T>)解析；
                       或者是其它类型的JSONObject，解析方式如 {@link #onHttpResponse} 内所示
-   <br/>       ...
-   <br/>    }
-   <br/> }
+   <br>         ...
+   <br>      }
+   <br>   }
  * @author Lemon
  * @see UserActivity#initData()
  * @use 把请求中的listener替换成new OnHttpResponseListenerImpl(listener)

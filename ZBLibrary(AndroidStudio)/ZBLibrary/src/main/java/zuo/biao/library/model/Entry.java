@@ -61,6 +61,6 @@ public class Entry<K, V> extends BaseModel {
 	@Override
 	public boolean isCorrect() {
 		return key != null;
-	};
+	}
 	
 }

@@ -35,8 +35,10 @@ import android.widget.Toast;
 
 /**通用选择单张照片Activity,已自带选择弹窗
  * @author Lemon
- * @use toActivity或startActivityForResult(SelectPictureActivity.createIntent) > onActivityResult方法内data.getStringExtra(
- * SelectPictureActivity.RESULT_PICTURE_PATH)可得到图片存储路径(String)
+ * @use
+ * <br> toActivity或startActivityForResult (SelectPictureActivity.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH); 可得到图片存储路径
  */
 public class SelectPictureActivity extends BaseActivity implements OnClickListener {
 	@SuppressWarnings("unused")

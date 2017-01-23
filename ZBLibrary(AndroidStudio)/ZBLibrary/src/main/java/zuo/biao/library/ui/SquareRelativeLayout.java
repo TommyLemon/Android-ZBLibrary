@@ -19,7 +19,7 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 /**通用正方形视图
- * @author lemon
+ * @author Lemon
  * @use 写在xml文件中即可
  */
 public class SquareRelativeLayout extends RelativeLayout {

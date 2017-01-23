@@ -35,10 +35,11 @@ import android.widget.TextView;
 
 /**自定义嵌入式菜单View
  * @author Lemon
- * @use BottomMenuView bottomMenuView = new BottomMenuView(context, resources, toBottomMenuWindowRequestCode);
- *      bottomMenuView.bindView(menuList);
- *      bottomMenuView.setOnMenuItemClickListener(onBottomMenuItemClickListener);
- *      *具体参考.UserActivity
+ * @use 
+ * <br> BottomMenuView bottomMenuView = new BottomMenuView(context, resources, toBottomMenuWindowRequestCode);
+ * <br> bottomMenuView.bindView(menuList);
+ * <br> bottomMenuView.setOnMenuItemClickListener(onBottomMenuItemClickListener);
+ * <br> *具体参考.UserActivity
  */
 public class BottomMenuView extends BaseView<List<Menu>> {
 	private static final String TAG = "BottomMenuView";

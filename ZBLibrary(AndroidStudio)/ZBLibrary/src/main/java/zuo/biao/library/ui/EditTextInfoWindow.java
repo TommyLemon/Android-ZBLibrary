@@ -35,8 +35,10 @@ import android.widget.TextView;
 
 /**通用编辑个人资料文本界面
  * @author Lemon
- * @use toActivity或startActivityForResult(EditTextInfoWindow.createIntent) > onActivityResult方法内data.getStringExtra(
- * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
+ * @use
+ * <br> toActivity或startActivityForResult (EditTextInfoWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(EditTextInfoWindow.RESULT_EDIT_TEXT_INFO); 可得到输入框内容 
  */
 public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListener {
 	//	private static final String TAG = "EditTextInfoWindow";
@@ -311,8 +313,8 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 		super.finish();
 		EditTextManager.showKeyboard(context, etEditTextInfo, false);
 	}
-
-
+	
+	
 	public static final int REQUEST_TO_PLACE_PICKER = 11;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -24,7 +24,7 @@ import android.util.Log;
 
 /**通用时间类
  * @author Lemon
- * @use TimeUtil.
+ * @use TimeUtil.xxxMethod(...);
  */
 public class TimeUtil {
 	private static final String TAG = "TimeUtil";

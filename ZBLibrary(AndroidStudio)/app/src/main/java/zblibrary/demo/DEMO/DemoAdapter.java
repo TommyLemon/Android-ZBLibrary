@@ -28,7 +28,7 @@ import android.widget.TextView;
 /**adapter模板，最灵活且性能最好，但如果有setOnClickListener等事件就不方便了
  * *适用于listView,gridView
  * @author Lemon
- * @use new DemoAdapter(...),具体参考.DemoActivity(setList方法内)
+ * @use new DemoAdapter(...); 具体参考.DemoActivity(setList方法内)
  */
 public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 //	private static final String TAG = "DemoAdapter";

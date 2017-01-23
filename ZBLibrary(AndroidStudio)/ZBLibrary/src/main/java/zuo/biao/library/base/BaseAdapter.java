@@ -31,9 +31,9 @@ import android.view.ViewGroup;
  * @warn 出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @param <T> 数据模型(model/JavaBean)类
  * @use extends BaseAdapter<T>, 具体参考.DemoAdapter
- *      预加载使用：
- *      1.在子类getView中最后 return super.getView(position, convertView, parent);//非必须，只在预加载用到
- *      2.在使用子类的类中调用子类setOnReachViewBorderListener方法（这个方法就在这个类）//非必须
+ *      <br> 预加载使用：
+ *      <br> 1.在子类getView中最后 return super.getView(position, convertView, parent);//非必须，只在预加载用到
+ *      <br> 2.在使用子类的类中调用子类setOnReachViewBorderListener方法（这个方法就在这个类）//非必须
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	//	private static final String TAG = "BaseAdapter";

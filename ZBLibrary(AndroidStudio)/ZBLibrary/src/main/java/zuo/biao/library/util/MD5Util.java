@@ -20,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 
 import zuo.biao.library.util.StringUtil;
 
-/**MD5加密工具类，必须和服务器使用的一致，建议用服务器的替换这个
+/**MD5加密工具类
  */
 public class MD5Util {
 

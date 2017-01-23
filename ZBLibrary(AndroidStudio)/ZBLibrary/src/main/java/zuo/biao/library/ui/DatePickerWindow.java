@@ -36,8 +36,10 @@ import android.widget.TextView;
 
 /**日期选择窗口
  * @author Lemon
- * @use toActivity(DatePickerWindow.createIntent(...));
- *      *然后在onActivityResult方法内获取data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS);
+ * @use 
+ * <br> toActivity或startActivityForResult (DatePickerWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS); 可得到选中的日期
  * @warn 和android系统SDK内一样，month从0开始
  */
 public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> {

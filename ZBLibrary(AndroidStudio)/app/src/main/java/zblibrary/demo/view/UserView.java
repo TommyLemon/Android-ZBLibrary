@@ -34,16 +34,16 @@ import android.widget.TextView;
 /**用户View
  * @author Lemon
  * @use
-	UserView userView = new UserView(context, resources);
-	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
-	convertView = userView.createView(inflater);
-	userView.bindView(position, data);
-    或  其它类中使用 
-    containerView.addView(userView.createView(inflater));
-    userView.bindView(data);
-    然后
-	userView.setOnDataChangedListener(onDataChangedListener);data = userView.getData();//非必需
-	userView.setOnClickListener(onClickListener);//非必需
+ * <br> UserView userView = new UserView(context, resources);
+ * <br> adapter中使用:[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+ * <br> convertView = userView.createView(inflater);
+ * <br> userView.bindView(position, data);
+ * <br> 或  其它类中使用: 
+ * <br> containerView.addView(userView.createView(inflater));
+ * <br> userView.bindView(data);
+ * <br> 然后
+ * <br> userView.setOnDataChangedListener(onDataChangedListener);data = userView.getData();//非必需
+ * <br> userView.setOnClickListener(onClickListener);//非必需
  */
 public class UserView extends BaseView<User> implements OnClickListener {
 	private static final String TAG = "UserView";
