@@ -33,7 +33,7 @@ import android.widget.TextView;
 /**通用网格Adapter(url, name)
  * *适用于gridView
  * @author Lemon
- * @use new GridAdapter(...)
+ * @use new GridAdapter(...); 具体参考.DemoAdapter
  */
 public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	private static final String TAG = "GridAdapter";
@@ -51,8 +51,6 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		super(context);
 		this.layoutRes = layoutRes;
 		this.hasCheck = hasCheck;
-
-		initList(list);//初始化数据，不需要选中标记功能可以删除，但这里要加上“this.list = list;”这句
 	}
 
 	//item标记功能，不需要可以删除<<<<<<<<<<<<<<<<<<<<<<<<<<<<

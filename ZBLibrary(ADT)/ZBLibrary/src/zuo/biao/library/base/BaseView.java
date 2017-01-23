@@ -127,7 +127,7 @@ public abstract class BaseView<T> {
 	}
 	
 	/**创建一个新的View
-	 * @param inflater - 布局解释器，@NonNull
+	 * @param inflater - @NonNull，布局解释器
 	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
 	 * @return
 	 */
@@ -137,7 +137,7 @@ public abstract class BaseView<T> {
 		return createView(inflater);
 	}
 	/**创建一个新的View
-	 * @param inflater - 布局解释器，@NonNull
+	 * @param inflater - @NonNull，布局解释器
 	 * @return
 	 */
 	public abstract View createView(LayoutInflater inflater);

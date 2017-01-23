@@ -36,9 +36,10 @@ import android.widget.TextView;
 
 /**时间选择弹窗
  * @author Lemon
- * @use toActivity(TimePickerWindow.createIntent(...));
- *      *然后在onActivityResult方法内获取data.getLongExtra(TimePickerWindow.RESULT_TIME_IN_MILLIS);
- * @warn 和android系统SDK内一样，month从0开始
+ * @use
+ * <br> toActivity或startActivityForResult (TimePickerWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getLongExtra(TimePickerWindow.RESULT_TIME_IN_MILLIS); 可得到选中的日期
  */
 public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> {
 	private static final String TAG = "TimePickerWindow";

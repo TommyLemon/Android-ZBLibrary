@@ -22,13 +22,14 @@ import android.content.Intent;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**BroadcastReceiver示例
  * @author Lemon
- * @use demoBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context);
- *      demoBroadcastReceiver.register(onHeadsetConnectionChangedListener);
- *      或
- *      demoBroadcastReceiver.register();demoBroadcastReceiver.setOnReceiveListener(onReceiveListener);
- *      >> Activity或Fragment的onDestroy内 
- *      demoBroadcastReceiver.unregister();
- *      具体参考.DemoFragmentActivity(initEvent方法内)
+ * @use 
+ * <br>  demoBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context);
+ * <br>  demoBroadcastReceiver.register(onHeadsetConnectionChangedListener);
+ * <br>  或
+ * <br>  demoBroadcastReceiver.register();demoBroadcastReceiver.setOnReceiveListener(onReceiveListener);
+ * <br>  然后在Activity或Fragment的onDestroy内 
+ * <br>  demoBroadcastReceiver.unregister();
+ * <br>  具体参考.DemoFragmentActivity(initEvent方法内)
  */
 public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver { 
 	private static final String TAG = "HeadsetConnectionBroadcastReceiver"; 

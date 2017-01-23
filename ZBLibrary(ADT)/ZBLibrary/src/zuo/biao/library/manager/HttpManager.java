@@ -102,7 +102,7 @@ public class HttpManager {
 	 * @param url 接口url
 	 * @param requestCode
 	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
-	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>  
 	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */
@@ -163,7 +163,7 @@ public class HttpManager {
 	 * @param url 接口url
 	 * @param requestCode
 	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
-	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>  
 	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */

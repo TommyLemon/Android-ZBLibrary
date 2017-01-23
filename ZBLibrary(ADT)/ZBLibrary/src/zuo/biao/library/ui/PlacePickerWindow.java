@@ -37,8 +37,10 @@ import zuo.biao.library.util.StringUtil;
 
 /**地址选择弹窗
  * @author Lemon
- * @use toActivity(PlacePickerWindow.createIntent(...));
- *      *然后在onActivityResult方法内获取data.getStringExtra(PlacePickerWindow.RESULT_PLACE);
+ * @use
+ * <br> toActivity或startActivityForResult (PlacePickerWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(PlacePickerWindow.RESULT_PLACE); 可得到地址
  */
 public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, String>>, GridPickerView> {
 	private static final String TAG = "PlacePickerWindow";

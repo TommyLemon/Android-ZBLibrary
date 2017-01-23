@@ -26,9 +26,10 @@ import android.widget.FrameLayout;
  * @author Lemon
  * @param <T>
  * @see UserActivity#initView()
- * @use bvl = (BaseViewLayout<Model>) findViewById(R.id.bvl);
- *      bvl.createView(new ModelView(context, getResources()));
- *      bvl.bindView(model);
+ * @use 
+ * <br>  BaseViewLayout<T> bvl = (BaseViewLayout<T>) findViewById(R.id.bvl);
+ * <br>  bvl.createView(new ModelView(context, getResources()));
+ * <br>  bvl.bindView(model);
  */
 public class BaseViewLayout<T> extends FrameLayout {
 	private static final String TAG = "BaseViewLayout";

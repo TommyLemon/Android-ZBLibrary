@@ -35,13 +35,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**通用底部弹出菜单
- * @author lemon
+ * @author Lemon
  * @use
-	toActivity(BottomMenuWindow.createIntent);
-	>> onActivityResult方法内
-	data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID) 可得到点击的(int) position
-	或
-	data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE) 可得到点击的(int) intentCode
+ * <br> toActivity或startActivityForResult (BottomMenuWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID); 可得到点击的 position
+ * <br> 或
+ * <br> data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE); 可得到点击的 intentCode
  */
 public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickListener {
 	private static final String TAG = "BottomMenuWindow";

@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 /**网格选择器adapter
  * @author Lemon
- * @use new GridPickerAdapter(...),具体参考.DemoAdapter
+ * @use new GridPickerAdapter(...); 具体参考.DemoAdapter
  */
 public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
 	//	private static final String TAG = "GridPickerAdapter";

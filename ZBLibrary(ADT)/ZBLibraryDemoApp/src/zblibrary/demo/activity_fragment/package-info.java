@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 
 /**
- * Activity、Fragment所载包
+ * Activity、Fragment所在包
  * 因为Activity和Fragment（结构、生命周期等）很相似，且有时会相互改写，所以放在同一个包下便于管理
  */
 /**

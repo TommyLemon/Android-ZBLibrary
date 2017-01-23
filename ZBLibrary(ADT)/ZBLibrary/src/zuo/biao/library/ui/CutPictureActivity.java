@@ -34,8 +34,10 @@ import android.util.Log;
 
 /**通用获取裁剪单张照片Activity
  * @author Lemon
- * @use toActivity或startActivityForResult > onActivityResult方法内data.getStringExtra(
- * CutPictureActivity.RESULT_PICTURE_PATH)可得到图片存储路径(String)
+ * @use
+ * <br> toActivity或startActivityForResult (CutPictureActivity.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(CutPictureActivity.RESULT_PICTURE_PATH); 可得到图片存储路径
  */
 public class CutPictureActivity extends BaseActivity {
 	private static final String TAG = "CutPictureActivity";

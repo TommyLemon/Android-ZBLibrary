@@ -26,7 +26,7 @@ import android.view.View;
 
 /**自定义带链接文本
  * @author Lemon
- * @use MyURLSpan.getText(...)
+ * @use MyURLSpan.getText(...);
  */
 public class MyURLSpan extends ClickableSpan {
 	private static final String TAG = "MyURLSpan";

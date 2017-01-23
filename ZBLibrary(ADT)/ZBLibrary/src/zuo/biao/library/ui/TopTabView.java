@@ -33,11 +33,14 @@ import android.widget.TextView;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
  * @use
-TopTabView modleView = new TopTabView(context, inflater);
-adapter中使用convertView = modleView.getView();//[具体见.TopTabAdapter] 或  其它类中使用
-containerView.addView(modleView.getConvertView());
-modleView.bindView(object);
-modleView.setOnTabSelectedListener(onItemSelectedListener);
+ * <br> TopTabView modleView = new TopTabView(context, inflater);
+ * <br> adapter中使用:[具体见.BaseTabActivity]
+ * <br> convertView = modleView.getView();
+ * <br> 或  其它类中使用
+ * <br> containerView.addView(modleView.getConvertView());
+ * <br> 然后
+ * <br> modleView.bindView(object);
+ * <br> modleView.setOnTabSelectedListener(onItemSelectedListener);
  */
 public class TopTabView extends BaseView<String[]> {
 	private static final String TAG = "TopTabView";

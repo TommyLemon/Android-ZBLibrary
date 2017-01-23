@@ -47,7 +47,7 @@ import android.widget.BaseAdapter;
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
+ * @use extends BaseListFragment 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListFragment
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
 public abstract class BaseListFragment<T, LV extends AbsListView, BA extends BaseAdapter> extends BaseFragment {

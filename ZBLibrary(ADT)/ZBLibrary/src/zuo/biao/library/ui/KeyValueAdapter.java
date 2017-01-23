@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 /**key-value型(两个都是String类型)Adapter，
  * @author Lemon
- * @use new KeyValueAdapter(...),具体参考.DemoAdapter
+ * @use new KeyValueAdapter(...); 具体参考.DemoAdapter
  */
 public class KeyValueAdapter extends BaseAdapter<Entry<String, String>> {
 

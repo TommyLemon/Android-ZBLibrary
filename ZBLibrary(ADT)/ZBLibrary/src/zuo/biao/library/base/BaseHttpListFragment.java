@@ -28,7 +28,7 @@ import android.widget.BaseAdapter;
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <BA> 管理XListView的Adapter
- * @use extends BaseHttpListFragment 并在子类onCreateView中调用lvBaseList.onRefresh();, 具体参考 .UserListFragment
+ * @use extends BaseHttpListFragment 并在子类onCreateView中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
 public abstract class BaseHttpListFragment<T, BA extends BaseAdapter> extends BaseListFragment<T, XListView, BA> 
 implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {

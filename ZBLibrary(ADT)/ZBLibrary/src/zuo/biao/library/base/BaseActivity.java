@@ -251,7 +251,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 				if (progressDialog == null) {
 					progressDialog = new ProgressDialog(context);
 				}
-				if(progressDialog.isShowing() == true) {
+				if(progressDialog.isShowing()) {
 					progressDialog.dismiss();
 				}
 				if (StringUtil.isNotEmpty(title, false)) {

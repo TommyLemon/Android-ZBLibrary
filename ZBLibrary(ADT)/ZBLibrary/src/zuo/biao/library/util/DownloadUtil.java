@@ -12,8 +12,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-/**
- * Created by Tommy on 16/5/5.
+/**下载工具类
+ * @author Lemon
  */
 public class DownloadUtil {
     private static final String TAG = "DownloadUtil";

@@ -51,8 +51,8 @@ public class User extends BaseModel {
 
 	/**
 	 * 以下getter和setter可以自动生成
-	 * eclipse: 右键菜单 > Source > Generate Getters and Setters
-	 * android studio: 右键菜单 > Generate > Getter and Setter
+	 * <br>  eclipse: 右键菜单 > Source > Generate Getters and Setters
+	 * <br>  android studio: 右键菜单 > Generate > Getter and Setter
 	 */
 	
 	

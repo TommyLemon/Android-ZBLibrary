@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 /**通用操作类
  * @author Lemon
+ * @use CommonUtil.xxxMethod(...);
  */
 public class CommonUtil {
 	private static final String TAG = "CommonUtil";

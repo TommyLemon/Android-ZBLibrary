@@ -272,6 +272,14 @@
 
             <View style="@style/divider_horizontal_1px" />
 
+            <TextView
+                style="@style/text_big"
+                android:paddingBottom="6dp"
+                android:paddingTop="30dp"
+                android:text="Window" />
+
+            <View style="@style/divider_horizontal_1px" />
+
             <LinearLayout
                 android:id="@+id/llDemoMainDemoBottomWindow"
                 style="@style/content_item_white" >
@@ -283,14 +291,6 @@
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
-
-            <View style="@style/divider_horizontal_1px" />
-
-            <TextView
-                style="@style/text_big"
-                android:paddingBottom="6dp"
-                android:paddingTop="30dp"
-                android:text="Window" />
 
             <View style="@style/divider_horizontal_1px" />
 

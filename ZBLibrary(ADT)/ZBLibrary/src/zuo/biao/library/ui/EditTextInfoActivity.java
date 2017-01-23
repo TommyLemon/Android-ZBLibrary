@@ -47,8 +47,10 @@ import android.widget.TextView;
 
 /**通用编辑个人资料文本界面
  * @author Lemon
- * @use toActivity或startActivityForResult(EditTextInfoActivity.createIntent) > onActivityResult方法内data.getStringExtra(
- * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
+ * @use 
+ * <br> toActivity或startActivityForResult (EditTextInfoActivity.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(EditTextInfoActivity.RESULT_EDIT_TEXT_INFO); 可得到输入框内容 
  */
 public class EditTextInfoActivity extends BaseActivity implements OnBottomDragListener {
 	public static final String TAG = "EditTextInfoActivity";

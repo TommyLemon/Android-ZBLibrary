@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 /**通用字符串(String)相关类,为null时返回""
  * @author Lemon
- * @use StringUtil.
+ * @use StringUtil.xxxMethod(...);
  */
 public class StringUtil {
 	private static final String TAG = "StringUtil";

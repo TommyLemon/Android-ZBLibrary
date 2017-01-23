@@ -31,10 +31,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**通用顶部弹出菜单
- * @author lemon
- * @use toActivity或startActivityForResult > onActivityResult方法内data.getIntExtra(
- * SelectPictureActivity.RESULT_CLICKED_ITEM)可得到点击的position(int)
- * @must（intent.putExtra传值） TopMenuWindow.INTENT_NAMES
+ * @author Lemon
+ * @use
+ * <br> toActivity或startActivityForResult (TopMenuWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getIntExtra(TopMenuWindow.RESULT_POSITION); 可得到点击的 position
+ * <br> 或
+ * <br> data.getIntExtra(TopMenuWindow.RESULT_INTENT_CODE); 可得到点击的 intentCode
  */
 public class TopMenuWindow extends Activity implements OnItemClickListener, OnClickListener{
 	private static final String TAG = "TopMenuWindow";
