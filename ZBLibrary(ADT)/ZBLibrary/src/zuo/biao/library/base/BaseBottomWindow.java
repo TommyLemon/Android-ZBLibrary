@@ -15,11 +15,11 @@ limitations under the License.*/
 package zuo.biao.library.base;
 
 import zuo.biao.library.R;
+import zuo.biao.library.util.Log;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 
 /**基础底部弹出界面Activity
@@ -27,8 +27,8 @@ import android.view.animation.AnimationUtils;
  * @warn 不要在子类重复这个类中onCreate中的代码
  * @use extends BaseBottomWindow, 具体参考.DemoBottomWindow
  */
-public abstract class BaseBottomWindow extends BaseActivity implements OnClickListener {
-	//	private static final String TAG = "BaseBottomWindow";
+public abstract class BaseBottomWindow extends BaseActivity {
+		private static final String TAG = "BaseBottomWindow";
 
 	public static final String INTENT_ITEMS = "INTENT_ITEMS";
 	public static final String INTENT_ITEM_IDS = "INTENT_ITEM_IDS";
@@ -66,14 +66,19 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initData() {// 必须调用
-
+		
 	}
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	/**
+	 * 设置需要返回的结果
+	 */
+	protected abstract void setResult();
+	
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -84,11 +89,11 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {// 必须调用
-
+	public void initEvent() {// 必须调用
+		
 		//			vBaseBottomWindowRoot.setOnClickListener(new OnClickListener() {
 		//
 		//				@Override
@@ -98,6 +103,14 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 		//			});
 
 	}
+	
+	
+	@Override
+	public void onForwardClick(View v) {
+		setResult();
+		finish();
+	}
+	
 
 	@SuppressLint("HandlerLeak")
 	public Handler exitHandler = new Handler(){
@@ -118,6 +131,7 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 	 */
 	@Override
 	public void finish() {
+		Log.d(TAG, "finish >>> isExit = " + isExit);
 		if (isExit) {
 			return;
 		}
@@ -141,7 +155,7 @@ public abstract class BaseBottomWindow extends BaseActivity implements OnClickLi
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

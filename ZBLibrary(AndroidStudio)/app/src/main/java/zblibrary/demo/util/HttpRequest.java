@@ -18,15 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.application.DemoApplication;
-import zuo.biao.library.bean.Parameter;
 import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
+import zuo.biao.library.model.Parameter;
+import zuo.biao.library.util.MD5Util;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 
 /**HTTP请求工具类
  * @author Lemon
  * @use 添加请求方法xxxMethod >> HttpRequest.xxxMethod(...)
+ * @must 所有请求的url、请求方法(GET, POST等)、请求参数(key-value方式，必要key一定要加，没提供的key不要加，value要符合指定范围)
+ *       都要符合后端给的接口文档
  */
 public class HttpRequest {
 //	private static final String TAG = "HttpRequest";
@@ -39,7 +42,7 @@ public class HttpRequest {
 	 */
 	public static void addExistParameter(List<Parameter> list, String key, Object value) {
 		if (list == null) {
-			list = new ArrayList<>();
+			list = new ArrayList<Parameter>();
 		}
 		if (StringUtil.isNotEmpty(key, true) && StringUtil.isNotEmpty(value, true) ) {
 			list.add(new Parameter(key, value));
@@ -68,6 +71,7 @@ public class HttpRequest {
 
 	public static final String KEY_NAME = "name";
 	public static final String KEY_PHONE = "phone";
+	public static final String KEY_PASSWORD = "password";
 	public static final String KEY_AUTH_CODE = "authCode";
 
 	public static final String KEY_SEX = "sex";
@@ -76,21 +80,51 @@ public class HttpRequest {
 	public static final int SEX_ALL = 3;
 
 
-	public static final String KEY_TYPE = "type";
-	public static final String KEY_FLAG = "flag";
-	public static final String KEY_ADD = "add";
-	public static final String KEY_DELETE = "delete";
-
+	//account<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	/**注册
+	 * @param phone
+	 * @param password
+	 * @param listener
+	 */
+	public static void register(final String phone, final String password,
+			final int requestCode, final OnHttpResponseListener listener) {
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, KEY_PHONE, phone);
+		addExistParameter(paramList, KEY_PASSWORD, MD5Util.MD5(password));
+		
+		HttpManager.getInstance().post(paramList, URL_BASE + "user/register", requestCode, listener);
+	}
+	
+	/**登陆
+	 * @param phone
+	 * @param password
+	 * @param listener
+	 */
+	public static void login(final String phone, final String password,
+			final int requestCode, final OnHttpResponseListener listener) {
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, KEY_PHONE, phone);
+		addExistParameter(paramList, KEY_PASSWORD, MD5Util.MD5(password));
+		
+		HttpManager.getInstance().post(paramList, URL_BASE + "user/login", requestCode, listener);
+	}
+	
+	//account>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	
+	
 	/**获取用户
 	 * @param userId
 	 * @param requestCode
 	 * @param listener
 	 */
 	public static void getUser(long userId, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<>();
+		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_USER_ID, userId);
-		HttpManager.getInstance().post(paramList, URL_BASE + "user/infomation", requestCode, listener);
+		
+		HttpManager.getInstance().get(paramList, URL_BASE + "user/information", requestCode, listener);
 	}
 	public static final int RESULT_GET_USER_SUCCEED = 100;
 
@@ -103,7 +137,7 @@ public class HttpRequest {
 	 * @param listener
 	 */
 	public static void getUserList(int range, int pageNum, final int requestCode, final OnHttpResponseListener listener) {
-		List<Parameter> paramList = new ArrayList<>();
+		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, KEY_CURRENT_USER_ID, DemoApplication.getInstance().getCurrentUserId());
 		addExistParameter(paramList, KEY_RANGE, range);
 		addExistParameter(paramList, KEY_PAGE_NUM, pageNum);
@@ -115,6 +149,7 @@ public class HttpRequest {
 
 
 	//user>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 	
 	//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

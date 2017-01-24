@@ -19,8 +19,8 @@ import java.util.List;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
-import zuo.biao.library.ui.XListView;
-import zuo.biao.library.ui.XListView.IXListViewListener;
+import zuo.biao.library.ui.xlistview.XListView;
+import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -28,7 +28,7 @@ import android.widget.BaseAdapter;
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <BA> 管理XListView的Adapter
- * @use extends BaseHttpListActivity 并在子类onCreate中调用lvBaseList.onRefresh();, 具体参考.DemoHttpListActivity
+ * @use extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
 public abstract class BaseHttpListActivity<T, BA extends BaseAdapter> extends BaseListActivity<T, XListView, BA>
 implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
@@ -77,7 +77,7 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initData() {
@@ -93,7 +93,7 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 	public abstract List<T> parseArray(String json);
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -104,11 +104,11 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {// 必须调用
-		super.initListener();
+	public void initEvent() {// 必须调用
+		super.initEvent();
 		setOnStopLoadListener(this);
 
 		lvBaseList.setXListViewListener(this);
@@ -135,28 +135,20 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 		});
 	}
 
-	/**
-	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-	 * @param resultCode 服务器返回结果码
-	 * @param json 服务器返回的Json串，用parseArray方法解析
-	 */
 	@Override
-	public void onHttpRequestSuccess(int requestCode, int resultCode, final String json) {
-		runThread(TAG + "onHttpRequestSuccess", new Runnable() {
+	public void onHttpResponse(int requestCode, final String resultJson, final Exception e) {
+		runThread(TAG + "onHttpResponse", new Runnable() {
 
 			@Override
 			public void run() {
-				onLoadSucceed(parseArray(json));
+				List<T> array = parseArray(resultJson);
+				if ((array == null || array.isEmpty()) && e != null) {
+					onLoadFailed(e);
+				} else {
+					onLoadSucceed(array);
+				}
 			}
-		});
-	}
-	/**里面只有stopLoadData();showShortToast(R.string.get_failed); 不能满足需求时可重写该方法
-	 * @param requestCode 请求码，自定义，同一个Activity中以实现接口方式发起多个网络请求时以状态码区分各个请求
-	 * @param e OKHTTP中请求异常
-	 */
-	@Override
-	public void onHttpRequestError(int requestCode, Exception e) {
-		onLoadFailed(e);
+		});		
 	}
 
 
@@ -171,7 +163,7 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

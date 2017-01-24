@@ -20,10 +20,10 @@ import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.TimeRefresher;
 import zuo.biao.library.manager.TimeRefresher.OnTimeRefreshListener;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -51,8 +51,7 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -65,7 +64,7 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -74,23 +73,14 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private TextView tvDemoTimeRefresherTitle;
-
 	private TextView tvDemoTimeRefresherCount;
-
 	private EditText etDemoTimeRefresher;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须调用
-
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		tvDemoTimeRefresherTitle = (TextView) findViewById(R.id.tvDemoTimeRefresherTitle);
-
 		tvDemoTimeRefresherCount = (TextView) findViewById(R.id.tvDemoTimeRefresherCount);
-
 		etDemoTimeRefresher = (EditText) findViewById(R.id.etDemoTimeRefresher);
-
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
@@ -122,13 +112,6 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	@Override
 	public void initData() {//必须调用
 
-		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvDemoTimeRefresherTitle.setText("" + StringUtil.getCurrentString());
-		}
-
-		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 
@@ -141,14 +124,11 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
+	public void initEvent() {//必须调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.ivDemoTimeRefresherReturn).setOnClickListener(this);
-		findViewById(R.id.ivDemoTimeRefresherForward).setOnClickListener(this);
-
 		tvDemoTimeRefresherCount.setOnClickListener(this);
 		findViewById(R.id.ibtnDemoTimeRefresher).setOnClickListener(this);
 		//示例代码>>>>>>>>>>>>>>>>>>>
@@ -189,12 +169,6 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivDemoTimeRefresherReturn:
-			onDragBottom(false);
-			break;
-		case R.id.ivDemoTimeRefresherForward:
-			onDragBottom(true);
-			break;
 		case R.id.tvDemoTimeRefresherCount:
 			stopOrContinu();
 			break;
@@ -231,7 +205,7 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

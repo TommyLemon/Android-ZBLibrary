@@ -19,14 +19,14 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.Entry;
-import zuo.biao.library.bean.GridPickerConfigBean;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.model.GridPickerConfig;
+import zuo.biao.library.util.Log;
 import zuo.biao.library.util.ScreenUtil;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +43,7 @@ import android.widget.TextView;
  * @must 调用init方法
  * @use 参考 .DemoView
  */
-public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
+public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	private static final String TAG = "GridPickerView";
 
 	/**tabs切换和gridView的内容切换
@@ -87,13 +87,13 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	}
 
 
-	public ArrayList<GridPickerConfigBean> getConfigList() {
+	public ArrayList<GridPickerConfig> getConfigList() {
 		return configList;
 	}
 
 	public ArrayList<String> getSelectedItemList() {
 		ArrayList<String> list = new ArrayList<String>();
-		for (GridPickerConfigBean gpcb : configList) {
+		for (GridPickerConfig gpcb : configList) {
 			list.add(gpcb.getSelectedItemName());
 		}
 		return list;
@@ -141,20 +141,20 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 	}
 
 
-	public List<Entry<Boolean, String>> getList() {
-		return adapter == null ? null : adapter.getList();
+	public List<Entry<Integer, String>> getList() {
+		return adapter == null ? null : adapter.list;
 	}
 
 
 	@Override
-	public void setView(List<Entry<Boolean, String>> l){/*do nothing,必须init**/}
+	public void bindView(List<Entry<Integer, String>> l){/*do nothing,必须init**/}
 
 
 	/**初始化，必须使用且只能使用一次
 	 * @param configList
 	 * @param lastList
 	 */
-	public final void init(ArrayList<GridPickerConfigBean> configList, List<Entry<Boolean, String>> lastList) {
+	public final void init(ArrayList<GridPickerConfig> configList, List<Entry<Integer, String>> lastList) {
 		if (configList == null || configList.size() <= 0) {
 			Log.e(TAG, "initTabs  (configList == null || configList.size() <= 0 " +
 					">> selectedItemPostionList = new ArrayList<Integer>(); return;");
@@ -175,7 +175,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 
 		this.configList = configList;
 
-		setView(currentTabPosition, lastList, configList.get(currentTabPosition).getSelectedItemPostion());
+		bindView(currentTabPosition, lastList, configList.get(currentTabPosition).getSelectedItemPostion());
 	}
 
 
@@ -212,7 +212,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 					onTabClickListener.onTabClick(tabPosition, tvTab);
 					return;
 				}
-				//点击就是要切换list，这些配置都要改setView(tabSuffix, tabPosition, tabName, list, numColumns, maxShowRows, itemPosition)
+				//点击就是要切换list，这些配置都要改bindView(tabSuffix, tabPosition, tabName, list, numColumns, maxShowRows, itemPosition)
 			}
 		});
 		llGridPickerViewTabContainer.addView(tvTab);
@@ -222,46 +222,42 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 
 	private static final int MAX_NUM_TABS = 12;//最大标签数量
 
-	private ArrayList<GridPickerConfigBean> configList;
+	private ArrayList<GridPickerConfig> configList;
 	private GridPickerAdapter adapter;
 	/**设置并显示内容//可能导致每次都不变
 	 * @param tabPosition
 	 * @param list
 	 */
-	public void setView(final int tabPosition, List<Entry<Boolean, String>> list) {
-		setView(tabPosition, list, getSelectedItemPosition(tabPosition));
+	public void bindView(final int tabPosition, List<Entry<Integer, String>> list) {
+		bindView(tabPosition, list, getSelectedItemPosition(tabPosition));
 	}
 	/**
 	 * @param tabPosition
 	 * @param list
 	 * @param itemPosition
 	 */
-	public void setView(final int tabPosition, List<Entry<Boolean, String>> list, int itemPosition) {//GridView
+	public void bindView(final int tabPosition, List<Entry<Integer, String>> list, int itemPosition) {//GridView
 		if (configList == null || configList.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Boolean, String>> list, final int itemPosition) {" +
+			Log.e(TAG, "bindView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
 					" >> configList == null || configList.size() <= 0 >> return;");
 			return;
 		}
-		GridPickerConfigBean gpcb = configList.get(tabPosition);
+		GridPickerConfig gpcb = configList.get(tabPosition);
 		if (gpcb == null) {
 			return;
 		}
 
 		if (list == null || list.size() <= 0) {
-			Log.e(TAG, "setView(final int tabPostion, final List<Entry<Boolean, String>> list, final int itemPosition) {" +
+			Log.e(TAG, "bindView(final int tabPostion, final List<Entry<Integer, String>> list, final int itemPosition) {" +
 					" >> list == null || list.size() <= 0 >> return;");
 			return;
 		}
 		if (tabPosition >= MAX_NUM_TABS) {
-			Log.e(TAG, "setView  tabPosition >= MAX_NUM_TABS,防止恶意添加标签导致数量过多选择困难甚至崩溃 >> return;");
+			Log.e(TAG, "bindView  tabPosition >= MAX_NUM_TABS,防止恶意添加标签导致数量过多选择困难甚至崩溃 >> return;");
 			return;
 		}
 
-		if (itemPosition < 0) {
-			itemPosition = 0;
-		} else if (itemPosition >= list.size()) {
-			itemPosition = list.size() - 1;
-		}
+		itemPosition = getItemPosition(itemPosition, list);
 
 		int numColumns = gpcb.getNumColumns();
 		if (numColumns <= 0) {
@@ -269,7 +265,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		}
 
 		int maxShowRows = gpcb.getMaxShowRows();
-		if (maxShowRows  <= 0) {
+		if (maxShowRows <= 0) {
 			maxShowRows = 5;
 		}
 
@@ -282,7 +278,8 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 
 		//gridView<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		adapter = new GridPickerAdapter(context, list, itemPosition, contentHeight/maxShowRows);
+		adapter = new GridPickerAdapter(context, itemPosition, contentHeight/maxShowRows);
+		adapter.refresh(list);
 		adapter.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -291,7 +288,7 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 					onItemSelectedListener.onItemSelected(parent, view, position, id);
 					return;
 				}
-				doOnItemSelected(tabPosition, position, adapter.getCurrentItemName());
+				doOnItemSelected(tabPosition, position, adapter.getCurrentItemName());	
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {}
@@ -304,6 +301,43 @@ public class GridPickerView extends BaseView<List<Entry<Boolean, String>>> {
 		//gridView>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
+
+	private int length;
+	/**获取itemPosition，解决部分不可点击的item被选中的问题
+	 * @param itemPosition
+	 * @param list
+	 * @return
+	 */
+	private int getItemPosition(int itemPosition, List<Entry<Integer, String>> list) {
+		if (itemPosition < 0) {
+			itemPosition = 0;
+		} else if (itemPosition >= list.size()) {
+			itemPosition = list.size() - 1;
+		}
+
+		if (isItemEnabled(list, itemPosition) == false) {
+			length = Math.max(itemPosition, list.size() - itemPosition);
+			for (int i = 1; i <= length; i++) {
+				if (isItemEnabled(list, itemPosition - i)) {
+					Log.i(TAG, "getItemPosition  return " + (itemPosition - i));
+					return itemPosition - i;
+				}
+				if (isItemEnabled(list, itemPosition + i)) {
+					Log.i(TAG, "getItemPosition  return " + (itemPosition + i));
+					return itemPosition + i;
+				}
+			}
+		}
+
+		Log.i(TAG, "getItemPosition  return " + itemPosition);
+		return itemPosition;
+	}
+
+	private boolean isItemEnabled(List<Entry<Integer, String>> list, int itemPosition) {
+		return list != null && itemPosition >= 0 && itemPosition < list.size()
+				&& list.get(itemPosition).getKey() == GridPickerAdapter.TYPE_CONTNET_ENABLE;
+	}
+
 
 	/**在onItemSelected时响应,
 	 * 之后可能会跳转到下一个tab，导致 tabPositionWhenItemSelect+=1; selectedItemPosition = 0;

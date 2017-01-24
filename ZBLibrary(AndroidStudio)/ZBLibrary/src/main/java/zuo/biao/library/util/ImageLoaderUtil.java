@@ -87,10 +87,10 @@ public class ImageLoaderUtil {
 	public static void loadImage(ImageView iv, String uri) {
 		loadImage(iv, uri, TYPE_DEFAULT);
 	}
-	
-	public static final int TYPE_DEFAULT = 0;
-	public static final int TYPE_ROUND_CORNER = 1;
-	public static final int TYPE_OVAL = 2;
+
+	public static final int TYPE_DEFAULT = 0;//矩形
+	public static final int TYPE_ROUND_CORNER = 1;//圆角矩形
+	public static final int TYPE_OVAL = 2;//圆形
 	/**加载图片
 	 * 加载小图应再调用该方法前使用getSmallUri处理uri
 	 * @param type 图片显示类型
@@ -137,10 +137,9 @@ public class ImageLoaderUtil {
 
 
 	public static final String FILE_PATH_PREFIX = StringUtil.FILE_PATH_PREFIX;
-	public static final String HTTP = StringUtil.HTTP;
-	public static final String URL_PREFIX = StringUtil.URL_PREFIX;
-	public static final String URL_PREFIXs = StringUtil.URL_PREFIXs;
 
+	/**如果需要加载小图请修改为小图实际标识
+	 */
 	public static String URL_SUFFIX_SMALL = "!common";
 	/**获取可用的uri
 	 * @param uri
@@ -149,41 +148,16 @@ public class ImageLoaderUtil {
 	@SuppressLint("DefaultLocale")
 	public static String getCorrectUri(String uri) {
 		Log.i(TAG, "<<<<  getCorrectUri  uri = " + uri);
-		//		if (StringUtil.isNotEmpty(uri, true) == false) {
-		//			Log.e(TAG, "getCorrectUri  StringUtil.isNotEmpty(uri, true) == false >> return null;");
-		//			return null;
-		//		}
-		uri = StringUtil.getNoBlankString(changeUrl(uri));
+		uri = StringUtil.getNoBlankString(uri);
 
-		if (uri.toLowerCase().startsWith(HTTP)) {
-			//TODO
-		} else {
-			//			String path = uri.startsWith(FILE_PATH_PREFIX) ? uri : FILE_PATH_PREFIX + uri;
+		if (uri.toLowerCase().startsWith(StringUtil.HTTP) == false) {
 			uri = uri.startsWith(FILE_PATH_PREFIX) ? uri : FILE_PATH_PREFIX + uri;
-			//			if (path.startsWith("/")) {
-			//				path = FILE_PATH_PREFIX + uri;
-			//			}
-			//			Log.i(TAG, "getCorrectUri  uri.toLowerCase().startsWith(HTTP) == false >>  uri = " + uri);
-			//			uri = StringUtil.isFilePathExist(path) ? path : URL_PREFIX + uri;
 		}
 
 		Log.i(TAG, "getCorrectUri  return uri = " + uri + " >>>>> ");
 		return uri;
 	}
 
-	/**域名中带下划线无法解析，转换为可解析域名
-	 * @param uri
-	 * @return
-	 */
-	public static String changeUrl(String uri) {
-		uri = StringUtil.getNoBlankString(uri);
-		String head = "http://zuo.biao.images";
-		if (uri.startsWith(head)) {
-			String end = uri.substring(head.length());
-			return SettingUtil.IMAGE_BASE_URL + end;
-		}
-		return uri;
-	}
 
 	/**获取配置
 	 * @param cornerRadiusSize
@@ -247,7 +221,7 @@ public class ImageLoaderUtil {
 		return isLocalPath || uri.endsWith(URL_SUFFIX_SMALL)
 				? uri : uri + URL_SUFFIX_SMALL;
 	}
-	
+
 	/**将图片改为圆角类型
 	 * @param bitmap
 	 * @param pixels
@@ -269,5 +243,5 @@ public class ImageLoaderUtil {
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		return output;
 	}
-	
+
 }

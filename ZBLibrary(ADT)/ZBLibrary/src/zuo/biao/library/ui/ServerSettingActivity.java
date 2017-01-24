@@ -14,21 +14,20 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**服务器设置activity
  * @author Lemon
@@ -95,8 +94,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -122,7 +120,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -137,7 +135,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	private EditText etServerSettingTest;
 	@Override
 	public void initView() {//必须调用
-
+		
 		tvServerSettingNormalName = (TextView) findViewById(R.id.tvServerSettingNormalName);
 		tvServerSettingTestName = (TextView) findViewById(R.id.tvServerSettingTestName);
 
@@ -159,7 +157,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private static final String[] SERVER_NAMES = {
 			"正式服务器", "测试服务器"
@@ -167,7 +165,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initData() {//必须调用
-
+		
 		//获取并显网址
 		etServerSettingNormal.setText(StringUtil.getNoBlankString(normalAddress));
 		etServerSettingTest.setText(StringUtil.getNoBlankString(testAddress));
@@ -197,7 +195,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 		finish();
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -206,14 +204,11 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-
-		findViewById(R.id.ivServerSettingReturn).setOnClickListener(this);
-		findViewById(R.id.tvServerSettingForward).setOnClickListener(this);
-
+	public void initEvent() {//必须调用
+		
 		findViewById(R.id.tvServerSettingNormalSet).setOnClickListener(this);
 		findViewById(R.id.tvServerSettingNormalOpen).setOnClickListener(this);
 
@@ -268,11 +263,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	//Library内switch方法中case R.id.idx会报错
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ivServerSettingReturn) {
-			onDragBottom(false);
-		} else if (v.getId() == R.id.tvServerSettingForward) {
-			onDragBottom(true);
-		} else if (v.getId() == R.id.tvServerSettingNormalSet) {
+		if (v.getId() == R.id.tvServerSettingNormalSet) {
 			saveAndExit(false);
 		} else if (v.getId() == R.id.tvServerSettingTestSet) {
 			saveAndExit(true);
@@ -296,7 +287,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

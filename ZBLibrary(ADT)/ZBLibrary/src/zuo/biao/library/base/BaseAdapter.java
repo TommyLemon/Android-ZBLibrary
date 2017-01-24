@@ -31,9 +31,9 @@ import android.view.ViewGroup;
  * @warn 出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @param <T> 数据模型(model/JavaBean)类
  * @use extends BaseAdapter<T>, 具体参考.DemoAdapter
- *      预加载使用：
- *      1.在子类getView中最后 return super.getView(position, convertView, parent);//非必须，只在预加载用到
- *      2.在使用子类的类中调用子类setOnReachViewBorderListener方法（这个方法就在这个类）//非必须
+ *      <br> 预加载使用：
+ *      <br> 1.在子类getView中最后 return super.getView(position, convertView, parent);//非必须，只在预加载用到
+ *      <br> 2.在使用子类的类中调用子类setOnReachViewBorderListener方法（这个方法就在这个类）//非必须
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	//	private static final String TAG = "BaseAdapter";
@@ -42,34 +42,36 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	/**
 	 * 管理整个界面的Activity实例
 	 */
-	protected Activity context;
-	/**
-	 * 传进来的数据列表
-	 */
-	protected List<T> list;
+	public Activity context;
 	/**
 	 * 布局解释器,用来实例化列表的item的界面
 	 */
-	protected LayoutInflater inflater;
+	public LayoutInflater inflater;
 	/**
 	 * 资源获取器，用于获取res目录下的文件及文件中的内容等
 	 */
-	protected Resources resources;
-	public BaseAdapter(Activity context, List<T> list) {
+	public Resources resources;
+	public BaseAdapter(Activity context) {
 		this.context = context;
-		this.list = new ArrayList<>(list);
 
 		inflater = context.getLayoutInflater();
 		resources = context.getResources();
 	}
 
-	public List<T> getList() {
-		return list;
+	/**
+	 * 传进来的数据列表
+	 */
+	public List<T> list;
+	/**刷新列表
+	 */
+	public synchronized void refresh(List<T> list) {
+		this.list = list == null ? null : new ArrayList<T>(list);
+		notifyDataSetChanged();
 	}
-
+	
 	@Override
 	public int getCount() {
-		return list.size();
+		return list == null ? 0 : list.size();
 	}
 	/**获取item数据
 	 */
@@ -86,18 +88,6 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		return position;
 	}
 
-
-	/**刷新列表
-	 * 建议使用refresh(null)替代notifyDataSetChanged();
-	 * @param list 什么时候开始list为空也不会崩溃了？？
-	 */
-	public synchronized void refresh(List<T> list) {
-		if (list != null && list.size() > 0) {
-			this.list = new ArrayList<>(list);
-		}
-		notifyDataSetChanged();
-	}
-	
 	
 	//预加载，可不使用 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	

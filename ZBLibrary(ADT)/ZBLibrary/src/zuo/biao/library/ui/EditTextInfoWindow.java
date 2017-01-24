@@ -17,16 +17,14 @@ package zuo.biao.library.ui;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.ContactInfoUtil;
+import zuo.biao.library.util.ContactUtil;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -37,8 +35,10 @@ import android.widget.TextView;
 
 /**通用编辑个人资料文本界面
  * @author Lemon
- * @use toActivity或startActivityForResult(EditTextInfoWindow.createIntent) > onActivityResult方法内data.getStringExtra(
- * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
+ * @use
+ * <br> toActivity或startActivityForResult (EditTextInfoWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(EditTextInfoWindow.RESULT_EDIT_TEXT_INFO); 可得到输入框内容 
  */
 public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListener {
 	//	private static final String TAG = "EditTextInfoWindow";
@@ -67,6 +67,16 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	 * @param type
 	 * @param key
 	 * @param value
+	 * @return
+	 */
+	public static Intent createIntent(Context context, int type, String key, String value) {
+		return createIntent(context, type, key, value, "zuo.biao.library");
+	}
+	/**
+	 * @param context
+	 * @param type
+	 * @param key
+	 * @param value
 	 * @param packageName type == TYPE_MAILADDRESS || type == TYPE_USUALADDRESS时必须不为空
 	 * @return
 	 */
@@ -79,12 +89,10 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	}
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
-	private int MaxLen = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,7 +101,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 		//必须调用<<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//必须调用>>>>>>>>>>
 
 	}
@@ -101,7 +109,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvEditTextInfoTitle;
 	private TextView tvEditTextInfoPlace;
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
@@ -109,8 +116,6 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	@Override
 	public void initView() {//必须调用
 		super.initView();
-
-		tvEditTextInfoTitle = (TextView) findViewById(R.id.tvEditTextInfoTitle);
 
 		tvEditTextInfoPlace = (TextView) findViewById(R.id.tvEditTextInfoPlace);
 		tvEditTextInfoPlace.setVisibility(View.GONE);
@@ -133,27 +138,27 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	public static final String INTENT_PACKAGE_NAME = "INTENT_PACKAGE_NAME";
 
-	public static final int TYPE_NICK = 200 + ContactInfoUtil.TYPE_NICK;
-	public static final int TYPE_NAME = 200 + ContactInfoUtil.TYPE_NAME;
+	public static final int TYPE_NICK = 200 + ContactUtil.TYPE_NICK;
+	public static final int TYPE_NAME = 200 + ContactUtil.TYPE_NAME;
 
-	public static final int TYPE_PHONE = 200 + ContactInfoUtil.TYPE_PHONE;
-	public static final int TYPE_WEBSITE = 200 + ContactInfoUtil.TYPE_WEBSITE;
-	public static final int TYPE_EMAIL = 200 + ContactInfoUtil.TYPE_EMAIL;
-	public static final int TYPE_FAX = 200 + ContactInfoUtil.TYPE_FAX;
+	public static final int TYPE_PHONE = 200 + ContactUtil.TYPE_PHONE;
+	public static final int TYPE_WEBSITE = 200 + ContactUtil.TYPE_WEBSITE;
+	public static final int TYPE_EMAIL = 200 + ContactUtil.TYPE_EMAIL;
+	public static final int TYPE_FAX = 200 + ContactUtil.TYPE_FAX;
 
-	public static final int TYPE_USUALADDRESS = 200 + ContactInfoUtil.TYPE_USUALADDRESS;
-	public static final int TYPE_MAILADDRESS = 200 + ContactInfoUtil.TYPE_MAILADDRESS;
-	public static final int TYPE_SCHOOL = 200 + ContactInfoUtil.TYPE_SCHOOL;
-	public static final int TYPE_COMPANY = 200 + ContactInfoUtil.TYPE_COMPANY;
+	public static final int TYPE_USUALADDRESS = 200 + ContactUtil.TYPE_USUALADDRESS;
+	public static final int TYPE_MAILADDRESS = 200 + ContactUtil.TYPE_MAILADDRESS;
+	public static final int TYPE_SCHOOL = 200 + ContactUtil.TYPE_SCHOOL;
+	public static final int TYPE_COMPANY = 200 + ContactUtil.TYPE_COMPANY;
 
-	public static final int TYPE_PROFESSION = 200 + ContactInfoUtil.TYPE_PROFESSION;
-	public static final int TYPE_NOTE = 200 + ContactInfoUtil.TYPE_NOTE;
-	//	public static final int TYPE_OTHER = 200 + ContactInfoUtil.TYPE_OTHER;
+	public static final int TYPE_PROFESSION = 200 + ContactUtil.TYPE_PROFESSION;
+	public static final int TYPE_NOTE = 200 + ContactUtil.TYPE_NOTE;
+	//	public static final int TYPE_OTHER = 200 + ContactUtil.TYPE_OTHER;
 
 	public static final String INTENT_TYPE = "INTENT_TYPE";
 	public static final String INTENT_KEY = "INTENT_KEY";
@@ -161,6 +166,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	private String packageName;
 	private int intentType = 0;
+	private int maxEms = 30;
 	@Override
 	public void initData() {//必须调用
 		super.initData();
@@ -170,41 +176,40 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 		intentType = intent.getIntExtra(INTENT_TYPE, 0);
 		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_KEY), true)) {
-			tvEditTextInfoTitle.setText(StringUtil.getCurrentString());
+			tvBaseTitle.setText(StringUtil.getCurrentString());
 		}
 		etEditTextInfo.setSingleLine(intentType != TYPE_NOTE);
 
 		switch (intentType) {
 		case TYPE_NICK:
-			MaxLen = 20;
+			maxEms = 20;
 			break;
 		case TYPE_PHONE:
 			etEditTextInfo.setInputType(InputType.TYPE_CLASS_PHONE);
-			MaxLen = 11;
+			maxEms = 11;
 			break;
 		case TYPE_EMAIL:
 			etEditTextInfo.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-			MaxLen = 60;
+			maxEms = 60;
 			break;
 		case TYPE_WEBSITE:
 			etEditTextInfo.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
-			MaxLen = 60;
+			maxEms = 200;
 			break;
 		case TYPE_MAILADDRESS:
-			MaxLen = 60;
+			maxEms = 60;
 			break;
 		case TYPE_PROFESSION:
 			tvEditTextInfoRemind.setText("所属行业");
-			MaxLen = 15;
+			maxEms = 15;
 		case TYPE_NOTE:
-			MaxLen = 100;
+			maxEms = 100;
 			break;
 		default:
-			MaxLen = 30;
 			break;
 		}
-		etEditTextInfo.setMaxEms(MaxLen);
-		tvEditTextInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
+		etEditTextInfo.setMaxEms(maxEms);
+		tvEditTextInfoRemind.setText("限" + maxEms/2 + "个字（或" + maxEms + "个字符）");
 
 		if (intentType == TYPE_MAILADDRESS || intentType == TYPE_USUALADDRESS) {
 			tvEditTextInfoPlace.setVisibility(View.VISIBLE);
@@ -214,21 +219,16 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
-
-	private void saveAndExit() {
-		String editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);
-		if (editedValue.equals("" + getIntent().getStringExtra(INTENT_VALUE))) {
-			CommonUtil.showShortToast(context, "内容没有改变哦~");
-		} else {
-			intent = new Intent();
-			intent.putExtra(RESULT_TYPE, getIntent().getIntExtra(INTENT_TYPE, -1));
-			intent.putExtra(RESULT_VALUE, editedValue);
-			setResult(RESULT_OK, intent);
-			finish();
-		}		
+	@Override
+	protected void setResult() {
+		intent = new Intent();
+		intent.putExtra(RESULT_TYPE, getIntent().getIntExtra(INTENT_TYPE, -1));
+		intent.putExtra(RESULT_VALUE, editedValue);
+		setResult(RESULT_OK, intent);
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -237,15 +237,13 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String inputedString;
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
-		findViewById(R.id.tvEditTextInfoReturn).setOnClickListener(this);
-		findViewById(R.id.tvEditTextInfoForward).setOnClickListener(this);
 		tvEditTextInfoPlace.setOnClickListener(this);
 
 		etEditTextInfo.addTextChangedListener(new TextWatcher() {
@@ -277,6 +275,16 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	}
 
+	private String editedValue;
+	@Override
+	public void onForwardClick(View v) {
+		editedValue = StringUtil.getTrimedString(tvEditTextInfoPlace) + StringUtil.getTrimedString(etEditTextInfo);
+		if (editedValue.equals("" + getIntent().getStringExtra(INTENT_VALUE))) {
+			CommonUtil.showShortToast(context, "内容没有改变哦~");
+			return;
+		}
+		super.onForwardClick(v);
+	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -289,11 +297,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.tvEditTextInfoReturn) {
-			finish();
-		} else if (v.getId() == R.id.tvEditTextInfoForward) {
-			saveAndExit();
-		} else if (v.getId() == R.id.tvEditTextInfoPlace) {
+		if (v.getId() == R.id.tvEditTextInfoPlace) {
 			CommonUtil.toActivity(context, PlacePickerWindow.createIntent(
 					context, packageName, 2), REQUEST_TO_PLACE_PICKER, false);
 		}
@@ -304,33 +308,40 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	@Override
+	public void finish() {
+		super.finish();
+		EditTextManager.showKeyboard(context, etEditTextInfo, false);
+	}
+	
+	
 	public static final int REQUEST_TO_PLACE_PICKER = 11;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-			case REQUEST_TO_PLACE_PICKER:
-				List<String> list = data == null ? null : data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
-				if (list == null || list.size() < 2) {
-					CommonUtil.showShortToast(context, "请先选择地址哦~");
-					CommonUtil.toActivity(context, PlacePickerWindow.createIntent(
-							context, packageName, 2), REQUEST_TO_PLACE_PICKER, false);
-					return;
-				}
-				String place = "";
-				for (String s : list) {
-					place += s;
-				}
-				tvEditTextInfoPlace.setText(place);
-				break;
-			default:
-				break;
-			}
+		if (resultCode != RESULT_OK) {
+			return;
 		}
-
-
+		switch (requestCode) {
+		case REQUEST_TO_PLACE_PICKER:
+			List<String> list = data == null ? null : data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
+			if (list == null || list.size() < 2) {
+				CommonUtil.showShortToast(context, "请先选择地址哦~");
+				CommonUtil.toActivity(context, PlacePickerWindow.createIntent(
+						context, packageName, 2), REQUEST_TO_PLACE_PICKER, false);
+				return;
+			}
+			String place = "";
+			for (String s : list) {
+				place += s;
+			}
+			tvEditTextInfoPlace.setText(place);
+			break;
+		default:
+			break;
+		}
 	}
+
 
 
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -338,7 +349,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

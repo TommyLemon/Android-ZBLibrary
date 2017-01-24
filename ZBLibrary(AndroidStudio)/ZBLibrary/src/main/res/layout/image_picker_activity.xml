@@ -4,9 +4,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <TextView
-            android:id="@+id/ivImagePickerReturn"
-            style="@style/topbar_return_tv" />
+        <TextView style="@style/topbar_return_tv" />
 
         <TextView
             style="@style/topbar_title"
@@ -70,8 +68,8 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/edit_item_text_bg"
             android:padding="8dp"
-            android:textSize="14sp"
-            android:textColor="#FFFFFFFF" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </LinearLayout>

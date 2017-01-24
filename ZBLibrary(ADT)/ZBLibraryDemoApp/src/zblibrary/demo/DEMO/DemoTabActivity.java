@@ -14,14 +14,15 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.base.BaseActivity;
+import zblibrary.demo.R;
 import zuo.biao.library.base.BaseTabActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.WebViewActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -29,12 +30,12 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
-/**带标签的FragmentActivity示例
+/**带标签的Activity示例
  * @author Lemon
  * @use toActivity(DemoTabActivity.createIntent(...));
  */
 public class DemoTabActivity extends BaseTabActivity implements OnClickListener, OnBottomDragListener {
-//	private static final String TAG = "DemoTabActivity";
+	//	private static final String TAG = "DemoTabActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -47,11 +48,10 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	
+
+
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -64,23 +64,28 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
 
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	//示例代码<<<<<<<<
-	private TextView topRightButton;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		super.initView();
-		
+
 		//示例代码<<<<<<<<
-		topRightButton = addTopRightButton(newTopRightTextView(context, "了解"));
+		addTopRightButton(newTopRightImageView(context, R.drawable.add_small)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showShortToast("添加");
+			}
+		});
 		//示例代码>>>>>>>>
 	}
 
@@ -106,14 +111,20 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 	@Override
 	@Nullable
-	protected String getTitleName() {
+	public String getTitleName() {
 		return "账单";
 	}
 
 	@Override
 	@Nullable
-	protected String getTopReturnButtonName() {
+	public String getReturnName() {
 		return "";
+	}
+
+	@Override
+	@Nullable
+	public String getForwardName() {
+		return "了解";
 	}
 
 	@Override
@@ -123,12 +134,15 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 	@Override
 	protected Fragment getFragment(int position) {
-		
-		DemoListFragment fragment = new DemoListFragment();
-		bundle = new Bundle();
-		bundle.putInt(DemoFragment.ARGUMENT_POSITION, position);
+		//示例代码<<<<<<<<<<<<<<<<<<
+		DemoListFragment fragment = DemoListFragment.createInstance();
+		Bundle bundle = fragment.getArguments();
+		if (bundle == null) {
+			bundle = new Bundle();
+		}
+		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
 		fragment.setArguments(bundle);
-		
+		//示例代码>>>>>>>>>>>>>>>>>>
 		return fragment;
 	}
 
@@ -143,33 +157,45 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreate方法内调用
-		super.initListener();
-		//示例代码<<<<<<<<
-		topRightButton.setOnClickListener(new OnClickListener() {
+	public void initEvent() {//必须在onCreate方法内调用
+		super.initEvent();
+		topTabView.setOnTabSelectedListener(this);//覆盖super.initEvent();内的相同代码
+		
+		//示例代码:自动切换tab一个周期
+		for (int i = 0; i < getCount(); i++) {
+			new Handler().postDelayed(new Runnable() {
 
-			@Override
-			public void onClick(View v) {
-				onDragBottom(true);
-			}
-		});
-		//示例代码>>>>>>>>
-
+				@Override
+				public void run() {
+					if (isRunning()) {
+						selectNext();
+					}
+				}
+			}, 1000 * (i + 1));
+		}
 	}
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
+		//示例代码<<<<<<<<<<<<<<<<<<
 		if (rightToLeft) {
 			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
 			return;
 		}	
-		
+
 		finish();
+		//示例代码>>>>>>>>>>>>>>>>>>
 	}
 	
+	@Override
+	public void onTabSelected(TextView tvTab, int position, int id) {
+		super.onTabSelected(tvTab, position, id);
+		showShortToast("onTabSelected  position = " + position);
+	}
+
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -186,7 +212,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

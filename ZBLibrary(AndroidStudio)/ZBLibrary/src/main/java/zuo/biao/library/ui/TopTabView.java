@@ -33,11 +33,14 @@ import android.widget.TextView;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @author Lemon
  * @use
-TopTabView modleView = new TopTabView(context, inflater);
-adapter中使用convertView = modleView.getView();//[具体见.TopTabAdapter] 或  其它类中使用
-containerView.addView(modleView.getConvertView());
-modleView.setView(object);
-modleView.setOnTabSelectedListener(onItemSelectedListener);
+ * <br> TopTabView modleView = new TopTabView(context, inflater);
+ * <br> adapter中使用:[具体见.BaseTabActivity]
+ * <br> convertView = modleView.getView();
+ * <br> 或  其它类中使用
+ * <br> containerView.addView(modleView.getConvertView());
+ * <br> 然后
+ * <br> modleView.bindView(object);
+ * <br> modleView.setOnTabSelectedListener(onItemSelectedListener);
  */
 public class TopTabView extends BaseView<String[]> {
 	private static final String TAG = "TopTabView";
@@ -55,12 +58,8 @@ public class TopTabView extends BaseView<String[]> {
 	}
 
 	private int minWidth;
-	public TopTabView(Activity context, Resources resources, int[] tabBgResId) {
-		this(context, resources, tabBgResId, 0);
-	}
-	public TopTabView(Activity context, Resources resources, int[] tabBgResId, int minWidth) {
+	public TopTabView(Activity context, Resources resources, int minWidth) {
 		this(context, resources);
-		this.tabBgResId = tabBgResId;
 		this.minWidth = minWidth;
 	}
 	public TopTabView(Activity context, Resources resources) {
@@ -114,18 +113,18 @@ public class TopTabView extends BaseView<String[]> {
 	/**
 	 * @param nameList
 	 */
-	public void setView(List<String> nameList){
+	public void bindView(List<String> nameList){
 		if (nameList != null) {
 			for (int i = 0; i < nameList.size(); i++) {
 				names[i] = nameList.get(i);
 			}
 		}
-		setView(names);
+		bindView(names);
 	}
 	private int width;
 	private int maxWidth;
 	@Override
-	public void setView(String[] names){
+	public void bindView(String[] names){
 		if (names == null || names.length < 2) {
 			Log.e(TAG, "setInerView names == null || names.length < 2 >> return; ");
 			return;
@@ -185,50 +184,22 @@ public class TopTabView extends BaseView<String[]> {
 		select(currentPosition);
 	}
 
-	public int[] tabBgResId = {
-			R.drawable.tab_bg_left_full_white,
-			R.drawable.tab_bg_center_full_white,
-			R.drawable.tab_bg_right_full_white,
-	};
-
-	public static final int TAB_TYPE_LEFT = 0;
-	public static final int TAB_TYPE_CENTER = 1;
-	public static final int TAB_TYPE_RIGHT = 2;
-
-	//	/**选择tab
-	//	 * tabType = TAB_TYPE_CENTER
-	//	 * @param position
-	//	 */
-	//	private void select(int position) {
-	//		select(position, TAB_TYPE_CENTER);
-	//	}
 	private TextView[] tvTabs;
 	/**选择tab
 	 * @param position
 	 * @param tabType
 	 */
-	private void select(int position) {
+	public void select(int position) {
 		Log.i(TAG, "select  position = " + position);
 		if (position < 0 || position >= getCount()) {
 			Log.e(TAG, "select  position < 0 || position >= getCount() >> return;");
 			return;
 		}
-//		if (onTabSelectedListener != null) {
-//			onTabSelectedListener.beforeTabSelected(tvTabs[currentPosition]
-//					, currentPosition, tvTabs[currentPosition].getId());
-//		}
-
-		int tabType = TAB_TYPE_CENTER;
-		if (position == 0) {
-			tabType = TAB_TYPE_LEFT;
-		} else if (position == lastPosition) {
-			tabType = TAB_TYPE_RIGHT;
-		}
 
 		for (int i = 0; i < tvTabs.length; i++) {
-			tvTabs[i].setTextColor(getColor(i == position ? R.color.black : R.color.white));
-			tvTabs[i].setBackgroundResource(i == position ? tabBgResId[tabType] : R.drawable.null_drawable);
+			tvTabs[i].setSelected(i == position);
 		}
+		
 		if (onTabSelectedListener != null) {
 			onTabSelectedListener.onTabSelected(tvTabs[position]
 					, position, tvTabs[position].getId());

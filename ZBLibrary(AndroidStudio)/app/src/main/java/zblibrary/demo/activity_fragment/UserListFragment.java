@@ -23,7 +23,7 @@ import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.AdapterCallBack;
-import zuo.biao.library.interfaces.OnCacheCallBack;
+import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.util.Json;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,15 +40,26 @@ import android.widget.Toast;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>
-implements OnItemClickListener, OnCacheCallBack<User> {
+public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>//CacheAdapter<User, UserView, UserAdapter>>//
+implements OnItemClickListener, CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String ARGUMENT_RANGE = "ARGUMENT_RANGE";
 
+	public static UserListFragment createInstance(int range) {
+		UserListFragment fragment = new UserListFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putInt(ARGUMENT_RANGE, range);
+
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 
 	public static final int RANGE_ALL = HttpRequest.USER_LIST_RANGE_ALL;
@@ -71,7 +82,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		lvBaseList.onRefresh();
@@ -90,16 +101,16 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 
 	@Override
 	public void setList(final List<User> list) {
-		setList(list, new AdapterCallBack<UserAdapter>() {
+		setList(new AdapterCallBack<UserAdapter>() {
+
+			@Override
+			public UserAdapter createAdapter() {
+				return new UserAdapter(context);
+			}
 
 			@Override
 			public void refreshAdapter() {
 				adapter.refresh(list);
-			}
-			
-			@Override
-			public UserAdapter createAdapter() {
-				return new UserAdapter(context, list);
 			}
 		});
 	}
@@ -117,7 +128,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initData() {//必须调用
@@ -134,8 +145,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 
 			@Override
 			public void run() {
-				onHttpRequestSuccess(0, HttpRequest.RESULT_GET_USER_LIST_SUCCEED
-						, Json.toJSONString(TestUtil.getUserList(pageNum)));
+				onHttpResponse(0, Json.toJSONString(TestUtil.getUserList(pageNum, getCachePageSize())), null);
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
@@ -160,9 +170,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 	}
 
 
-
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -170,12 +178,13 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
 		lvBaseList.setOnItemClickListener(this);
 	}
@@ -191,7 +200,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 			return;
 		}
 
-		User user = adapter.getItem(position);	
+		User user = list.get(position);//adapter.getItem(position);	
 		if (BaseModel.isCorrect(user)) {//相当于 user != null && user.getId() > 0
 			toActivity(UserActivity.createIntent(context, user.getId()));
 		}
@@ -208,7 +217,7 @@ implements OnItemClickListener, OnCacheCallBack<User> {
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

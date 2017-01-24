@@ -41,13 +41,24 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
 	public static final String ARGUMENT_CITY = "ARGUMENT_CITY";
 
+	/**创建一个Fragment实例
+	 * @return
+	 */
+	public static DemoTabFragment createInstance(String city) {
+		DemoTabFragment fragment = new DemoTabFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putString(ARGUMENT_CITY, city);
+
+		fragment.setArguments(bundle);
+		return fragment;
+	}
 
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+
 	private String city;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,13 +67,13 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 		argument = getArguments();
 		if (argument != null) {
-			city = argument.getString(ARGUMENT_CITY);
+			city = argument.getString(ARGUMENT_CITY, city);
 		}
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		return view;
@@ -80,6 +91,17 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		tvDemoTabLeft = (TextView) findViewById(R.id.tvDemoTabLeft);
 	}
 
+	/**一行代码没必要新建方法，这里是为了给DemoBottomTabActivity调用
+	 */
+	public void selectPlace() {
+		toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 2)
+				, REQUEST_TO_PLACE_PICKER, false);
+	}
+	/**一行代码没必要新建方法，这里是为了给DemoBottomTabActivity调用
+	 */
+	public void selectMan() {
+		toActivity(DemoListActivity.createIntent(context, 0).putExtra(DemoTabActivity.INTENT_TITLE, "筛选"));
+	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -103,13 +125,13 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	@Nullable
-	protected String getTitleName() {
+	public String getTitleName() {
 		return null;
 	}
 
 	@Override
 	@Nullable
-	protected String getTopReturnButtonName() {
+	public String getReturnName() {
 		return null;
 	}
 
@@ -120,10 +142,13 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	protected Fragment getFragment(int position) {
-		
-		DemoListFragment fragment = new DemoListFragment();
-		bundle = new Bundle();
-		bundle.putInt(DemoFragment.ARGUMENT_POSITION, position);
+
+		DemoListFragment fragment = DemoListFragment.createInstance();
+		Bundle bundle = fragment.getArguments();
+		if (bundle == null) {
+			bundle = new Bundle();
+		}
+		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
 		fragment.setArguments(bundle);
 
 		return fragment;
@@ -140,16 +165,15 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreate方法内调用
-		super.initListener();
-
+	public void initEvent() {//必须在onCreate方法内调用
+		super.initEvent();
+		
 		tvDemoTabLeft.setOnClickListener(this);
 		findViewById(R.id.tvDemoTabRight).setOnClickListener(this);
 	}
-
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -159,11 +183,10 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tvDemoTabLeft:
-			toActivity(PlacePickerWindow.createIntent(context, context.getPackageName(), 2)
-					, REQUEST_TO_PLACE_PICKER, false);
+			selectPlace();
 			break;
 		case R.id.tvDemoTabRight:
-			toActivity(DemoListActivity.createIntent(context, 0).putExtra(DemoTabActivity.INTENT_TITLE, "筛选"));
+			selectMan();
 			break;
 		default:
 		}
@@ -199,7 +222,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

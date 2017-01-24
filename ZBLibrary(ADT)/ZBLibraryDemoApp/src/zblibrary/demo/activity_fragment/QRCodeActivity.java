@@ -23,13 +23,12 @@ import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Json;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +38,7 @@ import com.zxing.encoding.EncodingHandler;
 /**二维码界面Activity
  * @author Lemon
  */
-public class QRCodeActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class QRCodeActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "QRCodeActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -47,7 +46,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param contactBeanJsonString
+	 * @param userId
 	 * @return
 	 */
 	public static Intent createIntent(Context context, long userId) {
@@ -58,8 +57,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -75,7 +73,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -91,7 +89,8 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 	private View ivQRCodeProgress;
 	@Override
 	public void initView() {//必须调用
-
+		autoSetTitle();
+		
 		ivQRCodeHead = (ImageView) findViewById(R.id.ivQRCodeHead);
 		tvQRCodeName = (TextView) findViewById(R.id.tvQRCodeName);
 
@@ -111,13 +110,13 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	private User user;
 	@Override
 	public void initData() {//必须调用
-
+		
 		ivQRCodeProgress.setVisibility(View.VISIBLE);
 		runThread(TAG + "initData", new Runnable() {
 
@@ -170,7 +169,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 		});	
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -179,12 +178,10 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-
-		findViewById(R.id.tvQRCodeReturn).setOnClickListener(this);
+	public void initEvent() {//必须调用
 
 	}
 
@@ -200,18 +197,6 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 		finish();
 	}
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvQRCodeReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -243,7 +228,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnB
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

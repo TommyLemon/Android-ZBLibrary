@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llBottomMenuBg"
+    android:id="@id/vBaseBottomWindowRoot"
     style="@style/bottom_window_page"
     android:paddingTop="240dp" >
 
     <zuo.biao.library.ui.MaxHeightWrapLayout
-        android:id="@+id/llBottomMenuMenuContainer"
         style="@style/ll_vertical_match_wrap"
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvBottomMenuTitle"
+            android:id="@id/tvBaseTitle"
             style="@style/text_big_black"
             android:layout_width="match_parent"
             android:padding="12dp"
@@ -32,6 +31,7 @@
         <TextView
             android:id="@+id/tvBottomMenuCancel"
             style="@style/text_middle"
+            android:onClick="onReturnClick"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:background="@drawable/menu_member_manage_cancel_bg"

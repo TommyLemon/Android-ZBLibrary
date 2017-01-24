@@ -26,8 +26,9 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 
 /**数据存储工具类
- * @must 1.将fileRootPath中的包名（这里是zblibrary.demo）改为你的应用包名
- * 		 2.在Application中调用init方法
+ * @must 
+ * <br> 1.将fileRootPath中的包名（这里是zblibrary.demo）改为你的应用包名
+ * <br> 2.在Application中调用init方法
  */
 public class DataKeeper {
 	private static final String TAG = "DataKeeper";

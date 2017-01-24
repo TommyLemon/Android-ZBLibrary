@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import zuo.biao.library.bean.ThreadBean;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.os.Handler;
@@ -41,7 +40,7 @@ public class ThreadManager {
 	}
 
 	private static ThreadManager threadManager;
-	public static ThreadManager getInstance() {
+	public static synchronized ThreadManager getInstance() {
 		if (threadManager == null) {
 			threadManager = new ThreadManager();
 		}
@@ -93,7 +92,7 @@ public class ThreadManager {
 	 * @param name
 	 * @return
 	 */
-	public ThreadBean getThread(String name) {
+	private ThreadBean getThread(String name) {
 		return name == null ? null : threadMap.get(name);
 	}
 
@@ -170,4 +169,35 @@ public class ThreadManager {
 	}
 
 
+	/**线程类
+	 */
+	private static class ThreadBean {
+
+		private String name;
+		@SuppressWarnings("unused")
+		private HandlerThread thread;
+		private Runnable runnable;
+		private Handler handler;
+
+		public ThreadBean(String name, HandlerThread thread, Runnable runnable, Handler handler) {
+			this.name = name;
+			this.thread = thread;
+			this.runnable = runnable;
+			this.handler = handler;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public Runnable getRunnable() {
+			return runnable;
+		}
+
+		public Handler getHandler() {
+			return handler;
+		}
+	}
+
+	
 }

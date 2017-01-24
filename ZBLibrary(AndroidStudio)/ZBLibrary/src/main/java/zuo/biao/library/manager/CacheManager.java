@@ -99,7 +99,10 @@ public class CacheManager {
 	 * 分组中id列表,用json string的形式储存（避免排序问题）
 	 */
 	public static final String KEY_ID_LIST = "KEY_ID_LIST";
-
+	/**
+	 * 分组中列表每页最大数量
+	 */
+	public static final int MAX_PAGE_SIZE = 10;
 
 	/**获取列表
 	 * @param clazz
@@ -133,7 +136,7 @@ public class CacheManager {
 	public <T> List<T> getList(Class<T> clazz, String group, int start) {
 		Log.i(TAG, "getList  group = " + group +"; start = " + start);
 
-		Cache<T> cacheList = clazz == null ? null : new Cache<>(context, clazz, getClassPath(clazz)
+		Cache<T> cacheList = clazz == null ? null : new Cache<T>(context, clazz, getClassPath(clazz)
 				+ KEY_LIST);
 
 		if (StringUtil.isNotEmpty(group, true) == false) {
@@ -185,7 +188,7 @@ public class CacheManager {
 	 */
 	public <T> T get(Class<T> clazz, String id) {
 		Cache<T> cacheList = clazz == null
-				? null : new Cache<>(context, clazz, getClassPath(clazz) + KEY_LIST);
+				? null : new Cache<T>(context, clazz, getClassPath(clazz) + KEY_LIST);
 		return cacheList == null ? null : cacheList.get(id);
 	}
 
@@ -199,7 +202,7 @@ public class CacheManager {
 	private <T> int getPageSize(Class<T> clazz, String group) {
 		SharedPreferences sp = getSharedPreferences(
 				getClassPath(clazz) + KEY_GROUP_ + StringUtil.getTrimedString(group));
-		return sp == null ? null : sp.getInt(KEY_PAGE_SIZE, 3);
+		return sp == null ? 0 : sp.getInt(KEY_PAGE_SIZE, 0);
 	}
 
 	/**获取id列表
@@ -272,9 +275,9 @@ public class CacheManager {
 
 			//			Log.i(TAG, "\n saveList pageSize = " + getPageSize(clazz, group) + " <<<<<<<<");
 			//列表每页大小
-			if (pageSize > sp.getInt(KEY_PAGE_SIZE, 0)) {
-				if (pageSize > 10) {
-					pageSize = 10;
+			if (pageSize > 0) {//sp.getInt(KEY_PAGE_SIZE, 0)) {
+				if (pageSize > MAX_PAGE_SIZE) {
+					pageSize = MAX_PAGE_SIZE;
 				}
 				editor.remove(KEY_PAGE_SIZE).putInt(KEY_PAGE_SIZE, pageSize);
 			}
@@ -283,7 +286,7 @@ public class CacheManager {
 			//id列表
 			List<String> idList = Json.parseArray(sp.getString(KEY_ID_LIST, null), String.class);
 			if (idList == null) {
-				idList = new ArrayList<>();
+				idList = new ArrayList<String>();
 			}
 			if (start < 0) {
 				start = idList.size();
@@ -306,11 +309,11 @@ public class CacheManager {
 
 
 		//保存所有数据<<<<<<<<<<<<<<<<<<<<<<<<<
-		Cache<T> listDiskCache = new Cache<>(context, clazz, CLASS_PATH + KEY_LIST);
-		listDiskCache.saveList(map);
+		Cache<T> cache = new Cache<T>(context, clazz, CLASS_PATH + KEY_LIST);
+		cache.saveList(map);
 		//保存所有数据>>>>>>>>>>>>>>>>>>>>>>>>>
 
-		Log.i(TAG, "\n saveList listDiskCache.getSize() = " + listDiskCache.getSize()
+		Log.i(TAG, "\n saveList cache.getSize() = " + cache.getSize()
 				+ "; end save >>>>>>>>>>>> ");
 		//		}
 
@@ -345,7 +348,7 @@ public class CacheManager {
 
 		List<String> idList = getIdList(clazz, group);
 		if (idList == null) {
-			idList = new ArrayList<>();
+			idList = new ArrayList<String>();
 		}
 		if (idList.contains(id)) {
 			Log.e(TAG, "save idList.contains(id) >> return;");
@@ -355,7 +358,7 @@ public class CacheManager {
 		idList.add(0, id);
 		sp.edit().remove(KEY_ID_LIST).putString(KEY_ID_LIST, Json.toJSONString(idList)).commit();
 
-		new Cache<>(context, clazz, getListPath(clazz)).save(id, data);
+		new Cache<T>(context, clazz, getListPath(clazz)).save(id, data);
 	}
 
 	/**清空类
@@ -383,7 +386,7 @@ public class CacheManager {
 		Log.i(TAG, "clear  group = " + group + "; removeAllInGroup = " + removeAllInGroup);
 		List<String> list = removeAllInGroup == false ? null : getIdList(clazz, group);
 		if (list != null) {
-			Cache<T> cache = new Cache<>(context, clazz, getListPath(clazz));
+			Cache<T> cache = new Cache<T>(context, clazz, getListPath(clazz));
 			for (String id : list) {
 				cache.remove(id);
 			}
@@ -406,7 +409,7 @@ public class CacheManager {
 			Log.e(TAG, "remove  clazz == null >> return;");
 			return;
 		}
-		new Cache<>(context, clazz, getListPath(clazz)).remove(id);
+		new Cache<T>(context, clazz, getListPath(clazz)).remove(id);
 	}
 
 }

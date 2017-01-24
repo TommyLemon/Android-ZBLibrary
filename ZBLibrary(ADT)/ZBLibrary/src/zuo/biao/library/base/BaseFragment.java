@@ -107,7 +107,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 		view = v;
 	}
 
-	
+
 	/**
 	 * 该Fragment在Activity添加的所有Fragment中的位置，通过ARGUMENT_POSITION设置
 	 * @must 只使用getPosition方法来获取position，保证position正确
@@ -191,26 +191,42 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	/**展示加载进度条,无标题
 	 * @param stringResId
 	 */
-	public void showProgressDialog(final int stringResId){
+	public void showProgressDialog(int stringResId){
+		if (isAlive() == false) {
+			Log.w(TAG, "showProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.showProgressDialog(context.getResources().getString(stringResId));
 	}
 	/**展示加载进度条,无标题
 	 * @param dialogMessage
 	 */
-	public void showProgressDialog(final String dialogMessage){
+	public void showProgressDialog(String dialogMessage){
+		if (isAlive() == false) {
+			Log.w(TAG, "showProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.showProgressDialog(dialogMessage);
 	}
 	/**展示加载进度条
 	 * @param dialogTitle 标题
 	 * @param dialogMessage 信息
 	 */
-	public void showProgressDialog(final String dialogTitle, final String dialogMessage){
+	public void showProgressDialog(String dialogTitle, String dialogMessage){
+		if (isAlive() == false) {
+			Log.w(TAG, "showProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.showProgressDialog(dialogTitle, dialogMessage);
 	}
 
 	/** 隐藏加载进度
 	 */
 	public void dismissProgressDialog(){
+		if (isAlive() == false) {
+			Log.w(TAG, "dismissProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.dismissProgressDialog();
 	}
 	//进度弹窗>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -220,21 +236,21 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	/**打开新的Activity，向左滑入效果
 	 * @param intent
 	 */
-	public void toActivity(final Intent intent) {
+	public void toActivity(Intent intent) {
 		toActivity(intent, true);
 	}
 	/**打开新的Activity
 	 * @param intent
 	 * @param showAnimation
 	 */
-	public void toActivity(final Intent intent, final boolean showAnimation) {
+	public void toActivity(Intent intent, boolean showAnimation) {
 		toActivity(intent, -1, showAnimation);
 	}
 	/**打开新的Activity，向左滑入效果
 	 * @param intent
 	 * @param requestCode
 	 */
-	public void toActivity(final Intent intent, final int requestCode) {
+	public void toActivity(Intent intent, int requestCode) {
 		toActivity(intent, requestCode, true);
 	}
 	/**打开新的Activity
@@ -271,20 +287,32 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
 	 * @param stringResId
 	 */
-	public void showShortToast(final int stringResId) {
+	public void showShortToast(int stringResId) {
+		if (isAlive() == false) {
+			Log.w(TAG, "showProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.showShortToast(stringResId);
 	}
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
 	 * @param string
 	 */
-	public void showShortToast(final String string) {
+	public void showShortToast(String string) {
+		if (isAlive() == false) {
+			Log.w(TAG, "showProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.showShortToast(string);
 	}
 	/**快捷显示short toast方法，需要long toast就用 Toast.makeText(string, Toast.LENGTH_LONG).show(); ---不常用所以这个类里不写
 	 * @param string
 	 * @param isForceDismissProgressDialog
 	 */
-	public void showShortToast(final String string, final boolean isForceDismissProgressDialog) {
+	public void showShortToast(String string, boolean isForceDismissProgressDialog) {
+		if (isAlive() == false) {
+			Log.w(TAG, "showProgressDialog  isAlive() == false >> return;");
+			return;
+		}
 		context.showShortToast(string, isForceDismissProgressDialog);
 	}
 	//show short toast>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -301,14 +329,18 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 
 	@Override
 	public void onResume() {
+		Log.d(TAG, "\n onResume <<<<<<<<<<<<<<<<<<<<<<<");
 		super.onResume();
 		isRunning = true;
+		Log.d(TAG, "onResume >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
 	@Override
 	public void onPause() {
+		Log.d(TAG, "\n onPause <<<<<<<<<<<<<<<<<<<<<<<");
 		super.onPause();
 		isRunning = false;
+		Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
 	/**销毁并回收内存
@@ -316,6 +348,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	 */
 	@Override
 	public void onDestroy() {
+		Log.d(TAG, "\n onDestroy <<<<<<<<<<<<<<<<<<<<<<<");
 		dismissProgressDialog();
 		if (view != null) {
 			try {
@@ -338,5 +371,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 		argument = null;
 
 		context = null;
+
+		Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 }

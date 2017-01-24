@@ -19,6 +19,7 @@ import android.app.Activity;
 /**Fragment的逻辑接口
  * @author Lemon
  * @use implements FragmentPresenter
+ * @warn 对象必须是Fragment
  */
 public interface FragmentPresenter extends Presenter {
 

@@ -23,13 +23,13 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -47,12 +47,23 @@ import android.widget.TextView;
 
 /**通用编辑个人资料文本界面
  * @author Lemon
- * @use toActivity或startActivityForResult(EditTextInfoActivity.createIntent) > onActivityResult方法内data.getStringExtra(
- * SelectPictureActivity.RESULT_EDIT_TEXT_INFO)可得到输入框内容(String)
+ * @use 
+ * <br> toActivity或startActivityForResult (EditTextInfoActivity.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(EditTextInfoActivity.RESULT_EDIT_TEXT_INFO); 可得到输入框内容 
  */
-public class EditTextInfoActivity extends BaseActivity implements OnClickListener, OnBottomDragListener {
+public class EditTextInfoActivity extends BaseActivity implements OnBottomDragListener {
 	public static final String TAG = "EditTextInfoActivity";
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	public static final String RESULT_TYPE = "RESULT_TYPE";
+	public static final String RESULT_KEY = "RESULT_KEY";
+	public static final String RESULT_VALUE = "RESULT_VALUE";
+	public static final String RESULT_URL = "RESULT_URL";
+	public static final String RESULT_ID = "RESULT_ID";
+	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
+	
 	/**
 	 * @param context
 	 * @param key
@@ -75,14 +86,16 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 				putExtra(INTENT_KEY, key).
 				putExtra(INTENT_VALUE, value);
 	}
+	
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
-	private int MaxLen = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,16 +104,13 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		//必须调用<<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//必须调用>>>>>>>>>>
 
 	}
 
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	private TextView tvEditTextInfoTitle;
-	private View tvEditTextInfoForward;
 
 	private EditText etEditTextInfo;
 	private View ivEditTextInfoClear;
@@ -109,10 +119,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//	private XListView lvEditTextInfo;
 	@Override
 	public void initView() {//必须调用
-
-		tvEditTextInfoTitle = (TextView) findViewById(R.id.tvEditTextInfoTitle);
-		tvEditTextInfoForward = findViewById(R.id.tvEditTextInfoForward);
-
+		
 		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
 		tvEditTextInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoRemind);
@@ -152,7 +159,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final int TYPE_NICK = EditTextInfoWindow.TYPE_NICK;
 	public static final int TYPE_NAME = EditTextInfoWindow.TYPE_NAME;
@@ -176,42 +183,40 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	public static final String INTENT_VALUE = EditTextInfoWindow.INTENT_VALUE;
 
 	private int intentType = 0;
-
+	private int maxEms = 30;
 	private boolean hasList = false;
 	private boolean hasUrl = false;
 
 	private ArrayList<String> list;
 	@Override
 	public void initData() {//必须调用
-
+		
 		intent = getIntent();
 		intentType = intent.getIntExtra(INTENT_TYPE, 0);
 		if (StringUtil.isNotEmpty(intent.getStringExtra(INTENT_KEY), true)) {
-			tvEditTextInfoTitle.setText(StringUtil.getCurrentString());
+			tvBaseTitle.setText(StringUtil.getCurrentString());
 		}
 
 		if (intentType == TYPE_NICK) {
 			tvEditTextInfoRemind.setText("限10个字（或20个字符）");
-			MaxLen = 20;
-			//			etEditTextInfo.setMaxEms(10);
+			maxEms = 20;
 			//etEditTextInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
 		} else if (intentType == TYPE_PHONE) {
 			tvEditTextInfoRemind.setText("只能填电话号码哦");
-			MaxLen = 11;
+			maxEms = 11;
 			//etEditTextInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
 		} else if (intentType == TYPE_PROFESSION) {
 			hasList = true;
 			tvEditTextInfoRemind.setText("所属行业");
-			MaxLen = 30;
 			//			etEditTextInfo.setFocusable(false);
 			//			etEditTextInfo.setFocusableInTouchMode(false);
 			//			etEditTextInfo.setEnabled(false);
 		} else {
-			tvEditTextInfoRemind.setText("限" + MaxLen/2 + "个字（或" + MaxLen + "个字符）");
+			tvEditTextInfoRemind.setText("限" + maxEms/2 + "个字（或" + maxEms + "个字符）");
 		}
-		etEditTextInfo.setMaxEms(MaxLen);
+		etEditTextInfo.setMaxEms(maxEms);
 
-		getlist(intentType);
+		getList(intentType);
 
 	}
 
@@ -221,16 +226,16 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	 * @param listType
 	 * @return
 	 */
-	protected void getlist(final int listType) {
+	protected void getList(final int listType) {
 		if (hasList == false) {
 			return;
 		}
 
 		list = new ArrayList<String>();
-		runThread(TAG + "getlist", new Runnable() {//baseRunnable已在baseFragment中新建
+		runThread(TAG + "getList", new Runnable() {
 			@Override
 			public void run() {
-				Log.i(TAG, "getlist  listType = " + listType);
+				Log.i(TAG, "getList  listType = " + listType);
 				if (listType == TYPE_PROFESSION) {
 					list = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.profesions)));
 				}
@@ -265,7 +270,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		}
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -274,18 +279,15 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String inputedString;
 
 	private static final long SEARCH_DELAY_TIME = 240;
 	private Handler searchHandler;
 	@Override
-	public void initListener() {//必须调用
-
-		findViewById(R.id.ivEditTextInfoReturn).setOnClickListener(this);
-		tvEditTextInfoForward.setOnClickListener(this);
-
+	public void initEvent() {//必须调用
+		
 		searchHandler = new Handler(new Callback() {
 			@Override
 			public boolean handleMessage(Message msg) {
@@ -297,7 +299,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 				Log.i(TAG, "inputedString = " + inputedString + "msg.obj = " + msg.obj);
 				if(inputedString != null){
 					if (inputedString.equals(msg.obj)) {
-						getlist(intentType);
+						getList(intentType);
 					}
 				}
 				return false;
@@ -347,8 +349,8 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 					public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 						if (adapter != null && lvEditTextInfo.getLastVisiblePosition() >= adapter.getCount() - 1) {
 							requestSize += 20;
-							Log.i(TAG, "initListener  lvEditTextInfo.setOnScrollListener( >> onScroll getlist(intentType);requestSize = " + requestSize);
-							getlist(intentType);
+							Log.i(TAG, "initEvent  lvEditTextInfo.setOnScrollListener( >> onScroll getList(intentType);requestSize = " + requestSize);
+							getList(intentType);
 						}
 					}
 				});
@@ -396,51 +398,25 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 		finish();
 	}
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public static final String RESULT_TYPE = "RESULT_TYPE";
-	public static final String RESULT_KEY = "RESULT_KEY";
-	public static final String RESULT_VALUE = "RESULT_VALUE";
-	public static final String RESULT_URL = "RESULT_URL";
-	public static final String RESULT_ID = "RESULT_ID";
-	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
-	//@Override
-	//public void onClick(View v) {
-	//	switch (v.getId()) {
-	//		case R.id.ivEditTextInfoReturn:
-	//			onPageReturn();
-	//			break;
-	//		case R.id.tvEditTextInfoForward:
-	//			if (hasUrl == false) {
-	//				saveAndExit();
-	//			} else {
-	//				Message msg = new Message();
-	//				msg.obj = inputedString;
-	//				searchHandler.sendMessage(msg);
-	//			}
-	//			break;
-	//		default:
-	//			break;
-	//	}
-	//}
-	//Library内switch方法中case R.id.idx:报错
 	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.ivEditTextInfoReturn) {
-			onDragBottom(false);
-		} else if (v.getId() ==  R.id.tvEditTextInfoForward) {
-			if (hasUrl == false) {
-				onDragBottom(true);
-			} else {
-				Message msg = new Message();
-				msg.obj = inputedString;
-				searchHandler.sendMessage(msg);
-			}
+	public void onForwardClick(View v) {
+		if (hasUrl == false) {
+			onDragBottom(true);
+		} else {
+			Message msg = new Message();
+			msg.obj = inputedString;
+			searchHandler.sendMessage(msg);
 		}
 	}
+	
+	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-
+	@Override
+	public void finish() {
+		super.finish();
+		EditTextManager.showKeyboard(context, etEditTextInfo, false);
+	}
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -451,7 +427,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnClickListene
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

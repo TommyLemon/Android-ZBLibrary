@@ -14,25 +14,30 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
+import org.json.JSONObject;
+
 import zblibrary.demo.R;
 import zblibrary.demo.model.User;
-import zblibrary.demo.util.BottomMenuUtil;
+import zblibrary.demo.util.MenuUtil;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.CacheManager;
+import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
 import zuo.biao.library.ui.BottomMenuView;
 import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
 import zuo.biao.library.ui.EditTextInfoActivity;
 import zuo.biao.library.ui.TextClearSuit;
 import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.Json;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,7 +47,8 @@ import android.widget.TextView;
 /**联系人资料界面
  * @author Lemon
  */
-public class UserActivity extends BaseActivity implements OnClickListener, OnBottomDragListener, OnBottomMenuItemClickListener {
+public class UserActivity extends BaseActivity implements OnClickListener, OnBottomDragListener
+, OnBottomMenuItemClickListener, OnHttpResponseListener {
 	public static final String TAG = "UserActivity";
 
 	/**获取启动UserActivity的intent
@@ -56,8 +62,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -73,19 +78,20 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvUserTitle;
+	//	private BaseViewLayout<User> bvlUser;//方式一
+	//	private UserViewLayout uvlUser;//方式二
 
-	private ViewGroup llUserBusinessCardContainer;
+	private ViewGroup llUserBusinessCardContainer;//方式三
 	private UserView userView;
-	
+
 	private EditText etUserRemark;
 	private TextView tvUserTag;
 
@@ -94,21 +100,27 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void initView() {//必须调用
 
-		tvUserTitle = (TextView) findViewById(R.id.tvUserTitle);
+		//添加用户名片，这些方式都可<<<<<<<<<<<<<<<<<<<<<<
+		//		//方式一
+		//		bvlUser = (BaseViewLayout<User>) findViewById(R.id.bvlUser);
+		//		bvlUser.createView(new UserView(context, getResources()));
+		//		
+		//		//方式二
+		//		uvlUser = (UserViewLayout) findViewById(R.id.uvlUser);
 
-		//添加用户名片<<<<<<<<<<<<<<<<<<<<<<
+		//方式三
 		llUserBusinessCardContainer = (ViewGroup) findViewById(R.id.llUserBusinessCardContainer);
 		llUserBusinessCardContainer.removeAllViews();
 
 		userView = new UserView(context, getResources());
 		llUserBusinessCardContainer.addView(userView.createView(getLayoutInflater()));
-		//添加用户名片>>>>>>>>>>>>>>>>>>>>>>>
+		//添加用户名片，这些方式都可>>>>>>>>>>>>>>>>>>>>>>>
 
 
 		etUserRemark = (EditText) findViewById(R.id.etUserRemark);
 		tvUserTag = (TextView) findViewById(R.id.tvUserTag);
-		
-		
+
+
 		//添加底部菜单<<<<<<<<<<<<<<<<<<<<<<
 		llUserBottomMenuContainer = (ViewGroup) findViewById(R.id.llUserBottomMenuContainer);
 		llUserBottomMenuContainer.removeAllViews();
@@ -120,6 +132,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 	private User user;
+	/**显示用户
+	 * @param user_
+	 */
 	private void setUser(User user_) {
 		this.user = user_;
 		if (user == null) {
@@ -127,13 +142,21 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			user = new User();
 		}
 
-		userView.setView(user);
-		
-		tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
+		runUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				//				bvlUser.bindView(user);//方式一
+				//				uvlUser.bindView(user);//方式二
+				userView.bindView(user);//方式三
+
+				tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
+			}
+		});
 	}
 
-	
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -144,34 +167,26 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
 	public void initData() {//必须调用
 
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), true)) {
-			tvUserTitle.setText(StringUtil.getCurrentString());
-		}
-
-		bottomMenuView.setView(BottomMenuUtil.getMenuList(BottomMenuUtil.USER));
+		bottomMenuView.bindView(MenuUtil.getMenuList(MenuUtil.USER));
 
 		runThread(TAG + "initData", new Runnable() {
 			@Override
 			public void run() {
-
-				user = CacheManager.getInstance().get(User.class, "" + userId);
-				runUiThread(new Runnable() {
-					@Override
-					public void run() {
-						setUser(user);
-					}
-				});
+				setUser(CacheManager.getInstance().get(User.class, "" + userId));//先加载缓存数据，比网络请求快很多
+				//TODO 修改以下请求
+				//通用 HttpRequest.getUser(userId, 0, UserActivity.this);//http请求获取一个User
+				//更方便但对字符串格式有要求 HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this));
 			}
 		});
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -180,15 +195,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
+	public void initEvent() {//必须调用
 
-		findViewById(R.id.ivUserReturn).setOnClickListener(this);
-		
 		findViewById(R.id.llUserTag).setOnClickListener(this);
-		
+
 		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
 
 		bottomMenuView.setOnMenuItemClickListener(this);//底部菜单点击监听
@@ -201,10 +214,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			return;
 		}
 		switch (intentCode) {
-		case BottomMenuUtil.INTENT_CODE_SEND:
-			CommonUtil.shareInfo(context, user.toString());
+		case MenuUtil.INTENT_CODE_SEND:
+			CommonUtil.shareInfo(context, Json.toJSONString(user));
 			break;
-		case BottomMenuUtil.INTENT_CODE_QRCODE:
+		case MenuUtil.INTENT_CODE_QRCODE:
 			toActivity(QRCodeActivity.createIntent(context, userId));
 			break;
 		default:
@@ -213,13 +226,13 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 				return;
 			}
 			switch (intentCode) {
-			case BottomMenuUtil.INTENT_CODE_SEND_MESSAGE:
+			case MenuUtil.INTENT_CODE_SEND_MESSAGE:
 				CommonUtil.toMessageChat(context, user.getPhone());
 				break;
-			case BottomMenuUtil.INTENT_CODE_CALL:
+			case MenuUtil.INTENT_CODE_CALL:
 				CommonUtil.call(context, phone);
 				break;
-			case BottomMenuUtil.INTENT_CODE_SEND_EMAIL:
+			case MenuUtil.INTENT_CODE_SEND_EMAIL:
 				CommonUtil.sendEmail(context, phone + "@qq.com");
 				break;
 			default:
@@ -228,6 +241,42 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 			break;
 		}
 	}
+
+	//对应HttpRequest.getUser(userId, 0, UserActivity.this); <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
+		User user = null;
+		try {//如果服务器返回的json一定在最外层有个data，可以用OnHttpResponseListenerImpl解析
+			JSONObject jsonObject = new JSONObject(resultJson);
+			JSONObject data = jsonObject.getJSONObject("data");
+			user = Json.parseObject("" + data, User.class);
+		} catch (Exception e1) {
+			Log.e(TAG, "onHttpResponse  try { user = Json.parseObject(... >>" +
+					" } catch (JSONException e1) {\n" + e1.getMessage());
+		}
+
+		if (BaseModel.isCorrect(user) == false && e != null) {
+			showShortToast(R.string.get_failed);
+		} else {
+			setUser(user);
+		}		
+	}
+	//对应HttpRequest.getUser(userId, 0, UserActivity.this); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); <<<<<
+	//	@Override
+	//	public void onHttpSuccess(int requestCode, int resultCode, String resultData) {
+	//		setUser(Json.parseObject(resultData, User.class));
+	//	}
+	//
+	//	@Override
+	//	public void onHttpError(int requestCode, Exception e) {
+	//		showShortToast(R.string.get_failed);
+	//	}
+	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); >>>>
+
+
+
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -244,10 +293,6 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivUserReturn:
-			onDragBottom(false);
-			break;
-			
 		case R.id.llUserTag:
 			toActivity(EditTextInfoActivity.createIntent(context, "标签"
 					, StringUtil.getTrimedString(tvUserTag)), REQUEST_TO_EDIT_TEXT_INFO);
@@ -272,7 +317,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		switch (requestCode) {
 		case REQUEST_TO_BOTTOM_MENU:
 			if (data != null) {
-				onBottomMenuItemClick(data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE, -1));
+				onBottomMenuItemClick(data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1));
 			}
 			break;
 		case REQUEST_TO_EDIT_TEXT_INFO:
@@ -286,12 +331,21 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	}
 
 
+	@Override
+	public void finish() {
+		super.finish();
+		CacheManager.getInstance().save(User.class, user, "" + user.getId());//更新缓存
+	}
+
+
+
+
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

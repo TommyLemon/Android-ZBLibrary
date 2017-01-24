@@ -20,6 +20,7 @@ import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DataKeeper;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,7 +28,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,8 +35,10 @@ import android.widget.Toast;
 
 /**通用选择单张照片Activity,已自带选择弹窗
  * @author Lemon
- * @use toActivity或startActivityForResult(SelectPictureActivity.createIntent) > onActivityResult方法内data.getStringExtra(
- * SelectPictureActivity.RESULT_PICTURE_PATH)可得到图片存储路径(String)
+ * @use
+ * <br> toActivity或startActivityForResult (SelectPictureActivity.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH); 可得到图片存储路径
  */
 public class SelectPictureActivity extends BaseActivity implements OnClickListener {
 	@SuppressWarnings("unused")
@@ -51,8 +53,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 	}
 	
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 	
@@ -64,7 +65,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -74,7 +75,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initView() {//必须调用
-		//TODO
+		
 	}
 
 
@@ -89,12 +90,12 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String picturePath = "";
 	@Override
 	public void initData() {//必须调用
-
+		
 	}
 
 	private File cameraFile;
@@ -163,7 +164,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 		setResult(RESULT_OK, new Intent().putExtra(RESULT_PICTURE_PATH, picturePath));
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -172,11 +173,11 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-
+	public void initEvent() {//必须调用
+		
 		findViewById(R.id.llSelectPictureBg).setOnClickListener(this);
 
 		toActivity(new Intent(context, BottomMenuWindow.class)
@@ -253,7 +254,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

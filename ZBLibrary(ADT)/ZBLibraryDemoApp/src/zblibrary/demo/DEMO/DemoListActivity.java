@@ -18,23 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
-import zuo.biao.library.base.BaseActivity;
+import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseListActivity;
-import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.model.Entry;
 import zuo.biao.library.ui.GridAdapter;
-import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**列表Activity示例
@@ -43,7 +40,7 @@ import android.widget.TextView;
  * @use toActivity(DemoListActivity.createIntent(...));
  */
 public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView, GridAdapter>
-implements OnClickListener, OnBottomDragListener {
+implements OnBottomDragListener {
 //	private static final String TAG = "DemoListActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -64,8 +61,7 @@ implements OnClickListener, OnBottomDragListener {
 
 	
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -79,12 +75,12 @@ implements OnClickListener, OnBottomDragListener {
 		intent = getIntent();
 		range = intent.getIntExtra(INTENT_RANGE, range);
 
-//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .OnCacheCallBack
+//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .CacheCallBack
 		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		onRefresh();
@@ -93,24 +89,16 @@ implements OnClickListener, OnBottomDragListener {
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<
-	private TextView tvDemoListTitle;
-	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		super.initView();
 
-		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		tvDemoListTitle = (TextView) findViewById(R.id.tvDemoListTitle);
-
-		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
 	@Override
 	public void setList(final List<Entry<String, String>> list) {
 		//示例代码<<<<<<<<<<<<<<<
-		setList(list, new AdapterCallBack<GridAdapter>() {
+		setList(new AdapterCallBack<GridAdapter>() {
 
 			@Override
 			public void refreshAdapter() {
@@ -119,7 +107,7 @@ implements OnClickListener, OnBottomDragListener {
 			
 			@Override
 			public GridAdapter createAdapter() {
-				return new GridAdapter(context, list);
+				return new GridAdapter(context);
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>
@@ -144,10 +132,8 @@ implements OnClickListener, OnBottomDragListener {
 		super.initData();
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		if (StringUtil.isNotEmpty(getIntent().getStringExtra(INTENT_TITLE), false)) {
-			tvDemoListTitle.setText(StringUtil.getCurrentString());
-		}
-
+		tvBaseTitle.setText("" + lvBaseList.getClass().getSimpleName());
+		
 		showShortToast("range = " + range);
 
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -170,21 +156,7 @@ implements OnClickListener, OnBottomDragListener {
 	 * @return
 	 */
 	private String getPictureUrl(int userId) {
-		switch (userId % 6) {
-		case 0:
-			return "http://images2015.cnblogs.com/blog/660067/201604/660067-20160404191409609-2089759742.png";
-		case 1:
-			return "https://avatars1.githubusercontent.com/u/5738175?v=3&s=40";
-		case 2:
-			return "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000";
-		case 3:
-			return "https://www.baidu.com/img/bd_logo1.png";
-		case 4:
-			return "http://common.cnblogs.com/images/icon_weibo_24.png";
-		case 5:
-			return "http://common.cnblogs.com/images/wechat.png";
-		}
-		return null;
+		return TestUtil.getPicture(userId % 6);
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -196,13 +168,12 @@ implements OnClickListener, OnBottomDragListener {
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreate方法内调用
-		super.initListener();
+	public void initEvent() {//必须在onCreate方法内调用
+		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
-		findViewById(R.id.ivDemoListReturn).setOnClickListener(this);
 
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -230,18 +201,6 @@ implements OnClickListener, OnBottomDragListener {
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.ivDemoListReturn:
-			onDragBottom(false);
-			break;
-		default:
-			break;
-		}
-	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -258,7 +217,7 @@ implements OnClickListener, OnBottomDragListener {
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

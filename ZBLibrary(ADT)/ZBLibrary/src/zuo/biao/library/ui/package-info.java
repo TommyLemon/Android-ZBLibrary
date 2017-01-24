@@ -17,6 +17,5 @@ limitations under the License.*/
  */
 /**
  * @author Lemon
- * @create 2015.5.21
  */
 package zuo.biao.library.ui;

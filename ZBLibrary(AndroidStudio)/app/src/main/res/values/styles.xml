@@ -1,26 +1,20 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="SplashTheme" parent="android:Theme.NoTitleBar.Fullscreen">
 
-    <style name="user_item_site" parent="text_middle">
-        <item name="android:textColor">#ef7d23</item>
-        <item name="android:textSize">15sp</item>
+        <!-- 闪屏背景，可用图片 -->
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="ll_user_detail_icon" parent="ll_vertical_wrap_wrap">
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-    </style>
-    <style name="ll_user_detail_icon_gone" parent="ll_user_detail_icon">
-        <item name="android:visibility">gone</item>
+    <style name="bottom_tab_ll" parent="ll_vertical_match_match">
+        <item name="android:width">0dp</item>
     </style>
 
-    <style name="ll_user_detail_icon_iv" parent="text_middle">
-        <item name="android:textSize">35dp</item>
-    </style>
+    <style name="bottom_tab_iv" parent="img_btn"></style>
 
-    <style name="ll_user_detail_icon_tv" parent="text_small_black">
-        <item name="android:singleLine">true</item>
+    <style name="bottom_tab_tv" parent="text_micro">
+        <item name="android:textColor">@color/black_to_white_selector</item>
     </style>
-
 
 </resources>

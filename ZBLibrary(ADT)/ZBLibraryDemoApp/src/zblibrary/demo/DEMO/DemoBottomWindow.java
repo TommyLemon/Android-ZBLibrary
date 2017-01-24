@@ -14,20 +14,23 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.base.BaseActivity;
+import zblibrary.demo.R;
+import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.View.OnClickListener;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**底部弹出窗口界面示例
  * @author Lemon
- * @use toActivity(DemoBottomWindow.createIntent(...));
- *      然后在onActivityResult方法内获取data.getStringExtra(DemoBottomWindow.RESULT_CONTACT_INFO);
+ * <br> toActivity或startActivityForResult (DemoBottomWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(DemoBottomWindow.RESULT_DATA); 可得到返回值
  */
 public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>, DemoView> implements OnClickListener {
 	private static final String TAG = "DemoBottomWindow";
@@ -42,8 +45,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -54,7 +56,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -86,7 +88,11 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-
+		
+		data = new Entry<String, String>("Activity", TAG);
+		data.setId(1);
+		
+		containerView.bindView(data);
 	}
 
 	@Override
@@ -95,15 +101,14 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	}
 	@Override
 	public String getReturnName() {
-		return "";
+		return null;
 	}
 	@Override
 	public String getForwardName() {
-		return "";
+		return null;
 	}
 
 	@Override
-	@NonNull
 	protected DemoView createView() {
 		return new DemoView(context, getResources());
 	}
@@ -124,17 +129,29 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
+		containerView.setOnClickListener(this);
 	}
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ivDemoViewHead:
+			if (data != null) {
+				toActivity(UserActivity.createIntent(context, data.getId()));
+			}
+			break;
+		default:
+			break;
+		}
+	}
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -153,7 +170,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

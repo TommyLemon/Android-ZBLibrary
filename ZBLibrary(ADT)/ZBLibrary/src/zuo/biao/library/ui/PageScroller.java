@@ -34,8 +34,7 @@ import android.widget.AbsListView;
  * *适用于ListView，GridView等AbsListView的子类
  * @author Lemon
  * @see #dispatchTouchEvent
- * @use pageScroller = new PageScroller(listView);
- *      pageScroller.init();
+ * @use new PageScroller(listView).init();
  */
 public class PageScroller implements OnGestureListener, OnTouchListener {
 	private static final String TAG = "PageScroller";
@@ -131,7 +130,7 @@ public class PageScroller implements OnGestureListener, OnTouchListener {
 	private float distanceY;
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
+		//TODO 连续快速刷新列表(比如疯狂点击DemoActivity列表Item中的Name)有时导致e1或e2为null而崩溃。考虑到发生概率小，判空损耗性能就暂时不管。
 		distanceY = e2.getRawY() - e1.getRawY();
 		if (Math.abs(distanceY) < maxDistanceY) {
 			if (distanceY > minDistanceY) {

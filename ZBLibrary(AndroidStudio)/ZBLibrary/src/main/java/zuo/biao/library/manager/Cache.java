@@ -156,7 +156,7 @@ public class Cache<T> {
 	 */
 	public List<T> getValueList(List<String> keyList) {
 		if (keyList != null) {
-			List<T> list = new ArrayList<>();
+			List<T> list = new ArrayList<T>();
 			T data;
 			for (String key : keyList) {
 				data = get(key);
@@ -175,7 +175,7 @@ public class Cache<T> {
 	public List<T> getAllValueList() {
 		Map<String, String> map = getMap();
 		if (map != null) {
-			List<T> list = new ArrayList<>();
+			List<T> list = new ArrayList<T>();
 			T data;
 			for (String value : map.values()) {
 				data = Json.parseObject(value, clazz);

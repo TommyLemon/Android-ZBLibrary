@@ -19,6 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.interfaces.ViewPresenter;
 import zuo.biao.library.ui.TopTabView;
 import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
 import zuo.biao.library.util.StringUtil;
@@ -42,23 +43,11 @@ import android.widget.TextView;
  * @see #onCreate
  * @see #setContentView
  * @use extends BaseTabActivity, 具体参考.DemoTabActivity
- * @must 在子类onCreate中调用initView();initData();initListener();
+ * @must 在子类onCreate中调用initView();initData();initEvent();
  */
-public abstract class BaseTabActivity extends BaseActivity implements OnClickListener, OnTabSelectedListener {
+public abstract class BaseTabActivity extends BaseActivity implements ViewPresenter
+, OnClickListener, OnTabSelectedListener {
 	private static final String TAG = "BaseTabActivity";
-
-	/**
-	 * tab被选中监听类的实例
-	 */
-	private OnTabSelectedListener onTabSelectedListener;
-	/**设置tab被选中监听
-	 * @warn 在initListener前使用才有效
-	 * @param onTabSelectedListener
-	 */
-	public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
-		this.onTabSelectedListener = onTabSelectedListener;
-	}
-
 
 
 
@@ -67,7 +56,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +68,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, int layoutResID) {
 		onCreate(savedInstanceState, layoutResID, null);
@@ -90,7 +79,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, listener);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, OnBottomDragListener listener) {
 		onCreate(savedInstanceState, 0, listener);
@@ -102,7 +91,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreate中的代码;
 	 *       2.在子类onCreate中super.onCreate(savedInstanceState, layoutResID, listener);
-	 *       initView();initData();initListener();
+	 *       initView();initData();initEvent();
 	 */
 	protected final void onCreate(Bundle savedInstanceState, int layoutResID, OnBottomDragListener listener) {
 		super.onCreate(savedInstanceState);
@@ -147,12 +136,13 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	private View ivBaseTabReturn;
 	@Nullable
 	private TextView tvBaseTabReturn;
+	@Nullable
+	private TextView tvBaseTabForward;
 
 	@Nullable
 	private ViewGroup llBaseTabTopRightButtonContainer;
 
 	private ViewGroup llBaseTabTabContainer;
-	private TopTabView topTabView;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id(非@Nullable标记)且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -181,13 +171,26 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	 * 当前显示的tab所在位置，对应fragment所在位置
 	 */
 	protected int currentPosition = 0;
+	
+	/**选择下一个tab和fragment
+	 */
+	public void selectNext() {
+		select((getCurrentPosition() + 1) % getCount());
+	}
+	/**选择tab和fragment
+	 * @param position
+	 */
+	public void select(int position) {
+		topTabView.select(position);
+	}
+	
 	/**选择并显示fragment
 	 * @param position
 	 */
 	public void selectFragment(int position) {
 		if (currentPosition == position) {
 			if (needReload == false && fragments[position] != null && fragments[position].isVisible()) {
-				Log.e(TAG, "selectFragment currentPosition == position" +
+				Log.w(TAG, "selectFragment currentPosition == position" +
 						" >> fragments[position] != null && fragments[position].isVisible()" +
 						" >> return;	");
 				return;
@@ -221,10 +224,9 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private String topReturnButtonName;
-
+	protected TopTabView topTabView;
 	private Fragment[] fragments;
 	@Override
 	public void initData() {// 必须调用
@@ -234,9 +236,10 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 			tvBaseTabTitle.setText(StringUtil.getTrimedString(getTitleName()));
 		}
 
-		topReturnButtonName = getTopReturnButtonName();
+		//返回按钮<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		String returnName = getReturnName();
 
-		if (topReturnButtonName == null) {
+		if (returnName == null) {
 			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(View.GONE);
 			}
@@ -244,14 +247,21 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 				tvBaseTabReturn.setVisibility(View.GONE);
 			}
 		} else {
-			boolean isReturnButtonHasName = StringUtil.isNotEmpty(topReturnButtonName, true);
+			boolean isReturnButtonHasName = StringUtil.isNotEmpty(returnName, true);
 			if (ivBaseTabReturn != null) {
 				ivBaseTabReturn.setVisibility(isReturnButtonHasName ? View.GONE : View.VISIBLE);
 			}
 			if (tvBaseTabReturn != null) {
 				tvBaseTabReturn.setVisibility(isReturnButtonHasName ? View.VISIBLE : View.GONE);
-				tvBaseTabReturn.setText(StringUtil.getTrimedString(topReturnButtonName));
+				tvBaseTabReturn.setText(StringUtil.getTrimedString(returnName));
 			}
+		}
+		//返回按钮>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
+		//前进按钮<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		String forwardName = getForwardName();
+		if (StringUtil.isNotEmpty(forwardName, true)) {
+			tvBaseTabForward = addTopRightButton(newTopRightTextView(context, StringUtil.getTrimedString(forwardName)));
 		}
 
 		if (llBaseTabTopRightButtonContainer != null
@@ -262,13 +272,17 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 				llBaseTabTopRightButtonContainer.addView(btn);
 			}
 		}
-
+		//前进按钮>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
+		
+		//tab<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		topTabView = new TopTabView(context, getResources());
 		llBaseTabTabContainer.removeAllViews();
 		llBaseTabTabContainer.addView(topTabView.createView(getLayoutInflater()));
 		topTabView.setCurrentPosition(currentPosition);
-		topTabView.setView(getTabNames());
-
+		topTabView.bindView(getTabNames());
+		//tab>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -280,22 +294,30 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	}
 
 	/**获取导航栏标题名
-	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
-	 */
-	@Nullable
-	protected abstract String getTitleName();
-
-	/**获取导航栏返回按钮名
 	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
 	 */
+	@Override
 	@Nullable
-	protected abstract String getTopReturnButtonName();
+	public abstract String getTitleName();
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 */
+	@Override
+	@Nullable
+	public abstract String getReturnName();
 
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
+	@Override
 	@Nullable
-	private List<View> topRightButtonList = new ArrayList<>();
+	public abstract String getForwardName();
+	
+	@Nullable
+	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮
 	 * @warn 在initData前使用才有效
 	 * @param topRightButton 不会在这个类设置监听,需要自行设置
@@ -376,7 +398,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -387,10 +409,10 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {// 必须调用
+	public void initEvent() {// 必须调用
 
 		if (ivBaseTabReturn != null) {
 			ivBaseTabReturn.setOnClickListener(this);
@@ -398,8 +420,17 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		if (tvBaseTabReturn != null) {
 			tvBaseTabReturn.setOnClickListener(this);
 		}
+		if (tvBaseTabForward != null) {
+			tvBaseTabForward.setOnClickListener(new OnClickListener() {//没有id
+				
+				@Override
+				public void onClick(View v) {
+					onForwardClick(v);
+				}
+			});
+		}
 
-		topTabView.setOnTabSelectedListener(onTabSelectedListener != null ? onTabSelectedListener : this);
+		topTabView.setOnTabSelectedListener(this);
 	}
 
 	@Override
@@ -431,14 +462,11 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 		llBaseTabTabContainer = null;
 		
 		tvBaseTabTitle = null;
-		topReturnButtonName = null;
 		
 		currentPosition = 0;
 		needReload = false;
 		
 		topRightButtonList = null;
-		
-		onTabSelectedListener = null;
 	}
 
 	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -446,7 +474,7 @@ public abstract class BaseTabActivity extends BaseActivity implements OnClickLis
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

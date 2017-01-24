@@ -20,8 +20,8 @@ import java.util.List;
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseListFragment;
-import zuo.biao.library.bean.Entry;
 import zuo.biao.library.interfaces.AdapterCallBack;
+import zuo.biao.library.model.Entry;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,15 +38,26 @@ import android.widget.ListView;
 public class DemoListFragment extends BaseListFragment<Entry<String, String>, ListView, DemoAdapter> {
 //	private static final String TAG = "DemoListFragment";
 
+	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**创建一个Fragment实例
+	 * @return
+	 */
+	public static DemoListFragment createInstance() {
+		return new DemoListFragment();
+	}
+	
+	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState, R.layout.demo_list_fragment);
-
+		
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		onRefresh();
@@ -66,7 +77,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	@Override
 	public void setList(final List<Entry<String, String>> list) {
 		//示例代码<<<<<<<<<<<<<<<
-		setList(list, new AdapterCallBack<DemoAdapter>() {
+		setList(new AdapterCallBack<DemoAdapter>() {
 
 			@Override
 			public void refreshAdapter() {
@@ -75,7 +86,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 			
 			@Override
 			public DemoAdapter createAdapter() {
-				return new DemoAdapter(context, list);
+				return new DemoAdapter(context);
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>
@@ -126,13 +137,12 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreateView方法内调用
-		super.initListener();
+	public void initEvent() {//必须在onCreateView方法内调用
+		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
-
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -166,7 +176,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

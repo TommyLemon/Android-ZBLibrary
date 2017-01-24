@@ -15,7 +15,9 @@ limitations under the License.*/
 package zblibrary.demo.activity_fragment;
 
 import zblibrary.demo.R;
+import zuo.biao.library.interfaces.ActivityPresenter;
 import zuo.biao.library.util.CommonUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,14 +34,13 @@ import com.zxing.view.ViewfinderView;
  * @author Lemon
  * @use toActivity(ScanActivity.createIntent(...));
  */
-public class ScanActivity extends CaptureActivity implements Callback, OnClickListener {
+public class ScanActivity extends CaptureActivity implements Callback, ActivityPresenter, OnClickListener {
 	public static final String TAG = "ScanActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param title
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
@@ -49,17 +50,21 @@ public class ScanActivity extends CaptureActivity implements Callback, OnClickLi
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+	@Override
+	public Activity getActivity() {
+		return this;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.camera_scan_activity);
+		setContentView(R.layout.scan_activity);
 		init(this, (SurfaceView) findViewById(R.id.svCameraScan), (ViewfinderView) findViewById(R.id.vfvCameraScan));
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -70,68 +75,6 @@ public class ScanActivity extends CaptureActivity implements Callback, OnClickLi
 	@Override
 	public void initView() {//必须调用
 
-	}
-
-
-
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-
-
-
-
-
-
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	@Override
-	public void initData() {//必须调用
-
-	}
-
-
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-
-
-
-
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	@Override
-	public void initListener() {//必须调用
-
-		findViewById(R.id.tvCameraScanReturn).setOnClickListener(this);
-		findViewById(R.id.ivCameraScanReturn).setOnClickListener(this);
-		findViewById(R.id.ivCameraScanLight).setOnClickListener(this);
-		findViewById(R.id.ivCameraScanMyQRCode).setOnClickListener(this);
-	}
-
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvCameraScanReturn:
-		case R.id.ivCameraScanReturn:
-			finish();
-			break;
-		case R.id.ivCameraScanLight:
-			switchLight(! isOpen);
-			break;
-		case R.id.ivCameraScanMyQRCode:
-			CommonUtil.toActivity(context, QRCodeActivity.createIntent(context, 1));
-			break;
-		default:
-			break;
-		}
 	}
 
 
@@ -147,6 +90,78 @@ public class ScanActivity extends CaptureActivity implements Callback, OnClickLi
 	}
 
 
+
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void initData() {//必须调用
+
+	}
+
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void initEvent() {//必须调用
+
+		findViewById(R.id.ivCameraScanLight).setOnClickListener(this);
+	}
+
+
+	@Override
+	public void onReturnClick(View v) {
+		finish();
+	}	
+	@Override
+	public void onForwardClick(View v) {
+		CommonUtil.toActivity(context, QRCodeActivity.createIntent(context, 1));
+	}
+	
+	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ivCameraScanLight:
+			switchLight(! isOpen);
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	@Override
+	public boolean isAlive() {
+		return false;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return false;
+	}
+
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -155,7 +170,7 @@ public class ScanActivity extends CaptureActivity implements Callback, OnClickLi
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

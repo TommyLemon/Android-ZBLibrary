@@ -8,11 +8,9 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvEditTextInfoTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="编辑"
-            android:textColor="@color/black"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -52,7 +50,6 @@
                 android:cursorVisible="true"
                 android:gravity="center|left"
                 android:hint="请在这里输入"
-                android:maxLength="30"
                 android:paddingRight="10dp"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/edit_cusor"
@@ -89,15 +86,13 @@
         android:background="@color/white" >
 
         <TextView
-            android:id="@+id/tvEditTextInfoReturn"
-            style="@style/bottom_menu_btn_cancel"
+            style="@style/bottom_menu_btn_return"
             android:layout_weight="1" />
 
         <View style="@style/divider_vertical_1px_gray" />
 
         <TextView
-            android:id="@+id/tvEditTextInfoForward"
-            style="@style/bottom_menu_btn_save"
+            style="@style/bottom_menu_btn_forward"
             android:layout_weight="1" />
     </LinearLayout>
 

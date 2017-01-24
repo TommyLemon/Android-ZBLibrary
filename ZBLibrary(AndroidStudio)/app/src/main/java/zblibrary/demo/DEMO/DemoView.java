@@ -16,12 +16,11 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,18 +31,19 @@ import android.widget.TextView;
 /**使用方法：复制>粘贴>改名>改代码  */
 /**通用自定义View模板，当View比较庞大复杂且使用次数>=2时建议使用
  * @author Lemon
+ * @see DemoAdapter2#getView(int, View, android.view.ViewGroup)
  * @use
-	DemoView demoView = new DemoView(context, resources);
-	adapter中使用[具体参考.DemoAdapter2(getView使用自定义View的写法)]
-	convertView = demoView.createView(inflater);
-	demoView.setView(position, data);
-    或  其它类中使用 
-    containerView.addView(demoView.createView(inflater));
-    demoView.setView(data);
-    然后
-	demoView.setOnDataChangedListener(onDataChangedListener);data = demoView.getData();//非必需
-	demoView.setOnClickListener(onClickListener);//非必需
-	...
+ * <br> DemoView demoView = new DemoView(context, resources);
+ * <br> adapter中使用:[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+ * <br> convertView = demoView.createView(inflater);
+ * <br> demoView.bindView(position, data);
+ * <br> 或 其它类中使用: 
+ * <br> containerView.addView(demoView.createView(inflater));
+ * <br> demoView.bindView(data);
+ * <br> 然后
+ * <br> demoView.setOnDataChangedListener(onDataChangedListener); data = demoView.getData();//非必需
+ * <br> demoView.setOnClickListener(onClickListener);//非必需
+ * <br> ...
  */
 public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
 	private static final String TAG = "DemoView";
@@ -60,7 +60,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 	//示例代码>>>>>>>>>>>>>>>>
 	@SuppressLint("InflateParams")
 	@Override
-	public View createView(@NonNull LayoutInflater inflater) {
+	public View createView(LayoutInflater inflater) {
 		//TODO demo_view改为你所需要的layout文件，可以根据viewType使用不同layout
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
@@ -75,11 +75,11 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 
 
 	@Override
-	public void setView(Entry<String, String> data){
+	public void bindView(Entry<String, String> data){
 		//示例代码<<<<<<<<<<<<<<<<
 		if (data == null) {
-			Log.e(TAG, "setView data == null >> data = new Entry<>(); ");
-			data = new Entry<>();
+			Log.e(TAG, "bindView data == null >> data = new Entry<>(); ");
+			data = new Entry<String, String>();
 		}
 		this.data = data;
 
@@ -102,7 +102,7 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		switch (v.getId()) {
 		case R.id.tvDemoViewName:
 			data.setKey("New " + data.getKey());
-			setView(data);
+			bindView(data);
 			if (onDataChangedListener != null) {
 				onDataChangedListener.onDataChanged();
 			}

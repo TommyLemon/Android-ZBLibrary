@@ -24,9 +24,9 @@ public class Log {
 	 * @param msg
 	 */
 	public static void d(String TAG, String msg) {
-		if (! SettingUtil.isReleased)
+		if (! SettingUtil.isReleased) {
 			android.util.Log.d(TAG, msg);
-
+		}
 	}
 	/**
 	 * @param TAG
@@ -34,9 +34,9 @@ public class Log {
 	 * @param tr
 	 */
 	public static void d(String TAG, String msg, Throwable tr) {
-		if (! SettingUtil.isReleased)
+		if (! SettingUtil.isReleased) {
 			android.util.Log.d(TAG, msg, tr);
-
+		}
 	}
 
 	/**
@@ -44,9 +44,9 @@ public class Log {
 	 * @param msg
 	 */
 	public static void v(String TAG, String msg) {
-		if (! SettingUtil.isReleased)
+		if (! SettingUtil.isReleased) {
 			android.util.Log.v(TAG, msg);
-
+		}
 	}
 
 	/**
@@ -54,9 +54,9 @@ public class Log {
 	 * @param msg
 	 */
 	public static void i(String TAG, String msg) {
-		if (! SettingUtil.isReleased)
+		if (! SettingUtil.isReleased) {
 			android.util.Log.i(TAG, msg);
-
+		}
 	}
 
 	/**
@@ -64,9 +64,9 @@ public class Log {
 	 * @param msg
 	 */
 	public static void e(String TAG, String msg) {
-		if (! SettingUtil.isReleased)
+		if (! SettingUtil.isReleased) {
 			android.util.Log.e(TAG, msg);
-
+		}
 	}
 
 	/**
@@ -74,10 +74,9 @@ public class Log {
 	 * @param msg
 	 */
 	public static void w(String TAG, String msg) {
-		if (! SettingUtil.isReleased)
+		if (! SettingUtil.isReleased) {
 			android.util.Log.w(TAG, msg);
-
+		}
 	}
-
 
 }

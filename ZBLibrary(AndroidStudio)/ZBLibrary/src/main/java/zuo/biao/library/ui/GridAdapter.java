@@ -19,7 +19,7 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -33,7 +33,7 @@ import android.widget.TextView;
 /**通用网格Adapter(url, name)
  * *适用于gridView
  * @author Lemon
- * @use new GridAdapter(...)
+ * @use new GridAdapter(...); 具体参考.DemoAdapter
  */
 public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	private static final String TAG = "GridAdapter";
@@ -41,18 +41,16 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	private HashMap<Integer, Boolean> hashMap;//实现选中标记的列表，不需要可以删除
 	private int layoutRes;//item视图资源
 	private boolean hasCheck = false;//是否使用标记功能
-	public GridAdapter(Activity context, List<Entry<String, String>> list) {
-		this(context, list, false);
+	public GridAdapter(Activity context) {
+		this(context, false);
 	}
-	public GridAdapter(Activity context, List<Entry<String, String>> list, boolean hasCheck) {
-		this(context, list, R.layout.grid_item, hasCheck);
+	public GridAdapter(Activity context, boolean hasCheck) {
+		this(context, R.layout.grid_item, hasCheck);
 	}
-	public GridAdapter(Activity context, List<Entry<String, String>> list, int layoutRes, boolean hasCheck) {
-		super(context, list);
+	public GridAdapter(Activity context, int layoutRes, boolean hasCheck) {
+		super(context);
 		this.layoutRes = layoutRes;
 		this.hasCheck = hasCheck;
-
-		initList(list);//初始化数据，不需要选中标记功能可以删除，但这里要加上“this.list = list;”这句
 	}
 
 	//item标记功能，不需要可以删除<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -69,7 +67,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 			return;
 		}
 		hashMap.put(position, isChecked);
-		refresh(null);
+		notifyDataSetChanged();
 	}
 	//item标记功能，不需要可以删除>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -84,7 +82,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 			holder = new ViewHolder();
 			holder.ivHead = (ImageView) convertView.findViewById(R.id.ivGridItemHead);
 			holder.tvName = (TextView) convertView.findViewById(R.id.tvGridItemName);
-			if (hasCheck == true) {
+			if (hasCheck) {
 				holder.ivCheck = (ImageView) convertView.findViewById(R.id.ivGridItemCheck);
 			}
 
@@ -99,7 +97,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		holder.tvName.setVisibility(StringUtil.isNotEmpty(name, true) ? View.VISIBLE : View.GONE);
 		holder.tvName.setText(StringUtil.getTrimedString(name));
 
-		if (hasCheck == true) {
+		if (hasCheck) {
 			holder.ivCheck.setVisibility(View.VISIBLE);
 
 			holder.ivCheck.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +119,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	}
 
 
-	/**刷新列表，建议使用refresh(null)
+	/**刷新列表
 	 * @param list
 	 */
 	@Override
@@ -129,7 +127,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		if (list != null && list.size() > 0) {
 			initList(list);
 		}
-		if (hasCheck == true) {
+		if (hasCheck) {
 			selectedCount = 0;
 			for (int i = 0; i < this.list.size(); i++) {
 				if (getItemChecked(i) == true) {
@@ -149,10 +147,12 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	@SuppressLint("UseSparseArrays")
 	private void initList(List<Entry<String, String>> list) {
 		this.list = list;
-		if (hasCheck == true) {
+		if (hasCheck) {
 			hashMap = new HashMap<Integer, Boolean>();
-			for (int i = 0; i < list.size(); i++) {
-				hashMap.put(i, false);
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					hashMap.put(i, false);
+				}
 			}
 		}
 	}

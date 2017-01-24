@@ -14,8 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.List;
-
+import zuo.biao.library.interfaces.AdapterViewPresenter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +26,27 @@ import android.view.ViewGroup;
  * @param <BV> BaseView的子类
  * @use extends BaseViewAdapter<T, BV>, 具体参考 .DemoAdapter3
  */
-public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAdapter<T> {
-//	private static final String TAG = "BaseViewAdapter";
+public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAdapter<T>
+implements AdapterViewPresenter<T, BV> {
+	//	private static final String TAG = "BaseViewAdapter";
 
-	public BaseViewAdapter(Activity context, List<T> list) {
-		super(context, list);
+	private AdapterViewPresenter<T, BV> presenter;
+	/**在子类构造方法内使用可重写AdapterViewPresenter里的方法
+	 * @param presenter
+	 */
+	public final void setPresenter(AdapterViewPresenter<T, BV> presenter) {
+		this.presenter = presenter;
+	}
+	/**
+	 * @return presenter == null ? this : presenter;
+	 */
+	public final AdapterViewPresenter<T, BV> getPresenter() {
+		return presenter == null ? this : presenter;
+	}
+
+
+	public BaseViewAdapter(Activity context) {
+		super(context);
 	}
 
 	@Override
@@ -39,23 +54,24 @@ public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAda
 		@SuppressWarnings("unchecked")
 		BV bv = convertView == null ? null : (BV) convertView.getTag();
 		if (bv == null) {
-			bv = createView(position, convertView, parent);
-			convertView = bv.createView(inflater, getItemViewType(position));
+			bv = getPresenter().createView(position, parent);
+			convertView = bv.createView(inflater, position, getItemViewType(position));
 
 			convertView.setTag(bv);
 		}
 
-		bv.setView(getItem(position), position, getItemViewType(position));
+		getPresenter().bindView(position, bv);
 
 		return super.getView(position, convertView, parent);
 	}
 
-	/**生成新的BV
+	/**bv的显示方法
 	 * @param position
-	 * @param convertView
-	 * @param parent
-	 * @return
+	 * @param bv
 	 */
-	public abstract BV createView(int position, View convertView, ViewGroup parent);
+	@Override
+	public void bindView(int position, BV bv) {
+		bv.bindView(getItem(position), position, getItemViewType(position));
+	}
 
 }

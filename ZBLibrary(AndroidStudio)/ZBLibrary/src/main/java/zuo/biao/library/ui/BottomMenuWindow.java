@@ -18,38 +18,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import zuo.biao.library.R;
+import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**通用底部弹出菜单
- * @author lemon
+ * @author Lemon
  * @use
-	toActivity(BottomMenuWindow.createIntent);
-	>> onActivityResult方法内
-	data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID) 可得到点击的(int) position
-	或
-	data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE) 可得到点击的(int) intentCode
+ * <br> toActivity或startActivityForResult (BottomMenuWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID); 可得到点击的 position
+ * <br> 或
+ * <br> data.getIntExtra(BottomMenuWindow.RESULT_INTENT_CODE); 可得到点击的 intentCode
  */
-public class BottomMenuWindow extends Activity implements OnItemClickListener, OnClickListener {
+public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickListener {
 	private static final String TAG = "BottomMenuWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -75,103 +69,114 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 	/**启动BottomMenuWindow的Intent
 	 * @param context
 	 * @param names
-	 * @param intentCodes
+	 * @param ids
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String[] names, int[] intentCodes) {
+	public static Intent createIntent(Context context, String[] names, int[] ids) {
 		return new Intent(context, BottomMenuWindow.class).
 				putExtra(INTENT_ITEMS, names).
-				putExtra(INTENT_INTENTCODES, intentCodes);
+				putExtra(INTENT_ITEM_IDS, ids);
 	}
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
 	 * @param names
-	 * @param intentCodeList
+	 * @param idList
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String[] names, ArrayList<Integer> intentCodeList) {
+	public static Intent createIntent(Context context, String[] names, ArrayList<Integer> idList) {
 		return new Intent(context, BottomMenuWindow.class).
 				putExtra(INTENT_ITEMS, names).
-				putExtra(INTENT_INTENTCODES, intentCodeList);
+				putExtra(INTENT_ITEM_IDS, idList);
 	}
 
 	/**启动BottomMenuWindow的Intent
 	 * @param context
 	 * @param nameList
-	 * @param intentCodeList
+	 * @param idList
 	 * @return
 	 */
 	public static Intent createIntent(Context context, 
-			ArrayList<String> nameList, ArrayList<Integer> intentCodeList) {
+			ArrayList<String> nameList, ArrayList<Integer> idList) {
 		return new Intent(context, BottomMenuWindow.class).
 				putStringArrayListExtra(INTENT_ITEMS, nameList).
-				putIntegerArrayListExtra(INTENT_INTENTCODES, intentCodeList);
+				putIntegerArrayListExtra(INTENT_ITEM_IDS, idList);
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	private boolean isActivityAlive;
+	@Override
+	public Activity getActivity() {
+		return this;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bottom_menu_window);
 
-		isActivityAlive = true;
+		//功能归类分区方法，必须调用<<<<<<<<<<
+		initView();
+		initData();
+		initEvent();
+		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		init();
 	}
 
-	public static final String INTENT_TITLE = "INTENT_TITLE";
-	public static final String INTENT_ITEMS = "INTENT_ITEMS";
-	public static final String INTENT_INTENTCODES = "INTENT_INTENTCODES";
 
-	public static final String RESULT_TITLE = "RESULT_TITLE";
-	public static final String RESULT_NAME = "RESULT_NAME";
-	public static final String RESULT_ITEM_ID = "RESULT_ITEM_ID";
-	public static final String RESULT_INTENT_CODE = "RESULT_INTENT_CODE";
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private TextView tvBottomMenuTitle;
-	private View llBottomMenuBg;
-	private View tvBottomMenuCancel;
-	private View llBottomMenuMenuContainer;
 	private ListView lvBottomMenu;
+	@Override
+	public void initView() {//必须调用
+		super.initView();
+
+		lvBottomMenu = (ListView) findViewById(R.id.lvBottomMenu);
+	}
+
+
+
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String title;
 	private ArrayList<String> nameList = null;
-	private ArrayList<Integer> intentCodeList = null;
+	private ArrayList<Integer> idList = null;
 
 	private ArrayAdapter<String> adapter;
-	private Animation animation;
-	private void init() {
+	@Override
+	public void initData() {//必须调用
+		super.initData();
 
-		llBottomMenuBg = findViewById(R.id.llBottomMenuBg);
-		tvBottomMenuCancel = findViewById(R.id.tvBottomMenuCancel);
-		
-
-		llBottomMenuMenuContainer = findViewById(R.id.llBottomMenuMenuContainer);
-
-		tvBottomMenuTitle = (TextView) findViewById(R.id.tvBottomMenuTitle);
-
-		Intent intent = getIntent();
+		intent = getIntent();
 
 		title = intent.getStringExtra(INTENT_TITLE);
 		if (StringUtil.isNotEmpty(title, true)) {
-			tvBottomMenuTitle.setVisibility(View.VISIBLE);
-			tvBottomMenuTitle.setText(StringUtil.getCurrentString());
+			tvBaseTitle.setVisibility(View.VISIBLE);
+			tvBaseTitle.setText(StringUtil.getCurrentString());
 		} else {
-			tvBottomMenuTitle.setVisibility(View.GONE);
+			tvBaseTitle.setVisibility(View.GONE);
 		}
-		
 
-		int[] intentCodes = intent.getIntArrayExtra(INTENT_INTENTCODES);
-		if (intentCodes == null || intentCodes.length <= 0) {
-			intentCodeList = intent.getIntegerArrayListExtra(INTENT_INTENTCODES);
+
+		int[] ids = intent.getIntArrayExtra(INTENT_ITEM_IDS);
+		if (ids == null || ids.length <= 0) {
+			idList = intent.getIntegerArrayListExtra(INTENT_ITEM_IDS);
 		} else {
-			intentCodeList = new ArrayList<Integer>();
-			for (int code : intentCodes) {
-				intentCodeList.add(code);
+			idList = new ArrayList<Integer>();
+			for (int id : ids) {
+				idList.add(id);
 			}
 		}
 
@@ -187,90 +192,91 @@ public class BottomMenuWindow extends Activity implements OnItemClickListener, O
 			return;
 		}
 
-		animation = AnimationUtils.loadAnimation(this, R.anim.bottom_push_in_keyboard);
-		animation.setDuration(150);
-		llBottomMenuMenuContainer.startAnimation(animation);
-		llBottomMenuMenuContainer.setVisibility(View.VISIBLE);
-
 		adapter = new ArrayAdapter<String>(this, R.layout.bottom_menu_item, R.id.tvBottomMenuItem, nameList);
-
-		lvBottomMenu = (ListView) findViewById(R.id.lvBottomMenu);
 		lvBottomMenu.setAdapter(adapter);
+
+	}
+
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	@Override
+	public void initEvent() {//必须调用
+		super.initEvent();
+
 		lvBottomMenu.setOnItemClickListener(this);
 		
-		llBottomMenuBg.setOnTouchListener(new OnTouchListener() {
+		vBaseBottomWindowRoot.setOnTouchListener(new OnTouchListener() {
 			
+			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				exit();
+				finish();
 				return true;
 			}
 		});
-		tvBottomMenuCancel.setOnClickListener(this);
 	}
 
+	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			if (isActivityAlive) {
-				exit();
-				return true;
-			}
-		default:
-			break;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
 
-	@Override
-	public void onClick(View v) {
-		if (v.getId() ==  R.id.tvBottomMenuCancel) {
-			exit();
-		}
-	}
+
+
+	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-		Intent intent = new Intent()
-		.putExtra(RESULT_TITLE, StringUtil.getTrimedString(tvBottomMenuTitle))
+		intent = new Intent()
+		.putExtra(RESULT_TITLE, StringUtil.getTrimedString(tvBaseTitle))
 		.putExtra(RESULT_ITEM_ID, position);
-		if (intentCodeList != null && intentCodeList.size() > position) {
-			intent.putExtra(RESULT_INTENT_CODE, intentCodeList.get(position));
+		if (idList != null && idList.size() > position) {
+			intent.putExtra(RESULT_ITEM_ID, idList.get(position));
 		}
 
 		setResult(RESULT_OK, intent);
-		exit();
+		finish();
+	}
+
+	@Override
+	protected void setResult() {
+		
 	}
 
 
-	@SuppressLint("HandlerLeak")
-	private Handler exitHandler = new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			finish();
-			overridePendingTransition(R.anim.null_anim, R.anim.null_anim);
-		}
-	};
+	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	public void exit() {
-		isActivityAlive = false;
-
-		llBottomMenuBg.setEnabled(false);
-		tvBottomMenuCancel.setEnabled(false);
-		lvBottomMenu.setEnabled(false);
-
-		animation = AnimationUtils.loadAnimation(this, R.anim.bottom_push_out_keyboard);
-		animation.setDuration(150);
-		llBottomMenuMenuContainer.startAnimation(animation);
-		llBottomMenuMenuContainer.setVisibility(View.GONE);
-
-		exitHandler.sendEmptyMessageDelayed(0, 240);
-	}
+	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

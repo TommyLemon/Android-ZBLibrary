@@ -21,6 +21,7 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
+import zuo.biao.library.interfaces.OnResultListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.manager.HttpManager;
@@ -46,7 +47,7 @@ import android.widget.BaseAdapter;
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
+ * @use extends BaseListFragment 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListFragment
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
 public abstract class BaseListFragment<T, LV extends AbsListView, BA extends BaseAdapter> extends BaseFragment {
@@ -78,7 +79,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
-	 *       initView();initData();initListener(); return view;
+	 *       initView();initData();initEvent(); return view;
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * @return
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
 	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
-	 *       initView();initData();initListener(); return view;
+	 *       initView();initData();initEvent(); return view;
 	 */
 	public final View onCreateView(LayoutInflater inflater, ViewGroup container
 			, Bundle savedInstanceState, int layoutResID) {
@@ -141,6 +142,10 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 */
 	protected LV lvBaseList;
 	/**
+	 * 管理LV的Item的Adapter
+	 */
+	protected BA adapter;
+	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 */
@@ -151,41 +156,54 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		lvBaseList = (LV) findViewById(R.id.lvBaseList);
 	}
 
-	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<BA> callBack)
-	 * @param list
-	 */
-	public abstract void setList(List<T> list);
-
-	/**
-	 * 管理LV的Item的Adapter
-	 */
-	protected BA adapter;
-	/**显示列表，这个方法符合一般需求，建议使用。
-	 * @param l this.list = l;
-	 * @param callBack createAdapter可以直接用这个类的list，refreshAdapter无需判断adapter
-	 * @use 在setList(List<T> list)方法内调用
-	 */
-	public void setList(List<T> l, AdapterCallBack<BA> callBack) {
-		this.list = l;
-		if (list == null || list.isEmpty()) {
-			Log.e(TAG, "setList list == null || list.isEmpty() >> setAdapter(null); return;");
-			setAdapter(null);
-			return;
-		}
-
-		if (adapter == null) {
-			setAdapter(callBack.createAdapter());
-		} else {
-			callBack.refreshAdapter();
-		}
-	}
-
 	/**设置adapter
 	 * @param adapter
 	 */
 	public void setAdapter(BA adapter) {
 		this.adapter = adapter;
 		lvBaseList.setAdapter(adapter);
+	}
+
+	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<BA> callBack)
+	 * @param list
+	 */
+	public abstract void setList(List<T> list);
+
+	/**显示列表（已在UI线程中）
+	 * @param list
+	 */
+	public void setList(AdapterCallBack<BA> callBack) {
+		if (adapter == null) {
+			setAdapter(callBack.createAdapter());
+		}
+		callBack.refreshAdapter();
+	}
+	
+	/**显示列表（已在UI线程中），异步加载列表内容，提高列表流畅性
+	 * @param list
+	 * @param listener
+	 * @must cacheCallBack != null 且 cacheCallBack.getCacheId(data) 有正确返回值。可以通过initCache设置cacheCallBack
+	 * @use 调用后使用 .CacheAdapter 加载idList
+	 */
+	public void setListAsync(final List<T> list, final OnResultListener<List<String>> listener) {
+		runThread(TAG + "setListAsync", new Runnable() {
+
+			@Override
+			public void run() {
+				final List<String> idList = new ArrayList<String>();
+				if (list != null) {
+					for (T data : list) {
+						idList.add(cacheCallBack.getCacheId(data));
+					}
+				}
+				runUiThread(new Runnable() {
+					@Override
+					public void run() {
+						listener.onResult(idList);
+					}
+				});
+			}
+		});
 	}
 
 
@@ -200,7 +218,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	protected boolean isToLoadCache;
 	protected boolean isToSaveCache;
@@ -246,7 +264,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int pageNum_, final boolean isToLoadCache) {
 		Log.i(TAG, "loadData  pageNum_ = " + pageNum_ + "; isToLoadCache = " + isToLoadCache);
 		if (isLoading) {
-			Log.e(TAG, "loadData  isLoading >> return;");
+			Log.w(TAG, "loadData  isLoading >> return;");
 			return;
 		}
 		isLoading = true;
@@ -305,7 +323,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		}
 
 		if (onStopLoadListener == null) {
-			Log.e(TAG, "stopLoadData  onStopLoadListener == null >> return;");
+			Log.w(TAG, "stopLoadData  onStopLoadListener == null >> return;");
 			return;
 		}
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
@@ -333,9 +351,9 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public synchronized void handleList(List<T> newList_, boolean isCache) {
 		this.newList = newList_;
 		if (newList == null) {
-			newList = new ArrayList<>();
+			newList = new ArrayList<T>();
 		}
-		Log.i(TAG, "handleList  newList.size = " + newList_.size() + "; isCache = " + isCache);
+		Log.i(TAG, "handleList  newList.size = " + newList.size() + "; isCache = " + isCache);
 
 		if (pageNum <= HttpManager.PAGE_NUM_0) {
 			saveCacheStart = 0;
@@ -349,7 +367,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 				isHaveMore = false;
 			} else {
 				if (list == null) {
-					list = new ArrayList<>();
+					list = new ArrayList<T>();
 				}
 				list.addAll(newList);
 			}
@@ -376,6 +394,10 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 				Log.i(TAG, "onLoadSucceed  isCache = " + isCache + " >> handleList...");
 				handleList(newList, isCache);
 
+				if (isToSaveCache && isCache == false) {
+					saveCache();
+				}
+
 				runUiThread(new Runnable() {
 
 					@Override
@@ -384,10 +406,6 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 						stopLoadData(isCache);
 					}
 				});
-
-				if (isToSaveCache && isCache == false) {
-					saveCache();
-				}
 			}
 		});
 	}
@@ -423,7 +441,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 			return;
 		}
 
-		LinkedHashMap<String, T> map = new LinkedHashMap<>();
+		LinkedHashMap<String, T> map = new LinkedHashMap<String, T>();
 		for (T data : newList) {
 			if (data != null) {
 				map.put(cacheCallBack.getCacheId(data), data);//map.put(null, data);不会崩溃
@@ -437,7 +455,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 
 
-	// data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -448,10 +466,10 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 
 
-	// listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {
+	public void initEvent() {
 
 	}
 
@@ -496,7 +514,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 /**通用字符串(String)相关类,为null时返回""
  * @author Lemon
- * @use StringUtil.
+ * @use StringUtil.xxxMethod(...);
  */
 public class StringUtil {
 	private static final String TAG = "StringUtil";
@@ -470,9 +470,9 @@ public class StringUtil {
 			return "";
 		}
 
-		if (! url.endsWith("/") && ! url.endsWith(".html")) {
-			url = url + "/";
-		}
+//		if (! url.endsWith("/") && ! url.endsWith(".html")) {
+//			url = url + "/";
+//		}
 
 		if (isUrl(url) == false) {
 			return URL_PREFIX + url;

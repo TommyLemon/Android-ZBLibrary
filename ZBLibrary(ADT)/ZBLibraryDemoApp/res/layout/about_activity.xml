@@ -7,19 +7,16 @@
         <RelativeLayout style="@style/topbar_bg" >
 
             <ImageView
-                android:id="@+id/ivAboutReturn"
                 style="@style/topbar_return_img" />
 
             <TextView
-                android:id="@+id/tvAboutTitle"
                 style="@style/topbar_title"
                 android:layout_centerHorizontal="true"
                 android:text="关于" />
 
             <TextView
-                android:id="@+id/tvAboutForward"
                 style="@style/topbar_right_btn"
-                android:text="GitHub" />
+                android:text="博客" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -59,13 +56,13 @@
                     <View style="@style/divider_horizontal_1px" />
 
                     <LinearLayout
-                        android:id="@+id/llAboutBottomTabActivity"
+                        android:id="@+id/llAboutMainTabActivity"
                         style="@style/content_item_white" >
 
                         <TextView
                             style="@style/content_item_lf_tv"
                             android:layout_weight="1"
-                            android:text="BottomTabActivity(App)" />
+                            android:text="MainTabActivity(App)" />
 
                         <ImageView
                             style="@style/content_item_rt_img"
@@ -186,7 +183,7 @@
                         style="@style/text_middle"
                         android:layout_marginBottom="180dp"
                         android:lineSpacingMultiplier="1.2"
-                        android:text="扫一扫二维码 下载蝙蝠饿了" />
+                        android:text="扫一扫二维码 下载ZBLibrary" />
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>

@@ -4,12 +4,9 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivUserReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvUserTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="详细资料" />
@@ -22,6 +19,19 @@
         android:layout_weight="1" >
 
         <LinearLayout style="@style/ll_vertical_match_match" >
+
+            <!-- 这些方式也可<<<<<<<<<<<<<<<<<<< -->
+            <!-- <zblibrary.demo.view.BaseViewLayout -->
+            <!-- android:id="@+id/bvlUser" -->
+            <!-- style="@style/match_wrap" > -->
+            <!-- </zblibrary.demo.view.BaseViewLayout> -->
+
+
+            <!-- <zblibrary.demo.view.UserViewLayout -->
+            <!-- android:id="@+id/uvlUser" -->
+            <!-- style="@style/match_wrap" > -->
+            <!-- </zblibrary.demo.view.UserViewLayout> -->
+            <!-- 这些方式也可>>>>>>>>>>>>>>>>>>> -->
 
             <LinearLayout
                 android:id="@+id/llUserBusinessCardContainer"

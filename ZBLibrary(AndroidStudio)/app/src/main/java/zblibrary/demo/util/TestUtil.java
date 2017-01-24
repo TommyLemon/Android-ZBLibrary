@@ -71,7 +71,6 @@ public class TestUtil {
 	 * 图片地址，仅供测试用
 	 */
 	public static String[] URLS = {
-		"https://avatars1.githubusercontent.com/u/5738175?v=3&s=40",
 		"http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000",
 		"http://common.cnblogs.com/images/icon_weibo_24.png",
 		"http://static.oschina.net/uploads/user/585/1170143_50.jpg?t=1390226446000",
@@ -92,5 +91,9 @@ public class TestUtil {
 		"http://static.oschina.net/uploads/user/1200/2400261_50.png?t=1439638750000",
 		"http://my.oschina.net/img/portrait.gif?t=1451961935000"
 	};
+
+	public static String getPicture(int index) {
+		return index < 0 || index >= URLS.length ? null : URLS[index];
+	}
 
 }

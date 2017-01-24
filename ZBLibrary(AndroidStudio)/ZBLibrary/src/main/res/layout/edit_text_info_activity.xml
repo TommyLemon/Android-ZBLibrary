@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llEditTextInfo"
+    android:id="@id/vBaseBottomWindowRoot"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
-            android:id="@+id/ivEditTextInfoReturn"
-            style="@style/topbar_return_img" />
+        <ImageView style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tvEditTextInfoTitle"
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="编辑" />
 
         <TextView
-            android:id="@+id/tvEditTextInfoForward"
             style="@style/topbar_right_btn"
             android:text="保存" />
     </RelativeLayout>
@@ -33,8 +29,7 @@
             android:layout_marginLeft="@dimen/common_item_left_tv_padding"
             android:layout_weight="1"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:maxLength="30" >
+            android:focusableInTouchMode="true" >
 
             <requestFocus />
         </EditText>

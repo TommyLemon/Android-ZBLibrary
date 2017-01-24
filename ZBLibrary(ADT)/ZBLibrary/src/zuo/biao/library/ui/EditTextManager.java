@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 /**通用密码、手机号、验证码输入框输入字符判断及错误提示 类
  * @author Lemon
- * @use EditTextManager.
+ * @use EditTextManager.xxxMethod(...);
  */
 public class EditTextManager {
 	private static final String TAG = "EditTextManager";

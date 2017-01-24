@@ -15,23 +15,24 @@ limitations under the License.*/
 package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.base.BaseBottomWindow;
+import zblibrary.demo.activity_fragment.UserActivity;
+import zuo.biao.library.base.BaseViewBottomWindow;
+import zuo.biao.library.model.Entry;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**底部弹出窗口界面示例
  * @author Lemon
- * @use toActivity(DemoBottomWindow.createIntent(...));
- *      然后在onActivityResult方法内获取data.getStringExtra(DemoBottomWindow.RESULT_CONTACT_INFO);
+ * <br> toActivity或startActivityForResult (DemoBottomWindow.createIntent(...), requestCode);
+ * <br> 然后在onActivityResult方法内
+ * <br> data.getStringExtra(DemoBottomWindow.RESULT_DATA); 可得到返回值
  */
-public class DemoBottomWindow extends BaseBottomWindow implements OnClickListener {
+public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>, DemoView> implements OnClickListener {
 	private static final String TAG = "DemoBottomWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -44,21 +45,18 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//TODO demo_bottom_window改为你所需要的layout文件
-		setContentView(R.layout.demo_bottom_window);
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 	}
@@ -90,19 +88,36 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-
+		
+		data = new Entry<String, String>("Activity", TAG);
+		data.setId(1);
+		
+		containerView.bindView(data);
 	}
 
 	@Override
-	@Nullable
-	protected String getTitleName() {
-		return getIntent().getStringExtra(INTENT_TITLE);
+	public String getTitleName() {
+		return "Demo";
+	}
+	@Override
+	public String getReturnName() {
+		return null;
+	}
+	@Override
+	public String getForwardName() {
+		return null;
 	}
 
+	@Override
+	protected DemoView createView() {
+		return new DemoView(context, getResources());
+	}
 
-	private void saveAndExit() {
+	@Override
+	protected void setResult() {
+		//示例代码<<<<<<<<<<<<<<<<<<<
 		setResult(RESULT_OK, new Intent().putExtra(RESULT_DATA, TAG + " saved"));
-		finish();		
+		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -114,30 +129,29 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须调用
-		super.initListener();
+	public void initEvent() {//必须调用
+		super.initEvent();
 
-		findViewById(R.id.tvDemoBottomWindowForward).setOnClickListener(this);
+		containerView.setOnClickListener(this);
 	}
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tvDemoBottomWindowForward:
-			saveAndExit();
+		case R.id.ivDemoViewHead:
+			if (data != null) {
+				toActivity(UserActivity.createIntent(context, data.getId()));
+			}
 			break;
 		default:
-			super.onClick(v);
 			break;
 		}
 	}
-	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -156,7 +170,7 @@ public class DemoBottomWindow extends BaseBottomWindow implements OnClickListene
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

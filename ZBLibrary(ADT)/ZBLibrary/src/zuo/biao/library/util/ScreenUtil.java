@@ -19,7 +19,7 @@ import android.util.DisplayMetrics;
 
 /**屏幕相关类
  * @author Lemon
- * @use ScreenUtil.
+ * @use ScreenUtil.xxxMethod(...);
  */
 public class ScreenUtil {
 	//	private static final String TAG = "SceenUtil";

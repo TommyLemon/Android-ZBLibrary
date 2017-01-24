@@ -27,12 +27,12 @@ import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DownloadUtil;
 import zuo.biao.library.util.SettingUtil;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,8 +64,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 
 	@Override
-	@NonNull
-	public BaseActivity getActivity() {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -77,7 +76,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		if (SettingUtil.isOnTestMode) {
@@ -94,7 +93,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutQRCode;
 	@Override
 	public void initView() {
-
+		
 		ivAboutGesture = (ImageView) findViewById(R.id.ivAboutGesture);
 		ivAboutGesture.setVisibility(SettingUtil.isFirstStart ? View.VISIBLE : View.GONE);
 		if (SettingUtil.isFirstStart) {
@@ -118,11 +117,11 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void initData() {
-
+		
 		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
 				+ "\n" + DemoApplication.getInstance().getAppVersion());
 
@@ -140,7 +139,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			public void run() {
 
 				try {
-					qRCodeBitmap = EncodingHandler.createQRCode(Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE
+					qRCodeBitmap = EncodingHandler.createQRCode(Constant.APP_DOWNLOAD_WEBSITE
 							, (int) (2 * getResources().getDimension(R.dimen.qrcode_size)));
 				} catch (WriterException e) {
 					e.printStackTrace();
@@ -165,14 +164,14 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		runThread(TAG + "downloadApp", new Runnable() {
 			@Override
 			public void run() {
-				File file = DownloadUtil.downLoadFile(context, "HungryBat", ".apk", Constant.HUNGRY_BAT_DOWNLOAD_WEBSITE);
+				File file = DownloadUtil.downLoadFile(context, "HungryBat", ".apk", Constant.APP_DOWNLOAD_WEBSITE);
 				dismissProgressDialog();
 				DownloadUtil.openFile(context, file);
 			}
 		});
 	}
 
-	//data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -181,16 +180,13 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 
 
-	//listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {
-
-		findViewById(R.id.ivAboutReturn).setOnClickListener(this);
-		findViewById(R.id.tvAboutForward).setOnClickListener(this);
-
+	public void initEvent() {
+		
 		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
-		findViewById(R.id.llAboutBottomTabActivity).setOnClickListener(this);
+		findViewById(R.id.llAboutMainTabActivity).setOnClickListener(this);
 
 		findViewById(R.id.llAboutShare).setOnClickListener(this);
 		findViewById(R.id.llAboutComment).setOnClickListener(this);
@@ -205,7 +201,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			toActivity(WebViewActivity.createIntent(context, "ZBLibrary", Constant.APP_OFFICIAL_WEBSITE));
+			toActivity(WebViewActivity.createIntent(context, "博客", Constant.APP_OFFICIAL_BLOG));
 
 			ivAboutGesture.setImageResource(R.drawable.gesture_right);
 			return;
@@ -227,19 +223,12 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivAboutReturn:
-			onDragBottom(false);
-			break;
-		case R.id.tvAboutForward:
-			onDragBottom(true);
-			break;
-
 		case R.id.llAboutZBLibraryMainActivity:
 			startActivity(DemoMainActivity.createIntent(context));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			break;
-		case R.id.llAboutBottomTabActivity:
-			startActivity(BottomTabActivity.createIntent(context).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+		case R.id.llAboutMainTabActivity:
+			startActivity(MainTabActivity.createIntent(context).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			
 			enterAnim = exitAnim = R.anim.null_anim;
@@ -295,7 +284,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

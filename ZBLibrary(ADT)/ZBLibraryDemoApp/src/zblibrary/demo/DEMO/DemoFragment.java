@@ -20,9 +20,8 @@ import java.util.List;
 import zblibrary.demo.R;
 import zblibrary.demo.activity_fragment.UserActivity;
 import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.bean.Entry;
+import zuo.biao.library.model.Entry;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +40,37 @@ public class DemoFragment extends BaseFragment {
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
+	public static final String ARGUMENT_USER_NAME = "ARGUMENT_USER_NAME";
 
+	/**创建一个Fragment实例
+	 * @param userId
+	 * @return
+	 */
+	public static DemoFragment createInstance(long userId) {
+		return createInstance(userId, null);
+	}
+	/**创建一个Fragment实例
+	 * @param userId
+	 * @param userName
+	 * @return
+	 */
+	public static DemoFragment createInstance(long userId, String userName) {
+		DemoFragment fragment = new DemoFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putLong(ARGUMENT_USER_ID, userId);
+		bundle.putString(ARGUMENT_USER_NAME, userName);
+		
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+	
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	
+	
 	private long userId = 0;
+	private String userName = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
@@ -54,13 +79,14 @@ public class DemoFragment extends BaseFragment {
 
 		argument = getArguments();
 		if (argument != null) {
-			userId = argument.getLong(ARGUMENT_USER_ID);
+			userId = argument.getLong(ARGUMENT_USER_ID, userId);
+			userName = argument.getString(ARGUMENT_USER_NAME, userName);
 		}
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
-		initListener();
+		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
 		return view;//返回值必须为view
@@ -90,19 +116,11 @@ public class DemoFragment extends BaseFragment {
 	 * @param list
 	 */
 	private void setList(List<Entry<String, String>> list) {
-		if (list == null || list.isEmpty()) {
-			Log.i(TAG, "setList list == null || list.isEmpty() >> lvDemoFragment.setAdapter(null); return;");
-			adapter = null;
-			lvDemoFragment.setAdapter(null);
-			return;
-		}
-
 		if (adapter == null) {
-			adapter = new DemoAdapter(context, list);
+			adapter = new DemoAdapter(context);
 			lvDemoFragment.setAdapter(adapter);
-		} else {
-			adapter.refresh(list);
 		}
+		adapter.refresh(list);
 	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -126,6 +144,8 @@ public class DemoFragment extends BaseFragment {
 
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+		showShortToast(TAG + ": userId = " + userId + "; userName = " + userName);
+		
 		showProgressDialog(R.string.loading);
 
 		runThread(TAG + "initData", new Runnable() {
@@ -170,10 +190,10 @@ public class DemoFragment extends BaseFragment {
 
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initListener() {//必须在onCreateView方法内调用
+	public void initEvent() {//必须在onCreateView方法内调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
 		lvDemoFragment.setOnItemClickListener(new OnItemClickListener() {
@@ -205,7 +225,7 @@ public class DemoFragment extends BaseFragment {
 	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Listener事件监听区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
