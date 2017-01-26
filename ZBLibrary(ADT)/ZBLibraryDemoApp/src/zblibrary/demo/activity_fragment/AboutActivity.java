@@ -188,6 +188,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 		findViewById(R.id.llAboutMainTabActivity).setOnClickListener(this);
 
+		findViewById(R.id.llAboutUpdate).setOnClickListener(this);
 		findViewById(R.id.llAboutShare).setOnClickListener(this);
 		findViewById(R.id.llAboutComment).setOnClickListener(this);
 
@@ -235,6 +236,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			finish();
 			break;
 
+		case R.id.llAboutUpdate:
+			CommonUtil.openWebSite(context, Constant.UPDATE_LOG_WEBSITE);
+			break;
 		case R.id.llAboutShare:
 			CommonUtil.shareInfo(context, getString(R.string.share_app) + "\n 点击链接直接查看ZBLibrary\n" + Constant.APP_DOWNLOAD_WEBSITE);
 			break;

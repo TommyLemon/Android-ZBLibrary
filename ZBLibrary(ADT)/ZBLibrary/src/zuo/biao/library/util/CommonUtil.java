@@ -145,11 +145,7 @@ public class CommonUtil {
 			return;
 		}
 
-		if (! webSite.startsWith("http://") && ! webSite.startsWith("https://")) {
-			webSite = "http://" + webSite;}
-		final Uri uri = Uri.parse(webSite);          
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		toActivity(context, intent, -1);
+		toActivity(context, new Intent(Intent.ACTION_VIEW, Uri.parse(StringUtil.getCorrectUrl(webSite))));
 	}
 
 	/**复制文字 
