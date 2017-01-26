@@ -237,7 +237,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 			break;
 
 		case R.id.llAboutUpdate:
-			CommonUtil.openWebSite(context, Constant.UPDATE_LOG_WEBSITE);
+			toActivity(WebViewActivity.createIntent(context, "更新日志", Constant.UPDATE_LOG_WEBSITE));
 			break;
 		case R.id.llAboutShare:
 			CommonUtil.shareInfo(context, getString(R.string.share_app) + "\n 点击链接直接查看ZBLibrary\n" + Constant.APP_DOWNLOAD_WEBSITE);

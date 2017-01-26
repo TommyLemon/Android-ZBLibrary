@@ -28,5 +28,7 @@ public class Constant {
 	public static final String APP_DOWNLOAD_WEBSITE = "http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk";
 
 	public static final String APP_DEVELOPER_WEBSITE = "https://github.com/TommyLemon";
+	
+	public static final String UPDATE_LOG_WEBSITE = "github.com/TommyLemon/Android-ZBLibrary/commits/master";
 
 }

@@ -14,19 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import java.io.File;
-
-import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoMainActivity;
-import zblibrary.demo.application.DemoApplication;
-import zblibrary.demo.util.Constant;
-import zblibrary.demo.util.HttpRequest;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.DownloadUtil;
-import zuo.biao.library.util.SettingUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +29,20 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
+
+import java.io.File;
+
+import zblibrary.demo.DEMO.DemoMainActivity;
+import zblibrary.demo.R;
+import zblibrary.demo.application.DemoApplication;
+import zblibrary.demo.util.Constant;
+import zblibrary.demo.util.HttpRequest;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.DownloadUtil;
+import zuo.biao.library.util.SettingUtil;
 
 /**关于界面
  * @author Lemon
@@ -93,7 +94,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutQRCode;
 	@Override
 	public void initView() {
-		
+
 		ivAboutGesture = (ImageView) findViewById(R.id.ivAboutGesture);
 		ivAboutGesture.setVisibility(SettingUtil.isFirstStart ? View.VISIBLE : View.GONE);
 		if (SettingUtil.isFirstStart) {
@@ -121,7 +122,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initData() {
-		
+
 		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
 				+ "\n" + DemoApplication.getInstance().getAppVersion());
 
@@ -152,7 +153,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 					public void run() {
 						ivAboutQRCode.setImageBitmap(qRCodeBitmap);
 					}
-				});		
+				});
 			}
 		});
 	}
@@ -184,10 +185,11 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initEvent() {
-		
+
 		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 		findViewById(R.id.llAboutMainTabActivity).setOnClickListener(this);
 
+		findViewById(R.id.llAboutUpdate).setOnClickListener(this);
 		findViewById(R.id.llAboutShare).setOnClickListener(this);
 		findViewById(R.id.llAboutComment).setOnClickListener(this);
 
@@ -230,11 +232,14 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		case R.id.llAboutMainTabActivity:
 			startActivity(MainTabActivity.createIntent(context).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
-			
+
 			enterAnim = exitAnim = R.anim.null_anim;
 			finish();
 			break;
 
+		case R.id.llAboutUpdate:
+			toActivity(WebViewActivity.createIntent(context, "更新日志", Constant.UPDATE_LOG_WEBSITE));
+			break;
 		case R.id.llAboutShare:
 			CommonUtil.shareInfo(context, getString(R.string.share_app) + "\n 点击链接直接查看ZBLibrary\n" + Constant.APP_DOWNLOAD_WEBSITE);
 			break;
