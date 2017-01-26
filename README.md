@@ -63,9 +63,6 @@ Scroll ListView faster, more accurate and comfortable.
 * 回收多余占用，优化内存提高性能
 * 分包结构合理，模块清晰浏览方便
 
-## 更新日志
-[https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
-
 ##相关推荐
 [Android快速开发框架-ZBLibrary介绍](http://my.oschina.net/u/2437072/blog/662017)
 
@@ -104,3 +101,6 @@ Email：<tommylemon@qq.com>      QQ群：595514898
 ## 下载试用
 
 [ZBLibraryDemoApp.apk](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
+
+## 更新日志
+[https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
