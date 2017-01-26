@@ -94,13 +94,13 @@ Email：<tommylemon@qq.com>      QQ群：595514898
 
 有任何建议或者使用中遇到问题都可以给我发邮件，也可以加群，交流技术，分享经验 ^_^
 
-## 欢迎Star，欢迎Fork
-
-[https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
-
 ## 下载试用
 
 [ZBLibraryDemoApp.apk](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
 
 ## 更新日志
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
+
+## 欢迎Star，欢迎Fork
+
+[https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
