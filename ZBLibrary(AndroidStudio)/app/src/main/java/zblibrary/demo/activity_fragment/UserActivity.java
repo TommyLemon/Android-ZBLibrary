@@ -22,6 +22,7 @@ import zblibrary.demo.util.MenuUtil;
 import zblibrary.demo.view.UserView;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseModel;
+import zuo.biao.library.base.BaseView.OnDataChangedListener;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
@@ -150,6 +151,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 				//				uvlUser.bindView(user);//方式二
 				userView.bindView(user);//方式三
 
+				etUserRemark.setText(StringUtil.getTrimedString(user.getHead()));
 				tvUserTag.setText(StringUtil.getTrimedString(user.getTag()));
 			}
 		});
@@ -205,6 +207,14 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
 
 		bottomMenuView.setOnMenuItemClickListener(this);//底部菜单点击监听
+		
+		userView.setOnDataChangedListener(new OnDataChangedListener() {
+
+			@Override
+			public void onDataChanged() {
+				user = userView.getData();
+			}
+		});
 	}
 
 	@Override
@@ -334,7 +344,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void finish() {
 		super.finish();
-		CacheManager.getInstance().save(User.class, user, "" + user.getId());//更新缓存
+		if (user != null) {
+			user.setHead(StringUtil.getTrimedString(etUserRemark));
+			CacheManager.getInstance().save(User.class, user, "" + user.getId());//更新缓存
+		}
 	}
 
 
