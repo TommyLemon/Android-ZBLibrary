@@ -340,6 +340,11 @@ public class CacheManager {
 			Log.e(id, "save  data == null || StringUtil.isNotEmpty(id, true) == false  >>  return;");
 			return;
 		}
+		
+		Log.i(TAG, "save " + id + " >> ");
+		new Cache<T>(context, clazz, getListPath(clazz)).save(id, data);
+		
+		Log.i(TAG, "save " + id + " to " + group + " >> ");
 		SharedPreferences sp = getSharedPreferences(getGroupPath(clazz, group));
 		if (sp == null) {
 			Log.e(TAG, "save sp == null >> return;");
@@ -357,8 +362,6 @@ public class CacheManager {
 
 		idList.add(0, id);
 		sp.edit().remove(KEY_ID_LIST).putString(KEY_ID_LIST, Json.toJSONString(idList)).commit();
-
-		new Cache<T>(context, clazz, getListPath(clazz)).save(id, data);
 	}
 
 	/**清空类

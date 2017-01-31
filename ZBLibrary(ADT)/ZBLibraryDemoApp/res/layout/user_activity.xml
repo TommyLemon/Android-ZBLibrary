@@ -52,6 +52,7 @@
                     android:id="@+id/etUserRemark"
                     style="@style/edit_item_right_et"
                     android:layout_weight="1"
+                    android:maxLength="90"
                     android:hint="点击这里来编辑" />
 
                 <ImageView
