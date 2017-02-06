@@ -29,6 +29,7 @@ import android.view.View.OnTouchListener;
 /**基础自定义View
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
+ * @see OnViewClickListener
  * @see #onDestroy
  * @use extends BaseView<T>, 具体参考.DemoView
  */
@@ -45,6 +46,19 @@ public abstract class BaseView<T> {
 		this.resources = resources;
 	}
 
+	/**点击View的事件监听回调，主要是为了activity或fragment间接通过adapter接管baseView的点击事件
+	 * @param <T>
+	 * @param <BV>
+	 * @must 子类重写setOnClickListener方法且view.setOnClickListener(l)事件统一写在这个方法里面。具体见 .DemoView2
+	 */
+	public interface OnViewClickListener<T, BV extends BaseView<T>> {
+		/**onClick(v)事件由这个方法接管
+		 * @param v
+		 * @param bv
+		 */
+		void onViewClick(View v, BV bv);
+	}
+
 	/**数据改变回调接口
 	 * (Object) getData() - 改变的数据
 	 */
@@ -52,38 +66,37 @@ public abstract class BaseView<T> {
 		void onDataChanged();
 	}
 
-	public OnDataChangedListener onDataChangedListener;//数据改变回调监听类的实例
-	/**设置数据改变事件监听类
+	public OnDataChangedListener onDataChangedListener;//数据改变回调监听回调的实例
+	/**设置数据改变事件监听回调
 	 * @param l
 	 */
 	public void setOnDataChangedListener(OnDataChangedListener l) {
 		onDataChangedListener = l;
 	}
 
-	public OnTouchListener onTouchListener;//接触View回调监听类的实例
-	/**设置接触View事件监听类
+	public OnTouchListener onTouchListener;//接触View回调监听回调的实例
+	/**设置接触View事件监听回调
 	 * @param l
 	 */
 	public void setOnTouchListener(OnTouchListener l) {
 		onTouchListener = l;
 	}
 
-	public OnClickListener onClickListener;//点击View回调监听类的实例
-	/**设置点击View事件监听类
+	public OnClickListener onClickListener;//点击View回调监听回调的实例
+	/**设置点击View事件监听回调
 	 * @param l
 	 */
 	public void setOnClickListener(OnClickListener l) {
 		onClickListener = l;
 	}
 
-	public OnLongClickListener onLongClickListener;//长按View回调监听类的实例
-	/**设置长按View事件监听类
+	public OnLongClickListener onLongClickListener;//长按View回调监听回调的实例
+	/**设置长按View事件监听回调
 	 * @param l
 	 */
 	public void setOnLongClickListener(OnLongClickListener l) {
 		onLongClickListener = l;
 	}
-
 
 
 	/**
@@ -110,7 +123,7 @@ public abstract class BaseView<T> {
 		v.setOnClickListener(l);
 		return v;
 	}
-	
+
 	/**
 	 * 视图类型，部分情况下需要根据viewType使用不同layout，对应Adapter的itemViewType
 	 */
@@ -125,7 +138,7 @@ public abstract class BaseView<T> {
 	public int getPosition() {
 		return position;
 	}
-	
+
 	/**创建一个新的View
 	 * @param inflater - @NonNull，布局解释器
 	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
@@ -157,8 +170,8 @@ public abstract class BaseView<T> {
 		return convertView.getHeight();
 	}
 
-	
-	
+
+
 	protected T data = null;
 	/**获取数据
 	 * @return
@@ -166,8 +179,8 @@ public abstract class BaseView<T> {
 	public T getData() {
 		return data;
 	}
-	
-	
+
+
 	/**设置并显示内容，建议在子类bindView内this.data = data;
 	 * @warn 只能在createView后使用
 	 * @param data - 传入的数据
@@ -229,14 +242,14 @@ public abstract class BaseView<T> {
 
 
 	//resources方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	public final Resources getResources() {
 		if(resources == null) {
 			resources = context.getResources();
 		} 
 		return resources;
 	}
-	
+
 	public String getString(int id) {
 		return getResources().getString(id);
 	}
@@ -313,15 +326,15 @@ public abstract class BaseView<T> {
 			}
 			convertView = null;
 		}
-		
+
 		onDataChangedListener = null;
 		onTouchListener = null;
 		onClickListener = null;
 		onLongClickListener = null;
-		
+
 		data = null;
 		position = 0;
-		
+
 		context = null;
 	}
 

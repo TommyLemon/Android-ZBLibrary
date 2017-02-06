@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 /** 使用方法：复制>粘贴>改名>改代码  */
 /**adapter模板，最灵活且性能最好，但如果有setOnClickListener等事件就不方便了
- * *适用于listView,gridView
+ * <br> 适用于ListView,GridView等AbsListView的子类
  * @author Lemon
  * @use new DemoAdapter(...); 具体参考.DemoActivity(setList方法内)
  */

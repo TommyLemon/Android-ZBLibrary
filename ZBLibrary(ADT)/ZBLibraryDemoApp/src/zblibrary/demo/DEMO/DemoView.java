@@ -34,7 +34,7 @@ import android.widget.TextView;
  * @see DemoAdapter2#getView(int, View, android.view.ViewGroup)
  * @use
  * <br> DemoView demoView = new DemoView(context, resources);
- * <br> adapter中使用:[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+ * <br> adapter中使用:[具体参考.BaseViewAdapter(getView使用自定义View的写法)]
  * <br> convertView = demoView.createView(inflater);
  * <br> demoView.bindView(position, data);
  * <br> 或 其它类中使用: 
