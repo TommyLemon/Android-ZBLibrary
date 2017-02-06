@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
 /**adapter模板，最方便，建议使用
- * *适用于listView,gridView
+ * <br> 适用于ListView,GridView等AbsListView的子类
  * @author Lemon
  * @use 修改.ItemView代码 >> new DemoAdapter2(...),具体参考.DemoActivity(setList方法内)
  */
@@ -80,7 +80,7 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		@Override
 		public void bindView(Entry<String, String> data){
 			//示例代码<<<<<<<<<<<<<<<<
-			this.data = data;
+			this.data = data;//这里data传进来的只有adapter内item数据，可不判空
 
 			tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
 			tvDemoViewNumber.setText(StringUtil.getNoBlankString(data.getValue()));

@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**基础Adapter
+ * <br> 适用于ListView,GridView等AbsListView的子类
  * @author Lemon
  * @warn 出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @param <T> 数据模型(model/JavaBean)类

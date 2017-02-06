@@ -35,7 +35,7 @@ import android.widget.TextView;
  * @author Lemon
  * @use
  * <br> UserView userView = new UserView(context, resources);
- * <br> adapter中使用:[具体参考.DemoAdapter2(getView使用自定义View的写法)]
+ * <br> adapter中使用:[具体参考.BaseViewAdapter(getView使用自定义View的写法)]
  * <br> convertView = userView.createView(inflater);
  * <br> userView.bindView(position, data);
  * <br> 或  其它类中使用: 
