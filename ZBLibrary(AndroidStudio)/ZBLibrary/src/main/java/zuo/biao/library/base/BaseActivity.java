@@ -458,6 +458,14 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		return isRunning & isAlive();
 	}
 
+	/**一般用于对不支持的数据的处理，比如onCreate中获取到不能接受的id(id<=0)可以这样处理
+	 */
+	public void finishWithError(String error) {
+		showShortToast(error);
+		enterAnim = exitAnim = R.anim.null_anim;
+		finish();
+	}
+	
 	@Override
 	public void finish() {
 		super.finish();//必须写在最前才能显示自定义动画

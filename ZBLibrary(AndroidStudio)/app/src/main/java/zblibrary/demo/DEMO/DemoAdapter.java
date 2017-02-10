@@ -38,7 +38,6 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 		super(context);
 	}
 
-
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		//示例代码<<<<<<<<<<<<<<<<
@@ -63,7 +62,13 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>> {
 		return super.getView(position, convertView, parent);
 		//示例代码>>>>>>>>>>>>>>>>
 	}
+	
+	@Override
+	public long getItemId(int position) {
+		return getItem(position).getId();
+	}
 
+	
 	static class ViewHolder {
 		//示例代码<<<<<<<<<<<<<<<<
 		public ImageView ivDemoItemHead;

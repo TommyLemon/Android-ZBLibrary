@@ -34,5 +34,10 @@ public class UserAdapter extends BaseViewAdapter<User, UserView> {
 	public UserView createView(int position, ViewGroup parent) {
 		return new UserView(context, resources);
 	}
+	
+	@Override
+	public long getItemId(int position) {
+		return getItem(position).getId();
+	}
 
 }

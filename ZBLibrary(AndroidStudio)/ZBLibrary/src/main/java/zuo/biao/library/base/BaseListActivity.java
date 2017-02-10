@@ -227,7 +227,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 
 				onLoadSucceed(newList, true);
 				if (pageNum <= HttpManager.PAGE_NUM_0) {
-					isLoading = false;//stopLoadeData在其它线程isLoading = false;后这个线程里还是true
+					isLoading = false;//stopLoadData在其它线程isLoading = false;后这个线程里还是true
 					loadData(pageNum, false);
 				}
 			}

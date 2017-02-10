@@ -47,6 +47,12 @@ public class DemoAdapter2 extends BaseViewAdapter<Entry<String, String>, ItemVie
 		return new ItemView(context, resources);
 	}
 
+	@Override
+	public long getItemId(int position) {
+		return getItem(position).getId();
+	}
+
+	
 	/**item对应的View，可改为外部类
 	 * @use 改代码
 	 */
