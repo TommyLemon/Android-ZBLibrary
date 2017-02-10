@@ -90,9 +90,10 @@ Scroll ListView faster, more accurate and comfortable.
 
 
 ##关于作者
-Email：<tommylemon@qq.com>      QQ群：595514898
+TommyLemon：[https://github.com/TommyLemon](https://github.com/TommyLemon)
+QQ群：595514898
 
-有任何建议或者使用中遇到问题都可以给我发邮件，也可以加群，交流技术，分享经验 ^_^
+如果有什么问题或建议都可以加群或者给我发邮件，交流技术，分享经验 ^_^
 
 ## 下载试用
 
