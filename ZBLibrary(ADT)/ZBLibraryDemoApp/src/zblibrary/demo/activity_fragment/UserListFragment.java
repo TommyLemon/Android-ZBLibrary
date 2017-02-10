@@ -21,7 +21,6 @@ import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
 import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseHttpListFragment;
-import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.util.Json;
@@ -40,8 +39,7 @@ import android.widget.Toast;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User, UserAdapter>//CacheAdapter<User, UserView, UserAdapter>>//
-implements OnItemClickListener, CacheCallBack<User> {
+public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> implements CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -186,25 +184,21 @@ implements OnItemClickListener, CacheCallBack<User> {
 	public void initEvent() {//必须调用
 		super.initEvent();
 
-		lvBaseList.setOnItemClickListener(this);
+		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (id > 0) {
+					toActivity(UserActivity.createIntent(context, id));
+				}
+			}
+		});
 	}
 
 
 
 	//系统自带监听方法 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		position -= lvBaseList.getHeaderViewsCount();
-		if (position < 0 || adapter == null || position >= adapter.getCount()) {
-			return;
-		}
-
-		User user = list.get(position);//adapter.getItem(position);	
-		if (BaseModel.isCorrect(user)) {//相当于 user != null && user.getId() > 0
-			toActivity(UserActivity.createIntent(context, user.getId()));
-		}
-	}
 
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

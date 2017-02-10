@@ -199,7 +199,7 @@ public class DemoFragment extends BaseFragment {
 		lvDemoFragment.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				toActivity(UserActivity.createIntent(context, id));
+				toActivity(UserActivity.createIntent(context, position));//一般用id，这里position仅用于测试 id));//
 			}
 		});
 		//示例代码>>>>>>>>>>>>>>>>>>>

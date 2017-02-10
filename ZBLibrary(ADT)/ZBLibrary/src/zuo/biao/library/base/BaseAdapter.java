@@ -104,7 +104,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 * 预加载提前数
 	 * @use 可在子类getView前赋值;
 	 */
-	public static int PRELOAD_NUM = 1;
+	protected int preloadCount = 1;
 
 	/**获取item对应View的方法，带item滑到底部等监听
 	 * @param position
@@ -115,7 +115,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (onReachViewBorderListener != null && position >= getCount() - 1 - PRELOAD_NUM) {
+		if (onReachViewBorderListener != null && position >= getCount() - 1 - preloadCount) {
 			onReachViewBorderListener.onReach(OnReachViewBorderListener.TYPE_BOTTOM, parent);
 		}
 		return convertView;

@@ -41,7 +41,7 @@ import android.widget.GridView;
  */
 public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView, GridAdapter>
 implements OnBottomDragListener {
-//	private static final String TAG = "DemoListActivity";
+	//	private static final String TAG = "DemoListActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -59,7 +59,7 @@ implements OnBottomDragListener {
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+
 	@Override
 	public Activity getActivity() {
 		return this;
@@ -75,8 +75,8 @@ implements OnBottomDragListener {
 		intent = getIntent();
 		range = intent.getIntExtra(INTENT_RANGE, range);
 
-//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .CacheCallBack
-		
+		//		initCache(this);//初始化缓存，Entry<String, String>替换成不带类型的类才可使用，原因看 .CacheCallBack
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -104,7 +104,7 @@ implements OnBottomDragListener {
 			public void refreshAdapter() {
 				adapter.refresh(list);
 			}
-			
+
 			@Override
 			public GridAdapter createAdapter() {
 				return new GridAdapter(context);
@@ -133,7 +133,7 @@ implements OnBottomDragListener {
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		tvBaseTitle.setText("" + lvBaseList.getClass().getSimpleName());
-		
+
 		showShortToast("range = " + range);
 
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -178,6 +178,13 @@ implements OnBottomDragListener {
 		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//				//如果lvBaseList有headerView或footerView <<<<<<<<<<<<<<<
+				//				position -= lvBaseList.getHeaderViewsCount();//ListView的方法，GridView没有
+				//				if (position < 0 || adapter == null || position >= adapter.getCount()) {
+				//					return;
+				//				}
+				//				//如果lvBaseList有headerView或footerView >>>>>>>>>>>>>>>
+
 				showShortToast("选择了 " + adapter.getItem(position).getValue());
 				setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
 				finish();

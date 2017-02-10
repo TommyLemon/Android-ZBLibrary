@@ -75,6 +75,10 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 		intent = getIntent();
 		userId = intent.getLongExtra(INTENT_ID, userId);
+		if (userId <= 0) {
+			finishWithError("用户不存在！");
+			return;
+		}
 
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
