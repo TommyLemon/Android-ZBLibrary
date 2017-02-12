@@ -62,6 +62,7 @@ Scroll ListView faster, more accurate and comfortable.
 * 封装常用代码，方便使用降低耦合
 * 回收多余占用，优化内存提高性能
 * 分包结构合理，模块清晰浏览方便
+* 多用工具和快捷键，增删改查快捷高效
 
 ##相关推荐
 [Android快速开发框架-ZBLibrary介绍](http://my.oschina.net/u/2437072/blog/662017)
