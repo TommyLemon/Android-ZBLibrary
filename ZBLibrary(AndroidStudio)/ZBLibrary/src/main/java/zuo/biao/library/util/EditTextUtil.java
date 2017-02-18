@@ -12,10 +12,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zuo.biao.library.ui;
+package zuo.biao.library.util;
 
 import zuo.biao.library.R;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -27,15 +26,13 @@ import android.widget.Toast;
 
 /**通用密码、手机号、验证码输入框输入字符判断及错误提示 类
  * @author Lemon
- * @use EditTextManager.xxxMethod(...);
+ * @use EditTextUtil.xxxMethod(...);
  */
-public class EditTextManager {
-	private static final String TAG = "EditTextManager";
+public class EditTextUtil {
+	private static final String TAG = "EditTextUtil";
 
 
-	//显示/隐藏输入框<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	private static InputMethodManager imm;
+	//显示/隐藏输入法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**隐藏输入法
 	 * @param context
@@ -44,14 +41,14 @@ public class EditTextManager {
 	public static void hideKeyboard(Context context, View toGetWindowTokenView){
 		showKeyboard(context, null, toGetWindowTokenView, false);
 	}
-	/**显示输入框
+	/**显示输入法
 	 * @param context
 	 * @param et
 	 */
 	public static void showKeyboard(Context context, EditText et){
 		showKeyboard(context, et, true);
 	}
-	/**显示/隐藏输入框
+	/**显示/隐藏输入法
 	 * @param context
 	 * @param et
 	 * @param show
@@ -59,7 +56,7 @@ public class EditTextManager {
 	public static void showKeyboard(Context context, EditText et, boolean show){
 		showKeyboard(context, et, null, show);
 	}
-	/**显示输入框
+	/**显示输入法
 	 * @param context
 	 * @param et
 	 * @param toGetWindowTokenView(为null时toGetWindowTokenView = et) 包含et的父View，键盘根据toGetWindowTokenView的位置来弹出/隐藏
@@ -67,7 +64,7 @@ public class EditTextManager {
 	public static void showKeyboard(Context context, EditText et, View toGetWindowTokenView) {
 		showKeyboard(context, et, toGetWindowTokenView, true);
 	}
-	/**显示/隐藏输入框
+	/**显示/隐藏输入法
 	 * @param context
 	 * @param et
 	 * @param toGetWindowTokenView(为null时toGetWindowTokenView = et) 包含et的父View，键盘根据toGetWindowTokenView的位置来弹出/隐藏
@@ -79,7 +76,7 @@ public class EditTextManager {
 			return;
 		}
 
-		imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);//imm必须与context唯一对应
+		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);//imm必须与context唯一对应
 		if (toGetWindowTokenView == null) {
 			Log.w(TAG, "showKeyboard   toGetWindowTokenView == null");
 			toGetWindowTokenView = et;
@@ -105,7 +102,7 @@ public class EditTextManager {
 		}
 	}
 
-	//显示/隐藏输入框>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//显示/隐藏输入法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -117,7 +114,6 @@ public class EditTextManager {
 	public final static int TYPE_PHONE = 3;
 	public final static int TYPE_MAIL = 4;
 
-	private static ColorStateList oringinalHintColor;
 
 	/**判断edittext输入文字是否合法
 	 * @param context
@@ -182,7 +178,7 @@ public class EditTextManager {
 			Log.e(TAG, "isInputedCorrect context == null || et == null >> return false;");
 			return false;
 		}
-		oringinalHintColor = et.getHintTextColors();
+		ColorStateList oringinalHintColor = et.getHintTextColors();
 
 		String inputed = StringUtil.getTrimedString(et);
 		switch (type) {

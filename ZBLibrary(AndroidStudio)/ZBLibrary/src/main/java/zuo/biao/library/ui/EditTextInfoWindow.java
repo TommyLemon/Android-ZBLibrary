@@ -20,6 +20,7 @@ import zuo.biao.library.R;
 import zuo.biao.library.base.BaseBottomWindow;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.ContactUtil;
+import zuo.biao.library.util.EditTextUtil;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -311,7 +312,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	@Override
 	public void finish() {
 		super.finish();
-		EditTextManager.showKeyboard(context, etEditTextInfo, false);
+		EditTextUtil.showKeyboard(context, etEditTextInfo, false);
 	}
 	
 	
