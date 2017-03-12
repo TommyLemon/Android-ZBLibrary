@@ -164,7 +164,12 @@ public class ScanActivity extends CaptureActivity implements Callback, ActivityP
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+	@Override
+	protected void onPause() {
+		super.onPause();
+		isOpen = false;
+	}
+	
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

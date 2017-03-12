@@ -40,7 +40,7 @@ public class XListViewFooter extends LinearLayout {
 	}
 
 	public void setState(int state) {
-		mProgressBar.setVisibility(View.INVISIBLE);
+		mProgressBar.setVisibility(View.GONE);
 		mHintView.setVisibility(View.VISIBLE);
 		
 		switch (state) {

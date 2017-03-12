@@ -47,6 +47,13 @@ public class DemoApplication extends BaseApplication {
 		Log.d(TAG, "getCurrentUserId  currentUserId = " + (currentUser == null ? "null" : currentUser.getId()));
 		return currentUser == null ? 0 : currentUser.getId();
 	}
+	/**获取当前用户phone
+	 * @return
+	 */
+	public String getCurrentUserPhone() {
+		currentUser = getCurrentUser();
+		return currentUser == null ? null : currentUser.getPhone();
+	}
 
 
 	private static User currentUser = null;
@@ -72,12 +79,21 @@ public class DemoApplication extends BaseApplication {
 		DataManager.getInstance().saveCurrentUser(currentUser);
 	}
 
+	public void logout() {
+		currentUser = null;
+		DataManager.getInstance().saveCurrentUser(currentUser);
+	}
+	
 	/**判断是否为当前用户
 	 * @param userId
 	 * @return
 	 */
 	public boolean isCurrentUser(long userId) {
 		return DataManager.getInstance().isCurrentUser(userId);
+	}
+
+	public boolean isLoggedIn() {
+		return getCurrentUserId() > 0;
 	}
 
 

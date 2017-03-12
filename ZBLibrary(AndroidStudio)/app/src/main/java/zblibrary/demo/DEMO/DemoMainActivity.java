@@ -149,7 +149,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		this.picturePath = path;
 
 		toActivity(CutPictureActivity.createIntent(context, path
-				, DataKeeper.fileRootPath + DataKeeper.imagePath, "photo" + System.currentTimeMillis(), 200)
+				, DataKeeper.imagePath, "photo" + System.currentTimeMillis(), 200)
 				, REQUEST_TO_CUT_PICTURE);
 	}
 
