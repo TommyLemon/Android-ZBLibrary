@@ -110,7 +110,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 		intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		// 指定调用相机拍照后照片的储存路径
-		cameraFile = new File(DataKeeper.fileRootPath + DataKeeper.accountPath, "photo" + System.currentTimeMillis() + ".jpg");
+		cameraFile = new File(DataKeeper.imagePath, "photo" + System.currentTimeMillis() + ".jpg");
 		cameraFile.getParentFile().mkdirs();
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
 		toActivity(intent, REQUEST_CODE_CAMERA);

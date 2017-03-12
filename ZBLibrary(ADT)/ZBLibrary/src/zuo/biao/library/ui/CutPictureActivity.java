@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -163,7 +162,7 @@ public class CutPictureActivity extends BaseActivity {
 		intent.putExtra("outputY", height);
 
 		if (Build.VERSION.SDK_INT >= 23) {
-			File outputImage = new File(Environment.getExternalStorageDirectory(), "output_image.jpg"); 
+			File outputImage = new File(DataKeeper.imagePath, "output_image" + System.currentTimeMillis() + ".jpg"); 
 			cuttedPicturePath = outputImage.getAbsolutePath();
 			intent.putExtra("scale", true);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputImage));
