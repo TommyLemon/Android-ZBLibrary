@@ -67,8 +67,8 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * @warn 在initData前使用才有效
 	 * @param cacheCallBack
 	 */
-	protected void initCache(CacheCallBack<T> onCacheCallBack) {
-		this.cacheCallBack = onCacheCallBack;
+	protected void initCache(CacheCallBack<T> cacheCallBack) {
+		this.cacheCallBack = cacheCallBack;
 	}
 
 
@@ -170,7 +170,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public abstract void setList(List<T> list);
 
 	/**显示列表（已在UI线程中）
-	 * @param list
+	 * @param callBack
 	 */
 	public void setList(AdapterCallBack<BA> callBack) {
 		if (adapter == null) {
@@ -267,7 +267,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 					getListAsync(page);
 				} else {//从缓存获取数据
 					onLoadSucceed(page, CacheManager.getInstance().getList(cacheCallBack.getCacheClass()
-							, cacheCallBack.getCacheGroup(), loadCacheStart, cacheCallBack.getCacheCount()), 
+							, cacheCallBack.getCacheGroup(), loadCacheStart, cacheCallBack.getCacheCount()),
 							true);
 					if (page <= HttpManager.PAGE_NUM_0) {
 						isLoading = false;//stopLoadeData在其它线程isLoading = false;后这个线程里还是true
@@ -280,13 +280,13 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 	/**停止加载数据
 	 * isCache = false;
-	 * @param page 
+	 * @param page
 	 */
 	public synchronized void stopLoadData(int page) {
 		stopLoadData(page, false);
 	}
 	/**停止加载数据
-	 * @param page 
+	 * @param page
 	 * @param isCache
 	 */
 	private synchronized void stopLoadData(int page, boolean isCache) {
@@ -313,10 +313,10 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 	private boolean isSucceed = false;
 	/**处理列表
-	 * @param page 
+	 * @param page
 	 * @param newList 新数据列表
-	 * @param isCache 
-	 * @return 
+	 * @param isCache
+	 * @return
 	 * @return
 	 */
 	public synchronized void handleList(int page, List<T> newList, boolean isCache) {
@@ -415,7 +415,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 	private int saveCacheStart;
 	/**保存缓存
-	 * @param newList 
+	 * @param newList
 	 */
 	public synchronized void saveCache(List<T> newList) {
 		if (cacheCallBack == null || newList == null || newList.isEmpty()) {

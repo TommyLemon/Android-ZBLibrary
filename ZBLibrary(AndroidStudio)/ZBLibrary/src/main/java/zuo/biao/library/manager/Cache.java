@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import zuo.biao.library.util.Json;
+import zuo.biao.library.util.JSON;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
@@ -84,7 +84,7 @@ public class Cache<T> {
 		}
 		key = StringUtil.getTrimedString(key);
 
-		sp.edit().remove(key).putString(key, Json.toJSONString(value)).commit();
+		sp.edit().remove(key).putString(key, JSON.toJSONString(value)).commit();
 	}
 
 	/**判断是否已存
@@ -111,7 +111,7 @@ public class Cache<T> {
 			return null;
 		}
 
-		return Json.parseObject(sp.getString(StringUtil.getTrimedString(key), null), clazz);
+		return JSON.parseObject(sp.getString(StringUtil.getTrimedString(key), null), clazz);
 	}
 
 
@@ -178,7 +178,7 @@ public class Cache<T> {
 			List<T> list = new ArrayList<T>();
 			T data;
 			for (String value : map.values()) {
-				data = Json.parseObject(value, clazz);
+				data = JSON.parseObject(value, clazz);
 				if (data != null) {
 					list.add(data);
 				}

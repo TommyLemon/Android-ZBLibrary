@@ -23,7 +23,7 @@ import zblibrary.demo.util.TestUtil;
 import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
-import zuo.biao.library.util.Json;
+import zuo.biao.library.util.JSON;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -135,15 +135,15 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 	}
 
 	@Override
-	public void getListAsync(final int pageNum) {
-		//实际使用时用这个，需要配置服务器地址		HttpRequest.getUserList(range, pageNum, 0, this);
+	public void getListAsync(final int page) {
+		//实际使用时用这个，需要配置服务器地址		HttpRequest.getUserList(range, page, -page, this);
 
 		//仅测试用<<<<<<<<<<<
 		new Handler().postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
-				onHttpResponse(0, Json.toJSONString(TestUtil.getUserList(pageNum, getCachePageSize())), null);
+				onHttpResponse(-page, JSON.toJSONString(TestUtil.getUserList(page, getCacheCount())), null);
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
@@ -151,7 +151,7 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 
 	@Override
 	public List<User> parseArray(String json) {
-		return Json.parseArray(json, User.class);
+		return JSON.parseArray(json, User.class);
 	}
 
 	@Override
@@ -166,7 +166,10 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 	public String getCacheId(User data) {
 		return data == null ? null : "" + data.getId();
 	}
-
+	@Override
+	public int getCacheCount() {
+		return 10;
+	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

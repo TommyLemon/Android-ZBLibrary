@@ -20,7 +20,7 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.ImageLoaderUtil;
-import zuo.biao.library.util.Json;
+import zuo.biao.library.util.JSON;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
@@ -152,7 +152,7 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 		}
 
 		try {
-			qRCodeBitmap = EncodingHandler.createQRCode(Json.toJSONString(user)
+			qRCodeBitmap = EncodingHandler.createQRCode(JSON.toJSONString(user)
 					, (int) (2 * getResources().getDimension(R.dimen.qrcode_size)));
 		} catch (WriterException e) {
 			e.printStackTrace();

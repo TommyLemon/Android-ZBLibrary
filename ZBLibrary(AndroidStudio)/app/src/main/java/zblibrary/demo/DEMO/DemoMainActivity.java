@@ -306,7 +306,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 					showShortToast("请长按5-8秒");
 				} else {
 					toActivity(ServerSettingActivity.createIntent(context
-							, SettingUtil.getServerAddress(context, false), SettingUtil.getServerAddress(context, true)
+							, SettingUtil.getServerAddress(false), SettingUtil.getServerAddress(true)
 							, SettingUtil.APP_SETTING, Context.MODE_PRIVATE
 							, SettingUtil.KEY_SERVER_ADDRESS_NORMAL, SettingUtil.KEY_SERVER_ADDRESS_TEST));
 					return true;

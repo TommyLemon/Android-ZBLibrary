@@ -7,6 +7,7 @@
 package zuo.biao.library.ui.xlistview;
 
 import zuo.biao.library.R;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class XListViewFooter extends LinearLayout {
 	public void setState(int state) {
 		mProgressBar.setVisibility(View.GONE);
 		mHintView.setVisibility(View.VISIBLE);
-		
+
 		switch (state) {
 		case STATE_READY:
 			mHintView.setText(R.string.xlistview_footer_hint_ready);
@@ -91,34 +92,42 @@ public class XListViewFooter extends LinearLayout {
 		mProgressBar.setVisibility(View.VISIBLE);
 	}
 
+	private boolean isShowing = false;
+	public boolean isShowing() {
+		return isShowing;
+	}
 	/**
 	 * hide footer when disable pull load more
 	 */
 	public void hide() {
-		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
-				.getLayoutParams();
-		lp.height = 0;
-		mContentView.setLayoutParams(lp);
+		if (needFooter) {
+			isShowing = false;
+			LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
+			lp.height = 1;
+			mContentView.setLayoutParams(lp);
+		}
 	}
 
 	/**
 	 * show footer
 	 */
 	public void show() {
-		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
-				.getLayoutParams();
-		lp.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-		mContentView.setLayoutParams(lp);
+		if (needFooter) {
+			isShowing = true;
+			LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
+			lp.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+			mContentView.setLayoutParams(lp);
+		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressLint("InflateParams")
 	private void initView(Context context) {
 		mContext = context;
 		LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext)
 				.inflate(R.layout.xlistview_footer, null);
 		addView(moreView);
 		moreView.setLayoutParams(new LinearLayout.LayoutParams(
-				android.view.ViewGroup.LayoutParams.FILL_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
 		mContentView = moreView.findViewById(R.id.xlistview_footer_content);
 		mProgressBar = moreView.findViewById(R.id.xlistview_footer_progressbar);
@@ -126,12 +135,11 @@ public class XListViewFooter extends LinearLayout {
 				.findViewById(R.id.xlistview_footer_hint_textview);
 	}
 
-	public void setGone() // 取消上拉模式初始化时调用
-	{
-		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
-				.getLayoutParams();
-		lp.height = 1;
-		mContentView.setLayoutParams(lp);
-		mContentView.setVisibility(View.INVISIBLE);
+	private boolean needFooter = true;
+	public void setGone() { // 取消上拉模式初始化时调用
+		if (needFooter) {
+			hide();
+			needFooter = false;
+		}
 	}
 }

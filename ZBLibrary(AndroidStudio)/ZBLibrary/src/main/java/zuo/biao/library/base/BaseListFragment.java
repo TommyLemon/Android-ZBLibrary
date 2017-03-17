@@ -21,11 +21,11 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
-import zuo.biao.library.interfaces.OnResultListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.util.Log;
+import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -67,8 +67,8 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * @warn 在initData前使用才有效
 	 * @param cacheCallBack
 	 */
-	protected void initCache(CacheCallBack<T> onCacheCallBack) {
-		this.cacheCallBack = onCacheCallBack;
+	protected void initCache(CacheCallBack<T> cacheCallBack) {
+		this.cacheCallBack = cacheCallBack;
 	}
 
 
@@ -170,40 +170,13 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public abstract void setList(List<T> list);
 
 	/**显示列表（已在UI线程中）
-	 * @param list
+	 * @param callBack
 	 */
 	public void setList(AdapterCallBack<BA> callBack) {
 		if (adapter == null) {
 			setAdapter(callBack.createAdapter());
 		}
 		callBack.refreshAdapter();
-	}
-	
-	/**显示列表（已在UI线程中），异步加载列表内容，提高列表流畅性
-	 * @param list
-	 * @param listener
-	 * @must cacheCallBack != null 且 cacheCallBack.getCacheId(data) 有正确返回值。可以通过initCache设置cacheCallBack
-	 * @use 调用后使用 .CacheAdapter 加载idList
-	 */
-	public void setListAsync(final List<T> list, final OnResultListener<List<String>> listener) {
-		runThread(TAG + "setListAsync", new Runnable() {
-
-			@Override
-			public void run() {
-				final List<String> idList = new ArrayList<String>();
-				if (list != null) {
-					for (T data : list) {
-						idList.add(cacheCallBack.getCacheId(data));
-					}
-				}
-				runUiThread(new Runnable() {
-					@Override
-					public void run() {
-						listener.onResult(idList);
-					}
-				});
-			}
-		});
 	}
 
 
@@ -220,34 +193,36 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	protected boolean isToLoadCache;
-	protected boolean isToSaveCache;
+	private boolean isToSaveCache;
+	private boolean isToLoadCache;
 	@Override
 	public void initData() {// 必须调用
 
-		isToSaveCache = cacheCallBack != null && cacheCallBack.getCacheClass() != null;
+		isToSaveCache = SettingUtil.cache && cacheCallBack != null && cacheCallBack.getCacheClass() != null;
 		isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(cacheCallBack.getCacheGroup(), true);
 	}
 
 	/**
 	 * 获取列表，在非UI线程中
 	 * @must 获取成功后调用onLoadSucceed
-	 * @param pageNum
+	 * @param page 在onLoadSucceed中传回来保证一致性
 	 */
-	public abstract void getListAsync(int pageNum);
+	public abstract void getListAsync(int page);
 
 
-	public void loadData(int pageNum) {
-		loadData(pageNum, isToLoadCache);
+
+	public void loadData(int page) {
+		loadData(page, isToLoadCache);
 	}
+
+	/**
+	 * 数据列表
+	 */
+	private List<T> list;
 	/**
 	 * 正在加载
 	 */
 	protected boolean isLoading = false;
-	//	/**线程不同步导致获取的值不可靠
-	//	 * 正在加载缓存
-	//	 */
-	//	protected boolean isLoadingCache = false;
 	/**
 	 * 还有更多可加载数据
 	 */
@@ -255,49 +230,49 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	/**
 	 * 加载页码，每页对应一定数量的数据
 	 */
-	protected int pageNum;
-	protected int loadCacheStart;
+	private int page;
+	private int loadCacheStart;
 	/**加载数据，用getListAsync方法发请求获取数据
-	 * @param pageNum_
-	 * @param isToLoadCache
+	 * @param page_
+	 * @param isCache
 	 */
-	public void loadData(int pageNum_, final boolean isToLoadCache) {
-		Log.i(TAG, "loadData  pageNum_ = " + pageNum_ + "; isToLoadCache = " + isToLoadCache);
+	private void loadData(int page_, final boolean isCache) {
 		if (isLoading) {
 			Log.w(TAG, "loadData  isLoading >> return;");
 			return;
 		}
 		isLoading = true;
+		isSucceed = false;
 
-		if (pageNum_ <= HttpManager.PAGE_NUM_0) {
-			pageNum_ = HttpManager.PAGE_NUM_0;
+		if (page_ <= HttpManager.PAGE_NUM_0) {
+			page_ = HttpManager.PAGE_NUM_0;
 			isHaveMore = true;
 			loadCacheStart = 0;//使用则可像网络正常情况下的重载，不使用则在网络异常情况下不重载（导致重载后加载数据下移）
 		} else {
 			if (isHaveMore == false) {
-				stopLoadData();
+				stopLoadData(page_);
 				return;
 			}
 			loadCacheStart = list == null ? 0 : list.size();
 		}
-		this.pageNum = pageNum_;
+		this.page = page_;
+		Log.i(TAG, "loadData  page_ = " + page_ + "; isCache = " + isCache
+				+ "; isHaveMore = " + isHaveMore + "; loadCacheStart = " + loadCacheStart);
 
 		runThread(TAG + "loadData", new Runnable() {
 
 			@Override
 			public void run() {
-				//从缓存获取数据
-				List<T> newList = isToLoadCache == false ? null : CacheManager.getInstance().getList(
-						cacheCallBack.getCacheClass(), cacheCallBack.getCacheGroup(), loadCacheStart);
-				if (newList == null || newList.isEmpty()) {
-					getListAsync(pageNum);
-					return;
-				}
-
-				onLoadSucceed(newList, true);
-				if (pageNum <= HttpManager.PAGE_NUM_0) {
-					isLoading = false;//stopLoadData在其它线程isLoading = false;后这个线程里还是true
-					loadData(pageNum, false);
+				if (isCache == false) {//从网络获取数据
+					getListAsync(page);
+				} else {//从缓存获取数据
+					onLoadSucceed(page, CacheManager.getInstance().getList(cacheCallBack.getCacheClass()
+							, cacheCallBack.getCacheGroup(), loadCacheStart, cacheCallBack.getCacheCount()),
+							true);
+					if (page <= HttpManager.PAGE_NUM_0) {
+						isLoading = false;//stopLoadeData在其它线程isLoading = false;后这个线程里还是true
+						loadData(page, false);
+					}
 				}
 			}
 		});
@@ -305,14 +280,16 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 	/**停止加载数据
 	 * isCache = false;
+	 * @param page
 	 */
-	public synchronized void stopLoadData() {
-		stopLoadData(false);
+	public synchronized void stopLoadData(int page) {
+		stopLoadData(page, false);
 	}
 	/**停止加载数据
+	 * @param page
 	 * @param isCache
 	 */
-	public synchronized void stopLoadData(boolean isCache) {
+	private synchronized void stopLoadData(int page, boolean isCache) {
 		Log.i(TAG, "stopLoadData  isCache = " + isCache);
 		isLoading = false;
 		dismissProgressDialog();
@@ -326,96 +303,100 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 			Log.w(TAG, "stopLoadData  onStopLoadListener == null >> return;");
 			return;
 		}
-		if (pageNum <= HttpManager.PAGE_NUM_0) {
-			onStopLoadListener.onStopRefresh();
-		} else {
+		onStopLoadListener.onStopRefresh();
+		if (page > HttpManager.PAGE_NUM_0) {
 			onStopLoadListener.onStopLoadMore(isHaveMore);
 		}
 	}
 
 
 
-	/**
-	 * 数据列表
-	 */
-	protected List<T> list;
-	/**
-	 * 新数据列表
-	 */
-	protected List<T> newList = null;
+	private boolean isSucceed = false;
 	/**处理列表
-	 * @param newList_ 新数据列表
-	 * @param isCache 
+	 * @param page
+	 * @param newList 新数据列表
+	 * @param isCache
+	 * @return
 	 * @return
 	 */
-	public synchronized void handleList(List<T> newList_, boolean isCache) {
-		this.newList = newList_;
+	public synchronized void handleList(int page, List<T> newList, boolean isCache) {
 		if (newList == null) {
 			newList = new ArrayList<T>();
 		}
-		Log.i(TAG, "handleList  newList.size = " + newList.size() + "; isCache = " + isCache);
+		isSucceed = ! newList.isEmpty();
+		Log.i(TAG, "\n\n<<<<<<<<<<<<<<<<<\n handleList  newList.size = " + newList.size() + "; isCache = " + isCache
+				+ "; page = " + page + "; isSucceed = " + isSucceed);
 
-		if (pageNum <= HttpManager.PAGE_NUM_0) {
+		if (page <= HttpManager.PAGE_NUM_0) {
+			Log.i(TAG, "handleList  page <= HttpManager.PAGE_NUM_0 >>>>  ");
 			saveCacheStart = 0;
-			list = newList;
-			if (isCache == false && list != null && list.size() > 0) {
+			list = new ArrayList<T>(newList);
+			if (isCache == false && list.isEmpty() == false) {
+				Log.i(TAG, "handleList  isCache == false && list.isEmpty() == false >>  isToLoadCache = false;");
 				isToLoadCache = false;
 			}
 		} else {
-			saveCacheStart = list == null ? 0 : list.size();
-			if (newList.size() <= 0) {
-				isHaveMore = false;
-			} else {
-				if (list == null) {
-					list = new ArrayList<T>();
-				}
+			Log.i(TAG, "handleList  page > HttpManager.PAGE_NUM_0 >>>>  ");
+			if (list == null) {
+				list = new ArrayList<T>();
+			}
+			saveCacheStart = list.size();
+			isHaveMore = ! newList.isEmpty();
+			if (isHaveMore) {
 				list.addAll(newList);
 			}
 		}
+
+		Log.i(TAG, "handleList  list.size = " + list.size() + "; isHaveMore = " + isHaveMore
+				+ "; isToLoadCache = " + isToLoadCache + "; saveCacheStart = " + saveCacheStart
+				+ "\n>>>>>>>>>>>>>>>>>>\n\n");
 	}
 
 
 
 	/**加载成功
 	 * isCache = false;
+	 * @param page
 	 * @param newList
 	 */
-	public synchronized void onLoadSucceed(final List<T> newList) {
-		onLoadSucceed(newList, false);
+	public synchronized void onLoadSucceed(final int page, final List<T> newList) {
+		onLoadSucceed(page, newList, false);
 	}
 	/**加载成功
+	 * @param page
 	 * @param newList
 	 * @param isCache newList是否为缓存
 	 */
-	public synchronized void onLoadSucceed(final List<T> newList, final boolean isCache) {
+	private synchronized void onLoadSucceed(final int page, final List<T> newList, final boolean isCache) {
 		runThread(TAG + "onLoadSucceed", new Runnable() {
 			@Override
 			public void run() {
-				Log.i(TAG, "onLoadSucceed  isCache = " + isCache + " >> handleList...");
-				handleList(newList, isCache);
-
-				if (isToSaveCache && isCache == false) {
-					saveCache();
-				}
+				Log.i(TAG, "onLoadSucceed  page = " + page + "; isCache = " + isCache + " >> handleList...");
+				handleList(page, newList, isCache);
 
 				runUiThread(new Runnable() {
 
 					@Override
 					public void run() {
+						stopLoadData(page, isCache);
 						setList(list);
-						stopLoadData(isCache);
 					}
 				});
+
+				if (isToSaveCache && isCache == false) {
+					saveCache(newList);
+				}
 			}
 		});
 	}
 
 	/**加载失败
+	 * @param page
 	 * @param e
 	 */
-	public synchronized void onLoadFailed(Exception e) {
-		Log.e(TAG, "onLoadFailed e = " + e);
-		stopLoadData();
+	public synchronized void onLoadFailed(int page, Exception e) {
+		Log.e(TAG, "onLoadFailed page = " + page + "; e = " + (e == null ? null : e.getMessage()));
+		stopLoadData(page);
 		showShortToast(R.string.get_failed);
 	}
 
@@ -423,21 +404,22 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 
 	//缓存<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	/**
-	 * 获取缓存每页数量
-	 * @return > 0 ？缓存 : 不缓存
-	 */
-	public int getCachePageSize() {
-		//让给服务器返回每页数量为pageSize的数据，不行的话在子类重写 Math.max(10, newList == null ? 0 : newList.size());
-		return CacheManager.MAX_PAGE_SIZE;
-	}
+	//	/**
+	//	 * 获取缓存每页数量
+	//	 * @return > 0 ？缓存 : 不缓存
+	//	 */
+	//	public int getCacheCount() {
+	//		//让给服务器返回每页数量为count的数据，不行的话在子类重写 Math.max(10, newList == null ? 0 : newList.size());
+	//		return CacheManager.MAX_PAGE_SIZE;
+	//	}
 
 	private int saveCacheStart;
 	/**保存缓存
+	 * @param newList
 	 */
-	public synchronized void saveCache() {
-		if (cacheCallBack == null || newList == null) {
-			Log.e(TAG, "saveCache  cacheCallBack == null || newList == null >> return;");
+	public synchronized void saveCache(List<T> newList) {
+		if (cacheCallBack == null || newList == null || newList.isEmpty()) {
+			Log.e(TAG, "saveCache  cacheCallBack == null || newList == null || newList.isEmpty() >> return;");
 			return;
 		}
 
@@ -449,7 +431,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 		}
 
 		CacheManager.getInstance().saveList(cacheCallBack.getCacheClass(), cacheCallBack.getCacheGroup()
-				, map, saveCacheStart, cacheCallBack.getCachePageSize());
+				, map, saveCacheStart, cacheCallBack.getCacheCount());
 	}
 	//缓存>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -483,7 +465,11 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	/**加载更多
 	 */
 	public void onLoadMore() {
-		loadData(pageNum + 1);
+		if (isSucceed == false && page <= HttpManager.PAGE_NUM_0) {
+			Log.w(TAG, "onLoadMore  isSucceed == false && page <= HttpManager.PAGE_NUM_0 >> return;");
+			return;
+		}
+		loadData(page + (isSucceed ? 1 : 0));
 	}
 
 
@@ -494,16 +480,15 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 
 	@Override
 	public void onDestroy() {
-		stopLoadData();
+		isLoading = false;
+		isHaveMore = false;
+		isToSaveCache = false;
+		isToLoadCache = false;
 
 		super.onDestroy();
-		isLoading = false;
-		isHaveMore = true;
 
 		lvBaseList = null;
-
 		list = null;
-		newList = null;
 
 		onStopLoadListener = null;
 		cacheCallBack = null;

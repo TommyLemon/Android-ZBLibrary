@@ -44,6 +44,6 @@ public interface CacheCallBack<T> {
 	 * 获取缓存每页数量
 	 * @return > 0 ？缓存 : 不缓存
 	 */
-	int getCachePageSize();
+	int getCacheCount();
 	
 }

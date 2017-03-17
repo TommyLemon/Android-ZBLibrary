@@ -14,17 +14,19 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.interfaces.OnReachViewBorderListener;
-import zuo.biao.library.util.CommonUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.interfaces.OnReachViewBorderListener;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.SettingUtil;
 
 /**基础Adapter
  * <br> 适用于ListView,GridView等AbsListView的子类
@@ -39,7 +41,7 @@ import android.view.ViewGroup;
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	//	private static final String TAG = "BaseAdapter";
 
-	
+
 	/**
 	 * 管理整个界面的Activity实例
 	 */
@@ -69,7 +71,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		this.list = list == null ? null : new ArrayList<T>(list);
 		notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public int getCount() {
 		return list == null ? 0 : list.size();
@@ -89,9 +91,9 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 		return position;
 	}
 
-	
+
 	//预加载，可不使用 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	protected OnReachViewBorderListener onReachViewBorderListener;
 	/**设置到达parent的边界的监听
 	 * @param onReachViewBorderListener
@@ -99,7 +101,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	public void setOnReachViewBorderListener(OnReachViewBorderListener onReachViewBorderListener) {
 		this.onReachViewBorderListener = onReachViewBorderListener;
 	}
-	
+
 	/**
 	 * 预加载提前数
 	 * @use 可在子类getView前赋值;
@@ -115,14 +117,14 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (onReachViewBorderListener != null && position >= getCount() - 1 - preloadCount) {
+		if (SettingUtil.preload && onReachViewBorderListener != null && position >= getCount() - 1 - preloadCount) {
 			onReachViewBorderListener.onReach(OnReachViewBorderListener.TYPE_BOTTOM, parent);
 		}
 		return convertView;
 	}
 
 	//预加载，可不使用 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+
 
 
 
