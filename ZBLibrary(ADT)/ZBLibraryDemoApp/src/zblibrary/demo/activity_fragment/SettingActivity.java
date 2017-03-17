@@ -58,14 +58,16 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 	@Override
 	public void initView() {//必须调用
 		
-		ivSettings = new ImageView[5];
-		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingVoice); 
-		ivSettings[1] = (ImageView) findViewById(R.id.ivSettingVibrate); 
+		ivSettings = new ImageView[7];
+		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingCache); 
+		ivSettings[1] = (ImageView) findViewById(R.id.ivSettingPreload); 
+		
+		ivSettings[2] = (ImageView) findViewById(R.id.ivSettingVoice); 
+		ivSettings[3] = (ImageView) findViewById(R.id.ivSettingVibrate); 
+		ivSettings[4] = (ImageView) findViewById(R.id.ivSettingNoDisturb); 
 
-		ivSettings[2] = (ImageView) findViewById(R.id.ivSettingNoDisturb); 
-
-		ivSettings[3] = (ImageView) findViewById(R.id.ivSettingTestMode); 
-		ivSettings[4] = (ImageView) findViewById(R.id.ivSettingFirstStart);
+		ivSettings[5] = (ImageView) findViewById(R.id.ivSettingTestMode); 
+		ivSettings[6] = (ImageView) findViewById(R.id.ivSettingFirstStart);
 
 	}
 
@@ -81,7 +83,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 			return;
 		}
 
-		ivSettings[which].setImageResource(isToOn == false ? switchResIds[0] : switchResIds[1]);
+		ivSettings[which].setImageResource(switchResIds[isToOn ? 1 : 0]);
 		settings[which] = isToOn;
 	}
 
@@ -166,7 +168,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			SettingUtil.restoreDefault(context);
+			SettingUtil.restoreDefault();
 			initData();
 			return;
 		}	
@@ -191,7 +193,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 				@Override
 				public void run() {
 
-					SettingUtil.putAllBoolean(context, settings);
+					SettingUtil.putAllBoolean(settings);
 					isSettingChanged = false;
 					runUiThread(new Runnable() {
 

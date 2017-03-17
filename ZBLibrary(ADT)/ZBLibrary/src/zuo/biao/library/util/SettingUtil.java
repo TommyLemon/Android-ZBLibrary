@@ -35,6 +35,9 @@ public final class SettingUtil {
 	private SettingUtil() {/*不能实例化**/}
 
 
+	public static final String KEY_CACHE = "KEY_CACHE";//开启缓存
+	public static final String KEY_PRELOAD = "KEY_PRELOAD";//开启预加载
+
 	public static final String KEY_VOICE = "KEY_VOICE";//开启通知声
 	public static final String KEY_VIBRATE = "KEY_VIBRATE";//开启震动
 	public static final String KEY_NO_DISTURB = "KEY_NO_DISTURB";//夜间防打扰
@@ -43,6 +46,9 @@ public final class SettingUtil {
 	public static final String KEY_IS_FIRST_START = "KEY_IS_FIRST_START";//第一次打开应用
 
 	public static final String[] KEYS = {
+		KEY_CACHE,
+		KEY_PRELOAD,
+
 		KEY_VOICE,
 		KEY_VIBRATE,
 		KEY_NO_DISTURB,
@@ -51,6 +57,9 @@ public final class SettingUtil {
 		KEY_IS_FIRST_START,
 	};
 
+	public static boolean cache = true;//开启缓存
+	public static boolean preload = true;//开启预加载
+
 	public static boolean voice = true;//开启通知声
 	public static boolean vibrate = true;//开启震动
 	public static boolean noDisturb = false;//夜间防打扰
@@ -58,7 +67,10 @@ public final class SettingUtil {
 	public static boolean isOnTestMode = false;//测试模式
 	public static boolean isFirstStart = true;//第一次打开应用
 
-	public static final boolean[] defaultValues = {
+	public static final boolean[] defaultValues = new boolean[]{
+		cache,//开启缓存
+		preload,//开启预加载
+
 		voice,//开启通知声
 		vibrate,//开启震动
 		noDisturb,//夜间防打扰
@@ -67,25 +79,29 @@ public final class SettingUtil {
 		isFirstStart,//第一次打开应用
 	};
 
+	private static Context context;
 	/**初始化
-	 * @param context
+	 * @param context_
 	 */
-	public static void init(Context context) {
+	public static void init(Context context_) {
+		context = context_;
 
-		voice = getBoolean(context, KEY_VOICE, voice);
-		vibrate = getBoolean(context, KEY_VIBRATE, vibrate);
-		noDisturb = getBoolean(context, KEY_NO_DISTURB, noDisturb);
+		cache = getBoolean(KEY_CACHE, cache);
+		preload = getBoolean(KEY_PRELOAD, preload);
 
-		isOnTestMode = getBoolean(context, KEY_IS_ON_TEST_MODE, isOnTestMode);
-		isFirstStart = getBoolean(context, KEY_IS_FIRST_START, isFirstStart);
+		voice = getBoolean(KEY_VOICE, voice);
+		vibrate = getBoolean(KEY_VIBRATE, vibrate);
+		noDisturb = getBoolean(KEY_NO_DISTURB, noDisturb);
+
+		isOnTestMode = getBoolean(KEY_IS_ON_TEST_MODE, isOnTestMode);
+		isFirstStart = getBoolean(KEY_IS_FIRST_START, isFirstStart);
 	}
 
 	/**恢复默认
-	 * @param context
 	 */
-	public static void restoreDefault(Context context) {
+	public static void restoreDefault() {
 		for (int i = 0; i < KEYS.length; i++) {
-			putBoolean(context, KEYS[i], defaultValues[i]);
+			putBoolean(KEYS[i], defaultValues[i]);
 		}
 
 		init(context);
@@ -116,14 +132,13 @@ public final class SettingUtil {
 	}
 
 	/**
-	 * @param context
 	 * @param key
 	 * @param defaultValue
 	 * @return
 	 */
-	public static boolean getBoolean(Context context, String key, boolean defaultValue){
-		if (context == null || isContainKey(key) == false) {
-			Log.e(TAG, "writeBoolean  context == null || isContainKey(key) == false >> return defaultValue;");
+	public static boolean getBoolean(String key, boolean defaultValue){
+		if (isContainKey(key) == false) {
+			Log.e(TAG, "writeBoolean  isContainKey(key) == false >> return defaultValue;");
 			return defaultValue;
 		}
 
@@ -132,12 +147,11 @@ public final class SettingUtil {
 
 
 	/**设置所有boolean
-	 * @param context
 	 * @param values
 	 */
-	public static void putAllBoolean(Context context, boolean[] values){
-		if (context == null || values == null || values.length != KEYS.length) {
-			Log.e(TAG, "putAllBoolean  context == null || values == null || values.length != KEYS.length >> return;");
+	public static void putAllBoolean(boolean[] values){
+		if (values == null || values.length != KEYS.length) {
+			Log.e(TAG, "putAllBoolean  values == null || values.length != KEYS.length >> return;");
 			return;
 		}
 
@@ -152,14 +166,13 @@ public final class SettingUtil {
 	}
 
 	/**
-	 * @param context
 	 * @param key
 	 * @param value
 	 */
-	public static void putBoolean(Context context, String key, boolean value){
+	public static void putBoolean(String key, boolean value){
 		int keyIndex = getKeyIndex(key);
-		if (context == null || keyIndex <= 0) {
-			Log.e(TAG, "writeBoolean  context == null || keyIndex <= 0 >> return;");
+		if (keyIndex <= 0) {
+			Log.e(TAG, "writeBoolean  keyIndex <= 0 >> return;");
 			return;
 		}
 
@@ -179,6 +192,9 @@ public final class SettingUtil {
 	public static boolean[] getAllBooleans(Context context) {
 		init(context);
 		return new boolean[]{
+				cache,
+				preload,
+
 				voice,
 				vibrate,
 				noDisturb,
@@ -192,11 +208,10 @@ public final class SettingUtil {
 	public static final int[] NO_DISTURB_END_TIME = {6, 0};
 
 	/**免打扰
-	 * @param context
 	 * @return
 	 */
-	public static boolean noDisturb(Context context) {
-		return getBoolean(context, KEY_NO_DISTURB, noDisturb)
+	public static boolean noDisturb() {
+		return getBoolean(KEY_NO_DISTURB, noDisturb)
 				&& TimeUtil.isNowInTimeArea(NO_DISTURB_START_TIME, NO_DISTURB_END_TIME);
 	}
 
@@ -223,40 +238,40 @@ public final class SettingUtil {
 
 	/**获取当前服务器地址
 	 * isHttps = false
-	 * @param context
 	 * @return
 	 */
 	public static String getCurrentServerAddress(Context context) {
-		return getCurrentServerAddress(context, false);
+		return getCurrentServerAddress(false);
 	}
 	/**获取当前服务器地址
-	 * @param context
 	 * @param isHttps
 	 * @return
 	 */
-	public static String getCurrentServerAddress(Context context, boolean isHttps) {
-		return isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : getServerAddress(context, isOnTestMode);
+	public static String getCurrentServerAddress(boolean isHttps) {
+		return isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : getServerAddress(isOnTestMode);
 	}
 	/**获取服务器地址
 	 * isHttps = false
-	 * @param context
 	 * @param isTest
 	 * @return
 	 */
-	public static String getServerAddress(Context context, boolean isTest) {
-		return getServerAddress(context, isTest, false);
+	public static String getServerAddress(boolean isTest) {
+		return getServerAddress(isTest, false);
 	}
 	/**获取服务器地址
-	 * @param context
 	 * @param isTest
 	 * @return
 	 */
-	public static String getServerAddress(Context context, boolean isTest, boolean isHttps) {
-		SharedPreferences sdf = context == null ? null : context.getSharedPreferences(APP_SETTING, Context.MODE_PRIVATE);
-		return sdf == null ? null : sdf.getString(
-				isTest ? KEY_SERVER_ADDRESS_TEST : KEY_SERVER_ADDRESS_NORMAL 
-				, isTest ? URL_SERVER_ADDRESS_TEST : (
-						isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : URL_SERVER_ADDRESS_NORMAL_HTTP));
+	public static String getServerAddress(boolean isTest, boolean isHttps) {
+		SharedPreferences sdf = context.getSharedPreferences(APP_SETTING, Context.MODE_PRIVATE);
+		if (sdf == null) {
+			return null;
+		}
+		if (isTest) {
+			return sdf.getString(KEY_SERVER_ADDRESS_TEST, URL_SERVER_ADDRESS_TEST);
+		}
+		return sdf.getString(KEY_SERVER_ADDRESS_NORMAL
+				, isHttps ? URL_SERVER_ADDRESS_NORMAL_HTTPS : URL_SERVER_ADDRESS_NORMAL_HTTP);
 	}
 
 

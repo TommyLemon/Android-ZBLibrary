@@ -16,11 +16,13 @@ package zuo.biao.library.base;
 
 import java.util.List;
 
+import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
+import zuo.biao.library.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -28,6 +30,8 @@ import android.widget.BaseAdapter;
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <BA> 管理XListView的Adapter
+ * @see #getListAsync(int)
+ * @see #onHttpResponse(int, String, Exception)
  * @use extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
 public abstract class BaseHttpListActivity<T, BA extends BaseAdapter> extends BaseListActivity<T, XListView, BA>
@@ -43,26 +47,31 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 	public void initView() {
 		super.initView();
 
-		setAdapter(null);//ListView需要设置adapter才能显示header和footer
+		setList((List<T>) null);//ListView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
 	}
 
 	/**设置列表适配器
 	 * @param adapter if (adapter != null && adapter instanceof BaseHttpAdapter) >> 预加载
 	 */
 	@SuppressWarnings("unchecked")
-	public void setAdapter(BA adapter) {
-		super.setAdapter(adapter);
-		lvBaseList.showFooter(adapter != null);
+	@Override
+	public void setList(AdapterCallBack<BA> callBack) {
+		super.setList(callBack);
+		boolean empty = adapter == null || adapter.isEmpty();
+		Log.d(TAG, "setList  adapter empty = " + empty);
+		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
 
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
-			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(new OnReachViewBorderListener(){
-				@Override
-				public void onReach(int type, View v) {
-					if (type == TYPE_BOTTOM) {
-						lvBaseList.onLoadMore();
-					}
-				}
-			});
+			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(
+					empty || lvBaseList.isFooterShowing() == false ? null : new OnReachViewBorderListener(){
+
+						@Override
+						public void onReach(int type, View v) {
+							if (type == TYPE_BOTTOM) {
+								lvBaseList.onLoadMore();
+							}
+						}
+					});
 		}
 	}
 
@@ -86,8 +95,8 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 	}
 
 	/**
-	 * 将Json串转为List（已在非UI线程中）
-	 * *直接Json.parseArray(json, getCacheClass());可以省去这个方法，但由于可能json不完全符合parseArray条件，所以还是要保留。
+	 * 将JSON串转为List（已在非UI线程中）
+	 * *直接JSON.parseArray(json, getCacheClass());可以省去这个方法，但由于可能json不完全符合parseArray条件，所以还是要保留。
 	 * *比如json只有其中一部分能作为parseArray的字符串时，必须先提取出这段字符串再parseArray
 	 */
 	public abstract List<T> parseArray(String json);
@@ -114,6 +123,12 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 		lvBaseList.setXListViewListener(this);
 	}
 
+	/* 
+	 * @param page 用-page作为requestCode
+	 */
+	@Override
+	public abstract void getListAsync(int page);
+
 	@Override
 	public void onStopRefresh() {
 		runUiThread(new Runnable() {
@@ -135,17 +150,29 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 		});
 	}
 
+	/**
+	 * @param requestCode  = -page {@link #getListAsync(int)}
+	 * @param resultJson  
+	 * @param e  
+	 */
 	@Override
-	public void onHttpResponse(int requestCode, final String resultJson, final Exception e) {
+	public void onHttpResponse(final int requestCode, final String resultJson, final Exception e) {
 		runThread(TAG + "onHttpResponse", new Runnable() {
 
 			@Override
 			public void run() {
-				List<T> array = parseArray(resultJson);
-				if ((array == null || array.isEmpty()) && e != null) {
-					onLoadFailed(e);
+				int page = 0;
+				if (requestCode > 0) {
+					Log.w(TAG, "requestCode > 0, 应该用BaseListFragment#getListAsync(int page)中的page的负数作为requestCode!");
 				} else {
-					onLoadSucceed(array);
+					page = - requestCode;
+				}
+				List<T> array = parseArray(resultJson);
+
+				if ((array == null || array.isEmpty()) && e != null) {
+					onLoadFailed(page, e);
+				} else {
+					onLoadSucceed(page, array);
 				}
 			}
 		});		

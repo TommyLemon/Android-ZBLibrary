@@ -140,15 +140,15 @@ implements OnBottomDragListener {
 	}
 
 	@Override
-	public void getListAsync(int pageNum) {
+	public void getListAsync(int page) {
 		showProgressDialog(R.string.loading);
 
 		List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
 		for (int i = 0; i < 6; i++) {
-			list.add(new Entry<String, String>(getPictureUrl(i + 6*pageNum), "联系人" + i + 6*pageNum));
+			list.add(new Entry<String, String>(getPictureUrl(i + 6*page), "联系人" + i + 6*page));
 		}
 
-		onLoadSucceed(list);
+		onLoadSucceed(page, list);
 	}
 
 	/**获取图片地址，仅供测试用

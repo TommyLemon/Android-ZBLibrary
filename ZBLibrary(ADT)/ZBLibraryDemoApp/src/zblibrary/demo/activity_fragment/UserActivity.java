@@ -14,8 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import org.json.JSONObject;
-
 import zblibrary.demo.R;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.MenuUtil;
@@ -32,7 +30,7 @@ import zuo.biao.library.ui.BottomMenuWindow;
 import zuo.biao.library.ui.EditTextInfoActivity;
 import zuo.biao.library.ui.TextClearSuit;
 import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.Json;
+import zuo.biao.library.util.JSON;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
@@ -44,6 +42,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSONObject;
 
 /**联系人资料界面
  * @author Lemon
@@ -229,7 +229,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		}
 		switch (intentCode) {
 		case MenuUtil.INTENT_CODE_SEND:
-			CommonUtil.shareInfo(context, Json.toJSONString(user));
+			CommonUtil.shareInfo(context, JSON.toJSONString(user));
 			break;
 		case MenuUtil.INTENT_CODE_QRCODE:
 			toActivity(QRCodeActivity.createIntent(context, userId));
@@ -261,9 +261,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	public void onHttpResponse(int requestCode, String resultJson, Exception e) {
 		User user = null;
 		try {//如果服务器返回的json一定在最外层有个data，可以用OnHttpResponseListenerImpl解析
-			JSONObject jsonObject = new JSONObject(resultJson);
-			JSONObject data = jsonObject.getJSONObject("data");
-			user = Json.parseObject("" + data, User.class);
+			JSONObject jsonObject = JSON.parseObject(resultJson);
+			JSONObject data = jsonObject == null ? null : jsonObject.getJSONObject("data");
+			user = JSON.parseObject(data, User.class);
 		} catch (Exception e1) {
 			Log.e(TAG, "onHttpResponse  try { user = Json.parseObject(... >>" +
 					" } catch (JSONException e1) {\n" + e1.getMessage());
@@ -280,7 +280,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	//	//对应HttpRequest.getUser(userId, 0, new OnHttpResponseListenerImpl(UserActivity.this)); <<<<<
 	//	@Override
 	//	public void onHttpSuccess(int requestCode, int resultCode, String resultData) {
-	//		setUser(Json.parseObject(resultData, User.class));
+	//		setUser(JSON.parseObject(resultData, User.class));
 	//	}
 	//
 	//	@Override

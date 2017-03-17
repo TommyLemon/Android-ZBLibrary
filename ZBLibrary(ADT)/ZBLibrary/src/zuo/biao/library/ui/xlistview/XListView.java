@@ -77,6 +77,9 @@ public class XListView extends ListView implements OnScrollListener {
 		initWithContext(context);
 	}
 
+	public boolean isFooterShowing() {
+		return isFooterAdded && mFooterView != null && mFooterView.isShowing();
+	}
 	/**
 	 * mFooterView是否已被添加
 	 */
@@ -193,6 +196,10 @@ public class XListView extends ListView implements OnScrollListener {
 	 * @author Lemon
 	 */
 	public void onRefresh() {
+//		if (getCount() <= 0) {//解决onRefresh失败后不显示footer
+			showFooter(false);
+//		}
+		
 		mPullRefreshing = true;
 		smoothScrollToPosition(0);
 		mHeaderView.setVisiableHeight((int) getContext().getResources()
@@ -315,10 +322,12 @@ public class XListView extends ListView implements OnScrollListener {
 	}
 
 	private void startLoadMore() {
-		mPullLoading = true;
-		mFooterView.setState(XListViewFooter.STATE_LOADING);
-		if (mListViewListener != null) {
-			mListViewListener.onLoadMore();
+		if (isFooterShowing()) {
+			mPullLoading = true;
+			mFooterView.setState(XListViewFooter.STATE_LOADING);
+			if (mListViewListener != null) {
+				mListViewListener.onLoadMore();
+			}
 		}
 	}
 
@@ -353,8 +362,11 @@ public class XListView extends ListView implements OnScrollListener {
 			mLastY = -1; // reset
 			if (getFirstVisiblePosition() == 0) {
 				// invoke refresh
-				if (mEnablePullRefresh
-						&& mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
+				if (mEnablePullRefresh && mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
+//					if (getCount() <= 0) {
+						showFooter(false);
+//					}
+					
 					mPullRefreshing = true;
 					mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
 					if (mListViewListener != null) {

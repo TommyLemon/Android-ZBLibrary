@@ -213,7 +213,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 				@Override
 				public void run() {
 					Log.i(TAG, "onDragBottom  >> SettingUtil.putBoolean(context, SettingUtil.KEY_IS_FIRST_IN, false);");
-					SettingUtil.putBoolean(context, SettingUtil.KEY_IS_FIRST_START, false);
+					SettingUtil.putBoolean(SettingUtil.KEY_IS_FIRST_START, false);
 				}
 			});
 		}

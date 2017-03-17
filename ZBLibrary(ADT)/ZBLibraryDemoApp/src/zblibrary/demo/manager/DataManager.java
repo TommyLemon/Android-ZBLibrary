@@ -16,7 +16,7 @@ package zblibrary.demo.manager;
 
 import zblibrary.demo.application.DemoApplication;
 import zblibrary.demo.model.User;
-import zuo.biao.library.util.Json;
+import zuo.biao.library.util.JSON;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.content.Context;
@@ -120,7 +120,7 @@ public class DataManager {
             return null;
         }
         Log.i(TAG, "getUser  userId = " + userId);
-        return Json.parseObject(sdf.getString(StringUtil.getTrimedString(userId), null), User.class);
+        return JSON.parseObject(sdf.getString(StringUtil.getTrimedString(userId), null), User.class);
     }
 
 
@@ -165,7 +165,7 @@ public class DataManager {
         }
         String key = StringUtil.getTrimedString(user.getId());
         Log.i(TAG, "saveUser  key = user.getId() = " + user.getId());
-        sdf.edit().remove(key).putString(key, Json.toJSONString(user)).commit();
+        sdf.edit().remove(key).putString(key, JSON.toJSONString(user)).commit();
     }
 
     /**删除用户

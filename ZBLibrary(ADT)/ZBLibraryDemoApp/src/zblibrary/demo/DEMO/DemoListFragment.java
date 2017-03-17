@@ -114,7 +114,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 
 
 	@Override
-	public void getListAsync(int pageNum) {
+	public void getListAsync(int page) {
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		showProgressDialog(R.string.loading);
 
@@ -123,7 +123,7 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 			list.add(new Entry<String, String>("联系人" + i , String.valueOf(1311736568 + i*i)));
 		}
 
-		onLoadSucceed(list);
+		onLoadSucceed(page, list);
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
