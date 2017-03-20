@@ -90,7 +90,7 @@ Scroll ListView faster, more accurate and comfortable.
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
 
 
-##关于作者
+## 关于作者
 TommyLemon：[https://github.com/TommyLemon](https://github.com/TommyLemon)
 QQ群：595514898
 
