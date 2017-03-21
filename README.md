@@ -50,7 +50,7 @@ UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google�
 [PagedListView](https://github.com/TommyLemon/PagedListView)
 Scroll ListView faster, more accurate and comfortable.
 
-##编程思想
+## 编程思想
 * 能复制就复制，节约时间避免出错
 * 保留原本结构，简单上手容易调试
 * 说明随手可得，不用上网或打开文档
@@ -64,7 +64,7 @@ Scroll ListView faster, more accurate and comfortable.
 * 分包结构合理，模块清晰浏览方便
 * 多用工具和快捷键，增删改查快捷高效
 
-##相关推荐
+## 相关推荐
 [Android快速开发框架-ZBLibrary介绍](http://my.oschina.net/u/2437072/blog/662017)
 
 [如何使用ZBLibrary-Android快速开发框架](http://my.oschina.net/u/2437072/blog/665241)
