@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**使用方法：复制>粘贴>改名>改代码  */
-/**通用自定义View模板，当View比较庞大复杂且使用次数>=2时建议使用
+/**自定义View模板，当View比较庞大复杂(解耦效果明显)或使用次数>=2(方便重用)时建议使用
  * @author Lemon
  * @see DemoAdapter2#getView(int, View, android.view.ViewGroup)
  * @use

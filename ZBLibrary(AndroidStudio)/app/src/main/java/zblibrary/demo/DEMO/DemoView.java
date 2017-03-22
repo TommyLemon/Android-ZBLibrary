@@ -14,10 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseView;
-import zuo.biao.library.model.Entry;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -28,8 +24,13 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseView;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.util.StringUtil;
+
 /**使用方法：复制>粘贴>改名>改代码  */
-/**通用自定义View模板，当View比较庞大复杂且使用次数>=2时建议使用
+/**自定义View模板，当View比较庞大复杂(解耦效果明显)或使用次数>=2(方便重用)时建议使用
  * @author Lemon
  * @see DemoAdapter2#getView(int, View, android.view.ViewGroup)
  * @use
@@ -37,7 +38,7 @@ import android.widget.TextView;
  * <br> adapter中使用:[具体参考.BaseViewAdapter(getView使用自定义View的写法)]
  * <br> convertView = demoView.createView(inflater);
  * <br> demoView.bindView(position, data);
- * <br> 或 其它类中使用: 
+ * <br> 或 其它类中使用:
  * <br> containerView.addView(demoView.createView(inflater));
  * <br> demoView.bindView(data);
  * <br> 然后
