@@ -103,10 +103,13 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 	}
 
 	/**
-	 * 预加载提前数
-	 * @use 可在子类getView前赋值;
+	 * 预加载提前数。
+	 * <br > = 0 - 列表滚到底部(最后一个Item View显示)时加载更多
+	 * <br > < 0 - 禁用加载更多
+	 * <br > > 0 - 列表滚到倒数第preloadCount个Item View显示时加载更多
+	 * @use 可在子类getView被调用前(可以是在构造器内)赋值
 	 */
-	protected int preloadCount = 1;
+	protected int preloadCount = 0;
 
 	/**获取item对应View的方法，带item滑到底部等监听
 	 * @param position
