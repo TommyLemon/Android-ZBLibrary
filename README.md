@@ -103,6 +103,6 @@ QQ群：595514898
 ## 更新日志
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
 
-## 欢迎Star，欢迎Fork
+## 点Star支持我 或 点Fork研究它
 
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
