@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- ListView中的ItemView里不要用Button等默认hasFocus的控件，以免onItemClick事件无响应 -->
+<!-- 如果一定要用，则必须在根布局加上 android:descendantFocusability="blocksDescendants" -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ll_horizontal_match_wrap"
     android:padding="6dp" >

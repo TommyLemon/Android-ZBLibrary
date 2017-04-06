@@ -14,16 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +24,15 @@ import zuo.biao.library.model.GridPickerConfig;
 import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.PlaceUtil;
 import zuo.biao.library.util.StringUtil;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
 
 /**地址选择弹窗
  * @author Lemon

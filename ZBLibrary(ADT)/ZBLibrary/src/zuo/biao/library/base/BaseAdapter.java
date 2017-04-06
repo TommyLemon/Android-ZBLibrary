@@ -14,19 +14,18 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.SettingUtil;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**基础Adapter
  * <br> 适用于ListView,GridView等AbsListView的子类

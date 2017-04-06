@@ -21,20 +21,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.zxing.activity.CaptureActivity;
-import com.zxing.camera.CameraManager;
 import com.zxing.view.ViewfinderView;
 
 /**扫描二维码Activity
  * @author Lemon
  * @use toActivity(ScanActivity.createIntent(...));
  */
-public class ScanActivity extends CaptureActivity implements Callback, ActivityPresenter, OnClickListener {
+public class ScanActivity extends CaptureActivity implements ActivityPresenter, OnClickListener {
 	public static final String TAG = "ScanActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -78,16 +76,6 @@ public class ScanActivity extends CaptureActivity implements Callback, ActivityP
 	}
 
 
-	private boolean isOpen = false;
-	/**打开或关闭闪关灯
-	 * @param open
-	 */
-	private void switchLight(boolean open) {
-		if (open == isOpen) {
-			return;
-		}
-		isOpen = CameraManager.get().switchLight(open);
-	}
 
 
 
@@ -144,7 +132,7 @@ public class ScanActivity extends CaptureActivity implements Callback, ActivityP
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ivCameraScanLight:
-			switchLight(! isOpen);
+			switchLight(! isOn());
 			break;
 		default:
 			break;
@@ -164,12 +152,7 @@ public class ScanActivity extends CaptureActivity implements Callback, ActivityP
 
 	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		isOpen = false;
-	}
-	
+
 	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

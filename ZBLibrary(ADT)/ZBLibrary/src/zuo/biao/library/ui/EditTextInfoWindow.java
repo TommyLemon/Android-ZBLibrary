@@ -312,7 +312,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	@Override
 	public void finish() {
 		super.finish();
-		EditTextUtil.showKeyboard(context, etEditTextInfo, false);
+		EditTextUtil.hideKeyboard(context, etEditTextInfo);
 	}
 	
 	

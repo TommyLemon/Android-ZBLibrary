@@ -14,14 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import android.util.Log;
-import android.widget.TextView;
-
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import android.util.Log;
+import android.widget.TextView;
 
 /**通用字符串(String)相关类,为null时返回""
  * @author Lemon
