@@ -1,4 +1,4 @@
-# ZBLibrary-Android快速开发框架
+# ZBLibrary-Android快速开发框架 [![](https://jitpack.io/v/TommyLemon/Android-ZBLibrary.svg)](https://jitpack.io/#TommyLemon/Android-ZBLibrary)  [![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=15) [![Gradle Version](https://img.shields.io/badge/gradle-2.10-green.svg)](https://docs.gradle.org/current/release-notes) [![Licence](https://img.shields.io/badge/licence-Apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 坐标标准库ZBLibrary，是一个MVP架构的Android快速开发框架，提供一套开发标准（View,Data,Event）以及模板和工具类并规范代码。
 封装层级少，简单高效兼容性好。Android Studio、Eclipse多平台支持。
 
