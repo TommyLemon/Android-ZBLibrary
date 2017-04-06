@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Lemon added list中的item里不要用button等默认hasFocus的控件，以免onItemClick事件无响应 -->
+<!-- ListView中的ItemView里不要用Button等默认hasFocus的控件，以免onItemClick事件无响应 -->
+<!-- 如果一定要用，则必须在根布局加上 android:descendantFocusability="blocksDescendants" -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/content_item"
     android:background="@drawable/bg_item_to_alpha" >

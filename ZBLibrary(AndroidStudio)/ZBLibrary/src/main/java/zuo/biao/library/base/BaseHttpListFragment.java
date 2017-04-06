@@ -14,9 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import java.util.List;
 
 import zuo.biao.library.interfaces.AdapterCallBack;
@@ -26,6 +23,8 @@ import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
+import android.view.View;
+import android.widget.BaseAdapter;
 
 /**基础http获取列表的Fragment
  * @author Lemon
@@ -35,7 +34,7 @@ import zuo.biao.library.util.Log;
  * @see #onHttpResponse(int, String, Exception)
  * @use extends BaseHttpListFragment 并在子类onCreateView中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
-public abstract class BaseHttpListFragment<T, BA extends BaseAdapter> extends BaseListFragment<T, XListView, BA>
+public abstract class BaseHttpListFragment<T, BA extends BaseAdapter> extends BaseListFragment<T, XListView, BA> 
 implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	private static final String TAG = "BaseHttpListFragment";
 
@@ -124,7 +123,7 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 		lvBaseList.setXListViewListener(this);
 	}
 
-	/*
+	/* 
 	 * @param page 用-page作为requestCode
 	 */
 	@Override
@@ -153,8 +152,8 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 
 	/**
 	 * @param requestCode  = -page {@link #getListAsync(int)}
-	 * @param resultJson
-	 * @param e
+	 * @param resultJson  
+	 * @param e  
 	 */
 	@Override
 	public void onHttpResponse(final int requestCode, final String resultJson, final Exception e) {
@@ -176,7 +175,7 @@ implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadLis
 					onLoadSucceed(page, array);
 				}
 			}
-		});
+		});		
 	}
 
 

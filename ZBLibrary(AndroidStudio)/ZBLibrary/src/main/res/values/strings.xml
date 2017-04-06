@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">坐标标准库</string>
-    <string name="app_version">13.6</string>
+    <string name="app_version">14.2</string>
     <string name="share_app">我发现了一款很好用的Android快速开发框架，叫 Android－ZBLibrary ，快去GitHub上看看吧~</string>
     <string name="page_return">返回</string>
     <string name="remind">提示</string>
@@ -47,7 +47,7 @@
     <string name="xlistview_header_hint_ready">松开刷新数据</string>
     <string name="xlistview_header_hint_loading">正在刷新</string>
     <string name="xlistview_header_last_time">上次更新时间：</string>
-    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_normal">上拉加载更多</string>
     <string name="xlistview_footer_hint_ready">松开加载更多</string>
     <string name="xlistview_footer_hint_loading">正在加载更多...</string>
     <string name="xlistview_footer_hint_complete">已加载完全部</string>

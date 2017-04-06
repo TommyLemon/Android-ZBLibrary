@@ -14,9 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import java.util.List;
 
 import zuo.biao.library.interfaces.AdapterCallBack;
@@ -26,6 +23,8 @@ import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
+import android.view.View;
+import android.widget.BaseAdapter;
 
 /**基础http获取列表的Activity
  * @author Lemon

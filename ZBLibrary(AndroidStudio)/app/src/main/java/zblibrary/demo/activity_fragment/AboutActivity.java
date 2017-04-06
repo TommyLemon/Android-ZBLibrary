@@ -185,8 +185,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void initEvent() {
 		
-		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 		findViewById(R.id.llAboutMainTabActivity).setOnClickListener(this);
+		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 
 		findViewById(R.id.llAboutUpdate).setOnClickListener(this);
 		findViewById(R.id.llAboutShare).setOnClickListener(this);
@@ -224,16 +224,16 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.llAboutZBLibraryMainActivity:
-			startActivity(DemoMainActivity.createIntent(context));
-			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
-			break;
 		case R.id.llAboutMainTabActivity:
 			startActivity(MainTabActivity.createIntent(context).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			
 			enterAnim = exitAnim = R.anim.null_anim;
 			finish();
+			break;
+		case R.id.llAboutZBLibraryMainActivity:
+			startActivity(DemoMainActivity.createIntent(context));
+			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
 			break;
 
 		case R.id.llAboutUpdate:

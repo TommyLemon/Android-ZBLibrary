@@ -444,15 +444,15 @@ public class CommonUtil {
 	 * @param context
 	 * @return
 	 */
-	public static boolean isHasLocationPermission(Context context){
-		return isHasPermission(context, "android.permission.ACCESS_COARSE_LOCATION") || isHasPermission(context, "android.permission.ACCESS_FINE_LOCATION");
+	public static boolean isHaveLocationPermission(Context context){
+		return isHavePermission(context, "android.permission.ACCESS_COARSE_LOCATION") || isHavePermission(context, "android.permission.ACCESS_FINE_LOCATION");
 	}
 	/**检查是否有权限
 	 * @param context
 	 * @param name
 	 * @return
 	 */
-	public static boolean isHasPermission(Context context, String name){
+	public static boolean isHavePermission(Context context, String name){
 		try {
 			return PackageManager.PERMISSION_GRANTED == context.getPackageManager().checkPermission(name, context.getPackageName());
 		} catch (Exception e) {
