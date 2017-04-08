@@ -19,7 +19,7 @@
 
     <View
         style="@style/divider_horizontal_1px"
-        android:layout_marginTop="@dimen/common_item_distance" />
+        android:layout_marginTop="@dimen/item_distance" />
 
     <LinearLayout style="@style/edit_item" >
 
@@ -27,7 +27,7 @@
             android:id="@+id/etEditTextInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/common_item_left_tv_padding"
+            android:layout_marginLeft="@dimen/item_left_tv_padding"
             android:layout_weight="1"
             android:background="@null"
             android:focusable="true"
@@ -61,7 +61,7 @@
         android:divider="@color/alpha_3"
         android:dividerHeight="1px"
         android:listSelector="@drawable/bg_white_to_gray"
-        android:paddingLeft="@dimen/common_item_left_tv_padding" >
+        android:paddingLeft="@dimen/item_left_tv_padding" >
     </ListView>
 
     <TextView

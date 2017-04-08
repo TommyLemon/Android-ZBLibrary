@@ -224,6 +224,7 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	protected void setResult() {
 		intent = new Intent();
 		intent.putExtra(RESULT_TYPE, getIntent().getIntExtra(INTENT_TYPE, -1));
+		intent.putExtra(RESULT_KEY, getIntent().getStringExtra(INTENT_KEY));
 		intent.putExtra(RESULT_VALUE, editedValue);
 		setResult(RESULT_OK, intent);
 	}

@@ -4,6 +4,6 @@
 
     <solid android:color="@color/btn_blue_pressed" />
 
-    <corners android:radius="4dp" />
+    <corners android:radius="@dimen/radius" />
 
 </shape>

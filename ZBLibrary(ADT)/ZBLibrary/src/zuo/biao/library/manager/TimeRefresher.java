@@ -48,13 +48,16 @@ public class TimeRefresher {
 		refreshMap = new HashMap<String, TimeRefresher.TimeHolder>();
 	}
 
-	private static TimeRefresher timeRefresher;
+	private static TimeRefresher instance;
 	public static TimeRefresher getInstance() {
-		if (timeRefresher == null) {
-			timeRefresher = new TimeRefresher();
+		if (instance == null) {
+			synchronized (TimeRefresher.class) {
+				if (instance == null) {
+					instance = new TimeRefresher();
+				}
+			}
 		}
-		
-		return timeRefresher;
+		return instance;
 	}
 
 	public boolean isContain(String tag) {
@@ -116,7 +119,6 @@ public class TimeRefresher {
 	/**完全结束Timer进程
 	 */
 	public void finish() {
-		timeRefresher = null;
 		if (refreshMap == null || refreshMap.size() <= 0) {
 			Log.d(TAG, "finish  refreshMap == null || refreshMap.size() <= 0 >> return;");
 			return;

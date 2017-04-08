@@ -116,12 +116,16 @@ public class ImageLoaderUtil {
 			}
 			@Override
 			public void onLoadingComplete(String imageUri, View arg1, Bitmap loadedImage) {
+				if (loadedImage == null) {
+					Log.e(TAG, "loadImage  imageLoader.displayImage.onLoadingComplete  loadedImage == null >> return;");
+					return;
+				}
 				switch (type) {
 				case TYPE_OVAL:
 					iv.setImageBitmap(toRoundCorner(loadedImage, loadedImage.getWidth()/2));
 					break;
 				case TYPE_ROUND_CORNER:
-					iv.setImageBitmap(toRoundCorner(loadedImage, 10));
+					iv.setImageBitmap(toRoundCorner(loadedImage, loadedImage.getWidth()/10));
 					break;
 				default:
 					iv.setImageBitmap(loadedImage);

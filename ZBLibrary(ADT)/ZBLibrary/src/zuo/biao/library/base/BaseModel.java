@@ -27,12 +27,6 @@ public abstract class BaseModel implements Serializable {
 	
 	public long id;
 	
-	//对子类不起作用
-	//	/**默认构造方法，JSON等解析时必须要有
-	//	 */
-	//	public BaseModel() {
-	//	}
-	
 
 	public long getId() {
 		return id;

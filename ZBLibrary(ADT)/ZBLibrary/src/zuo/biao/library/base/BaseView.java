@@ -14,6 +14,9 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
 import android.app.Activity;
@@ -49,7 +52,7 @@ public abstract class BaseView<T> {
 	/**点击View的事件监听回调，主要是为了activity或fragment间接通过adapter接管baseView的点击事件
 	 * @param <T>
 	 * @param <BV>
-	 * @must 子类重写setOnClickListener方法且view.setOnClickListener(l)事件统一写在这个方法里面。具体见 .DemoView2
+	 * @must 子类重写setOnClickListener方法且view.setOnClickListener(listener)事件统一写在这个方法里面
 	 */
 	public interface OnViewClickListener<T, BV extends BaseView<T>> {
 		/**onClick(v)事件由这个方法接管
@@ -68,34 +71,41 @@ public abstract class BaseView<T> {
 
 	public OnDataChangedListener onDataChangedListener;//数据改变回调监听回调的实例
 	/**设置数据改变事件监听回调
-	 * @param l
+	 * @param listener
 	 */
-	public void setOnDataChangedListener(OnDataChangedListener l) {
-		onDataChangedListener = l;
+	public void setOnDataChangedListener(OnDataChangedListener listener) {
+		onDataChangedListener = listener;
 	}
 
 	public OnTouchListener onTouchListener;//接触View回调监听回调的实例
 	/**设置接触View事件监听回调
-	 * @param l
+	 * @param listener
 	 */
-	public void setOnTouchListener(OnTouchListener l) {
-		onTouchListener = l;
+	public void setOnTouchListener(OnTouchListener listener) {
+		onTouchListener = listener;
 	}
 
 	public OnClickListener onClickListener;//点击View回调监听回调的实例
 	/**设置点击View事件监听回调
-	 * @param l
+	 * @param listener
 	 */
-	public void setOnClickListener(OnClickListener l) {
-		onClickListener = l;
+	public void setOnClickListener(OnClickListener listener) {
+		onClickListener = listener;
+		if (onClickViewList != null) {
+			for (View v : onClickViewList) {
+				if (v != null) {
+					v.setOnClickListener(listener);
+				}
+			}
+		}
 	}
 
 	public OnLongClickListener onLongClickListener;//长按View回调监听回调的实例
 	/**设置长按View事件监听回调
-	 * @param l
+	 * @param listener
 	 */
-	public void setOnLongClickListener(OnLongClickListener l) {
-		onLongClickListener = l;
+	public void setOnLongClickListener(OnLongClickListener listener) {
+		onLongClickListener = listener;
 	}
 
 
@@ -105,6 +115,7 @@ public abstract class BaseView<T> {
 	 */
 	protected View convertView = null;
 
+	protected List<View> onClickViewList;
 	/**通过id查找并获取控件，使用时不需要强转
 	 * @param id
 	 * @return 
@@ -115,12 +126,16 @@ public abstract class BaseView<T> {
 	}
 	/**通过id查找并获取控件，并setOnClickListener
 	 * @param id
-	 * @param l
+	 * @param listener
 	 * @return
 	 */
-	public <V extends View> V findViewById(int id, OnClickListener l) {
+	public <V extends View> V findViewById(int id, OnClickListener listener) {
 		V v = findViewById(id);
-		v.setOnClickListener(l);
+		v.setOnClickListener(listener);
+		if (onClickViewList == null) {
+			onClickViewList = new ArrayList<View>();
+		}
+		onClickViewList.add(v);
 		return v;
 	}
 
@@ -331,6 +346,7 @@ public abstract class BaseView<T> {
 		onTouchListener = null;
 		onClickListener = null;
 		onLongClickListener = null;
+		onClickViewList = null;
 
 		data = null;
 		position = 0;

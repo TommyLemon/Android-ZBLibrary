@@ -33,15 +33,12 @@ import android.content.SharedPreferences;
 public class Cache<T> {
 	public static final String TAG = "Cache";
 
-	public Cache(Context context, Class<T> clazz, String path) {
-		this(context, clazz, context.getSharedPreferences(StringUtil.getTrimedString(path), Context.MODE_PRIVATE));
-	}
-	@SuppressWarnings("unused")
-	private Context context;
 	private Class<T> clazz;
 	private SharedPreferences sp;
-	public Cache(Context context, Class<T> clazz, SharedPreferences sp) {
-		this.context = context;
+	public Cache(Class<T> clazz, Context context, String name) {
+		this(clazz, context.getSharedPreferences(name, Context.MODE_PRIVATE));
+	}
+	public Cache(Class<T> clazz, SharedPreferences sp) {
 		this.clazz = clazz;
 		this.sp = sp;
 	}

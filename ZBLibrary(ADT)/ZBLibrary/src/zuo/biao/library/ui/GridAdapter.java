@@ -136,7 +136,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 	 * @param list
 	 */
 	@Override
-	public void refresh(List<Entry<String, String>> list) {
+	public synchronized void refresh(List<Entry<String, String>> list) {
 		if (list != null && list.size() > 0) {
 			initList(list);
 		}

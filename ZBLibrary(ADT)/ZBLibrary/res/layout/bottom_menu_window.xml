@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:divider="@color/alpha_3"
             android:dividerHeight="1px"
-            android:listSelector="@drawable/bg_item_to_alpha" >
+            android:listSelector="@drawable/to_alpha" >
         </ListView>
 
         <TextView
@@ -34,7 +34,7 @@
             android:onClick="onReturnClick"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
-            android:background="@drawable/menu_member_manage_cancel_bg"
+            android:background="@drawable/bottom_menu_cancel_bg"
             android:padding="10dp"
             android:text="取消"
             android:textColor="@color/white"
