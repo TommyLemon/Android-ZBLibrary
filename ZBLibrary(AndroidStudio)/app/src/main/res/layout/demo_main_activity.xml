@@ -31,14 +31,14 @@
                 android:id="@+id/ivDemoMainHead"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:layout_margin="@dimen/common_item_distance"
+                android:layout_margin="@dimen/item_distance"
                 android:background="@color/alpha_3"
                 android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tvDemoMainHeadName"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_item_remind_tv_height"
+                android:layout_height="@dimen/item_remind_tv_height"
                 android:gravity="center"
                 android:text="可点击 选择图片 或 裁剪图片 更改"
                 android:textColor="@color/gray_1"

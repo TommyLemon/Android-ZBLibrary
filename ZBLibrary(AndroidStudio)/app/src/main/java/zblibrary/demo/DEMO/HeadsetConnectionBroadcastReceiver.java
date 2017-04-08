@@ -60,7 +60,7 @@ public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver {
 	public BaseBroadcastReceiver register() {
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		//TODO android.intent.action.HEADSET_PLUG改为你需要的action，//支持String, String[], List<String>
-		return register(context, this, "android.intent.action.HEADSET_PLUG");
+		return (BaseBroadcastReceiver) register(context, this, "android.intent.action.HEADSET_PLUG");
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 	@Override

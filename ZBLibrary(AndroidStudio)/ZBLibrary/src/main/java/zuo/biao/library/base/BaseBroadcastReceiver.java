@@ -82,7 +82,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param action
 	 * @return
 	 */
-	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, String action) {
+	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, String action) {
 		return register(context, receiver, new String[] {action});
 	}
 	/**注册广播接收器
@@ -91,7 +91,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param actions
 	 * @return
 	 */
-	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, String[] actions) {
+	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, String[] actions) {
 		return register(context, receiver, actions == null ? null : Arrays.asList(actions));
 	}
 	/**注册广播接收器
@@ -100,7 +100,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param actionList
 	 * @return
 	 */
-	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, List<String> actionList) {
+	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, List<String> actionList) {
 		IntentFilter filter = new IntentFilter(); 
 		for (String action : actionList) {
 			if (StringUtil.isNotEmpty(action, true)) {
@@ -115,7 +115,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param filter
 	 * @return
 	 */
-	public static BaseBroadcastReceiver register(Context context, @Nullable BaseBroadcastReceiver receiver, IntentFilter filter) {
+	public static BroadcastReceiver register(Context context, @Nullable BroadcastReceiver receiver, IntentFilter filter) {
 		Log.i(TAG, "register >>>");
 		if (context == null || filter == null) {
 			Log.e(TAG, "register  context == null || filter == null >> return;");
@@ -134,7 +134,7 @@ public abstract class BaseBroadcastReceiver extends BroadcastReceiver {
 	 * @param receiver
 	 * @return
 	 */
-	public static void unregister(Context context, BaseBroadcastReceiver receiver) {
+	public static void unregister(Context context, BroadcastReceiver receiver) {
 		Log.i(TAG, "unregister >>>");
 		if (context == null || receiver == null) {
 			Log.e(TAG, "unregister  context == null || receiver == null >> return;");

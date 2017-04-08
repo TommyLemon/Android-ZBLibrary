@@ -39,7 +39,7 @@ public class JSON {
 	}
 
 	/**获取有效的json
-	 * @param json
+	 * @param s
 	 * @return
 	 */
 	public static String getCorrectJson(String json) {
@@ -47,11 +47,7 @@ public class JSON {
 	}
 	
 	/**
-	 * @param obj
-	 * @return
-	 */
-	/**obj转JSONObject
-	 * @param json
+	 * @param s
 	 * @return
 	 */
 	public static JSONObject parseObject(Object obj) {

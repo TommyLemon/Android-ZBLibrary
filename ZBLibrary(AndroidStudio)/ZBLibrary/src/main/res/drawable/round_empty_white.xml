@@ -5,10 +5,6 @@
         android:width="1dp"
         android:color="@color/white" />
 
-    <corners
-        android:bottomLeftRadius="3dp"
-        android:bottomRightRadius="3dp"
-        android:topLeftRadius="3dp"
-        android:topRightRadius="3dp" />
+    <corners android:radius="@dimen/radius" />
 
 </shape>

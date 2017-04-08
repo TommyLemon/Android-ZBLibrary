@@ -156,9 +156,9 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 		tv.setText(isMoreButton ? "更多" : "" + fsb.getName());
 
 		ll.setPadding(
-				(int) getDimension(R.dimen.common_item_left_tv_padding),
+				(int) getDimension(R.dimen.item_left_tv_padding),
 				0,
-				(int) getDimension(R.dimen.common_item_right_img_padding_right),
+				(int) getDimension(R.dimen.item_right_img_padding_right),
 				0);
 		ll.setOnClickListener(new OnClickListener() {
 			@Override

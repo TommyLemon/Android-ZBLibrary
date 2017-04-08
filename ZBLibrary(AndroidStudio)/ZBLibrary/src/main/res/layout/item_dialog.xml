@@ -10,7 +10,7 @@
         android:id="@+id/tvItemDialogTitle"
         style="@style/text_huge_black"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/common_item_distance"
+        android:layout_margin="@dimen/item_distance"
         android:text="Title" />
 
     <View style="@style/divider_horizontal_1px" />

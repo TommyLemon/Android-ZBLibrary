@@ -3,7 +3,7 @@
     android:id="@+id/tvListItem"
     android:layout_width="@dimen/top_menu_item_width"
     android:layout_height="@dimen/top_menu_item_height"
-    android:background="@drawable/bg_item_to_alpha"
+    android:background="@drawable/to_alpha"
     android:gravity="center_vertical|left"
     android:paddingLeft="27dp"
     android:text="选项itemITEM"

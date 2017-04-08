@@ -41,17 +41,16 @@ public class CacheManager {
 		this.context = context;
 	}
 
-	private static CacheManager manager;
-	public static synchronized CacheManager getInstance() {
-		if (manager == null) {
-			manager = new CacheManager(BaseApplication.getInstance());
-		}
-		synchronized (CacheManager.class) {
-			if (manager == null) {
-				manager = new CacheManager(BaseApplication.getInstance());
+	private static CacheManager instance;
+	public static CacheManager getInstance() {
+		if (instance == null) {
+			synchronized (CacheManager.class) {
+				if (instance == null) {
+					instance = new CacheManager(BaseApplication.getInstance());
+				}
 			}
-			return manager;
 		}
+		return instance;
 	}
 
 
@@ -136,7 +135,7 @@ public class CacheManager {
 			Log.e(TAG, "getList  count <= 0 || clazz == null >> return null;");
 			return null;
 		}
-		Cache<T> cacheList = new Cache<T>(context, clazz, getClassPath(clazz) + KEY_LIST);
+		Cache<T> cacheList = new Cache<T>(clazz, context, getClassPath(clazz) + KEY_LIST);
 
 		if (StringUtil.isNotEmpty(group, true) == false) {
 			return cacheList == null ? null : cacheList.getValueList(start, start + count);
@@ -190,7 +189,7 @@ public class CacheManager {
 	 */
 	public <T> T get(Class<T> clazz, String id) {
 		Cache<T> cacheList = clazz == null
-				? null : new Cache<T>(context, clazz, getClassPath(clazz) + KEY_LIST);
+				? null : new Cache<T>(clazz, context, getClassPath(clazz) + KEY_LIST);
 		return cacheList == null ? null : cacheList.get(id);
 	}
 
@@ -308,7 +307,7 @@ public class CacheManager {
 
 
 		//保存所有数据<<<<<<<<<<<<<<<<<<<<<<<<<
-		Cache<T> cache = new Cache<T>(context, clazz, CLASS_PATH + KEY_LIST);
+		Cache<T> cache = new Cache<T>(clazz, context, CLASS_PATH + KEY_LIST);
 		cache.saveList(map);
 		//保存所有数据>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -339,7 +338,7 @@ public class CacheManager {
 			return;
 		}
 
-		new Cache<T>(context, clazz, getListPath(clazz)).save(id, data);
+		new Cache<T>(clazz, context, getListPath(clazz)).save(id, data);
 
 		SharedPreferences sp = getSharedPreferences(getGroupPath(clazz));
 		if (sp != null) {
@@ -383,7 +382,7 @@ public class CacheManager {
 		Log.i(TAG, "clear  group = " + group + "; removeAllInGroup = " + removeAllInGroup);
 		List<String> list = removeAllInGroup == false ? null : getIdList(clazz, group);
 		if (list != null) {
-			Cache<T> cache = new Cache<T>(context, clazz, getListPath(clazz));
+			Cache<T> cache = new Cache<T>(clazz, context, getListPath(clazz));
 			for (String id : list) {
 				cache.remove(id);
 			}
@@ -406,7 +405,7 @@ public class CacheManager {
 			Log.e(TAG, "remove  clazz == null >> return;");
 			return;
 		}
-		new Cache<T>(context, clazz, getListPath(clazz)).remove(id);
+		new Cache<T>(clazz, context, getListPath(clazz)).remove(id);
 	}
 
 }

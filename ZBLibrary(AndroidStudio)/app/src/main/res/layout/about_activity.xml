@@ -70,7 +70,7 @@
 
                     <View
                         style="@style/divider_horizontal_1px"
-                        android:layout_marginBottom="@dimen/common_item_padding_bottom" />
+                        android:layout_marginBottom="@dimen/item_padding_bottom" />
 
                     <LinearLayout
                         android:id="@+id/llAboutUpdate"
@@ -120,7 +120,7 @@
 
                     <View
                         style="@style/divider_horizontal_1px"
-                        android:layout_marginBottom="@dimen/common_item_padding_bottom" />
+                        android:layout_marginBottom="@dimen/item_padding_bottom" />
 
                     <LinearLayout
                         android:id="@+id/llAboutDeveloper"
@@ -183,13 +183,13 @@
 
                     <View
                         style="@style/divider_horizontal_1px"
-                        android:layout_marginBottom="@dimen/common_item_padding_bottom" />
+                        android:layout_marginBottom="@dimen/item_padding_bottom" />
 
                     <ImageView
                         android:id="@+id/ivAboutQRCode"
                         android:layout_width="@dimen/qrcode_size"
                         android:layout_height="@dimen/qrcode_size"
-                        android:layout_marginBottom="@dimen/common_item_padding_bottom"
+                        android:layout_marginBottom="@dimen/item_padding_bottom"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
                         android:background="@color/white" />

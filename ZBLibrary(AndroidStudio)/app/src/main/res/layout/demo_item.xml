@@ -3,7 +3,7 @@
 <!-- 如果一定要用，则必须在根布局加上 android:descendantFocusability="blocksDescendants" -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/content_item"
-    android:background="@drawable/bg_item_to_alpha" >
+    android:background="@drawable/to_alpha" >
 
     <ImageView
         android:id="@+id/ivDemoItemHead"

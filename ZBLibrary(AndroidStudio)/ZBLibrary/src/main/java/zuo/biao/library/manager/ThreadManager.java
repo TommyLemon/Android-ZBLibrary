@@ -39,13 +39,9 @@ public class ThreadManager {
 		threadMap = new HashMap<String, ThreadBean>();
 	}
 
-	private static ThreadManager threadManager;
-	public static synchronized ThreadManager getInstance() {
-		if (threadManager == null) {
-			threadManager = new ThreadManager();
-		}
-
-		return threadManager;
+	private static final ThreadManager instance = new ThreadManager();
+	public static ThreadManager getInstance() {
+		return instance;
 	}
 
 
@@ -152,7 +148,6 @@ public class ThreadManager {
 	/**结束ThreadManager所有进程
 	 */
 	public void finish() {
-		threadManager = null;
 		if (threadMap == null || threadMap.keySet() == null) {
 			Log.d(TAG, "finish  threadMap == null || threadMap.keySet() == null >> threadMap = null; >> return;");
 			threadMap = null;

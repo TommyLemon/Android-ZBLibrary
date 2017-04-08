@@ -197,7 +197,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 		tvTab.setGravity(Gravity.CENTER);
 		//		tvTab.setPaddingRelative(4, 12, 4, 12);
 		tvTab.setTextColor(context.getResources().getColor(R.color.black));
-		tvTab.setBackgroundResource(R.drawable.bg_pressed_common);
+		tvTab.setBackgroundResource(R.drawable.to_alpha);
 		tvTab.setTextSize(18);
 		tvTab.setSingleLine(true);
 		tvTab.setText(name);

@@ -82,7 +82,7 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
 		holder.tv.setText(StringUtil.getTrimedString(data.getValue()));
 		holder.tv.setTextColor(resources.getColor(type == TYPE_CONTNET_ENABLE ? R.color.black : R.color.gray_2));
 		holder.tv.setBackgroundResource(position == currentPosition
-				? R.drawable.green_rounded_rectangle_normal : R.drawable.null_drawable);
+				? R.drawable.round_green : R.drawable.null_drawable);
 
 		convertView.setBackgroundResource(type == TYPE_TITLE ? R.color.alpha_1 : R.color.alpha_complete);
 

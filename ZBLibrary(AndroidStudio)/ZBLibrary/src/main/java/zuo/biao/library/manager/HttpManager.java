@@ -64,8 +64,7 @@ public class HttpManager {
 
 
 	private Context context;
-	private static HttpManager instance;// 单例
-	private static SSLSocketFactory socketFactory;// 单例
+	private SSLSocketFactory socketFactory;// 单例
 	private HttpManager(Context context) {
 		this.context = context;
 
@@ -79,9 +78,14 @@ public class HttpManager {
 		}
 	}
 
-	public synchronized static HttpManager getInstance() {
+	private static HttpManager instance;// 单例
+	public static HttpManager getInstance() {
 		if (instance == null) {
-			instance = new HttpManager(BaseApplication.getInstance());
+			synchronized (HttpManager.class) {
+				if (instance == null) {
+					instance = new HttpManager(BaseApplication.getInstance());
+				}
+			}
 		}
 		return instance;
 	}

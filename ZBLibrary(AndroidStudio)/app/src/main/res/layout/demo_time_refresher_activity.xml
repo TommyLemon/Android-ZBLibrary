@@ -43,7 +43,7 @@
         <ImageButton
             android:id="@+id/ibtnDemoTimeRefresher"
             style="@style/img_btn"
-            android:background="@drawable/bg_item_to_alpha"
+            android:background="@drawable/to_alpha"
             android:padding="6dp"
             android:src="@drawable/forward_light" />
     </LinearLayout>

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:background="@color/alpha_3"
         android:gravity="center"
-        android:padding="@dimen/common_item_left_tv_padding"
+        android:padding="@dimen/item_left_tv_padding"
         android:visibility="gone" />
 
     <ScrollView style="@style/match_match" >
@@ -38,7 +38,7 @@
 
                 <LinearLayout
                     style="@style/content_item_white"
-                    android:layout_marginTop="@dimen/common_item_distance" >
+                    android:layout_marginTop="@dimen/item_distance" >
 
                     <TextView
                         style="@style/content_item_lf_tv"
@@ -48,7 +48,7 @@
                     <ImageView
                         android:id="@+id/ivSettingCache"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/on" />
                 </LinearLayout>
 
@@ -64,13 +64,13 @@
                     <ImageView
                         android:id="@+id/ivSettingPreload"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/on" />
                 </LinearLayout>
 
                 <View
                     style="@style/divider_horizontal_1px"
-                    android:layout_marginBottom="@dimen/common_item_distance" />
+                    android:layout_marginBottom="@dimen/item_distance" />
 
                 <LinearLayout style="@style/content_item_white" >
 
@@ -82,7 +82,7 @@
                     <ImageView
                         android:id="@+id/ivSettingVoice"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/on" />
                 </LinearLayout>
 
@@ -98,7 +98,7 @@
                     <ImageView
                         android:id="@+id/ivSettingVibrate"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/on" />
                 </LinearLayout>
 
@@ -114,13 +114,13 @@
                     <ImageView
                         android:id="@+id/ivSettingNoDisturb"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/on" />
                 </LinearLayout>
 
                 <View
                     style="@style/divider_horizontal_1px"
-                    android:layout_marginBottom="@dimen/common_item_distance" />
+                    android:layout_marginBottom="@dimen/item_distance" />
 
                 <LinearLayout style="@style/content_item_white" >
 
@@ -132,7 +132,7 @@
                     <ImageView
                         android:id="@+id/ivSettingTestMode"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/off" />
                 </LinearLayout>
 
@@ -148,7 +148,7 @@
                     <ImageView
                         android:id="@+id/ivSettingFirstStart"
                         style="@style/content_item_rt_img"
-                        android:paddingRight="@dimen/common_item_padding_right"
+                        android:paddingRight="@dimen/item_padding_right"
                         android:src="@drawable/off" />
                 </LinearLayout>
 

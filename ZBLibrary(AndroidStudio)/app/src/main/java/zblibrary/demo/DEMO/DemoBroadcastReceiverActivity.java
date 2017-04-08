@@ -120,8 +120,8 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 		//BaseBroadcastReceiver直接使用示例 <<<<<<<<<<<<<<
 		baseBroadcastReceiver = new BaseBroadcastReceiver(context) {//除了onReceive内代码，其它代码都是复制过来的
 			@Override
-			public BaseBroadcastReceiver register() {
-				return register(context, this, "android.intent.action.HEADSET_PLUG");//支持String, String[], List<String>
+			public BaseBroadcastReceiver register() {//支持String, String[], List<String>
+				return (BaseBroadcastReceiver) register(context, this, "android.intent.action.HEADSET_PLUG");
 			}
 			@Override
 			public void unregister() {
@@ -228,8 +228,8 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 		}
 
 		@Override
-		public BaseBroadcastReceiver register() {
-			return register(context, this, "android.intent.action.HEADSET_PLUG");//支持String, String[], List<String>
+		public BaseBroadcastReceiver register() {//支持String, String[], List<String>
+			return (BaseBroadcastReceiver) register(context, this, "android.intent.action.HEADSET_PLUG");
 		}
 		@Override
 		public void unregister() {

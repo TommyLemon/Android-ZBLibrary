@@ -16,7 +16,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/common_item_distance"
+        android:layout_height="@dimen/item_distance"
         android:background="@color/white" />
 
     <TextView
@@ -27,8 +27,8 @@
         android:gravity="center_vertical|left"
         android:hint="点击选择地址"
         android:paddingBottom="12dp"
-        android:paddingLeft="@dimen/common_item_left_tv_padding"
-        android:paddingRight="@dimen/common_item_right_img_padding_right"
+        android:paddingLeft="@dimen/item_left_tv_padding"
+        android:paddingRight="@dimen/item_right_img_padding_right"
         android:paddingTop="6dp"
         android:visibility="gone" />
 
@@ -36,7 +36,7 @@
 
         <LinearLayout
             style="@style/edit_item_right_et"
-            android:layout_marginLeft="@dimen/common_item_left_tv_padding"
+            android:layout_marginLeft="@dimen/item_left_tv_padding"
             android:layout_weight="1"
             android:orientation="vertical" >
 
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="30dp"
-        android:paddingTop="@dimen/common_item_padding_bottom"
+        android:paddingTop="@dimen/item_padding_bottom"
         android:text="限15个字（或30个字符）" />
 
     <View style="@style/divider_horizontal_1px_gray" />

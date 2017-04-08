@@ -352,7 +352,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;  
 		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
-				, SettingUtil.getCurrentServerAddress(context)));
+				, SettingUtil.getCurrentServerAddress()));
 			break;   
 		case R.id.llDemoMainEditTextInfoActivity:
 			editName(false);

@@ -28,6 +28,8 @@ import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -99,12 +101,14 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		inflater = getLayoutInflater();
 
 		threadNameList = new ArrayList<String>();
+		
+		BaseBroadcastReceiver.register(context, receiver, ACTION_EXIT_APP);
 	}
 
 	/**
-	 * activity的默认标题TextView，layout.xml中用@id/tvBaseTitle绑定。子Activity内调用autoSetTitle方法 会优先使用INTENT_TITLE
+	 * 默认标题TextView，layout.xml中用@id/tvBaseTitle绑定。子Activity内调用autoSetTitle方法 会优先使用INTENT_TITLE
 	 * @see #autoSetTitle
-	 * @warn 如果子Activity的layout中没有android:id="@id/tvBaseTitle"的TextView，使用tvBaseTitle前必须在子Activity中赋值
+	 * @warn 如果子Activity的layout中没有android:id="@id/tvBaseTitle"的TextView，使用前必须在子Activity中赋值
 	 */
 	@Nullable
 	protected TextView tvBaseTitle;
@@ -201,7 +205,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 * @must 在UI线程中调用
 	 */
 	protected void autoSetTitle() {
-		autoSetTitle(tvBaseTitle);
+		tvBaseTitle = autoSetTitle(tvBaseTitle);
 	}
 	/**自动把标题设置为上个Activity传入的INTENT_TITLE，建议在子类initView中使用
 	 * @param tvTitle
@@ -507,6 +511,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	protected void onDestroy() {
 		Log.d(TAG, "\n onDestroy <<<<<<<<<<<<<<<<<<<<<<<");
 		dismissProgressDialog();
+		BaseBroadcastReceiver.unregister(context, receiver);
 		ThreadManager.getInstance().destroyThread(threadNameList);
 		if (view != null) {
 			try {
@@ -536,6 +541,24 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
+	
+	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+		public void onReceive(Context context, Intent intent) {
+			String action = intent == null ? null : intent.getAction();
+			if (isAlive() == false || StringUtil.isNotEmpty(action, true) == false) {
+				Log.e(TAG, "receiver.onReceive  isAlive() == false" +
+						" || StringUtil.isNotEmpty(action, true) == false >> return;");
+				return;
+			}
+
+			if (ACTION_EXIT_APP.equals(action)) {
+				finish();
+			} 
+		}
+	};
+	
 
 
 	//手机返回键和菜单键实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -114,6 +114,7 @@ public class EditTextUtil {
 	public final static int TYPE_PHONE = 3;
 	public final static int TYPE_MAIL = 4;
 
+	private static ColorStateList oringinalHintColor;
 
 	/**判断edittext输入文字是否合法
 	 * @param context
@@ -178,7 +179,7 @@ public class EditTextUtil {
 			Log.e(TAG, "isInputedCorrect context == null || et == null >> return false;");
 			return false;
 		}
-		ColorStateList oringinalHintColor = et.getHintTextColors();
+		oringinalHintColor = et.getHintTextColors();
 
 		String inputed = StringUtil.getTrimedString(et);
 		switch (type) {

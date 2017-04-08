@@ -51,8 +51,8 @@
 
     <!-- progress bar -->
 
-    <dimen name="pb_circle_topbar_width">28dp</dimen>
-    <dimen name="pb_circle_topbar_height">28dp</dimen>
+    <dimen name="pb_circle_topbar_width">25dp</dimen>
+    <dimen name="pb_circle_topbar_height">25dp</dimen>
 
     <!-- progress bar -->
 
@@ -79,20 +79,20 @@
 
 
     <!-- common item -->
-    <dimen name="common_item_remind_tv_height">30dp</dimen>
-    <dimen name="common_item_height">45dp</dimen>
-    <dimen name="common_item_padding_left">42dp</dimen>
-    <dimen name="common_item_padding_right">12dp</dimen>
-    <dimen name="common_item_left_tv_padding">15dp</dimen>
-    <dimen name="common_item_right_img_padding_right">15dp</dimen>
-    <dimen name="common_item_padding_top">15dp</dimen>
-    <dimen name="common_item_padding_bottom">15dp</dimen>
-    <dimen name="edit_item_padding_left">15dp</dimen>
-    <dimen name="common_item_right_tv_width">78dp</dimen>
-    <dimen name="common_item_distance">15dp</dimen>
+    <dimen name="item_remind_tv_height">30dp</dimen>
+    <dimen name="item_height">45dp</dimen>
+    <dimen name="item_padding_left">42dp</dimen>
+    <dimen name="item_padding_right">12dp</dimen>
+    <dimen name="item_left_tv_padding">15dp</dimen>
+    <dimen name="item_right_img_padding_right">15dp</dimen>
+    <dimen name="item_padding_top">15dp</dimen>
+    <dimen name="item_padding_bottom">15dp</dimen>
+    <dimen name="item_right_tv_width">78dp</dimen>
+    <dimen name="item_distance">15dp</dimen>
 
     <!-- common item -->
 
+    <dimen name="edit_item_padding_left">15dp</dimen>
 
     <!-- content item <<<<<<<<<<<<<<<<<<<<<<<<<<< -->
     <dimen name="content_item_left_tv_padding_left">15dp</dimen>
@@ -104,16 +104,16 @@
 
     <dimen name="btn_bottom_padding">10dp</dimen>
     <dimen name="btn_middle">24dp</dimen>
-    <dimen name="group_item_height">54dp</dimen>
     <!-- button -->
 
 
     <!-- search bar <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
-    <dimen name="common_search_bar_et_height">36dp</dimen>
+    <dimen name="search_bar_et_height">36dp</dimen>
 
     <!-- search bar >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
     <dimen name="grid_picker_content_height">300dp</dimen>
+    <dimen name="radius">3dp</dimen>
 
 </resources>
