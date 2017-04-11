@@ -90,10 +90,10 @@ Scroll ListView faster, more accurate and comfortable.
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
 
 ## 开发规范
-[Wiki-Stantard](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83)
+[Wiki-Norm](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83)
 
 ## 架构、模式、技术
-[Wiki-Architecture,](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E3%80%81%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F%E3%80%81%E4%BD%BF%E7%94%A8%E6%8A%80%E6%9C%AF)
+[Wiki-Architecture,Pattern,Technology](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E3%80%81%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F%E3%80%81%E4%BD%BF%E7%94%A8%E6%8A%80%E6%9C%AF)
 
 ## 常用问题及解决方法
 [Wiki-FAQ](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95)
