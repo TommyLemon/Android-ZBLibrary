@@ -95,8 +95,8 @@ Scroll ListView faster, more accurate and comfortable.
 ## 架构、模式、技术
 [Wiki-Architecture,Pattern,Technology](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E6%9E%B6%E6%9E%84%E3%80%81%E6%A8%A1%E5%BC%8F%E3%80%81%E6%8A%80%E6%9C%AF)
 
-## 常用问题及解决方法
-[Wiki-FAQ](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95)
+## 问题及解决方法
+[Wiki-FAQ](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95)
 
 ## 关于作者
 TommyLemon：[https://github.com/TommyLemon](https://github.com/TommyLemon)
