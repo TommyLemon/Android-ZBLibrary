@@ -106,7 +106,9 @@ QQ群：595514898
 
 ## 下载试用
 
-[ZBLibraryDemoApp.apk](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
+[ZBLibraryDemoApp.apk(ZBLibrary)](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
+
+[APIJSONClientApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
 
 ## 更新日志
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
