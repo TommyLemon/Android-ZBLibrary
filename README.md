@@ -69,6 +69,8 @@ Scroll ListView faster, more accurate and comfortable.
 
 [如何使用ZBLibrary-Android快速开发框架](http://my.oschina.net/u/2437072/blog/665241)
 
+[仿QQ空间和微信朋友圈，高解耦高复用高灵活](https://my.oschina.net/tommylemon/blog/885787)
+
 [全新的手势，侧滑返回、全局右滑返回都OUT啦！](http://www.cnblogs.com/tommylemon/p/5576337.html)
 
 [不一样的Android选择器，简单方便，地址日期时间都好用！](https://my.oschina.net/u/2437072/blog/756271)
