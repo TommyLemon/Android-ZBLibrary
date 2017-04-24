@@ -82,7 +82,7 @@ public class HttpRequest {
 
 	/**翻译，根据有道翻译API文档请求
 	 * http://fanyi.youdao.com/openapi?path=data-mode
-	 * <br > 本Demo中只有这个是真正可用，其它需要自己根据接口文档修改
+	 * <br > 本Demo中只有这个是真正可用，其它需要自己根据接口文档新增或修改
 	 * @param word
 	 * @param requestCode
 	 * @param listener
@@ -94,7 +94,7 @@ public class HttpRequest {
 		addExistParameter(paramList, "key", 1430082675);
 		addExistParameter(paramList, "type", "data");
 		addExistParameter(paramList, "doctype", "json");
-		addExistParameter(paramList, "&version", "1.1");
+		addExistParameter(paramList, "version", "1.1");
 
 		HttpManager.getInstance().get(paramList, "http://fanyi.youdao.com/openapi.do", requestCode, listener);
 	}
