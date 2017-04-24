@@ -23,6 +23,7 @@ import zblibrary.demo.util.Constant;
 import zblibrary.demo.util.HttpRequest;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DownloadUtil;
@@ -82,6 +83,17 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		if (SettingUtil.isOnTestMode) {
 			showShortToast("测试服务器\n" + HttpRequest.URL_BASE);
 		}
+		
+		
+		//仅测试用
+		HttpRequest.translate("library", 0, new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(int requestCode, String resultJson, Exception e) {
+				showShortToast("测试Http请求:翻译library结果为\n" + resultJson);
+			}
+		});
+		
 	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

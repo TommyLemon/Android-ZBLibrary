@@ -140,8 +140,7 @@ public class HttpManager {
 					result = getResponseJson(client, new Request.Builder()
 					.addHeader(KEY_TOKEN, getToken(url))
 					.url(sb.toString()).build());
-					//TODO 注释或删除以下 测试HttpRequest.getUser接口的数据 
-					result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
+					//仅供测试 result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
 				} catch (Exception e) {
 					Log.e(TAG, "get  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());
@@ -195,8 +194,7 @@ public class HttpManager {
 					result = getResponseJson(client, new Request.Builder()
 					.addHeader(KEY_TOKEN, getToken(url)).url(StringUtil.getNoBlankString(url))
 					.post(fBuilder.build()).build());
-					//TODO 注释或删除以下 测试HttpRequest.register接口的数据 
-					result = "{\"code\":102}";
+					//仅供测试 result = "{\"code\":102}";
 				} catch (Exception e) {
 					Log.e(TAG, "post  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());
