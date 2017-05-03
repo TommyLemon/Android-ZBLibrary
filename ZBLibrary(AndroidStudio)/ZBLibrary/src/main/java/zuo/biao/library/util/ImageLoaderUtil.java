@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.util;
 
-import zuo.biao.library.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -110,6 +109,18 @@ public class ImageLoaderUtil {
 		imageLoader.displayImage(uri, iv, new ImageLoadingListener() {
 			@Override
 			public void onLoadingStarted(String imageUri, View arg1) {
+				//XML代码直接设置src属性更直观方便
+				//				switch (type) {
+				//				case TYPE_OVAL:
+				//					iv.setImageResource(R.drawable.oval_alpha);
+				//					break;
+				//				case TYPE_ROUND_CORNER:
+				//					iv.setImageResource(R.drawable.round_alpha);
+				//					break;
+				//				default:
+				//					iv.setImageResource(R.drawable.square_alpha);
+				//					break;
+				//				}
 			}
 			@Override
 			public void onLoadingFailed(String imageUri, View arg1, FailReason arg2) {
@@ -163,42 +174,6 @@ public class ImageLoaderUtil {
 	}
 
 
-	/**获取配置
-	 * @param cornerRadiusSize
-	 * @return
-	 */
-	private static DisplayImageOptions getOption(int cornerRadiusSize) {
-		return getOption(cornerRadiusSize, cornerRadiusSize <= 0
-				? R.drawable.square_alpha : R.drawable.oval_alpha);
-	}
-	/**获取配置
-	 * @param cornerRadiusSize
-	 * @param defaultImageResId
-	 * @return
-	 */
-	@SuppressWarnings("deprecation")
-	private static DisplayImageOptions getOption(int cornerRadiusSize, int defaultImageResId) {
-		Options options0 = new Options();
-		options0.inPreferredConfig = Bitmap.Config.RGB_565;
-
-		DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
-		if(defaultImageResId > 0) {
-			try {
-				builder.showImageForEmptyUri(defaultImageResId)
-				.showImageOnLoading(defaultImageResId)
-				.showImageOnFail(defaultImageResId);
-			} catch (Exception e) {
-				Log.e(TAG, "getOption  try {builder.showImageForEmptyUri(defaultImageResId) ..." +
-						" >> } catch (Exception e) { \n" + e.getMessage());
-			}
-		}
-		if (cornerRadiusSize > 0) {
-			builder.displayer(new RoundedBitmapDisplayer(cornerRadiusSize));
-		}
-
-		return builder.cacheInMemory(true).cacheOnDisc(true).decodingOptions(options0).build();
-	}
-
 	/**获取小图url或path
 	 * path不加URL_SUFFIX_SMALL
 	 * @param uri
@@ -224,6 +199,24 @@ public class ImageLoaderUtil {
 		}
 		return isLocalPath || uri.endsWith(URL_SUFFIX_SMALL)
 				? uri : uri + URL_SUFFIX_SMALL;
+	}
+
+
+	/**获取配置
+	 * @param cornerRadiusSize
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	private static DisplayImageOptions getOption(int cornerRadiusSize) {
+		Options options0 = new Options();
+		options0.inPreferredConfig = Bitmap.Config.RGB_565;
+
+		DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
+		if (cornerRadiusSize > 0) {
+			builder.displayer(new RoundedBitmapDisplayer(cornerRadiusSize));
+		}
+
+		return builder.cacheInMemory(true).cacheOnDisc(true).decodingOptions(options0).build();
 	}
 
 	/**将图片改为圆角类型

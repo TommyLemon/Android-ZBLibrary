@@ -185,24 +185,33 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	 */
 	public void selectFragment(int position) {
 		if (currentPosition == position) {
-			if (needReload == false && fragments[position] != null && fragments[position].isVisible()) {
-				Log.w(TAG, "selectFragment currentPosition == position" +
-						" >> fragments[position] != null && fragments[position].isVisible()" +
-						" >> return;	");
-				return;
+			if (needReload) {
+				if (fragments[position] != null && fragments[position].isAdded()) {
+					FragmentTransaction ft = fragmentManager.beginTransaction();
+					ft.remove(fragments[position]).commit();
+					fragments[position] = null;
+				}
+			} else {
+				if (fragments[position] != null && fragments[position].isVisible()) {
+					Log.w(TAG, "selectFragment currentPosition == position" +
+							" >> fragments[position] != null && fragments[position].isVisible()" +
+							" >> return;	");
+					return;
+				}
 			}
 		}
-		if (needReload || fragments[position] == null) {
+
+		if (fragments[position] == null) {
 			fragments[position] = getFragment(position);
 		}
 
 		//全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.hide(fragments[currentPosition]);
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+		ft.hide(fragments[currentPosition]);
 		if (fragments[position].isAdded() == false) {
-			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragments[position]);
+			ft.add(R.id.flBaseTabFragmentContainer, fragments[position]);
 		}
-		fragmentTransaction.show(fragments[position]).commit();
+		ft.show(fragments[position]).commit();
 
 		this.currentPosition = position;
 	}

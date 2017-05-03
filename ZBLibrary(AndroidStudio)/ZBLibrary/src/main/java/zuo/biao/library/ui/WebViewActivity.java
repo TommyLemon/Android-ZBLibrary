@@ -72,7 +72,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 			finish();
 			return;
 		}
-		
+
 		//功能归类分区方法，必须调用<<<<<<<<<<
 		initView();
 		initData();
@@ -116,22 +116,22 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 		WebSettings webSettings = wvWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		
+
 		wvWebView.requestFocus();
 
-		// 设置setWebChromeClient对象  
-		wvWebView.setWebChromeClient(new WebChromeClient() {  
-			@Override  
-			public void onReceivedTitle(WebView view, String title) {  
+		// 设置setWebChromeClient对象
+		wvWebView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onReceivedTitle(WebView view, String title) {
 				super.onReceivedTitle(view, title);
 				tvBaseTitle.setText(StringUtil.getTrimedString(title));
-			}  
+			}
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
 				super.onProgressChanged(view, newProgress);
 				pbWebView.setProgress(newProgress);
 			}
-		});  
+		});
 
 		wvWebView.setWebViewClient(new WebViewClient(){
 			@Override
@@ -184,7 +184,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 				wvWebView.goForward();
 			}
 			return;
-		}		
+		}
 		onBackPressed();
 	}
 
@@ -233,12 +233,11 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		if (wvWebView != null) {
 			wvWebView.destroy();
 			wvWebView = null;
 		}
-		wvWebView = null;
+		super.onDestroy();
 	}
 
 	protected static final int REQUEST_TO_EDIT_TEXT_WINDOW = 1;
