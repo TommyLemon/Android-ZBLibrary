@@ -139,7 +139,8 @@ public class HttpManager {
 				try {
 					result = getResponseJson(client, new Request.Builder()
 					.addHeader(KEY_TOKEN, getToken(url))
-					.url(sb.toString()).build());
+					.url(sb.toString())
+					.build());
 					//仅供测试 result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
 				} catch (Exception e) {
 					Log.e(TAG, "get  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
@@ -192,8 +193,10 @@ public class HttpManager {
 
 				try {
 					result = getResponseJson(client, new Request.Builder()
-					.addHeader(KEY_TOKEN, getToken(url)).url(StringUtil.getNoBlankString(url))
-					.post(fBuilder.build()).build());
+					.addHeader(KEY_TOKEN, getToken(url))
+					.url(StringUtil.getNoBlankString(url))
+					.post(fBuilder.build())
+					.build());
 					//仅供测试 result = "{\"code\":102}";
 				} catch (Exception e) {
 					Log.e(TAG, "post  AsyncTask.doInBackground  try {  result = getResponseJson(..." +

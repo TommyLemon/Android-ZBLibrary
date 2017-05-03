@@ -98,31 +98,31 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID, listener);
 	}
 
-//	//BaseActivity重写setContentView后这个方法一定会被调用，final有无都会导致崩溃，去掉throw Exception也会导致contentView为null而崩溃
-//	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
-//	/**
-//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
-//	 */
-//	@Override
-//	public final void setContentView(int layoutResID) {
-//		setContentView(null);
-//	}
-//	/**
-//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
-//	 */
-//	@Override
-//	public final void setContentView(View view) {
-//		setContentView(null, null);
-//	}
-//	/**
-//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
-//	 */
-//	@Override
-//	public final void setContentView(View view, LayoutParams params) {
-//		throw new UnsupportedOperationException(TAG + "不支持setContentView" +
-//				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
-//	}
-//	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
+	//	//BaseActivity重写setContentView后这个方法一定会被调用，final有无都会导致崩溃，去掉throw Exception也会导致contentView为null而崩溃
+	//	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
+	//	/**
+	//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	//	 */
+	//	@Override
+	//	public final void setContentView(int layoutResID) {
+	//		setContentView(null);
+	//	}
+	//	/**
+	//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	//	 */
+	//	@Override
+	//	public final void setContentView(View view) {
+	//		setContentView(null, null);
+	//	}
+	//	/**
+	//	 * @warn 不支持setContentView，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法
+	//	 */
+	//	@Override
+	//	public final void setContentView(View view, LayoutParams params) {
+	//		throw new UnsupportedOperationException(TAG + "不支持setContentView" +
+	//				"，传界面布局请使用onCreate(Bundle savedInstanceState, int layoutResID)等方法");
+	//	}
+	//	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -171,7 +171,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	 * 当前显示的tab所在位置，对应fragment所在位置
 	 */
 	protected int currentPosition = 0;
-	
+
 	/**选择下一个tab和fragment
 	 */
 	public void selectNext() {
@@ -183,30 +183,39 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	public void select(int position) {
 		topTabView.select(position);
 	}
-	
+
 	/**选择并显示fragment
 	 * @param position
 	 */
 	public void selectFragment(int position) {
 		if (currentPosition == position) {
-			if (needReload == false && fragments[position] != null && fragments[position].isVisible()) {
-				Log.w(TAG, "selectFragment currentPosition == position" +
-						" >> fragments[position] != null && fragments[position].isVisible()" +
-						" >> return;	");
-				return;
+			if (needReload) {
+				if (fragments[position] != null && fragments[position].isAdded()) {
+					FragmentTransaction ft = fragmentManager.beginTransaction();
+					ft.remove(fragments[position]).commit();
+					fragments[position] = null;
+				}
+			} else {
+				if (fragments[position] != null && fragments[position].isVisible()) {
+					Log.w(TAG, "selectFragment currentPosition == position" +
+							" >> fragments[position] != null && fragments[position].isVisible()" +
+							" >> return;	");
+					return;
+				}
 			}
 		}
-		if (needReload || fragments[position] == null) {
+
+		if (fragments[position] == null) {
 			fragments[position] = getFragment(position);
 		}
 
 		//全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.hide(fragments[currentPosition]);
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+		ft.hide(fragments[currentPosition]);
 		if (fragments[position].isAdded() == false) {
-			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragments[position]);
+			ft.add(R.id.flBaseTabFragmentContainer, fragments[position]);
 		}
-		fragmentTransaction.show(fragments[position]).commit();
+		ft.show(fragments[position]).commit();
 
 		this.currentPosition = position;
 	}
@@ -257,7 +266,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 			}
 		}
 		//返回按钮>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
+
 		//前进按钮<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		String forwardName = getForwardName();
 		if (StringUtil.isNotEmpty(forwardName, true)) {
@@ -273,8 +282,8 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 			}
 		}
 		//前进按钮>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
-		
+
+
 		//tab<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		topTabView = new TopTabView(context, getResources());
 		llBaseTabTabContainer.removeAllViews();
@@ -282,7 +291,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		topTabView.setCurrentPosition(currentPosition);
 		topTabView.bindView(getTabNames());
 		//tab>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
+
 
 		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -315,7 +324,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	@Override
 	@Nullable
 	public abstract String getForwardName();
-	
+
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<View>();
 	/**添加右上方导航栏按钮
@@ -422,7 +431,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		}
 		if (tvBaseTabForward != null) {
 			tvBaseTabForward.setOnClickListener(new OnClickListener() {//没有id
-				
+
 				@Override
 				public void onClick(View v) {
 					onForwardClick(v);
@@ -455,17 +464,17 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		super.onDestroy();
 		topTabView = null;
 		fragments = null;
-		
+
 		ivBaseTabReturn = null;
 		tvBaseTabReturn = null;
 		llBaseTabTopRightButtonContainer = null;
 		llBaseTabTabContainer = null;
-		
+
 		tvBaseTabTitle = null;
-		
+
 		currentPosition = 0;
 		needReload = false;
-		
+
 		topRightButtonList = null;
 	}
 

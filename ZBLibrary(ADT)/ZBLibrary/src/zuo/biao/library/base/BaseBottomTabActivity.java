@@ -84,39 +84,56 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		}
 	}
 
+	/**
+	 *  == true >> 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
+	 * 如果不希望重载，可以重写selectFragment。
+	 */
+	protected boolean needReload = false;
+	/**
+	 * 当前显示的tab所在位置，对应fragment所在位置
+	 */
 	protected int currentPosition = 0;
 	/**选择并显示fragment
 	 * @param position
 	 */
 	public void selectFragment(int position) {
-		//消耗资源很少，不像Fragment<<<<<<
+		//tab，资源消耗很小<<<<<<
 		setTabSelection(position);
 		selectTab(position);
-		//消耗资源很少，不像Fragment>>>>>>
-
+		//tab，资源消耗很小>>>>>>
+		
 		if (currentPosition == position) {
-			if (fragments[position] != null && fragments[position].isVisible()) {
-				Log.e(TAG, "selectFragment currentPosition == position" +
-						" >> fragments[position] != null && fragments[position].isVisible()" +
-						" >> return;	");
-				return;
+			if (needReload) {
+				if (fragments[position] != null && fragments[position].isAdded()) {
+					FragmentTransaction ft = fragmentManager.beginTransaction();
+					ft.remove(fragments[position]).commit();
+					fragments[position] = null;
+				}
+			} else {
+				if (fragments[position] != null && fragments[position].isVisible()) {
+					Log.w(TAG, "selectFragment currentPosition == position" +
+							" >> fragments[position] != null && fragments[position].isVisible()" +
+							" >> return;	");
+					return;
+				}
 			}
 		}
+		
 
 		if (fragments[position] == null) {
 			fragments[position] = getFragment(position);
 		}
 
-		// 用全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.hide(fragments[currentPosition]);
+		//全局的fragmentTransaction因为already committed 崩溃
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+		ft.hide(fragments[currentPosition]);
 		if (fragments[position].isAdded() == false) {
-			fragmentTransaction.add(getFragmentContainerResId(), fragments[position]);
+			ft.add(getFragmentContainerResId(), fragments[position]);
 		}
-		fragmentTransaction.show(fragments[position]).commit();
+		ft.show(fragments[position]).commit();
 
 		this.currentPosition = position;
-	};
+	}
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
