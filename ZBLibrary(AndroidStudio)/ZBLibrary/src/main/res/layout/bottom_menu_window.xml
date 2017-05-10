@@ -28,7 +28,7 @@
             android:listSelector="@drawable/to_alpha" >
         </ListView>
 
-        <TextView
+        <Button
             android:id="@+id/tvBottomMenuCancel"
             style="@style/text_middle"
             android:onClick="onReturnClick"

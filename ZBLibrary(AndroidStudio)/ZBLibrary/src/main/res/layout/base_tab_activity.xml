@@ -10,12 +10,12 @@
             style="@style/topbar_bg"
             android:layout_height="wrap_content" >
 
-            <ImageView
+            <ImageButton
                 android:id="@id/ivBaseTabReturn"
                 style="@style/topbar_return_img"
                 android:layout_height="@dimen/topbar_height" />
 
-            <TextView
+            <Button
                 android:id="@id/tvBaseTabReturn"
                 style="@style/topbar_return_tv"
                 android:layout_height="@dimen/topbar_height" />
