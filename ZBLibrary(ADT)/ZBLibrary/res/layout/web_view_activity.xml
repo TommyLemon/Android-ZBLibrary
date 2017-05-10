@@ -5,7 +5,7 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView
+        <ImageButton
             android:id="@+id/imageView1"
             style="@style/topbar_return_img" />
 

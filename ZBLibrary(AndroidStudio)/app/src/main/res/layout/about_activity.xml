@@ -13,7 +13,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="关于" />
 
-            <TextView
+            <Button
                 style="@style/topbar_right_btn"
                 android:text="博客" />
         </RelativeLayout>

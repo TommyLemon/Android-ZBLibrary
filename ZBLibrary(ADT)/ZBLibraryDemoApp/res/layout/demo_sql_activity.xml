@@ -4,14 +4,14 @@
 
     <RelativeLayout style="@style/topbar_bg" >
 
-        <ImageView style="@style/topbar_return_img" />
+        <ImageButton style="@style/topbar_return_img" />
 
         <TextView
             style="@style/topbar_title"
             android:layout_centerHorizontal="true"
             android:text="SQLite" />
 
-        <TextView
+        <Button
             style="@style/topbar_right_img"
             android:text="重置" />
     </RelativeLayout>

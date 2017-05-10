@@ -23,7 +23,7 @@
             style="@style/topbar_bg"
             android:background="@color/white_alpha" >
 
-            <TextView
+            <Button
                 style="@style/topbar_left_btn"
                 android:text="          " />
 
@@ -59,7 +59,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="4dp" >
 
-                <ImageView
+                <ImageButton
                     android:onClick="onReturnClick"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"
@@ -80,7 +80,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="4dp" >
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/ivCameraScanLight"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"
@@ -101,7 +101,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="4dp" >
 
-                <ImageView
+                <ImagButton
                     android:onClick="onForwardClick"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"

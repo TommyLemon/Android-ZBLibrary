@@ -6,7 +6,7 @@
         android:id="@+id/rlDemoMainTopbar"
         style="@style/topbar_bg" >
 
-        <TextView
+        <Button
             style="@style/topbar_return_tv"
             android:text="退出" />
 
@@ -15,7 +15,7 @@
             android:layout_centerHorizontal="true"
             android:text="坐标标准库" />
 
-        <ImageView
+        <ImageButton
             style="@style/topbar_right_btn"
             android:src="@drawable/menu" />
     </RelativeLayout>
