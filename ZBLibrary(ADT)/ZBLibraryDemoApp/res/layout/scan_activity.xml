@@ -101,7 +101,7 @@
                 android:paddingRight="12dp"
                 android:paddingTop="4dp" >
 
-                <ImagButton
+                <ImageButton
                     android:onClick="onForwardClick"
                     style="@style/wrap_wrap"
                     android:background="@drawable/cilcle_gray_to_white"
