@@ -82,6 +82,8 @@ public class DemoApplication extends Application {
 }
 ```
 
+注册 权限和Activity 等代码可复制ZBLibrary中AndroidManifest.xml里的 \<uses-permission/>, \<activity/> 等相关代码。
+
 ## 编程思想
 * 能复制就复制，节约时间避免出错
 * 保留原本结构，简单上手容易调试
