@@ -50,6 +50,38 @@ UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google�
 [PagedListView](https://github.com/TommyLemon/PagedListView)
 Scroll ListView faster, more accurate and comfortable.
 
+
+## 初始化
+
+假设你工程中的Application为zblibrary.demo.application.DemoApplication，并且已在AndroidManifest.xml中注册
+```
+    <application
+        android:name="zblibrary.demo.application.DemoApplication"
+        ...
+        >
+    </application>
+```
+
+可以用DemoApplication继承BaseApplication
+```
+public class DemoApplication extends BaseApplication {
+...
+}
+```
+或 在DemoApplication的 onCreate函数 中调用 BaseApplication.init(this);
+```
+public class DemoApplication extends Application {
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		
+		BaseApplication.init(this);
+	}
+  ...
+}
+```
+
 ## 编程思想
 * 能复制就复制，节约时间避免出错
 * 保留原本结构，简单上手容易调试
