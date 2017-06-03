@@ -6,13 +6,13 @@ OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自
 
 全新的手势，侧滑返回、全局右滑返回都OUT啦！
 
-BaseHttpListActivity，几行代码搞定http请求列表 加载和缓存;
+用[BaseView](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/java/zuo/biao/library/base/BaseView.java)，自定义View竟然如此简单;
 
-BaseView，自定义View竟然如此简单;
+用[Entry<K, V>](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/java/zuo/biao/library/model/Entry.java)，两个变量的Model/JavaBean再也不用写了;
 
-万能的Entry<K, V>，两个变量的Model/JavaBean再也不用写了;
+用[BaseHttpListActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpListActivity.java)，几行代码搞定http请求列表 加载和缓存;
 
-100多个常用style，一行搞定View属性，一键统一配置UI... 
+还有100多个常用[style](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/res/values/styles.xml)，一行搞定View属性，一键统一配置UI... 
 
 点击右边链接查看如何使用[http://my.oschina.net/u/2437072/blog/665241](http://my.oschina.net/u/2437072/blog/665241)
 
