@@ -139,7 +139,7 @@ TommyLemon：[https://github.com/TommyLemon](https://github.com/TommyLemon)
 QQ群：595514898
 
 如果有什么问题或建议都可以[提ISSUE](https://github.com/TommyLemon/Android-ZBLibrary/issues)、加群或者发我邮件，交流技术，分享经验。<br >
-如果你解决了ZBLibrary中的某些bug，或者新增了一些通用性强的功能，别忘了[贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/issues)哦，大家都会很感激的^_^
+如果你解决了某些bug，或者新增了一些通用性强的功能，欢迎[贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/issues)，感激不尽^_^
 
 ## 下载试用
 
