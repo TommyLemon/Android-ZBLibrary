@@ -60,7 +60,7 @@
         android:background="@color/white"
         android:divider="@color/alpha_3"
         android:dividerHeight="1px"
-        android:listSelector="@drawable/bg_white_to_gray"
+        android:listSelector="@drawable/white_to_gray"
         android:paddingLeft="@dimen/item_left_tv_padding" >
     </ListView>
 

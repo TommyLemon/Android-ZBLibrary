@@ -73,7 +73,7 @@
 
     <style name="bottom_window_button" parent="text_middle_black">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@drawable/bg_white_to_alpha</item>
+        <item name="android:background">@drawable/white_to_alpha</item>
         <item name="android:padding">12dp</item>
     </style>
 
@@ -283,7 +283,7 @@
     </style>
 
     <style name="btn_bottom_white" parent="btn_bottom">
-        <item name="android:background">@drawable/bg_white_to_gray</item>
+        <item name="android:background">@drawable/white_to_gray</item>
         <item name="android:textColor">@color/blue</item>
     </style>
 
@@ -478,7 +478,7 @@
     </style>
 
     <style name="content_item_white" parent="content_item">
-        <item name="android:background">@drawable/bg_white_to_gray</item>
+        <item name="android:background">@drawable/white_to_gray</item>
     </style>
 
     <style name="content_item_big" parent="content_item">
@@ -559,7 +559,7 @@
     </style>
 
     <style name="edit_item_white" parent="edit_item">
-        <item name="android:background">@drawable/bg_white_to_gray</item>
+        <item name="android:background">@drawable/white_to_gray</item>
     </style>
 
     <style name="edit_item_left_tv" parent="edit_item">
@@ -742,7 +742,7 @@
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/white_to_black_selector</item>
+        <item name="android:textColor">@color/white_to_black</item>
     </style>
 
     <style name="topbar_tab_tv_left" parent="topbar_tab_tv">
@@ -778,7 +778,7 @@
     <!-- progress bar <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
     <style name="progressBarHorizontal_color" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/progress_color_horizontal</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal</item>
         <item name="android:minHeight">5dip</item>
         <item name="android:maxHeight">5dip</item>
     </style>

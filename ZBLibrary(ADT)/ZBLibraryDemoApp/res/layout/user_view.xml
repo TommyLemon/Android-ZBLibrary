@@ -3,7 +3,7 @@
 <!-- 如果一定要用，则必须在根布局加上 android:descendantFocusability="blocksDescendants" -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ll_horizontal_match_wrap"
-    android:background="@drawable/bg_white_to_alpha"
+    android:background="@drawable/white_to_alpha"
     android:padding="4dp" >
 
     <ImageView

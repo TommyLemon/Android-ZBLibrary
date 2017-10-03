@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/edit_item"
-    android:background="@drawable/bg_white_to_gray" >
+    android:background="@drawable/white_to_gray" >
 
     <TextView
         android:id="@+id/tvKeyValueItemKey"

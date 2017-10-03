@@ -23,7 +23,7 @@
         android:id="@+id/tvEditTextInfoPlace"
         style="@style/text_middle_blue"
         android:layout_width="match_parent"
-        android:background="@drawable/bg_white_to_gray"
+        android:background="@drawable/white_to_gray"
         android:gravity="center_vertical|left"
         android:hint="点击选择地址"
         android:paddingBottom="12dp"

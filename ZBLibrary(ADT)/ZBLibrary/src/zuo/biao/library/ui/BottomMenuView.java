@@ -147,7 +147,7 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 		ImageView iv = (ImageView) ll.findViewById(R.id.ivIconNameIcon);
 		TextView tv = (TextView) ll.findViewById(R.id.tvIconNameName);
 		try {
-			iv.setImageResource(isMoreButton ? R.drawable.up2_light : fsb.getImageRes());
+			iv.setImageResource(isMoreButton ? R.drawable.up_light : fsb.getImageRes());
 		} catch (Exception e) {
 			Log.e(TAG, "addItem try {" +
 					" iv.setImageResource(fsb.getImageRes()); " + e.getMessage() + ">> return;");

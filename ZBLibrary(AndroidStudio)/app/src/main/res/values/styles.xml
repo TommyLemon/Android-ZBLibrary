@@ -14,7 +14,7 @@
     <style name="bottom_tab_iv" parent="img_btn"></style>
 
     <style name="bottom_tab_tv" parent="text_micro">
-        <item name="android:textColor">@color/black_to_white_selector</item>
+        <item name="android:textColor">@color/black_to_white</item>
     </style>
 
 </resources>

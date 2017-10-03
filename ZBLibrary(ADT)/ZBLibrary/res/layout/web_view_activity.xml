@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_alignParentTop="true"
-            android:progressDrawable="@drawable/progress_color_horizontal" />
+            android:progressDrawable="@drawable/progress_horizontal" />
     </RelativeLayout>
 
 </LinearLayout>
