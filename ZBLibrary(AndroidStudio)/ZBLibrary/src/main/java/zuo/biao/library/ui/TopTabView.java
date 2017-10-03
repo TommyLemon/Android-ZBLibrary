@@ -83,10 +83,10 @@ public class TopTabView extends BaseView<String[]> {
 		this.inflater = inflater;
 		convertView = inflater.inflate(R.layout.top_tab_view, null);
 
-		tvTopTabViewTabFirst = (TextView) findViewById(R.id.tvTopTabViewTabFirst);
-		tvTopTabViewTabLast = (TextView) findViewById(R.id.tvTopTabViewTabLast);
+		tvTopTabViewTabFirst = findView(R.id.tvTopTabViewTabFirst);
+		tvTopTabViewTabLast = findView(R.id.tvTopTabViewTabLast);
 
-		llTopTabViewContainer = (LinearLayout) findViewById(R.id.llTopTabViewContainer);
+		llTopTabViewContainer = findView(R.id.llTopTabViewContainer);
 
 		return convertView;
 	}

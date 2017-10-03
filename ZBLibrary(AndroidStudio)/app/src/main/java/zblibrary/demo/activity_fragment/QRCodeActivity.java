@@ -91,11 +91,11 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 	public void initView() {//必须调用
 		autoSetTitle();
 		
-		ivQRCodeHead = (ImageView) findViewById(R.id.ivQRCodeHead);
-		tvQRCodeName = (TextView) findViewById(R.id.tvQRCodeName);
+		ivQRCodeHead = findView(R.id.ivQRCodeHead);
+		tvQRCodeName = findView(R.id.tvQRCodeName);
 
-		ivQRCodeCode = (ImageView) findViewById(R.id.ivQRCodeCode);
-		ivQRCodeProgress = findViewById(R.id.ivQRCodeProgress);
+		ivQRCodeCode = findView(R.id.ivQRCodeCode);
+		ivQRCodeProgress = findView(R.id.ivQRCodeProgress);
 	}
 
 

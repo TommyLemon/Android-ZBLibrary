@@ -96,7 +96,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		lvDemo = (ListView) findViewById(R.id.lvDemo);
+		lvDemo = findView(R.id.lvDemo);
 
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}

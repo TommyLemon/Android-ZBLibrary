@@ -79,8 +79,8 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	@Override
 	public void initView() {//必须调用
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		tvDemoTimeRefresherCount = (TextView) findViewById(R.id.tvDemoTimeRefresherCount);
-		etDemoTimeRefresher = (EditText) findViewById(R.id.etDemoTimeRefresher);
+		tvDemoTimeRefresherCount = findView(R.id.tvDemoTimeRefresherCount);
+		etDemoTimeRefresher = findView(R.id.etDemoTimeRefresher);
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
@@ -130,7 +130,7 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	public void initEvent() {//必须调用
 		//示例代码<<<<<<<<<<<<<<<<<<<
 		tvDemoTimeRefresherCount.setOnClickListener(this);
-		findViewById(R.id.ibtnDemoTimeRefresher).setOnClickListener(this);
+		findView(R.id.ibtnDemoTimeRefresher).setOnClickListener(this);
 		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 

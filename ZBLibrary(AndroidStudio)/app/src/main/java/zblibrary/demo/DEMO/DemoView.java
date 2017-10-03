@@ -65,9 +65,9 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 		convertView = inflater.inflate(R.layout.demo_view, null);
 
 		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead = findViewById(R.id.ivDemoViewHead, this);
-		tvDemoViewName = findViewById(R.id.tvDemoViewName, this);
-		tvDemoViewNumber = findViewById(R.id.tvDemoViewNumber);
+		ivDemoViewHead = findView(R.id.ivDemoViewHead, this);
+		tvDemoViewName = findView(R.id.tvDemoViewName, this);
+		tvDemoViewNumber = findView(R.id.tvDemoViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
 		return convertView;

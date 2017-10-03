@@ -50,7 +50,7 @@ public abstract class BaseBottomWindow extends BaseActivity {
 	public void initView() {// 必须调用
 		enterAnim = exitAnim = R.anim.null_anim;
 
-		vBaseBottomWindowRoot = findViewById(R.id.vBaseBottomWindowRoot);
+		vBaseBottomWindowRoot = findView(R.id.vBaseBottomWindowRoot);
 
 		vBaseBottomWindowRoot.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bottom_window_enter));
 	}

@@ -74,8 +74,7 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 		this.inflater = inflater;
 		convertView = inflater.inflate(R.layout.bottom_menu_view, null);
 
-		llBottomMenuViewMainItemContainer = (LinearLayout) 
-				convertView.findViewById(R.id.llBottomMenuViewMainItemContainer);
+		llBottomMenuViewMainItemContainer = findView(R.id.llBottomMenuViewMainItemContainer);
 
 		return convertView;
 	}

@@ -106,10 +106,10 @@ implements ViewPresenter {
 		super.initView();
 		autoSetTitle();
 
-		llBaseViewBottomWindowContainer = (ViewGroup) findViewById(R.id.llBaseViewBottomWindowContainer);
+		llBaseViewBottomWindowContainer = findView(R.id.llBaseViewBottomWindowContainer);
 
-		tvBaseViewBottomWindowReturn = (TextView) findViewById(R.id.tvBaseViewBottomWindowReturn);
-		tvBaseViewBottomWindowForward = (TextView) findViewById(R.id.tvBaseViewBottomWindowForward);
+		tvBaseViewBottomWindowReturn = findView(R.id.tvBaseViewBottomWindowReturn);
+		tvBaseViewBottomWindowForward = findView(R.id.tvBaseViewBottomWindowForward);
 	}
 
 

@@ -14,6 +14,18 @@ limitations under the License.*/
 
 package zuo.biao.library.manager;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.text.TextUtils;
+
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
@@ -25,22 +37,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import zuo.biao.library.base.BaseApplication;
+import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.model.Parameter;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SSLUtil;
 import zuo.biao.library.util.StringUtil;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.text.TextUtils;
-
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 /**HTTP请求管理类
  * @author Lemon
@@ -49,17 +51,6 @@ import com.squareup.okhttp.Response;
  */
 public class HttpManager {
 	private static final String TAG = "HttpManager";
-
-	/**网络请求回调接口
-	 */
-	public interface OnHttpResponseListener {
-		/**
-		 * @param requestCode 请求码，自定义，在发起请求的类中可以用requestCode来区分各个请求
-		 * @param resultJson 服务器返回的Json串
-		 * @param e 异常
-		 */
-		void onHttpResponse(int requestCode, String resultJson, Exception e);
-	}
 
 
 
@@ -92,10 +83,6 @@ public class HttpManager {
 
 
 
-	/**
-	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
-	 */
-	public static final int PAGE_NUM_0 = 0;
 
 	public static final String KEY_TOKEN = "token";
 	public static final String KEY_COOKIE = "cookie";
@@ -106,7 +93,7 @@ public class HttpManager {
 	 * @param url 接口url
 	 * @param requestCode
 	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
-	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>  
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>
 	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */
@@ -167,7 +154,7 @@ public class HttpManager {
 	 * @param url 接口url
 	 * @param requestCode
 	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
-	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>  
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>
 	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */
@@ -244,7 +231,7 @@ public class HttpManager {
 	}
 
 	/**
-	 * @param paramList
+	 * @param tag
 	 * @return
 	 */
 	public String getToken(String tag) {
@@ -301,7 +288,7 @@ public class HttpManager {
 	 * @param json
 	 * @param key
 	 * @return
-	 * @throws JSONException 
+	 * @throws JSONException
 	 */
 	public <T> T getValue(String json, String key) throws JSONException {
 		return getValue(new JSONObject(json), key);
@@ -311,7 +298,7 @@ public class HttpManager {
 	 * @param object
 	 * @param key
 	 * @return
-	 * @throws JSONException 
+	 * @throws JSONException
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(JSONObject object, String key) throws JSONException {

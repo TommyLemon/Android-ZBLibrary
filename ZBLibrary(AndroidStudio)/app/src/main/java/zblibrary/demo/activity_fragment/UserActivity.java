@@ -22,8 +22,8 @@ import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.base.BaseView.OnDataChangedListener;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.manager.CacheManager;
-import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
 import zuo.biao.library.ui.BottomMenuView;
 import zuo.biao.library.ui.BottomMenuView.OnBottomMenuItemClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
@@ -107,14 +107,14 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 		//添加用户名片，这些方式都可<<<<<<<<<<<<<<<<<<<<<<
 		//		//方式一
-		//		bvlUser = (BaseViewLayout<User>) findViewById(R.id.bvlUser);
+		//		bvlUser = findView(R.id.bvlUser);
 		//		bvlUser.createView(new UserView(context, getResources()));
 		//		
 		//		//方式二
-		//		uvlUser = (UserViewLayout) findViewById(R.id.uvlUser);
+		//		uvlUser = findView(R.id.uvlUser);
 
 		//方式三
-		llUserBusinessCardContainer = (ViewGroup) findViewById(R.id.llUserBusinessCardContainer);
+		llUserBusinessCardContainer = findView(R.id.llUserBusinessCardContainer);
 		llUserBusinessCardContainer.removeAllViews();
 
 		userView = new UserView(context, getResources());
@@ -122,12 +122,12 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		//添加用户名片，这些方式都可>>>>>>>>>>>>>>>>>>>>>>>
 
 
-		etUserRemark = (EditText) findViewById(R.id.etUserRemark);
-		tvUserTag = (TextView) findViewById(R.id.tvUserTag);
+		etUserRemark = findView(R.id.etUserRemark);
+		tvUserTag = findView(R.id.tvUserTag);
 
 
 		//添加底部菜单<<<<<<<<<<<<<<<<<<<<<<
-		llUserBottomMenuContainer = (ViewGroup) findViewById(R.id.llUserBottomMenuContainer);
+		llUserBottomMenuContainer = findView(R.id.llUserBottomMenuContainer);
 		llUserBottomMenuContainer.removeAllViews();
 
 		bottomMenuView = new BottomMenuView(context, getResources(), REQUEST_TO_BOTTOM_MENU);
@@ -206,9 +206,9 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 	@Override
 	public void initEvent() {//必须调用
 
-		findViewById(R.id.llUserTag).setOnClickListener(this);
+		findView(R.id.llUserTag).setOnClickListener(this);
 
-		new TextClearSuit().addClearListener(etUserRemark, findViewById(R.id.ivUserRemarkClear));//清空备注按钮点击监听
+		new TextClearSuit().addClearListener(etUserRemark, findView(R.id.ivUserRemarkClear));//清空备注按钮点击监听
 
 		bottomMenuView.setOnMenuItemClickListener(this);//底部菜单点击监听
 		
