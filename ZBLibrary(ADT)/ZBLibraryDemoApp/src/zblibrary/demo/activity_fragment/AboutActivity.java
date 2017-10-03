@@ -23,7 +23,7 @@ import zblibrary.demo.util.Constant;
 import zblibrary.demo.util.HttpRequest;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.HttpManager.OnHttpResponseListener;
+import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DownloadUtil;

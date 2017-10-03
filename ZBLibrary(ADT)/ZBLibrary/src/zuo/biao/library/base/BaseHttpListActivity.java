@@ -14,18 +14,17 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import java.util.List;
 
 import zuo.biao.library.interfaces.AdapterCallBack;
+import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
-import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
+import android.view.View;
+import android.widget.BaseAdapter;
 
 /**基础http获取列表的Activity
  * @author Lemon
@@ -36,7 +35,7 @@ import zuo.biao.library.util.Log;
  * @use extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
 public abstract class BaseHttpListActivity<T, BA extends BaseAdapter> extends BaseListActivity<T, XListView, BA>
-implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
+implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	private static final String TAG = "BaseHttpListActivity";
 
 

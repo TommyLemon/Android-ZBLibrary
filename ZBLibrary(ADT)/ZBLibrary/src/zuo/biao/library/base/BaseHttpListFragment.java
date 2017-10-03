@@ -17,9 +17,9 @@ package zuo.biao.library.base;
 import java.util.List;
 
 import zuo.biao.library.interfaces.AdapterCallBack;
+import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.interfaces.OnReachViewBorderListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
-import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
@@ -35,7 +35,7 @@ import android.widget.BaseAdapter;
  * @use extends BaseHttpListFragment 并在子类onCreateView中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
 public abstract class BaseHttpListFragment<T, BA extends BaseAdapter> extends BaseListFragment<T, XListView, BA> 
-implements HttpManager.OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
+implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	private static final String TAG = "BaseHttpListFragment";
 
 

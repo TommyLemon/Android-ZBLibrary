@@ -35,7 +35,7 @@ import zuo.biao.library.util.StringUtil;
  * @use 把请求中的listener替换成new OnHttpResponseListenerImpl(listener)
  */
 public class OnHttpResponseListenerImpl implements OnHttpResponseListener
-, zuo.biao.library.manager.HttpManager.OnHttpResponseListener {
+, zuo.biao.library.interfaces.OnHttpResponseListener {
 	private static final String TAG = "OnHttpResponseListenerImpl";
 
 	OnHttpResponseListener listener;
