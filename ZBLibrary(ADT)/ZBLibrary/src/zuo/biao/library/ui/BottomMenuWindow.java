@@ -132,7 +132,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 	public void initView() {//必须调用
 		super.initView();
 
-		lvBottomMenu = (ListView) findViewById(R.id.lvBottomMenu);
+		lvBottomMenu = findView(R.id.lvBottomMenu);
 	}
 
 

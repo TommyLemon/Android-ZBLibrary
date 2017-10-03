@@ -80,8 +80,8 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	public View createView(LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.grid_picker_view, null);
 
-		llGridPickerViewTabContainer = findViewById(R.id.llGridPickerViewTabContainer);
-		gvGridPickerView = findViewById(R.id.gvGridPickerView);
+		llGridPickerViewTabContainer = findView(R.id.llGridPickerViewTabContainer);
+		gvGridPickerView = findView(R.id.gvGridPickerView);
 
 		return convertView;
 	}

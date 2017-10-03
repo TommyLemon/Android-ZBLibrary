@@ -136,11 +136,11 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void initView() {//必须调用
 		
-		tvServerSettingNormalName = (TextView) findViewById(R.id.tvServerSettingNormalName);
-		tvServerSettingTestName = (TextView) findViewById(R.id.tvServerSettingTestName);
+		tvServerSettingNormalName = findView(R.id.tvServerSettingNormalName);
+		tvServerSettingTestName = findView(R.id.tvServerSettingTestName);
 
-		etServerSettingNormal = (EditText) findViewById(R.id.etServerSettingNormal);
-		etServerSettingTest = (EditText) findViewById(R.id.etServerSettingTest);
+		etServerSettingNormal = findView(R.id.etServerSettingNormal);
+		etServerSettingTest = findView(R.id.etServerSettingTest);
 
 	}
 
@@ -208,11 +208,11 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void initEvent() {//必须调用
 		
-		findViewById(R.id.tvServerSettingNormalSet).setOnClickListener(this);
-		findViewById(R.id.tvServerSettingNormalOpen).setOnClickListener(this);
+		findView(R.id.tvServerSettingNormalSet).setOnClickListener(this);
+		findView(R.id.tvServerSettingNormalOpen).setOnClickListener(this);
 
-		findViewById(R.id.tvServerSettingTestSet).setOnClickListener(this);
-		findViewById(R.id.tvServerSettingTestOpen).setOnClickListener(this);
+		findView(R.id.tvServerSettingTestSet).setOnClickListener(this);
+		findView(R.id.tvServerSettingTestOpen).setOnClickListener(this);
 
 	}
 

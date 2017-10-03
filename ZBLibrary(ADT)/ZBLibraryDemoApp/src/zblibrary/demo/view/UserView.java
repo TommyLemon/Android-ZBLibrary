@@ -65,14 +65,14 @@ public class UserView extends BaseView<User> implements OnClickListener {
 	public View createView(LayoutInflater inflater) {
 		convertView = inflater.inflate(R.layout.user_view, null);
 
-		ivUserViewHead = findViewById(R.id.ivUserViewHead, this);
-		ivUserViewStar = findViewById(R.id.ivUserViewStar, this);
+		ivUserViewHead = findView(R.id.ivUserViewHead, this);
+		ivUserViewStar = findView(R.id.ivUserViewStar, this);
 
-		tvUserViewSex = findViewById(R.id.tvUserViewSex, this);
+		tvUserViewSex = findView(R.id.tvUserViewSex, this);
 
-		tvUserViewName = findViewById(R.id.tvUserViewName);
-		tvUserViewId = findViewById(R.id.tvUserViewId);
-		tvUserViewNumber = findViewById(R.id.tvUserViewNumber);
+		tvUserViewName = findView(R.id.tvUserViewName);
+		tvUserViewId = findView(R.id.tvUserViewId);
+		tvUserViewNumber = findView(R.id.tvUserViewNumber);
 
 		return convertView;
 	}

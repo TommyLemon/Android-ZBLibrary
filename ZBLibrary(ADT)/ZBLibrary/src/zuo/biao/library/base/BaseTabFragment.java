@@ -146,15 +146,14 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	@Override
 	public void initView() {// 必须调用
 
-		tvBaseTabTitle = (TextView) findViewById(R.id.tvBaseTabTitle);
+		tvBaseTabTitle = findView(R.id.tvBaseTabTitle);
 
-		ivBaseTabReturn = findViewById(R.id.ivBaseTabReturn);
-		tvBaseTabReturn = (TextView) findViewById(R.id.tvBaseTabReturn);
+		ivBaseTabReturn = findView(R.id.ivBaseTabReturn);
+		tvBaseTabReturn = findView(R.id.tvBaseTabReturn);
 
-		llBaseTabTopRightButtonContainer = (ViewGroup)
-				findViewById(R.id.llBaseTabTopRightButtonContainer);
+		llBaseTabTopRightButtonContainer = findView(R.id.llBaseTabTopRightButtonContainer);
 
-		llBaseTabTabContainer = (ViewGroup) findViewById(R.id.llBaseTabTabContainer);
+		llBaseTabTabContainer = findView(R.id.llBaseTabTabContainer);
 
 	}
 

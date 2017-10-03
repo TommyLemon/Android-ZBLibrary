@@ -106,15 +106,15 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void initView() {
 		
-		ivAboutGesture = (ImageView) findViewById(R.id.ivAboutGesture);
+		ivAboutGesture = findView(R.id.ivAboutGesture);
 		ivAboutGesture.setVisibility(SettingUtil.isFirstStart ? View.VISIBLE : View.GONE);
 		if (SettingUtil.isFirstStart) {
 			ivAboutGesture.setImageResource(R.drawable.gesture_left);
 		}
 
-		tvAboutAppInfo = (TextView) findViewById(R.id.tvAboutAppInfo);
+		tvAboutAppInfo = findView(R.id.tvAboutAppInfo);
 
-		ivAboutQRCode = findViewById(R.id.ivAboutQRCode, this);
+		ivAboutQRCode = findView(R.id.ivAboutQRCode, this);
 	}
 
 
@@ -197,16 +197,16 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	@Override
 	public void initEvent() {
 		
-		findViewById(R.id.llAboutMainTabActivity).setOnClickListener(this);
-		findViewById(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
+		findView(R.id.llAboutMainTabActivity).setOnClickListener(this);
+		findView(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 
-		findViewById(R.id.llAboutUpdate).setOnClickListener(this);
-		findViewById(R.id.llAboutShare).setOnClickListener(this);
-		findViewById(R.id.llAboutComment).setOnClickListener(this);
+		findView(R.id.llAboutUpdate).setOnClickListener(this);
+		findView(R.id.llAboutShare).setOnClickListener(this);
+		findView(R.id.llAboutComment).setOnClickListener(this);
 
-		findViewById(R.id.llAboutDeveloper, this).setOnLongClickListener(this);
-		findViewById(R.id.llAboutWeibo, this).setOnLongClickListener(this);
-		findViewById(R.id.llAboutContactUs, this).setOnLongClickListener(this);
+		findView(R.id.llAboutDeveloper, this).setOnLongClickListener(this);
+		findView(R.id.llAboutWeibo, this).setOnLongClickListener(this);
+		findView(R.id.llAboutContactUs, this).setOnLongClickListener(this);
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

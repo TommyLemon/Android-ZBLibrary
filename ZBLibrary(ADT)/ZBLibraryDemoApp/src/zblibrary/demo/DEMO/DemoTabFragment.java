@@ -88,7 +88,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	public void initView() {//必须在onCreate方法内调用
 		super.initView();
 
-		tvDemoTabLeft = (TextView) findViewById(R.id.tvDemoTabLeft);
+		tvDemoTabLeft = findView(R.id.tvDemoTabLeft);
 	}
 
 	/**一行代码没必要新建方法，这里是为了给DemoBottomTabActivity调用
@@ -172,7 +172,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		super.initEvent();
 		
 		tvDemoTabLeft.setOnClickListener(this);
-		findViewById(R.id.tvDemoTabRight).setOnClickListener(this);
+		findView(R.id.tvDemoTabRight).setOnClickListener(this);
 	}
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

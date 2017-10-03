@@ -59,15 +59,15 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 	public void initView() {//必须调用
 		
 		ivSettings = new ImageView[7];
-		ivSettings[0] = (ImageView) findViewById(R.id.ivSettingCache); 
-		ivSettings[1] = (ImageView) findViewById(R.id.ivSettingPreload); 
+		ivSettings[0] = findView(R.id.ivSettingCache); 
+		ivSettings[1] = findView(R.id.ivSettingPreload); 
 		
-		ivSettings[2] = (ImageView) findViewById(R.id.ivSettingVoice); 
-		ivSettings[3] = (ImageView) findViewById(R.id.ivSettingVibrate); 
-		ivSettings[4] = (ImageView) findViewById(R.id.ivSettingNoDisturb); 
+		ivSettings[2] = findView(R.id.ivSettingVoice); 
+		ivSettings[3] = findView(R.id.ivSettingVibrate); 
+		ivSettings[4] = findView(R.id.ivSettingNoDisturb); 
 
-		ivSettings[5] = (ImageView) findViewById(R.id.ivSettingTestMode); 
-		ivSettings[6] = (ImageView) findViewById(R.id.ivSettingFirstStart);
+		ivSettings[5] = findView(R.id.ivSettingTestMode); 
+		ivSettings[6] = findView(R.id.ivSettingFirstStart);
 
 	}
 

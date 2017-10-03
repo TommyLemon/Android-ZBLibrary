@@ -103,7 +103,7 @@ public class DemoFragment extends BaseFragment {
 
 		//示例代码<<<<<<<<<<<<<<
 
-		lvDemoFragment = (ListView) findViewById(R.id.lvDemoFragment);
+		lvDemoFragment = findView(R.id.lvDemoFragment);
 
 		//示例代码>>>>>>>>>>>>>>
 	}

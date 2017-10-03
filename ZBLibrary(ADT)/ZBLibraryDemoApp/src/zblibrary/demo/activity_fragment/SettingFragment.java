@@ -69,7 +69,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 	@Override
 	public void initView() {//必须调用
 
-		ivSettingHead = (ImageView) findViewById(R.id.ivSettingHead);
+		ivSettingHead = findView(R.id.ivSettingHead);
 	}
 
 
@@ -115,9 +115,9 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 
 		ivSettingHead.setOnClickListener(this);
 		
-		findViewById(R.id.llSettingSetting).setOnClickListener(this);
-		findViewById(R.id.llSettingAbout).setOnClickListener(this);
-		findViewById(R.id.llSettingLogout).setOnClickListener(this);
+		findView(R.id.llSettingSetting).setOnClickListener(this);
+		findView(R.id.llSettingAbout).setOnClickListener(this);
+		findView(R.id.llSettingLogout).setOnClickListener(this);
 	}
 
 

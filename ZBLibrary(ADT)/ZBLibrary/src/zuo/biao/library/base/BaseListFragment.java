@@ -149,11 +149,10 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initView() {// 必须调用
 
-		lvBaseList = (LV) findViewById(R.id.lvBaseList);
+		lvBaseList = findView(R.id.lvBaseList);
 	}
 
 	/**设置adapter

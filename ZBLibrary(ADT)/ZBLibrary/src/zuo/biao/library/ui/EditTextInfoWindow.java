@@ -118,12 +118,12 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 	public void initView() {//必须调用
 		super.initView();
 
-		tvEditTextInfoPlace = (TextView) findViewById(R.id.tvEditTextInfoPlace);
+		tvEditTextInfoPlace = findView(R.id.tvEditTextInfoPlace);
 		tvEditTextInfoPlace.setVisibility(View.GONE);
 
-		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
-		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
-		tvEditTextInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoRemind);
+		etEditTextInfo = findView(R.id.etEditTextInfo);
+		ivEditTextInfoClear = findView(R.id.ivEditTextInfoClear);
+		tvEditTextInfoRemind = findView(R.id.tvEditTextInfoRemind);
 	}
 
 

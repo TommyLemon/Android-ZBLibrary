@@ -90,8 +90,8 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	public void initView() {
 		autoSetTitle();
 
-		pbWebView = (ProgressBar) findViewById(R.id.pbWebView);
-		wvWebView = (WebView) findViewById(R.id.wvWebView);
+		pbWebView = findView(R.id.pbWebView);
+		wvWebView = findView(R.id.wvWebView);
 	}
 
 

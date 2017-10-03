@@ -122,11 +122,11 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	@Override
 	public void initView() {//必须调用
 		
-		etEditTextInfo = (EditText) findViewById(R.id.etEditTextInfo);
-		ivEditTextInfoClear = findViewById(R.id.ivEditTextInfoClear);
-		tvEditTextInfoRemind = (TextView) findViewById(R.id.tvEditTextInfoRemind);
+		etEditTextInfo = findView(R.id.etEditTextInfo);
+		ivEditTextInfoClear = findView(R.id.ivEditTextInfoClear);
+		tvEditTextInfoRemind = findView(R.id.tvEditTextInfoRemind);
 
-		lvEditTextInfo = (ListView) findViewById(R.id.lvEditTextInfo);
+		lvEditTextInfo = findView(R.id.lvEditTextInfo);
 	}
 
 	private ArrayAdapter<String> adapter;

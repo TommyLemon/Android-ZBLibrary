@@ -91,7 +91,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	}
 	/**设置界面布局
 	 * @warn 最多调用一次
-	 * @param view
+	 * @param v
 	 * @use 在onCreateView后调用
 	 */
 	public void setContentView(View v) {
@@ -99,7 +99,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	}
 	/**设置界面布局
 	 * @warn 最多调用一次
-	 * @param view
+	 * @param v
 	 * @param params
 	 * @use 在onCreateView后调用
 	 */
@@ -134,14 +134,12 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	 */
 	protected Intent intent = null;
 
-
 	/**通过id查找并获取控件，使用时不需要强转
-	 * @warn 调用前必须调用setContentView
 	 * @param id
-	 * @return 
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <V extends View> V findViewById(int id) {
+	public <V extends View> V findView(int id) {
 		return (V) view.findViewById(id);
 	}
 	/**通过id查找并获取控件，并setOnClickListener
@@ -149,11 +147,28 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	 * @param l
 	 * @return
 	 */
-	public <V extends View> V findViewById(int id, OnClickListener l) {
-		V v = findViewById(id);
+	public <V extends View> V findView(int id, OnClickListener l) {
+		V v = findView(id);
 		v.setOnClickListener(l);
 		return v;
 	}
+	/**通过id查找并获取控件，使用时不需要强转
+	 * @warn 调用前必须调用setContentView
+	 * @param id
+	 * @return
+	 */
+	public <V extends View> V findViewById(int id) {
+		return findView(id);
+	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param l
+	 * @return
+	 */
+	public <V extends View> V findViewById(int id, OnClickListener l) {
+		return findView(id, l);
+	}
+
 
 	public Intent getIntent() {
 		return context.getIntent();

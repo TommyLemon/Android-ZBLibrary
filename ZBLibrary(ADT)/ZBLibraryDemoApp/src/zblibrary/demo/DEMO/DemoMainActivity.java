@@ -109,12 +109,12 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	public void initView() {//必须调用
 		exitAnim = R.anim.bottom_push_out;
 
-		rlDemoMainTopbar = findViewById(R.id.rlDemoMainTopbar);
+		rlDemoMainTopbar = findView(R.id.rlDemoMainTopbar);
 
-		ivDemoMainHead = findViewById(R.id.ivDemoMainHead, this);
-		tvDemoMainHeadName = findViewById(R.id.tvDemoMainHeadName, this);
+		ivDemoMainHead = findView(R.id.ivDemoMainHead, this);
+		tvDemoMainHeadName = findView(R.id.tvDemoMainHeadName, this);
 
-		svDemoMain = (ScrollView) findViewById(R.id.svDemoMain);
+		svDemoMain = findView(R.id.svDemoMain);
 	}
 
 	/**显示列表选择弹窗
@@ -215,33 +215,33 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void initEvent() {//必须调用
 		
-		findViewById(R.id.llDemoMainItemDialog).setOnClickListener(this);
-		findViewById(R.id.llDemoMainAlertDialog).setOnClickListener(this);
+		findView(R.id.llDemoMainItemDialog).setOnClickListener(this);
+		findView(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
 		
-		findViewById(R.id.llDemoMainScanActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
+		findView(R.id.llDemoMainScanActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
 		
-		findViewById(R.id.llDemoMainDemoActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoListActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoSQLActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoBroadcastReceiverActivity).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDemoBottomWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoListActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoSQLActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoBroadcastReceiverActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoBottomWindow).setOnClickListener(this);
 
 		
-		findViewById(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
-		findViewById(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
-		findViewById(R.id.llDemoMainEditTextInfoWindow).setOnClickListener(this);
-		findViewById(R.id.llDemoMainPlacePickerWindow).setOnClickListener(this);
-		findViewById(R.id.llDemoMainDatePickerWindow).setOnClickListener(this);
-		findViewById(R.id.llDemoMainTimePickerWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainEditTextInfoWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainPlacePickerWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainDatePickerWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainTimePickerWindow).setOnClickListener(this);
 
 	}
 

@@ -43,7 +43,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 		vTabClickViews = new View[getCount()];
 		for (int i = 0; i < getCount(); i++) {
-			vTabClickViews[i] = findViewById(tabClickIds[i]);
+			vTabClickViews[i] = findView(tabClickIds[i]);
 		}
 
 		int[][] tabSelectIds = getTabSelectIds();
@@ -52,7 +52,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 			for (int i = 0; i < tabSelectIds.length; i++) {
 				if (tabSelectIds[i] != null) {
 					for (int j = 0; j < tabSelectIds[i].length; j++) {
-						vTabSelectViews[i][j] = findViewById(tabSelectIds[i][j]);
+						vTabSelectViews[i][j] = findView(tabSelectIds[i][j]);
 					}
 				}
 			}

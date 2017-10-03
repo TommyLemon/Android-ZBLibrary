@@ -129,7 +129,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
 		// 状态栏沉浸，4.4+生效 >>>>>>>>>>>>>>>>>
 
-		tvBaseTitle = (TextView) findViewById(R.id.tvBaseTitle);//绑定默认标题TextView
+		tvBaseTitle = findView(R.id.tvBaseTitle);//绑定默认标题TextView
 	}
 
 	//底部滑动实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -178,24 +178,31 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	 */
 	protected int exitAnim = R.anim.right_push_out;
 
-	//	/**通过id查找并获取控件，使用时不需要强转
-	//	 * @param id
-	//	 * @return 
-	//	 */
-	//	@SuppressWarnings("unchecked")
-	//	public <V extends View> V findViewById(int id) {
-	//		return (V) view.findViewById(id);
-	//	}
+	/**通过id查找并获取控件，使用时不需要强转
+	 * @param id
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <V extends View> V findView(int id) {
+		return (V) findViewById(id);
+	}
 	/**通过id查找并获取控件，并setOnClickListener
 	 * @param id
 	 * @param l
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public <V extends View> V findViewById(int id, OnClickListener l) {
-		V v = (V) findViewById(id);
+	public <V extends View> V findView(int id, OnClickListener l) {
+		V v = findView(id);
 		v.setOnClickListener(l);
 		return v;
+	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param l
+	 * @return
+	 */
+	public <V extends View> V findViewById(int id, OnClickListener l) {
+		return findView(id, l);
 	}
 
 	//自动设置标题方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

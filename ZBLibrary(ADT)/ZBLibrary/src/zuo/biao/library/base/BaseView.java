@@ -121,8 +121,29 @@ public abstract class BaseView<T> {
 	 * @return 
 	 */
 	@SuppressWarnings("unchecked")
-	public <V extends View> V findViewById(int id) {
+	public <V extends View> V findView(int id) {
 		return (V) convertView.findViewById(id);
+	}
+	/**通过id查找并获取控件，使用时不需要强转
+	 * @param id
+	 * @return 
+	 */
+	public <V extends View> V findViewById(int id) {
+		return findView(id);
+	}
+	/**通过id查找并获取控件，并setOnClickListener
+	 * @param id
+	 * @param listener
+	 * @return
+	 */
+	public <V extends View> V findView(int id, OnClickListener listener) {
+		V v = findView(id);
+		v.setOnClickListener(listener);
+		if (onClickViewList == null) {
+			onClickViewList = new ArrayList<View>();
+		}
+		onClickViewList.add(v);
+		return v;
 	}
 	/**通过id查找并获取控件，并setOnClickListener
 	 * @param id
@@ -130,13 +151,7 @@ public abstract class BaseView<T> {
 	 * @return
 	 */
 	public <V extends View> V findViewById(int id, OnClickListener listener) {
-		V v = findViewById(id);
-		v.setOnClickListener(listener);
-		if (onClickViewList == null) {
-			onClickViewList = new ArrayList<View>();
-		}
-		onClickViewList.add(v);
-		return v;
+		return findView(id, listener);
 	}
 
 	/**

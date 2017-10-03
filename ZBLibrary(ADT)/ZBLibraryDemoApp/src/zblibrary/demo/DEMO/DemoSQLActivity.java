@@ -91,18 +91,18 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		
-		tvDemoSQLInfo = (TextView) findViewById(R.id.tvDemoSQLInfo);
+		tvDemoSQLInfo = findView(R.id.tvDemoSQLInfo);
 
-		svDemoSQL = (ScrollView) findViewById(R.id.svDemoSQL);
+		svDemoSQL = findView(R.id.svDemoSQL);
 
-		tvDemoSQLShow0 = (TextView) findViewById(R.id.tvDemoSQLShow0);
-		tvDemoSQLShow1 = (TextView) findViewById(R.id.tvDemoSQLShow1);
+		tvDemoSQLShow0 = findView(R.id.tvDemoSQLShow0);
+		tvDemoSQLShow1 = findView(R.id.tvDemoSQLShow1);
 
-		etDemoSQLQueryColumn = (EditText) findViewById(R.id.etDemoSQLQueryColumn);
-		etDemoSQLQueryValue = (EditText) findViewById(R.id.etDemoSQLQueryValue);
+		etDemoSQLQueryColumn = findView(R.id.etDemoSQLQueryColumn);
+		etDemoSQLQueryValue = findView(R.id.etDemoSQLQueryValue);
 
-		etDemoSQLEditColumn = (EditText) findViewById(R.id.etDemoSQLEditColumn);
-		etDemoSQLEditValue = (EditText) findViewById(R.id.etDemoSQLEditValue);
+		etDemoSQLEditColumn = findView(R.id.etDemoSQLEditColumn);
+		etDemoSQLEditValue = findView(R.id.etDemoSQLEditValue);
 	}
 
 
@@ -334,10 +334,10 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		
-		findViewById(R.id.btnDemoSQLInsert).setOnClickListener(this);
-		findViewById(R.id.btnDemoSQLDelete).setOnClickListener(this);
-		findViewById(R.id.btnDemoSQLUpdate).setOnClickListener(this);
-		findViewById(R.id.btnDemoSQLQuery).setOnClickListener(this);
+		findView(R.id.btnDemoSQLInsert).setOnClickListener(this);
+		findView(R.id.btnDemoSQLDelete).setOnClickListener(this);
+		findView(R.id.btnDemoSQLUpdate).setOnClickListener(this);
+		findView(R.id.btnDemoSQLQuery).setOnClickListener(this);
 	}
 
 	@Override
