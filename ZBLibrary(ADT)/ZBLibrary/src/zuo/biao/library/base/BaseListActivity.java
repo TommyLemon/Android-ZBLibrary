@@ -146,6 +146,11 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int page) {
 		loadData(page, isToLoadCache);
 	}
+	
+	/**
+	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
+	 */
+	public static final int PAGE_NUM_0 = 0;
 
 	/**
 	 * 数据列表
@@ -176,8 +181,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 		isLoading = true;
 		isSucceed = false;
 
-		if (page_ <= HttpManager.PAGE_NUM_0) {
-			page_ = HttpManager.PAGE_NUM_0;
+		if (page_ <= PAGE_NUM_0) {
+			page_ = PAGE_NUM_0;
 			isHaveMore = true;
 			loadCacheStart = 0;//使用则可像网络正常情况下的重载，不使用则在网络异常情况下不重载（导致重载后加载数据下移）
 		} else {
@@ -201,7 +206,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 					onLoadSucceed(page, CacheManager.getInstance().getList(cacheCallBack.getCacheClass()
 							, cacheCallBack.getCacheGroup(), loadCacheStart, cacheCallBack.getCacheCount()),
 							true);
-					if (page <= HttpManager.PAGE_NUM_0) {
+					if (page <= PAGE_NUM_0) {
 						isLoading = false;//stopLoadeData在其它线程isLoading = false;后这个线程里还是true
 						loadData(page, false);
 					}
@@ -236,7 +241,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 			return;
 		}
 		onStopLoadListener.onStopRefresh();
-		if (page > HttpManager.PAGE_NUM_0) {
+		if (page > PAGE_NUM_0) {
 			onStopLoadListener.onStopLoadMore(isHaveMore);
 		}
 	}
@@ -259,8 +264,8 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 		Log.i(TAG, "\n\n<<<<<<<<<<<<<<<<<\n handleList  newList.size = " + newList.size() + "; isCache = " + isCache
 				+ "; page = " + page + "; isSucceed = " + isSucceed);
 
-		if (page <= HttpManager.PAGE_NUM_0) {
-			Log.i(TAG, "handleList  page <= HttpManager.PAGE_NUM_0 >>>>  ");
+		if (page <= PAGE_NUM_0) {
+			Log.i(TAG, "handleList  page <= PAGE_NUM_0 >>>>  ");
 			saveCacheStart = 0;
 			list = new ArrayList<T>(newList);
 			if (isCache == false && list.isEmpty() == false) {
@@ -268,7 +273,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 				isToLoadCache = false;
 			}
 		} else {
-			Log.i(TAG, "handleList  page > HttpManager.PAGE_NUM_0 >>>>  ");
+			Log.i(TAG, "handleList  page > PAGE_NUM_0 >>>>  ");
 			if (list == null) {
 				list = new ArrayList<T>();
 			}
@@ -392,13 +397,13 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	 * @must 在子类onCreate中调用，建议放在最后
 	 */
 	public void onRefresh() {
-		loadData(HttpManager.PAGE_NUM_0);
+		loadData(PAGE_NUM_0);
 	}
 	/**加载更多
 	 */
 	public void onLoadMore() {
-		if (isSucceed == false && page <= HttpManager.PAGE_NUM_0) {
-			Log.w(TAG, "onLoadMore  isSucceed == false && page <= HttpManager.PAGE_NUM_0 >> return;");
+		if (isSucceed == false && page <= PAGE_NUM_0) {
+			Log.w(TAG, "onLoadMore  isSucceed == false && page <= PAGE_NUM_0 >> return;");
 			return;
 		}
 		loadData(page + (isSucceed ? 1 : 0));
