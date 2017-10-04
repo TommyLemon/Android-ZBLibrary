@@ -31,6 +31,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -315,33 +322,28 @@ public class CommonUtil {
 
 
 
-	public static void startPhotoZoom(Activity context, int requestCode, String path, int width, int height) {
-		startPhotoZoom(context, requestCode, Uri.fromFile(new File(path)), width, height);
-	}
-	/**照片裁剪
-	 * @param context
-	 * @param requestCode
-	 * @param fromFile
-	 * @param width
-	 * @param height
+	/**将图片改为圆角类型
+	 * @param bitmap
+	 * @param pixels
+	 * @return
 	 */
-	public static void startPhotoZoom(Activity context, int requestCode, Uri fileUri, int width, int height) {
-		Intent intent = new Intent("com.android.camera.action.CROP");
-		intent.setDataAndType(fileUri, "image/*");
-		// crop为true是设置在开启的intent中设置显示的view可以剪裁
-		intent.putExtra("crop", "true");
-
-		// aspectX aspectY 是宽高的比例
-		intent.putExtra("aspectX", 1);
-		intent.putExtra("aspectY", 1);
-
-		// outputX,outputY 是剪裁图片的宽高
-		intent.putExtra("outputX", width);
-		intent.putExtra("outputY", height);
-		intent.putExtra("return-data", true);
-		Log.i(TAG, "startPhotoZoom"+ fileUri +" uri");
-		toActivity(context, intent, requestCode);
+	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		final int color = 0xff424242;
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		final RectF rectF = new RectF(rect);
+		final float roundPx = pixels;
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		return output;
 	}
+	
 
 	/**保存照片到SD卡上面
 	 * @param path
