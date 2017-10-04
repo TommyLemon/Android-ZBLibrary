@@ -23,7 +23,6 @@ import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
-import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
@@ -169,7 +168,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public abstract void setList(List<T> list);
 
 	/**显示列表（已在UI线程中）
-	 * @param callBack
+	 * @param list
 	 */
 	public void setList(AdapterCallBack<BA> callBack) {
 		if (adapter == null) {
@@ -213,7 +212,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int page) {
 		loadData(page, isToLoadCache);
 	}
-
+	
 	/**
 	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
 	 */

@@ -14,5 +14,7 @@
     <item name="llBaseViewBottomWindowContainer" type="id">false</item>
     <item name="tvBaseViewBottomWindowReturn" type="id">false</item>
     <item name="tvBaseViewBottomWindowForward" type="id">false</item>
-
+    <item name="rvBaseRecycler" type="id">false</item>
+    <item name="xrvBaseHttpRecycler" type="id">false</item>
+    
 </resources>

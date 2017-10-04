@@ -19,31 +19,46 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
-import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-/**基础列表Activity
+/**基础RecyclerView Activity
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @param <LV> AbsListView的子类（ListView,GridView等）
- * @param <BA> 管理LV的Adapter
- * @see #lvBaseList
+ * @param <VH> ViewHolder或其子类
+ * @param <RV> RecyclerView或其子类
+ * @param <A> 管理LV的Adapter
+ * @see #rvBaseRecycler
  * @see #initCache
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
+ * @use extends BaseRecyclerActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
  */
-public abstract class BaseListActivity<T, LV extends AbsListView, BA extends BaseAdapter> extends BaseActivity {
-	private static final String TAG = "BaseListActivity";
+public abstract class BaseRecyclerActivity<T, RV extends RecyclerView
+, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> extends BaseActivity {
+	private static final String TAG = "BaseRecyclerActivity";
+
+	public interface AdapterCallBack<VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> {
+		/**创建一个Adapter
+		 * @return new A();
+		 */
+		A createAdapter();
+
+		/**
+		 * BaseAdapter#notifyDataSetChanged()有时无效，有时因列表更新不及时而崩溃，所以需要在自定义adapter内自定义一个刷新方法。
+		 * 为什么不直接让自定义Adapter implement OnRefreshListener，从而直接 onRefreshListener.onRefresh(List<T> list) ？
+		 * 因为这样的话会不兼容部分 Android SDK 或 第三方库的Adapter
+		 */
+		void refreshAdapter();
+	}
+
 
 	private OnStopLoadListener onStopLoadListener;
 	/**设置停止加载监听
@@ -52,7 +67,6 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	protected void setOnStopLoadListener(OnStopLoadListener onStopLoadListener) {
 		this.onStopLoadListener = onStopLoadListener;
 	}
-
 
 	private CacheCallBack<T> cacheCallBack;
 	/**初始化缓存
@@ -69,14 +83,14 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**
-	 * 显示列表的ListView
-	 * @warn 只使用lvBaseList为显示列表数据的AbsListView(ListView,GridView等)，不要在子类中改变它
+	 * 显示列表的RecyclerView
+	 * @warn 只使用rvBaseRecycler为显示列表数据的RecyclerView，不要在子类中改变它
 	 */
-	protected LV lvBaseList;
+	protected RV rvBaseRecycler;
 	/**
 	 * 管理LV的Item的Adapter
 	 */
-	protected BA adapter;
+	protected A adapter;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -84,26 +98,27 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@Override
 	public void initView() {// 必须调用
 
-		lvBaseList = findView(R.id.lvBaseList);
+		rvBaseRecycler = findView(R.id.rvBaseRecycler);
+		rvBaseRecycler.setLayoutManager(new LinearLayoutManager(context));
 	}
 
 	/**设置adapter
 	 * @param adapter
 	 */
-	public void setAdapter(BA adapter) {
+	public void setAdapter(A adapter) {
 		this.adapter = adapter;
-		lvBaseList.setAdapter(adapter);
+		rvBaseRecycler.setAdapter(adapter);
 	}
 
-	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<BA> callBack)
+	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<A> callBack)
 	 * @param list
 	 */
 	public abstract void setList(List<T> list);
 
 	/**显示列表（已在UI线程中）
-	 * @param list
+	 * @param callBack
 	 */
-	public void setList(AdapterCallBack<BA> callBack) {
+	public void setList(AdapterCallBack<VH, A> callBack) {
 		if (adapter == null) {
 			setAdapter(callBack.createAdapter());
 		}
@@ -129,7 +144,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	@Override
 	public void initData() {// 必须调用
 
-		isToSaveCache = SettingUtil.cache && cacheCallBack != null && cacheCallBack.getCacheClass() != null;
+		isToSaveCache = cacheCallBack != null && cacheCallBack.getCacheClass() != null;
 		isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(cacheCallBack.getCacheGroup(), true);
 	}
 
@@ -145,11 +160,11 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int page) {
 		loadData(page, isToLoadCache);
 	}
-	
+
 	/**
-	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
+	 * 起始页码
 	 */
-	public static final int PAGE_NUM_0 = 0;
+	private static final int PAGE_NUM_0 = 1;
 
 	/**
 	 * 数据列表
@@ -423,7 +438,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 
 		super.onDestroy();
 
-		lvBaseList = null;
+		rvBaseRecycler = null;
 		list = null;
 
 		onStopLoadListener = null;

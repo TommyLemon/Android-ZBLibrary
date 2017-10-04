@@ -2,7 +2,7 @@ package zuo.biao.library.interfaces;
 
 import android.view.ViewGroup;
 
-public interface AdapterViewPresenter<T, V> {
+public interface AdapterViewPresenter<V> {
 
 	/**生成新的BV
 	 * @param position

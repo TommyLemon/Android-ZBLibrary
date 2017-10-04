@@ -9,8 +9,9 @@
 
         <ImageView
             android:id="@+id/ivDemoViewHead"
-            style="@style/wrap_wrap"
-            android:padding="6dp"
+            android:layout_height="45dp"
+            android:layout_width="45dp"
+            android:scaleType="centerCrop"
             android:background="@color/alpha_1"
             android:src="@drawable/add" />
 
