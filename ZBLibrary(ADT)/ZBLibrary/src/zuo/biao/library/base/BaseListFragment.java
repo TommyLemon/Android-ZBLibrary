@@ -23,7 +23,6 @@ import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
-import zuo.biao.library.manager.HttpManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;

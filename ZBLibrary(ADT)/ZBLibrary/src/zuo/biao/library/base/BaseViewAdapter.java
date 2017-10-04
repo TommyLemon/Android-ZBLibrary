@@ -30,7 +30,7 @@ import android.view.ViewGroup;
  * @use extends BaseViewAdapter<T, BV>, 具体参考 .DemoAdapter3
  */
 public abstract class BaseViewAdapter<T, BV extends BaseView<T>> extends BaseAdapter<T>
-implements AdapterViewPresenter<T, BV> {
+implements AdapterViewPresenter<BV> {
 	//	private static final String TAG = "BaseViewAdapter";
 
 
@@ -44,17 +44,17 @@ implements AdapterViewPresenter<T, BV> {
 	}
 	
 
-	private AdapterViewPresenter<T, BV> presenter;
+	private AdapterViewPresenter<BV> presenter;
 	/**在子类构造方法内使用可重写AdapterViewPresenter里的方法
 	 * @param presenter
 	 */
-	protected final void setPresenter(AdapterViewPresenter<T, BV> presenter) {
+	protected final void setPresenter(AdapterViewPresenter<BV> presenter) {
 		this.presenter = presenter;
 	}
 	/**
 	 * @return presenter == null ? this : presenter;
 	 */
-	protected final AdapterViewPresenter<T, BV> getPresenter() {
+	protected final AdapterViewPresenter<BV> getPresenter() {
 		return presenter == null ? this : presenter;
 	}
 

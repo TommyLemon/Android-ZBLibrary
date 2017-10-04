@@ -14,20 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import java.io.File;
-
-import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoMainActivity;
-import zblibrary.demo.application.DemoApplication;
-import zblibrary.demo.util.Constant;
-import zblibrary.demo.util.HttpRequest;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.interfaces.OnHttpResponseListener;
-import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.DownloadUtil;
-import zuo.biao.library.util.SettingUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +29,21 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
+
+import java.io.File;
+
+import zblibrary.demo.DEMO.DemoMainActivity;
+import zblibrary.demo.R;
+import zblibrary.demo.application.DemoApplication;
+import zblibrary.demo.util.Constant;
+import zblibrary.demo.util.HttpRequest;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.interfaces.OnHttpResponseListener;
+import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.DownloadUtil;
+import zuo.biao.library.util.SettingUtil;
 
 /**关于界面
  * @author Lemon
@@ -83,17 +84,17 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		if (SettingUtil.isOnTestMode) {
 			showShortToast("测试服务器\n" + HttpRequest.URL_BASE);
 		}
-		
-		
+
+
 		//仅测试用
 		HttpRequest.translate("library", 0, new OnHttpResponseListener() {
-			
+
 			@Override
 			public void onHttpResponse(int requestCode, String resultJson, Exception e) {
 				showShortToast("测试Http请求:翻译library结果为\n" + resultJson);
 			}
 		});
-		
+
 	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -105,7 +106,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 	private ImageView ivAboutQRCode;
 	@Override
 	public void initView() {
-		
+
 		ivAboutGesture = findView(R.id.ivAboutGesture);
 		ivAboutGesture.setVisibility(SettingUtil.isFirstStart ? View.VISIBLE : View.GONE);
 		if (SettingUtil.isFirstStart) {
@@ -133,7 +134,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initData() {
-		
+
 		tvAboutAppInfo.setText(DemoApplication.getInstance().getAppName()
 				+ "\n" + DemoApplication.getInstance().getAppVersion());
 
@@ -164,7 +165,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 					public void run() {
 						ivAboutQRCode.setImageBitmap(qRCodeBitmap);
 					}
-				});		
+				});
 			}
 		});
 	}
@@ -196,7 +197,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 
 	@Override
 	public void initEvent() {
-		
+
 		findView(R.id.llAboutMainTabActivity).setOnClickListener(this);
 		findView(R.id.llAboutZBLibraryMainActivity).setOnClickListener(this);
 
@@ -239,7 +240,7 @@ public class AboutActivity extends BaseActivity implements OnClickListener, OnLo
 		case R.id.llAboutMainTabActivity:
 			startActivity(MainTabActivity.createIntent(context).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			overridePendingTransition(R.anim.bottom_push_in, R.anim.hold);
-			
+
 			enterAnim = exitAnim = R.anim.null_anim;
 			finish();
 			break;

@@ -14,6 +14,20 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import zblibrary.demo.R;
@@ -41,19 +55,6 @@ import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 /**demo主页
  * @author Lemon
@@ -73,7 +74,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+
 
 	@Override
 	public Activity getActivity() {
@@ -95,7 +96,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	private static final String[] TOPBAR_COLOR_NAMES = {"灰色", "蓝色", "黄色"};
 	private static final int[] TOPBAR_COLOR_RESIDS = {R.color.gray, R.color.blue,R.color.yellow};
 
@@ -197,7 +198,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	@Override
 	public void initData() {//必须调用
-		
+
 	}
 
 
@@ -214,20 +215,21 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 	@Override
 	public void initEvent() {//必须调用
-		
+
 		findView(R.id.llDemoMainItemDialog).setOnClickListener(this);
 		findView(R.id.llDemoMainAlertDialog).setOnClickListener(this);
 
-		
+
 		findView(R.id.llDemoMainScanActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainSelectPictureActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainCutPictureActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainWebViewActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainEditTextInfoActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainServerSettingActivity).setOnTouchListener(this);
-		
+
 		findView(R.id.llDemoMainDemoActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoListActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoRecyclerActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoSQLActivity).setOnClickListener(this);
@@ -235,7 +237,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findView(R.id.llDemoMainDemoBroadcastReceiverActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoBottomWindow).setOnClickListener(this);
 
-		
+
 		findView(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
 		findView(R.id.llDemoMainBottomMenuWindow).setOnClickListener(this);
 		findView(R.id.llDemoMainEditTextInfoWindow).setOnClickListener(this);
@@ -280,7 +282,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		if (rightToLeft) {
 			showTopMenu();
 			return;
-		}	
+		}
 
 		finish();
 	}
@@ -327,83 +329,86 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		switch (v.getId()) {
 		case R.id.ivDemoMainHead:
 			selectPicture();
-			break;     
+			break;
 		case R.id.tvDemoMainHeadName:
 			editName(true);
-			break;    
+			break;
 
-			
+
 		case R.id.llDemoMainItemDialog:
 			showItemDialog();
-			break;    
+			break;
 		case R.id.llDemoMainAlertDialog:
 			new AlertDialog(context, "更改颜色", "确定将导航栏颜色改为红色？", true, 0, this).show();
-			break;   
+			break;
 
-			
+
 		case R.id.llDemoMainScanActivity:
 			toActivity(ScanActivity.createIntent(context), REQUEST_TO_CAMERA_SCAN);
-			break;  
+			break;
 		case R.id.llDemoMainSelectPictureActivity:
 			selectPicture();
-			break;   
+			break;
 		case R.id.llDemoMainCutPictureActivity:
 			cutPicture(picturePath);
-			break;  
+			break;
 		case R.id.llDemoMainWebViewActivity:
 			toActivity(WebViewActivity.createIntent(context, SettingUtil.isOnTestMode ? "测试服务器" : "正式服务器"
 				, SettingUtil.getCurrentServerAddress()));
-			break;   
+			break;
 		case R.id.llDemoMainEditTextInfoActivity:
 			editName(false);
-			break;   
-			
+			break;
+
 		case R.id.llDemoMainDemoActivity:
 			toActivity(DemoActivity.createIntent(context, 0));
-			break;     
+			break;
 		case R.id.llDemoMainDemoListActivity:
 			toActivity(DemoListActivity.createIntent(context, 0));
-			break;     
+			break;
+		case R.id.llDemoMainDemoRecyclerActivity:
+			toActivity(DemoRecyclerActivity.createIntent(context, 0));
+			break;
 		case R.id.llDemoMainDemoFragmentActivity:
 			toActivity(DemoFragmentActivity.createIntent(context, 0));
-			break;  
+			break;
 		case R.id.llDemoMainDemoTabActivity:
 			toActivity(DemoTabActivity.createIntent(context));
-			break; 
+			break;
 		case R.id.llDemoMainDemoSQLActivity:
 			toActivity(DemoSQLActivity.createIntent(context));
-			break; 
+			break;
 		case R.id.llDemoMainDemoTimeRefresherActivity:
 			toActivity(DemoTimeRefresherActivity.createIntent(context));
-			break;   
+			break;
 		case R.id.llDemoMainDemoBroadcastReceiverActivity:
 			toActivity(DemoBroadcastReceiverActivity.createIntent(context));
-			break;   
+			break;
 		case R.id.llDemoMainDemoBottomWindow:
 			toActivity(DemoBottomWindow.createIntent(context, ""), REQUEST_TO_DEMO_BOTTOM_WINDOW, false);
-			break;   
+			break;
 
-			
+
 		case R.id.llDemoMainTopMenuWindow:
 			showTopMenu();
-			break;  
+			break;
 		case R.id.llDemoMainBottomMenuWindow:
 			toActivity(BottomMenuWindow.createIntent(context, TOPBAR_COLOR_NAMES)
 					.putExtra(BottomMenuWindow.INTENT_TITLE, "选择颜色"), REQUEST_TO_BOTTOM_MENU, false);
-			break; 
+			break;
 		case R.id.llDemoMainEditTextInfoWindow:
 			editName(true);
-			break;  
+			break;
 		case R.id.llDemoMainPlacePickerWindow:
 			toActivity(PlacePickerWindow.createIntent(context, getPackageName(), 2), REQUEST_TO_PLACE_PICKER, false);
 			break;
 		case R.id.llDemoMainDatePickerWindow:
 			toActivity(DatePickerWindow.createIntent(context, new int[]{1971, 0, 1}
 			, TimeUtil.getDateDetail(System.currentTimeMillis())), REQUEST_TO_DATE_PICKER, false);
-			break;  
+			break;
 		case R.id.llDemoMainTimePickerWindow:
 			toActivity(TimePickerWindow.createIntent(context, selectedTime), REQUEST_TO_TIME_PICKER, false);
-			break;  
+			break;
 
 		default:
 			break;
@@ -420,7 +425,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 	private static final int REQUEST_TO_EDIT_TEXT_INFO = 23;
 	private static final int REQUEST_TO_SERVER_SETTING = 24;
 	private static final int REQUEST_TO_DEMO_BOTTOM_WINDOW = 25;
-	
+
 	private static final int REQUEST_TO_TOP_MENU = 30;
 	private static final int REQUEST_TO_BOTTOM_MENU = 31;
 	private static final int REQUEST_TO_PLACE_PICKER = 32;
@@ -468,7 +473,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 				showShortToast(data.getStringExtra(DemoBottomWindow.RESULT_DATA));
 			}
 			break;
-			
+
 		case REQUEST_TO_TOP_MENU:
 			if (data != null) {
 				switch (data.getIntExtra(TopMenuWindow.RESULT_POSITION, -1)) {
@@ -491,7 +496,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 				}
 			}
 			break;
-	
+
 		case REQUEST_TO_PLACE_PICKER:
 			if (data != null) {
 				ArrayList<String> placeList = data.getStringArrayListExtra(PlacePickerWindow.RESULT_PLACE_LIST);
@@ -508,12 +513,12 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			if (data != null) {
 				ArrayList<Integer> list = data.getIntegerArrayListExtra(DatePickerWindow.RESULT_DATE_DETAIL_LIST);
 				if (list != null && list.size() >= 3) {
-					
+
 					selectedDate = new int[list.size()];
 					for (int i = 0; i < list.size(); i++) {
 						selectedDate[i] = list.get(i);
 					}
-					
+
 					showShortToast("选择的日期为" + selectedDate[0] + "-" + (selectedDate[1] + 1) + "-" + selectedDate[2]);
 				}
 			}
@@ -522,12 +527,12 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			if (data != null) {
 				ArrayList<Integer> list = data.getIntegerArrayListExtra(TimePickerWindow.RESULT_TIME_DETAIL_LIST);
 				if (list != null && list.size() >= 2) {
-					
+
 					selectedTime = new int[list.size()];
 					for (int i = 0; i < list.size(); i++) {
 						selectedTime[i] = list.get(i);
 					}
-					
+
 					String minute = "" + selectedTime[1];
 					if (minute.length() < 2) {
 						minute = "0" + minute;
