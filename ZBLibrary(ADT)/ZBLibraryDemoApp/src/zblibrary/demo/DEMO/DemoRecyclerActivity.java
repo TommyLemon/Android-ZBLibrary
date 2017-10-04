@@ -29,21 +29,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-/**使用方法：复制>粘贴>改名>改代码  */
-/**列表Activity示例
+/**使用方法：复制>粘贴>改名>改代码 */
+/**RecyclerView Activity示例
  * @author Lemon
- * @warn 这里列表显示组件lvBaseList是GridView，如果是lvBaseList是ListView就改成ListView
- * @use toActivity(DemoListActivity.createIntent(...));
+ * @use toActivity(DemoRecyclerActivity.createIntent(...));
  */
-public class DemoRecyclerActivity extends BaseRecyclerActivity<Entry<String, String>, RecyclerView, DemoRecyclerView, DemoRecyclerAdapter>
+public class DemoRecyclerActivity 
+extends BaseRecyclerActivity<Entry<String, String>, RecyclerView, DemoRecyclerView, DemoRecyclerAdapter>
 implements OnBottomDragListener {
-	//	private static final String TAG = "DemoListActivity";
+	//	private static final String TAG = "DemoRecyclerActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String INTENT_RANGE = "INTENT_RANGE";
-
-	public static final String RESULT_CLICKED_ITEM = "RESULT_CLICKED_ITEM";
 
 	/**启动这个Activity的Intent
 	 * @param context
@@ -65,7 +63,7 @@ implements OnBottomDragListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//TODO demo_list_activity改为你所需要的layout文件；传this是为了底部左右滑动手势
+		//TODO demo_recycler_activity改为你所需要的layout文件；传this是为了底部左右滑动手势
 		setContentView(R.layout.demo_recycler_activity, this);
 
 		intent = getIntent();
@@ -171,22 +169,23 @@ implements OnBottomDragListener {
 		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
-//		rvBaseRecycler.setOnItemClickListener(new OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				//				//如果lvBaseList有headerView或footerView <<<<<<<<<<<<<<<
-//				//				position -= lvBaseList.getHeaderViewsCount();//ListView的方法，GridView没有
-//				//				if (position < 0 || adapter == null || position >= adapter.getCount()) {
-//				//					return;
-//				//				}
-//				//				//如果lvBaseList有headerView或footerView >>>>>>>>>>>>>>>
-//
-//				showShortToast("选择了 " + adapter.getItem(position).getValue());
-//				setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
-//				finish();
-//			}
-//		});
-//		//示例代码>>>>>>>>>>>>>>>>>>>
+		//TODO 实现OnItemClick示例代码
+		//		rvBaseRecycler.setOnItemClickListener(new OnItemClickListener() {
+		//			@Override
+		//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		//				//				//如果lvBaseList有headerView或footerView <<<<<<<<<<<<<<<
+		//				//				position -= lvBaseList.getHeaderViewsCount();//ListView的方法，GridView没有
+		//				//				if (position < 0 || adapter == null || position >= adapter.getCount()) {
+		//				//					return;
+		//				//				}
+		//				//				//如果lvBaseList有headerView或footerView >>>>>>>>>>>>>>>
+		//
+		//				showShortToast("选择了 " + adapter.getItem(position).getValue());
+		//				setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
+		//				finish();
+		//			}
+		//		});
+		//		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
 

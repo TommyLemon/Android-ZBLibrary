@@ -2,6 +2,7 @@ package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
 import zblibrary.demo.DEMO.DemoRecyclerAdapter.DemoRecyclerView;
+import zuo.biao.library.base.BaseRecyclerAdapter;
 import zuo.biao.library.base.BaseRecyclerView;
 import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.StringUtil;

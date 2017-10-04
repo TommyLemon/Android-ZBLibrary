@@ -14,20 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 
 import zblibrary.demo.R;
@@ -51,10 +37,24 @@ import zuo.biao.library.ui.TopMenuWindow;
 import zuo.biao.library.ui.WebViewActivity;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DataKeeper;
-import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 /**demo主页
  * @author Lemon
@@ -166,7 +166,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		this.picturePath = path;
 
 		svDemoMain.smoothScrollTo(0, 0);
-		ImageLoaderUtil.loadImage(ivDemoMainHead, path);
+		Glide.with(context).load(path).into(ivDemoMainHead);
 	}
 
 	/**编辑图片名称

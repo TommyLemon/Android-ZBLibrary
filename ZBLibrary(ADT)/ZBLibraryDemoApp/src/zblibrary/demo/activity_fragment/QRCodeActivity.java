@@ -19,7 +19,6 @@ import zblibrary.demo.model.User;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.manager.CacheManager;
-import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.JSON;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -32,6 +31,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
 
@@ -130,7 +130,7 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 				runUiThread(new Runnable() {
 					@Override
 					public void run() {
-						ImageLoaderUtil.loadImage(ivQRCodeHead, user.getHead());
+						Glide.with(context).load(user.getHead()).into(ivQRCodeHead);
 						tvQRCodeName.setText(StringUtil.getTrimedString(
 								StringUtil.isNotEmpty(user.getName(), true)
 								? user.getName() : user.getPhone()));
