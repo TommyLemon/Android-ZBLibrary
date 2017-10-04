@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/QRCodeLibrary" />
             <option value="$PROJECT_DIR$/ZBLibrary" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/recyclerview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

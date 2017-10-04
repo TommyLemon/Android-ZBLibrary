@@ -4,10 +4,13 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.1'
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 7
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -15,18 +18,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    useLibrary 'org.apache.http.legacy'
     productFlavors {
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile files('libs/fastjson-1.2.24.jar')
-    compile files('libs/okhttp-2.1.0.jar')
-    compile files('libs/okio-1.0.0.jar')
-    compile files('libs/universal-image-loader-1.9.4.jar')
-    compile files('libs/android-support-v4.jar')
-    compile project(':recyclerview')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
