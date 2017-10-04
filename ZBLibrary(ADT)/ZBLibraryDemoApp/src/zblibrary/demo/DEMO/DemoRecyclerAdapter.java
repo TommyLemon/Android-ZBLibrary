@@ -1,5 +1,10 @@
 package zblibrary.demo.DEMO;
 
+import zblibrary.demo.R;
+import zblibrary.demo.DEMO.DemoRecyclerAdapter.DemoRecyclerView;
+import zuo.biao.library.base.BaseRecyclerView;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import zblibrary.demo.DEMO.DemoRecyclerAdapter.DemoRecyclerView;
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseRecyclerView;
-import zuo.biao.library.model.Entry;
-import zuo.biao.library.util.ImageLoaderUtil;
-import zuo.biao.library.util.StringUtil;
+import com.bumptech.glide.Glide;
 
 public class DemoRecyclerAdapter extends BaseRecyclerAdapter<Entry<String, String>, DemoRecyclerView> {
 
@@ -56,7 +56,10 @@ public class DemoRecyclerAdapter extends BaseRecyclerAdapter<Entry<String, Strin
 			//示例代码<<<<<<<<<<<<<<<<
 			this.data = data;//这里data传进来的只有adapter内item数据，可不判空
 
-			ImageLoaderUtil.loadImage(ivDemoViewHead, data.getKey());
+//			ImageLoaderUtil.loadImage(ivDemoViewHead, data.getKey());
+			
+			Glide.with(context).asBitmap().load(data.getKey()).into(ivDemoViewHead);
+			
 			tvDemoViewName.setText(StringUtil.getTrimedString(data.getValue()));
 			//示例代码>>>>>>>>>>>>>>>>
 		}

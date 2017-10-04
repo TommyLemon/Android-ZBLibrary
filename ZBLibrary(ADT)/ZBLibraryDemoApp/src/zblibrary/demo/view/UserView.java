@@ -19,17 +19,22 @@ import zblibrary.demo.model.User;
 import zuo.biao.library.base.BaseModel;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.ImageLoaderUtil;
+import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 /**用户View
  * @author Lemon
@@ -85,7 +90,14 @@ public class UserView extends BaseView<User> implements OnClickListener {
 		}
 		this.data = data;
 
-		ImageLoaderUtil.loadImage(ivUserViewHead, data.getHead(), ImageLoaderUtil.TYPE_OVAL);
+		Glide.with(context).asBitmap().load(data.getHead()).into(new SimpleTarget<Bitmap>() {
+
+			@Override
+			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+				ivUserViewHead.setImageBitmap(CommonUtil.toRoundCorner(bitmap, bitmap.getWidth()/2));
+			}
+		});
+		
 		ivUserViewStar.setImageResource(data.getStarred() ? R.drawable.star_light : R.drawable.star);
 
 		tvUserViewSex.setBackgroundResource(data.getSex() == User.SEX_FEMALE

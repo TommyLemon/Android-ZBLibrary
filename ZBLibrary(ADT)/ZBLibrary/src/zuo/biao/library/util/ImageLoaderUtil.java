@@ -17,14 +17,7 @@ package zuo.biao.library.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory.Options;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -36,10 +29,14 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-/**图片加载工具类
+/**图片加载工具类，使用UniversalImageLoader，本工程已支持Glide，不需要UniversalImageLoader可这样减小包体积：
+ * <br > 1.删除 ImageLoaderUtil.java
+ * <br > 2.删除libs目录下的 universal-image-loader.jar
+ * <br > 3.删除 BaseApplication.init 中的 ImageLoaderUtil.init 这行代码
  * @author Lemon
  * @use ImageLoaderUtil.loadImage(...)
  */
+@Deprecated
 public class ImageLoaderUtil {
 	private static final String TAG = "ImageLoaderUtil";
 
@@ -133,10 +130,10 @@ public class ImageLoaderUtil {
 				}
 				switch (type) {
 				case TYPE_OVAL:
-					iv.setImageBitmap(toRoundCorner(loadedImage, loadedImage.getWidth()/2));
+					iv.setImageBitmap(CommonUtil.toRoundCorner(loadedImage, loadedImage.getWidth()/2));
 					break;
 				case TYPE_ROUND_CORNER:
-					iv.setImageBitmap(toRoundCorner(loadedImage, loadedImage.getWidth()/10));
+					iv.setImageBitmap(CommonUtil.toRoundCorner(loadedImage, loadedImage.getWidth()/10));
 					break;
 				default:
 					iv.setImageBitmap(loadedImage);
@@ -219,26 +216,6 @@ public class ImageLoaderUtil {
 		return builder.cacheInMemory(true).cacheOnDisc(true).decodingOptions(options0).build();
 	}
 
-	/**将图片改为圆角类型
-	 * @param bitmap
-	 * @param pixels
-	 * @return
-	 */
-	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
-		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
-		final int color = 0xff424242;
-		final Paint paint = new Paint();
-		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		final RectF rectF = new RectF(rect);
-		final float roundPx = pixels;
-		paint.setAntiAlias(true);
-		canvas.drawARGB(0, 0, 0, 0);
-		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		canvas.drawBitmap(bitmap, rect, rect, paint);
-		return output;
-	}
+	
 
 }

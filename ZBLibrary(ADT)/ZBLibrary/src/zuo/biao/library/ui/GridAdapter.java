@@ -20,7 +20,6 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseAdapter;
 import zuo.biao.library.model.Entry;
-import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
@@ -29,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 /**通用网格Adapter(url, name)
  * *适用于gridView
@@ -103,7 +104,7 @@ public class GridAdapter extends BaseAdapter<Entry<String, String>> {
 		final Entry<String, String> kvb = getItem(position);
 		final String name = kvb.getValue();
 
-		ImageLoaderUtil.loadImage(holder.ivGridItemHead, kvb.getKey());
+		Glide.with(context).load(kvb.getKey()).into(holder.ivGridItemHead);
 
 		if (hasName) {
 			holder.tvGridItemName.setVisibility(View.VISIBLE);
