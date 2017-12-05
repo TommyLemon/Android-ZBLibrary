@@ -155,7 +155,7 @@ QQ群：595514898
 
 [APIJSONClientApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
 
-## 更新日志
+## 持续更新
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
 
 ## 我要赞赏
