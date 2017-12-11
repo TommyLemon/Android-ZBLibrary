@@ -31,7 +31,7 @@ OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自
 
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/Cache.gif)
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/DatePickerWindow.gif)
-![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/PageScroller.gif)
+![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/PlacePickerWindow.gif)
 
 
 ## 用到的开源库
