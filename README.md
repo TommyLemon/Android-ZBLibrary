@@ -30,8 +30,9 @@ OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自
 [以下Gif图看起来比较卡，在手机上App运行很流畅] 
 
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/Cache.gif)
-![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/DatePickerWindow.gif)
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/PlacePickerWindow.gif)
+![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/screenshot/DatePickerWindow.gif)
+
 
 
 ## 用到的开源库
