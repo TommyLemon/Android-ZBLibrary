@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,8 +48,8 @@ import zuo.biao.library.util.StringUtil;
 public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
 	private static final String TAG = "DemoView";
 
-	public DemoView(Activity context) {
-		super(context, R.layout.demo_view);  //TODO demo_view改为你所需要的layout文件
+	public DemoView(Activity context, ViewGroup parent) {
+		super(context, R.layout.demo_view, parent);  //TODO demo_view改为你所需要的layout文件
 	}
 
 

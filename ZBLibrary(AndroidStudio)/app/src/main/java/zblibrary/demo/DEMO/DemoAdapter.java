@@ -37,7 +37,7 @@ public class DemoAdapter extends BaseAdapter<Entry<String, String>, DemoView> {
 
 	@Override
 	public DemoView createView(int position, ViewGroup parent) {
-		return new DemoView(context);
+		return new DemoView(context, parent);
 	}
 
 	@Override
