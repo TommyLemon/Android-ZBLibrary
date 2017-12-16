@@ -91,8 +91,8 @@ public class PageScroller implements OnGestureListener, OnTouchListener {
 	 * @return
 	 * @must 在Activity的dispatchTouchEvent方法内调用
 	 */
-	public void dispatchTouchEvent(MotionEvent ev) {  
-		gestureDetector.onTouchEvent(ev);  
+	public void dispatchTouchEvent(MotionEvent ev) {
+		gestureDetector.onTouchEvent(ev);
 	}
 
 
@@ -104,7 +104,7 @@ public class PageScroller implements OnGestureListener, OnTouchListener {
 	private void scrollPage(boolean upToDown) {
 		Log.d(TAG, "scrollPage upToDown = " + upToDown + "; lv.getHeight() = " + lv.getHeight());
 		lv.smoothScrollBy((int) ((upToDown ? -0.8 : 0.8) * lv.getHeight()), 120);
-	}  
+	}
 
 
 
@@ -130,16 +130,17 @@ public class PageScroller implements OnGestureListener, OnTouchListener {
 	private float distanceY;
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		//TODO 连续快速刷新列表(比如疯狂点击DemoActivity列表Item中的Name)有时导致e1或e2为null而崩溃。考虑到发生概率小，判空损耗性能就暂时不管。
-		distanceY = e2.getRawY() - e1.getRawY();
-		if (Math.abs(distanceY) < maxDistanceY) {
-			if (distanceY > minDistanceY) {
-				scrollPage(true);
-				return true;
-			}
-			if (distanceY < - minDistanceY) {
-				scrollPage(false);
-				return true;
+		if (e2 != null && e1 != null) {
+			distanceY = e2.getRawY() - e1.getRawY();
+			if (Math.abs(distanceY) < maxDistanceY) {
+				if (distanceY > minDistanceY) {
+					scrollPage(true);
+					return true;
+				}
+				if (distanceY < - minDistanceY) {
+					scrollPage(false);
+					return true;
+				}
 			}
 		}
 

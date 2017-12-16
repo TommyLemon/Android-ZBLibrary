@@ -43,7 +43,6 @@ import zuo.biao.library.util.StringUtil;
 /**基础RecyclerView Fragment
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @param <RV> RecyclerView或其子类
  * @param <VH> ViewHolder或其子类
  * @param <A> 管理LV的Adapter
  * @see #rvBaseRecycler
@@ -54,7 +53,7 @@ import zuo.biao.library.util.StringUtil;
  * @use extends BaseRecyclerFragment 并在子类onCreateView中调用onRefresh(...), 具体参考.DemoRecyclerActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoRecyclerActivity(onCreate方法内)
  */
-public abstract class BaseRecyclerFragment<T, RV extends RecyclerView, VH extends ViewHolder, A extends Adapter<VH>>
+public abstract class BaseRecyclerFragment<T, VH extends ViewHolder, A extends Adapter<VH>>
         extends BaseFragment implements OnItemClickListener, OnItemLongClickListener {
     private static final String TAG = "BaseRecyclerFragment";
 
@@ -97,7 +96,7 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView, VH extend
      * 显示列表的RecyclerView
      * @warn 只使用rvBaseRecycler为显示列表数据的AbsRecyclerView(RecyclerView,GridView等)，不要在子类中改变它
      */
-    protected RV rvBaseRecycler;
+    protected RecyclerView rvBaseRecycler;
     /**
      * 管理LV的Item的Adapter
      */

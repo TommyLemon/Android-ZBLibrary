@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -145,18 +144,16 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	@Override
 	public void initEvent() {//必须在onCreateView方法内调用
 		super.initEvent();
-		//示例代码<<<<<<<<<<<<<<<<<<<
-		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				toActivity(UserActivity.createIntent(context, position));//一般用id，这里position仅用于测试 id));//
-			}
-		});
-		//示例代码>>>>>>>>>>>>>>>>>>>
+
 	}
 
 
-
+	//示例代码<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		toActivity(UserActivity.createIntent(context, position));//一般用id，这里position仅用于测试 id));//
+	}
+	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

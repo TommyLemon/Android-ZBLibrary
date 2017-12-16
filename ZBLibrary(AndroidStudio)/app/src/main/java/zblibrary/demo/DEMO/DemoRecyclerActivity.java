@@ -18,7 +18,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ import zuo.biao.library.model.Entry;
  * @use toActivity(DemoRecyclerActivity.createIntent(...));
  */
 public class DemoRecyclerActivity
-extends BaseRecyclerActivity<Entry<String, String>, RecyclerView, DemoComplexView, DemoComplexAdapter>
+extends BaseRecyclerActivity<Entry<String, String>, DemoComplexView, DemoComplexAdapter>
 implements OnBottomDragListener {
 	//	private static final String TAG = "DemoRecyclerActivity";
 
@@ -128,7 +129,7 @@ implements OnBottomDragListener {
 		super.initData();
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		tvBaseTitle.setText("" + rvBaseRecycler.getClass().getSimpleName());
+		tvBaseTitle.setText("" + rvBaseRecycler.getLayoutManager().getClass().getSimpleName());
 
 		showShortToast("range = " + range);
 
@@ -171,25 +172,7 @@ implements OnBottomDragListener {
 		super.initEvent();
 		//示例代码<<<<<<<<<<<<<<<<<<<
 
-		//TODO 实现OnItemClick示例代码
-		//		rvBaseRecycler.setOnItemClickListener(new OnItemClickListener() {
-		//			@Override
-		//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		//				//				//如果lvBaseList有headerView或footerView <<<<<<<<<<<<<<<
-		//				//				position -= lvBaseList.getHeaderViewsCount();//ListView的方法，GridView没有
-		//				//				if (position < 0 || adapter == null || position >= adapter.getCount()) {
-		//				//					return;
-		//				//				}
-		//				//				//如果lvBaseList有headerView或footerView >>>>>>>>>>>>>>>
-		//
-		//				showShortToast("选择了 " + adapter.getItem(position).getValue());
-		//				setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
-		//				finish();
-		//			}
-		//		});
-		//		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
-
 
 
 	@Override
@@ -202,6 +185,18 @@ implements OnBottomDragListener {
 		finish();
 	}
 
+
+	//示例代码：ItemView点击和长按事件处理 <<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		showShortToast("点击了 " + position);
+	}
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		showShortToast("长按了 " + position);
+		return true;
+	}
+	//示例代码：ItemView点击和长按事件处理 >>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

@@ -41,7 +41,6 @@ import zuo.biao.library.util.StringUtil;
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <VH> ViewHolder或其子类
- * @param <RV> RecyclerView或其子类
  * @param <A> 管理LV的Adapter
  * @see #rvBaseRecycler
  * @see #initCache
@@ -51,7 +50,7 @@ import zuo.biao.library.util.StringUtil;
  * @use extends BaseRecyclerActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoRecyclerActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoRecyclerActivity(onCreate方法内)
  */
-public abstract class BaseRecyclerActivity<T, RV extends RecyclerView, VH extends ViewHolder, A extends Adapter<VH>>
+public abstract class BaseRecyclerActivity<T, VH extends ViewHolder, A extends Adapter<VH>>
 		extends BaseActivity implements OnItemClickListener, OnItemLongClickListener {
 	private static final String TAG = "BaseRecyclerActivity";
 
@@ -65,7 +64,7 @@ public abstract class BaseRecyclerActivity<T, RV extends RecyclerView, VH extend
 	 * 显示列表的RecyclerView
 	 * @warn 只使用rvBaseRecycler为显示列表数据的AbsRecyclerView(RecyclerView,GridView等)，不要在子类中改变它
 	 */
-	protected RV rvBaseRecycler;
+	protected RecyclerView rvBaseRecycler;
 	/**
 	 * 管理LV的Item的Adapter
 	 */

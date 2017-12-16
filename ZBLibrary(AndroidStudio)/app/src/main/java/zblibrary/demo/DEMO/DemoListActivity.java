@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ import zuo.biao.library.ui.GridAdapter;
  * @use toActivity(DemoListActivity.createIntent(...));
  */
 public class DemoListActivity extends BaseListActivity<Entry<String, String>, GridView, GridAdapter>
-implements OnBottomDragListener {
+		implements OnBottomDragListener {
 	//	private static final String TAG = "DemoListActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -175,24 +174,10 @@ implements OnBottomDragListener {
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		super.initEvent();
-		//示例代码<<<<<<<<<<<<<<<<<<<
 
-		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//				//如果lvBaseList有headerView或footerView <<<<<<<<<<<<<<<
-				//				position -= lvBaseList.getHeaderViewsCount();//ListView的方法，GridView没有
-				//				if (position < 0 || adapter == null || position >= adapter.getCount()) {
-				//					return;
-				//				}
-				//				//如果lvBaseList有headerView或footerView >>>>>>>>>>>>>>>
-
-				showShortToast("选择了 " + adapter.getItem(position).getValue());
-				setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
-				finish();
-			}
-		});
-		//示例代码>>>>>>>>>>>>>>>>>>>
+		//如果adapter类型是zuo.biao.library.base.BaseAdapter，这两句就不用写了
+		lvBaseList.setOnItemClickListener(this);
+		lvBaseList.setOnItemLongClickListener(this);
 	}
 
 
@@ -207,6 +192,27 @@ implements OnBottomDragListener {
 		finish();
 	}
 
+
+	//示例代码：ItemView点击和长按事件处理 <<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		//				//如果lvBaseList有headerView或footerView <<<<<<<<<<<<<<<
+		//				position -= lvBaseList.getHeaderViewsCount();//ListView的方法，GridView没有
+		//				if (position < 0 || adapter == null || position >= adapter.getCount()) {
+		//					return;
+		//				}
+		//				//如果lvBaseList有headerView或footerView >>>>>>>>>>>>>>>
+
+		showShortToast("选择了 " + adapter.getItem(position).getValue());
+		setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
+		finish();
+	}
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		showShortToast("长按了 " + position);
+		return true;
+	}
+	//示例代码：ItemView点击和长按事件处理 >>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

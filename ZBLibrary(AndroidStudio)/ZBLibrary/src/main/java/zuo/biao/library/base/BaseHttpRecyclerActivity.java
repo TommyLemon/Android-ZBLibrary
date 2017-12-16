@@ -41,7 +41,7 @@ import zuo.biao.library.util.Log;
  * @use extends BaseHttpRecyclerActivity 并在子类onCreate中srlBaseHttpRecycler.autoRefresh();, 具体参考 .UserRecyclerFragment
  */
 public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>>
-		extends BaseRecyclerActivity<T, RecyclerView, VH, A>
+		extends BaseRecyclerActivity<T, VH, A>
 		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadmoreListener {
 	private static final String TAG = "BaseHttpRecyclerActivity";
 

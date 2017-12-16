@@ -142,8 +142,7 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
                     return false;
                 }
                 AdapterView pv = parent instanceof AdapterView ? (AdapterView) parent : null;
-                return onItemLongClickListener.onItemLongClick(
-                        (AdapterView<?>) parent, v, bv.position, getItemId(bv.position));
+                return onItemLongClickListener.onItemLongClick(pv, v, bv.position, getItemId(bv.position));
             }
         });
         return bv;
