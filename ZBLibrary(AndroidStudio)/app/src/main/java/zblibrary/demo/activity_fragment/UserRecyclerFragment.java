@@ -129,13 +129,10 @@ public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserVie
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	private int count = 10;
-
 	@Override
 	public void initData() {//必须调用
 		super.initData();
 
-		count = getCacheCount()/(range + 1);
 	}
 
 	@Override
@@ -147,7 +144,7 @@ public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserVie
 
 			@Override
 			public void run() {
-				onHttpResponse(-page, JSON.toJSONString(TestUtil.getUserList(page, count)), null);
+				onHttpResponse(-page, page >= 5 ? null : JSON.toJSONString(TestUtil.getUserList(page, getCacheCount())), null);
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>

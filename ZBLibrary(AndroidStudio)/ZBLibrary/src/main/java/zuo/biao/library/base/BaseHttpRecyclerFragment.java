@@ -182,7 +182,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 			@Override
 			public void run() {
 				srlBaseHttpRecycler.finishRefresh();
-				srlBaseHttpRecycler.setLoadmoreFinished(true);
+				srlBaseHttpRecycler.setLoadmoreFinished(false);
 			}
 		});
 	}
@@ -197,7 +197,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 				} else {
 					srlBaseHttpRecycler.finishLoadmoreWithNoMoreData();
 				}
-				srlBaseHttpRecycler.setLoadmoreFinished(true);
+				srlBaseHttpRecycler.setLoadmoreFinished(! isHaveMore);
 			}
 		});
 	}

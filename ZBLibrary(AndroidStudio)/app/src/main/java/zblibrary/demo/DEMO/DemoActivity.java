@@ -31,7 +31,6 @@ import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.model.Entry;
-import zuo.biao.library.ui.PageScroller;
 
 
 /** 使用方法：复制>粘贴>改名>改代码 */
@@ -206,10 +205,6 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-
-		//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
-		new PageScroller(lvDemo).init();
-		//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 
 	}
 

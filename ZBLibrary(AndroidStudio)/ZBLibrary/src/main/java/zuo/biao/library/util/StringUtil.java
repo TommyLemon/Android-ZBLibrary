@@ -23,44 +23,13 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**通用字符串(String)相关类,为null时返回""
  * @author Lemon
  * @use StringUtil.xxxMethod(...);
  */
 public class StringUtil {
 	private static final String TAG = "StringUtil";
-
-	public StringUtil() {
-	}
-
-	public static final String EMPTY = "无";
-	public static final String UNKNOWN = "未知";
-	public static final String UNLIMITED = "不限";
-
-	public static final String I = "我";
-	public static final String YOU = "你";
-	public static final String HE = "他";
-	public static final String SHE = "她";
-	public static final String IT = "它";
-
-	public static final String MALE = "男";
-	public static final String FEMALE = "女";
-
-	public static final String TODO = "未完成";
-	public static final String DONE = "已完成";
-
-	public static final String FAIL = "失败";
-	public static final String SUCCESS = "成功";
-
-	public static final String SUNDAY = "日";
-	public static final String MONDAY = "一";
-	public static final String TUESDAY = "二";
-	public static final String WEDNESDAY = "三";
-	public static final String THURSDAY = "四";
-	public static final String FRIDAY = "五";
-	public static final String SATURDAY = "六";
-
-	public static final String YUAN = "元";
 
 
 	private static String currentString = "";
@@ -72,41 +41,68 @@ public class StringUtil {
 		return currentString == null ? "" : currentString;
 	}
 
+
 	//获取string,为null时返回"" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**获取string,为null则返回""
 	 * @param tv
 	 * @return
 	 */
-	public static String getString(TextView tv) {
+	public static String get(TextView tv) {
 		if (tv == null || tv.getText() == null) {
 			return "";
 		}
-		return getString(tv.getText().toString());
+		return tv.getText().toString();
 	}
 	/**获取string,为null则返回""
 	 * @param object
 	 * @return
 	 */
-	public static String getString(Object object) {
-		return object == null ? "" : getString(String.valueOf(object));
+	public static String get(Object object) {
+		return object == null ? "" : object.toString();
 	}
 	/**获取string,为null则返回""
 	 * @param cs
 	 * @return
 	 */
-	public static String getString(CharSequence cs) {
-		return cs == null ? "" : getString(cs.toString());
+	public static String get(CharSequence cs) {
+		return cs == null ? "" : cs.toString();
 	}
 	/**获取string,为null则返回""
 	 * @param s
 	 * @return
 	 */
-	public static String getString(String s) {
+	public static String get(String s) {
 		return s == null ? "" : s;
 	}
 
+
+	/**deprecated 用get代替，这个保留到17.0
+	 */
+	public static String getString(TextView tv) {
+		return get(tv);
+	}
+	/**deprecated 用get代替，这个保留到17.0
+	 */
+	public static String getString(Object object) {
+		return get(object);
+	}
+	/**deprecated 用get代替，这个保留到17.0
+	 */
+	public static String getString(CharSequence cs) {
+		return get(cs);
+	}
+	/**deprecated 用get代替，这个保留到17.0
+	 */
+	public static String getString(String s) {
+		return get(s);
+	}
+
 	//获取string,为null时返回"" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
 
 	//获取去掉前后空格后的string<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -114,32 +110,56 @@ public class StringUtil {
 	 * @param tv
 	 * @return
 	 */
-	public static String getTrimedString(TextView tv) {
-		return getTrimedString(getString(tv));
+	public static String trim(TextView tv) {
+		return trim(get(tv));
 	}
 	/**获取去掉前后空格后的string,为null则返回""
 	 * @param object
 	 * @return
 	 */
-	public static String getTrimedString(Object object) {
-		return getTrimedString(getString(object));
+	public static String trim(Object object) {
+		return trim(get(object));
 	}
 	/**获取去掉前后空格后的string,为null则返回""
 	 * @param cs
 	 * @return
 	 */
-	public static String getTrimedString(CharSequence cs) {
-		return getTrimedString(getString(cs));
+	public static String trim(CharSequence cs) {
+		return trim(get(cs));
 	}
 	/**获取去掉前后空格后的string,为null则返回""
 	 * @param s
 	 * @return
 	 */
+	public static String trim(String s) {
+		return s == null ? "" : s.trim();
+	}
+
+
+	/**deprecated 用trim代替，这个保留到17.0
+	 */
+	public static String getTrimedString(TextView tv) {
+		return trim(tv);
+	}
+	/**deprecated 用trim代替，这个保留到17.0
+	 */
+	public static String getTrimedString(Object object) {
+		return trim(object);
+	}
+	/**deprecated 用trim代替，这个保留到17.0
+	 */
+	public static String getTrimedString(CharSequence cs) {
+		return trim(get(cs));
+	}
+	/**deprecated 用trim代替，这个保留到17.0
+	 */
 	public static String getTrimedString(String s) {
-		return getString(s).trim();
+		return trim(s);
 	}
 
 	//获取去掉前后空格后的string>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 	//获取去掉所有空格后的string <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -148,29 +168,51 @@ public class StringUtil {
 	 * @param tv
 	 * @return
 	 */
-	public static String getNoBlankString(TextView tv) {
-		return getNoBlankString(getString(tv));
+	public static String noBlank(TextView tv) {
+		return noBlank(get(tv));
 	}
 	/**获取去掉所有空格后的string,为null则返回""
 	 * @param object
 	 * @return
 	 */
-	public static String getNoBlankString(Object object) {
-		return getNoBlankString(getString(object));
+	public static String noBlank(Object object) {
+		return noBlank(get(object));
 	}
 	/**获取去掉所有空格后的string,为null则返回""
 	 * @param cs
 	 * @return
 	 */
-	public static String getNoBlankString(CharSequence cs) {
-		return getNoBlankString(getString(cs));
+	public static String noBlank(CharSequence cs) {
+		return noBlank(get(cs));
 	}
 	/**获取去掉所有空格后的string,为null则返回""
 	 * @param s
 	 * @return
 	 */
+	public static String noBlank(String s) {
+		return get(s).replaceAll(" ", "");
+	}
+
+
+	/**deprecated 用noBlank代替，这个保留到17.0
+	 */
+	public static String getNoBlankString(TextView tv) {
+		return noBlank(get(tv));
+	}
+	/**deprecated 用noBlank代替，这个保留到17.0
+	 */
+	public static String getNoBlankString(Object object) {
+		return noBlank(get(object));
+	}
+	/**deprecated 用noBlank代替，这个保留到17.0
+	 */
+	public static String getNoBlankString(CharSequence cs) {
+		return noBlank(get(cs));
+	}
+	/**deprecated 用noBlank代替，这个保留到17.0
+	 */
 	public static String getNoBlankString(String s) {
-		return getString(s).replaceAll(" ", "");
+		return noBlank(s);
 	}
 
 	//获取去掉所有空格后的string >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -180,42 +222,118 @@ public class StringUtil {
 
 	/**获取string的长度,为null则返回0
 	 * @param tv
-	 * @param trim
 	 * @return
 	 */
-	public static int getLength(TextView tv, boolean trim) {
-		return getLength(getString(tv), trim);
+	public static int length(TextView tv) {
+		return length(get(tv));
 	}
 	/**获取string的长度,为null则返回0
 	 * @param object
-	 * @param trim
 	 * @return
 	 */
-	public static int getLength(Object object, boolean trim) {
-		return getLength(getString(object), trim);
+	public static int length(Object object) {
+		return length(get(object));
 	}
 	/**获取string的长度,为null则返回0
 	 * @param cs
-	 * @param trim
 	 * @return
 	 */
-	public static int getLength(CharSequence cs, boolean trim) {
-		return getLength(getString(cs), trim);
+	public static int length(CharSequence cs) {
+		return length(get(cs));
 	}
 	/**获取string的长度,为null则返回0
 	 * @param s
-	 * @param trim
 	 * @return
+	 */
+	public static int length(String s) {
+		return get(s).length();
+	}
+
+
+	/**deprecated 用length代替，这个保留到17.0
+	 */
+	public static int getLength(TextView tv, boolean trim) {
+		return getLength(get(tv), trim);
+	}
+	/**deprecated 用length代替，这个保留到17.0
+	 */
+	public static int getLength(Object object, boolean trim) {
+		return getLength(get(object), trim);
+	}
+	/**deprecated 用length代替，这个保留到17.0
+	 */
+	public static int getLength(CharSequence cs, boolean trim) {
+		return getLength(get(cs), trim);
+	}
+	/**deprecated 用length代替，这个保留到17.0
 	 */
 	public static int getLength(String s, boolean trim) {
 		s = trim ? getTrimedString(s) : s;
-		return getString(s).length();
+		return length(s);
 	}
 
 	//获取string的长度>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//判断字符是否非空 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//判断字符是否为空 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	/**判断字符是否为空
+	 * trim = true
+	 * @param s
+	 * @return
+	 */
+	public static boolean isEmpty(String s) {
+		return isEmpty(s, true);
+	}
+	/**判断字符是否为空
+	 * @param tv
+	 * @param trim
+	 * @return
+	 */
+	public static boolean isEmpty(TextView tv, boolean trim) {
+		return isEmpty(get(tv), trim);
+	}
+	/**判断字符是否为空
+	 * @param object
+	 * @param trim
+	 * @return
+	 */
+	public static boolean isEmpty(Object object, boolean trim) {
+		return isEmpty(get(object), trim);
+	}
+	/**判断字符是否为空
+	 * @param cs
+	 * @param trim
+	 * @return
+	 */
+	public static boolean isEmpty(CharSequence cs, boolean trim) {
+		return isEmpty(get(cs), trim);
+	}
+	/**判断字符是否为空
+	 * @param s
+	 * @param trim
+	 * @return
+	 */
+	public static boolean isEmpty(String s, boolean trim) {
+		//		Log.i(TAG, "isEmpty   s = " + s);
+		if (s == null) {
+			return true;
+		}
+		if (trim) {
+			s = s.trim();
+		}
+		if (s.length() <= 0) {
+			return true;
+		}
+
+		currentString = s;
+
+		return false;
+	}
+	//判断字符是否为空 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    //判断字符是否非空 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**判断字符是否非空
 	 * @param tv
@@ -223,7 +341,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isNotEmpty(TextView tv, boolean trim) {
-		return isNotEmpty(getString(tv), trim);
+		return isNotEmpty(get(tv), trim);
 	}
 	/**判断字符是否非空
 	 * @param object
@@ -231,7 +349,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isNotEmpty(Object object, boolean trim) {
-		return isNotEmpty(getString(object), trim);
+		return isNotEmpty(get(object), trim);
 	}
 	/**判断字符是否非空
 	 * @param cs
@@ -239,7 +357,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isNotEmpty(CharSequence cs, boolean trim) {
-		return isNotEmpty(getString(cs), trim);
+		return isNotEmpty(get(cs), trim);
 	}
 	/**判断字符是否非空
 	 * @param s
@@ -247,20 +365,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isNotEmpty(String s, boolean trim) {
-		//		Log.i(TAG, "getTrimedString   s = " + s);
-		if (s == null) {
-			return false;
-		}
-		if (trim) {
-			s = s.trim();
-		}
-		if (s.length() <= 0) {
-			return false;
-		}
-
-		currentString = s;
-
-		return true;
+		return ! isEmpty(s, trim);
 	}
 
 	//判断字符是否非空 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -270,7 +375,7 @@ public class StringUtil {
 
 	//判断手机格式是否正确
 	public static boolean isPhone(String phone) {
-		if (isNotEmpty(phone, true) == false) {
+		if (isEmpty(phone, true)) {
 			return false;
 		}
 
@@ -282,7 +387,7 @@ public class StringUtil {
 	}
 	//判断email格式是否正确
 	public static boolean isEmail(String email) {
-		if (isNotEmpty(email, true) == false) {
+		if (isEmpty(email, true)) {
 			return false;
 		}
 
@@ -293,15 +398,21 @@ public class StringUtil {
 
 		return p.matcher(email).matches();
 	}
-	//判断是否全是数字
+
+	/**deprecated，保留到17.0
+	 */
 	public static boolean isNumer(String number) {
-		if (isNotEmpty(number, true) == false) {
+		return isNumber(number);
+	}
+	//判断是否全是数字
+	public static boolean isNumber(String number) {
+		if (isEmpty(number, true)) {
 			return false;
 		}
 
 		Pattern pattern = Pattern.compile("[0-9]*");
 		Matcher isNum = pattern.matcher(number);
-		if (!isNum.matches()) {
+		if (isNum.matches() == false) {
 			return false;
 		}
 
@@ -310,27 +421,27 @@ public class StringUtil {
 		return true;
 	}
 	/**判断字符类型是否是号码或字母
-	 * @param inputed
+	 * @param s
 	 * @return
 	 */
-	public static boolean isNumberOrAlpha(String inputed) {
-		if (inputed == null) {
-			Log.e(TAG, "isNumberOrAlpha  inputed == null >> return false;");
+	public static boolean isNumberOrAlpha(String s) {
+		if (s == null) {
+			Log.e(TAG, "isNumberOrAlpha  s == null >> return false;");
 			return false;
 		}
 		Pattern pNumber = Pattern.compile("[0-9]*");
 		Matcher mNumber;
 		Pattern pAlpha = Pattern.compile("[a-zA-Z]");
 		Matcher mAlpha;
-		for (int i = 0; i < inputed.length(); i++) {
-			mNumber = pNumber.matcher(inputed.substring(i, i+1));
-			mAlpha = pAlpha.matcher(inputed.substring(i, i+1));
+		for (int i = 0; i < s.length(); i++) {
+			mNumber = pNumber.matcher(s.substring(i, i+1));
+			mAlpha = pAlpha.matcher(s.substring(i, i+1));
 			if(! mNumber.matches() && ! mAlpha.matches()){
 				return false;
 			}
 		}
 
-		currentString = inputed;
+		currentString = s;
 		return true;
 	}
 
@@ -342,7 +453,7 @@ public class StringUtil {
 		if (isNumberOrAlpha(idCard) == false) {
 			return false;
 		}
-		idCard = getString(idCard);
+		idCard = get(idCard);
 		if (idCard.length() == 15) {
 			Log.w(TAG, "isIDCard idCard.length() == 15 old IDCard");
 			currentString = idCard;
@@ -366,7 +477,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isUrl(String url) {
-		if (isNotEmpty(url, true) == false) {
+		if (isEmpty(url, true)) {
 			return false;
 		} else if (! url.startsWith(URL_PREFIX) && ! url.startsWith(URL_PREFIXs)) {
 			return false;
@@ -389,7 +500,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isFilePath(String path) {
-		if (isNotEmpty(path, true) == false) {
+		if (isEmpty(path, true)) {
 			return false;
 		}
 
@@ -412,28 +523,28 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getNumber(TextView tv) {
-		return getNumber(getString(tv));
+		return getNumber(get(tv));
 	}
 	/**去掉string内所有非数字类型字符
 	 * @param object
 	 * @return
 	 */
 	public static String getNumber(Object object) {
-		return getNumber(getString(object));
+		return getNumber(get(object));
 	}
 	/**去掉string内所有非数字类型字符
 	 * @param cs
 	 * @return
 	 */
 	public static String getNumber(CharSequence cs) {
-		return getNumber(getString(cs));
+		return getNumber(get(cs));
 	}
 	/**去掉string内所有非数字类型字符
 	 * @param s
 	 * @return
 	 */
 	public static String getNumber(String s) {
-		if (isNotEmpty(s, true) == false) {
+		if (isEmpty(s, true)) {
 			return "";
 		}
 
@@ -458,7 +569,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getCorrectUrl(TextView tv) {
-		return getCorrectUrl(getString(tv));
+		return getCorrectUrl(get(tv));
 	}
 	/**获取网址，自动补全
 	 * @param url
@@ -466,7 +577,7 @@ public class StringUtil {
 	 */
 	public static String getCorrectUrl(String url) {
 		Log.i(TAG, "getCorrectUrl : \n" + url);
-		if (isNotEmpty(url, true) == false) {
+		if (isEmpty(url, true)) {
 			return "";
 		}
 
@@ -474,10 +585,7 @@ public class StringUtil {
 //			url = url + "/";
 //		}
 
-		if (isUrl(url) == false) {
-			return URL_PREFIX + url;
-		}
-		return url;
+		return isUrl(url) ? url : URL_PREFIX + url;
 	}
 
 	/**获取去掉所有 空格 、"-" 、"+86" 后的phone
@@ -485,18 +593,18 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getCorrectPhone(TextView tv) {
-		return getCorrectPhone(getString(tv));
+		return getCorrectPhone(get(tv));
 	}
 	/**获取去掉所有 空格 、"-" 、"+86" 后的phone
 	 * @param phone
 	 * @return
 	 */
 	public static String getCorrectPhone(String phone) {
-		if (isNotEmpty(phone, true) == false) {
+		if (isEmpty(phone, true)) {
 			return "";
 		}
 
-		phone = getNoBlankString(phone);
+		phone = noBlank(phone);
 		phone = phone.replaceAll("-", "");
 		if (phone.startsWith("+86")) {
 			phone = phone.substring(3);
@@ -510,18 +618,18 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getCorrectEmail(TextView tv) {
-		return getCorrectEmail(getString(tv));
+		return getCorrectEmail(get(tv));
 	}
 	/**获取邮箱，自动补全
 	 * @param email
 	 * @return
 	 */
 	public static String getCorrectEmail(String email) {
-		if (isNotEmpty(email, true) == false) {
+		if (isEmpty(email, true)) {
 			return "";
 		}
 
-		email = getNoBlankString(email);
+		email = noBlank(email);
 		if (isEmail(email) == false && ! email.endsWith(".com")) {
 			email += ".com";
 		}
@@ -552,7 +660,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getPrice(String price, int formatType) {
-		if (isNotEmpty(price, true) == false) {
+		if (isEmpty(price, true)) {
 			return getPrice(0, formatType);
 		}
 
@@ -578,7 +686,7 @@ public class StringUtil {
 		}
 
 		Log.i(TAG, "getPrice correctPrice =  " + correctPrice + " >>>>>>>>>>>>>>>>");
-		return isNotEmpty(correctPrice, true) ? getPrice(new BigDecimal(0 + correctPrice), formatType) : getPrice(0, formatType);
+		return isEmpty(correctPrice, true) ? getPrice(0, formatType) : getPrice(new BigDecimal(0 + correctPrice), formatType);
 	}
 	/**获取价格，保留两位小数
 	 * @param price

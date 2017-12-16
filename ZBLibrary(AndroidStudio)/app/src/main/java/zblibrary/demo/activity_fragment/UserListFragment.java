@@ -143,7 +143,7 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 
 			@Override
 			public void run() {
-				onHttpResponse(-page, JSON.toJSONString(TestUtil.getUserList(page, getCacheCount())), null);
+				onHttpResponse(-page, page >= 5 ? null : JSON.toJSONString(TestUtil.getUserList(page, getCacheCount())), null);
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
