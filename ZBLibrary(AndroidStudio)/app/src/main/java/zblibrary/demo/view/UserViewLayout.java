@@ -43,7 +43,7 @@ public class UserViewLayout extends BaseViewLayout<User> {
 	@Override
 	protected void init(Activity context) {
 		super.init(context);
-		createView(new UserView(context));
+		createView(new UserView(context, null));
 	}
 
 }

@@ -158,6 +158,7 @@ public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserVie
 		return JSON.parseArray(json, User.class);
 	}
 
+
 	@Override
 	public Class<User> getCacheClass() {
 		return User.class;

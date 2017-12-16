@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,17 +30,19 @@ import java.util.List;
 
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.OnHttpResponseListener;
+import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.util.Log;
 
-/**基础http获取列表的Activity
+
+/**基础http网络列表的Fragment
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <VH> ViewHolder或其子类
  * @param <A> 管理LV的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
- * @use extends BaseHttpRecyclerFragment 并在子类onCreate中srlBaseHttpRecycler.autoRefresh();, 具体参考 .UserRecyclerFragment
+ * @use extends BaseHttpRecyclerFragment 并在子类onCreateView中srlBaseHttpRecycler.autoRefresh();, 具体参考 .UserRecyclerFragment
  */
 public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>>
 		extends BaseRecyclerFragment<T, RecyclerView, VH, A>
@@ -74,14 +77,26 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 
 		srlBaseHttpRecycler = findView(R.id.srlBaseHttpRecycler);
 
-		setList((List<T>) null);//ListView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
+		setList((List<T>) null);//RecyclerView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
 	}
 
 	@Override
-	public void setList(List<T> list) {
+	public void setAdapter(A adapter) {
+		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
+			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
+				@Override
+				public void onRefresh() {
+					srlBaseHttpRecycler.autoRefresh();
+				}
 
+				@Override
+				public void onLoadMore() {
+					srlBaseHttpRecycler.autoLoadmore();
+				}
+			});
+		}
+		super.setAdapter(adapter);
 	}
-
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -101,6 +116,12 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 		super.initData();
 
 	}
+
+	/**
+	 * @param page 用-page作为requestCode
+	 */
+	@Override
+	public abstract void getListAsync(int page);
 
 	/**
 	 * 将JSON串转为List（已在非UI线程中）
@@ -133,6 +154,15 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 	}
 
 
+	/**重写后可自定义对这个事件的处理
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	}
 
 	@Override
 	public void onRefresh(RefreshLayout refreshlayout) {
@@ -144,12 +174,6 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 		onLoadMore();
 	}
 
-
-	/*
-	 * @param page 用-page作为requestCode
-	 */
-	@Override
-	public abstract void getListAsync(int page);
 
 	@Override
 	public void onStopRefresh() {

@@ -118,7 +118,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		llUserBusinessCardContainer = findView(R.id.llUserBusinessCardContainer);
 		llUserBusinessCardContainer.removeAllViews();
 
-		userView = new UserView(context);
+		userView = new UserView(context, null);
 		llUserBusinessCardContainer.addView(userView.createView());
 		//添加用户名片，这些方式都可>>>>>>>>>>>>>>>>>>>>>>>
 

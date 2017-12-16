@@ -76,7 +76,7 @@ public class GridPickerAdapter extends BaseAdapter {
 	 * @param list
 	 */
 	public synchronized void refresh(List<Entry<Integer, String>> list) {
-		this.list = list == null ? new ArrayList<Entry<Integer, String>>() : new ArrayList<Entry<Integer, String>>(list);
+		this.list = list == null ? null : new ArrayList<Entry<Integer, String>>(list);
 		notifyDataSetChanged();
 	}
 

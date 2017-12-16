@@ -33,7 +33,7 @@ public class UserAdapter extends BaseAdapter<User, UserView> {
 
 	@Override
 	public UserView createView(int position, ViewGroup parent) {
-		return new UserView(context);
+		return new UserView(context, parent);
 	}
 
 	@Override

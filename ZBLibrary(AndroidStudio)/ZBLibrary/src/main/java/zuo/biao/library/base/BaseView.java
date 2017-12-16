@@ -22,6 +22,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.Log;
@@ -55,16 +56,31 @@ public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 	}
 
 
+	/**
+	 * @param context
+	 * @param layoutResId
+	 * @see #BaseView(Activity, int, ViewGroup)
+	 */
+	public BaseView(Activity context, @LayoutRes int layoutResId) {
+		this(context, layoutResId, null);
+	}
 
-
-
+	/**
+	 * @param context
+	 * @param layoutResId
+	 * @param parent TODO 如果itemView是放在RecyclerView.Adapter中，则需要传入parent来解决不能占满宽度的问题
+	 */
+	public BaseView(Activity context, @LayoutRes int layoutResId, ViewGroup parent) {
+		this(context, context.getLayoutInflater().inflate(layoutResId, parent, false));
+	}
 	/**
 	 * 传入的Activity,可在子类直接使用
 	 */
 	public final Activity context;
-	public BaseView(Activity context, @LayoutRes int layoutResId) {
-		this(context, context.getLayoutInflater().inflate(layoutResId, null));
-	}
+	/**
+	 * @param context
+	 * @param itemView
+	 */
 	public BaseView(Activity context, View itemView) {
 		super(itemView);
 		this.context = context;

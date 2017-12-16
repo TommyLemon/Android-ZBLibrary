@@ -8,9 +8,16 @@
     app:srlEnablePreviewInEditMode="true"
     >
 
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+        style="@style/match_wrap"
+       />
+
     <android.support.v7.widget.RecyclerView
         android:id="@id/rvBaseRecycler"
-        style="@style/lv_no_divider" />
+        style="@style/lv_no_divider"
+        />
 
-
+    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+        style="@style/match_wrap"
+        />
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

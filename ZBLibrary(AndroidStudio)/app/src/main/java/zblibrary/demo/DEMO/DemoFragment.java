@@ -104,9 +104,7 @@ public class DemoFragment extends BaseFragment {
 	public void initView() {//必须在onCreateView方法内调用
 
 		//示例代码<<<<<<<<<<<<<<
-
 		lvDemoFragment = findView(R.id.lvDemoFragment);
-
 		//示例代码>>>>>>>>>>>>>>
 	}
 

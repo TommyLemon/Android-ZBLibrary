@@ -17,10 +17,14 @@ package zuo.biao.library.base;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,7 +36,9 @@ import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
+import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
+
 
 /**基础RecyclerView Fragment
  * @author Lemon
@@ -45,30 +51,12 @@ import zuo.biao.library.util.StringUtil;
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseRecyclerFragment 并在子类onCreateView中调用onRefresh(...), 具体参考.DemoListFragment
- * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListFragment(onCreate方法内)
+ * @use extends BaseRecyclerFragment 并在子类onCreateView中调用onRefresh(...), 具体参考.DemoRecyclerActivity
+ * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoRecyclerActivity(onCreate方法内)
  */
-public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
-        , VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> extends BaseFragment implements AdapterView.OnItemClickListener {
+public abstract class BaseRecyclerFragment<T, RV extends RecyclerView, VH extends ViewHolder, A extends Adapter<VH>>
+        extends BaseFragment implements OnItemClickListener, OnItemLongClickListener {
     private static final String TAG = "BaseRecyclerFragment";
-
-
-    private OnStopLoadListener onStopLoadListener;
-    /**设置停止加载监听
-     * @param onStopLoadListener
-     */
-    protected void setOnStopLoadListener(OnStopLoadListener onStopLoadListener) {
-        this.onStopLoadListener = onStopLoadListener;
-    }
-
-    private CacheCallBack<T> cacheCallBack;
-    /**初始化缓存
-     * @warn 在initData前使用才有效
-     * @param cacheCallBack
-     */
-    protected void initCache(CacheCallBack<T> cacheCallBack) {
-        this.cacheCallBack = cacheCallBack;
-    }
 
 
 
@@ -107,7 +95,7 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
 
     /**
      * 显示列表的RecyclerView
-     * @warn 只使用rvBaseRecycler为显示列表数据的RecyclerView，不要在子类中改变它
+     * @warn 只使用rvBaseRecycler为显示列表数据的AbsRecyclerView(RecyclerView,GridView等)，不要在子类中改变它
      */
     protected RV rvBaseRecycler;
     /**
@@ -129,15 +117,15 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
      * @param adapter
      */
     public void setAdapter(A adapter) {
-        if (adapter != null && adapter instanceof BaseAdapter) {
-            ((BaseAdapter) adapter).setOnItemClickListener(this);
+        if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
+            ((zuo.biao.library.base.BaseAdapter) adapter).setOnItemClickListener(this);
+            ((zuo.biao.library.base.BaseAdapter) adapter).setOnItemLongClickListener(this);
         }
-
         this.adapter = adapter;
         rvBaseRecycler.setAdapter(adapter);
     }
 
-    /**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<A> callBack)
+    /**刷新列表数据（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<A> callBack)
      * @param list
      */
     public abstract void setList(List<T> list);
@@ -171,7 +159,7 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
     @Override
     public void initData() {// 必须调用
 
-        isToSaveCache = cacheCallBack != null && cacheCallBack.getCacheClass() != null;
+        isToSaveCache = SettingUtil.cache && cacheCallBack != null && cacheCallBack.getCacheClass() != null;
         isToLoadCache = isToSaveCache && StringUtil.isNotEmpty(cacheCallBack.getCacheGroup(), true);
     }
 
@@ -189,9 +177,9 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
     }
 
     /**
-     * 起始页码
+     * 列表首页页码。有些服务器设置为1，即列表页码从1开始
      */
-    private static final int PAGE_NUM_0 = 1;
+    public static final int PAGE_NUM_0 = 0;
 
     /**
      * 数据列表
@@ -433,9 +421,24 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    private OnStopLoadListener onStopLoadListener;
+    /**设置停止加载监听
+     * @param onStopLoadListener
+     */
+    protected void setOnStopLoadListener(OnStopLoadListener onStopLoadListener) {
+        this.onStopLoadListener = onStopLoadListener;
     }
+
+    private CacheCallBack<T> cacheCallBack;
+    /**初始化缓存
+     * @warn 在initData前使用才有效
+     * @param cacheCallBack
+     */
+    protected void initCache(CacheCallBack<T> cacheCallBack) {
+        this.cacheCallBack = cacheCallBack;
+    }
+
 
     /**刷新（从头加载）
      * @must 在子类onCreate中调用，建议放在最后
@@ -457,6 +460,27 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
     // 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+    /**重写后可自定义对这个事件的处理
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
+    /**重写后可自定义对这个事件的处理，如果要在长按后不触发onItemClick，则需要 return true;
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
+    }
+
+
     // 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     @Override
@@ -474,7 +498,6 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
         onStopLoadListener = null;
         cacheCallBack = null;
     }
-
 
     // 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

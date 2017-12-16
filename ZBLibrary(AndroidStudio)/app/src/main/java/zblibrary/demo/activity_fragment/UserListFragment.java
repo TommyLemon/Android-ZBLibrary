@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import java.util.List;
@@ -155,6 +154,7 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 		return JSON.parseArray(json, User.class);
 	}
 
+
 	@Override
 	public Class<User> getCacheClass() {
 		return User.class;
@@ -188,18 +188,14 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 	public void initEvent() {//必须调用
 		super.initEvent();
 
-		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (id > 0) {
-					toActivity(UserActivity.createIntent(context, id));
-				}
-			}
-		});
 	}
 
-
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		if (id > 0) {
+			toActivity(UserActivity.createIntent(context, id));
+		}
+	}
 
 	//系统自带监听方法 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

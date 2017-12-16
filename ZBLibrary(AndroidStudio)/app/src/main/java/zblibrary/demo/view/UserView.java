@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,8 +52,8 @@ import zuo.biao.library.util.StringUtil;
 public class UserView extends BaseView<User> implements OnClickListener {
 	private static final String TAG = "UserView";
 
-	public UserView(Activity context) {
-		super(context, R.layout.user_view);
+	public UserView(Activity context, ViewGroup parent) {
+		super(context, R.layout.user_view, parent);
 	}
 
 	public ImageView ivUserViewHead;

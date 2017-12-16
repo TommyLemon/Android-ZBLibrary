@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import java.util.List;
@@ -34,14 +35,15 @@ import zuo.biao.library.util.Log;
 /**基础http获取列表的Fragment
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @param <BA> 管理XListView的Adapter
+ * @param <A> 管理XListView的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
  * @use extends BaseHttpListFragment 并在子类onCreateView中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
-public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
-		extends BaseListFragment<T, XListView, BA>
-		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
+public abstract class BaseHttpListFragment<T, A extends ListAdapter>
+		extends BaseListFragment<T, XListView, A>
+		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener
+		, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 	private static final String TAG = "BaseHttpListFragment";
 
 
@@ -71,17 +73,8 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 		setList((List<T>) null);//ListView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
 	}
 
-	/**设置列表适配器
-	 * @param callBack
-	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setList(AdapterCallBack<BA> callBack) {
-		super.setList(callBack);
-		boolean empty = adapter == null || adapter.isEmpty();
-		Log.d(TAG, "setList  adapter empty = " + empty);
-		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
-
+	public void setAdapter(A adapter) {
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
 			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
 				@Override
@@ -95,6 +88,18 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 				}
 			});
 		}
+		super.setAdapter(adapter);
+	}
+
+	/**刷新列表数据
+	 * @param callBack
+	 */
+	@Override
+	public void setList(AdapterCallBack<A> callBack) {
+		super.setList(callBack);
+		boolean empty = adapter == null || adapter.isEmpty();
+		Log.d(TAG, "setList  adapter empty = " + empty);
+		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
 	}
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -115,6 +120,13 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 		super.initData();
 
 	}
+
+
+	/**
+	 * @param page 用-page作为requestCode
+	 */
+	@Override
+	public abstract void getListAsync(int page);
 
 	/**
 	 * 将JSON串转为List（已在非UI线程中）
@@ -145,11 +157,6 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 		lvBaseList.setXListViewListener(this);
 	}
 
-	/*
-	 * @param page 用-page作为requestCode
-	 */
-	@Override
-	public abstract void getListAsync(int page);
 
 	@Override
 	public void onStopRefresh() {

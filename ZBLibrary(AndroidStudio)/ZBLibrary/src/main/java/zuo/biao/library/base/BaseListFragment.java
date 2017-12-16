@@ -19,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
 import java.util.ArrayList;
@@ -28,7 +31,6 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
-import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
@@ -39,7 +41,7 @@ import zuo.biao.library.util.StringUtil;
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <LV> AbsListView的子类（ListView,GridView等）
- * @param <BA> 管理LV的Adapter
+ * @param <A> 管理LV的Adapter
  * @see #onCreateView
  * @see #setContentView
  * @see #lvBaseList
@@ -47,30 +49,12 @@ import zuo.biao.library.util.StringUtil;
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseListFragment 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListFragment
+ * @use extends BaseListFragment 并在子类onCreateView中调用onRefresh(...), 具体参考.DemoListFragment
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
-public abstract class BaseListFragment<T, LV extends AbsListView, BA extends ListAdapter>
-		extends BaseFragment implements OnLoadListener {
+public abstract class BaseListFragment<T, LV extends AbsListView, A extends ListAdapter>
+		extends BaseFragment implements OnItemClickListener, OnItemLongClickListener {
 	private static final String TAG = "BaseListFragment";
-
-	private OnStopLoadListener onStopLoadListener;
-	/**设置停止加载监听
-	 * @param onStopLoadListener
-	 */
-	protected void setOnStopLoadListener(OnStopLoadListener onStopLoadListener) {
-		this.onStopLoadListener = onStopLoadListener;
-	}
-
-
-	private CacheCallBack<T> cacheCallBack;
-	/**初始化缓存
-	 * @warn 在initData前使用才有效
-	 * @param cacheCallBack
-	 */
-	protected void initCache(CacheCallBack<T> cacheCallBack) {
-		this.cacheCallBack = cacheCallBack;
-	}
 
 
 
@@ -115,7 +99,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Lis
 	/**
 	 * 管理LV的Item的Adapter
 	 */
-	protected BA adapter;
+	protected A adapter;
 	/**
 	 * 如果在子类中调用(即super.initView());则view必须含有initView中初始化用到的id且id对应的View的类型全部相同；
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
@@ -129,12 +113,16 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Lis
 	/**设置adapter
 	 * @param adapter
 	 */
-	public void setAdapter(BA adapter) {
+	public void setAdapter(A adapter) {
+		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
+			((zuo.biao.library.base.BaseAdapter) adapter).setOnItemClickListener(this);
+			((zuo.biao.library.base.BaseAdapter) adapter).setOnItemLongClickListener(this);
+		}
 		this.adapter = adapter;
 		lvBaseList.setAdapter(adapter);
 	}
 
-	/**显示列表（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<BA> callBack)
+	/**刷新列表数据（已在UI线程中），一般需求建议直接调用setList(List<T> l, AdapterCallBack<A> callBack)
 	 * @param list
 	 */
 	public abstract void setList(List<T> list);
@@ -142,7 +130,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Lis
 	/**显示列表（已在UI线程中）
 	 * @param callBack
 	 */
-	public void setList(AdapterCallBack<BA> callBack) {
+	public void setList(AdapterCallBack<A> callBack) {
 		if (adapter == null) {
 			setAdapter(callBack.createAdapter());
 		}
@@ -431,6 +419,24 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Lis
 	}
 
 
+	private OnStopLoadListener onStopLoadListener;
+	/**设置停止加载监听
+	 * @param onStopLoadListener
+	 */
+	protected void setOnStopLoadListener(OnStopLoadListener onStopLoadListener) {
+		this.onStopLoadListener = onStopLoadListener;
+	}
+
+	private CacheCallBack<T> cacheCallBack;
+	/**初始化缓存
+	 * @warn 在initData前使用才有效
+	 * @param cacheCallBack
+	 */
+	protected void initCache(CacheCallBack<T> cacheCallBack) {
+		this.cacheCallBack = cacheCallBack;
+	}
+
+
 	/**刷新（从头加载）
 	 * @must 在子类onCreate中调用，建议放在最后
 	 */
@@ -449,6 +455,27 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Lis
 
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+	/**重写后可自定义对这个事件的处理
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	}
+	/**重写后可自定义对这个事件的处理，如果要在长按后不触发onItemClick，则需要 return true;
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		return false;
+	}
 
 
 	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

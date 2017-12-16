@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import java.util.List;
@@ -29,14 +30,16 @@ import zuo.biao.library.util.Log;
 /**基础http获取列表的Activity
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @param <BA> 管理XListView的Adapter
+ * @param <A> 管理XListView的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
  * @use extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
-public abstract class BaseHttpListActivity<T, BA extends ListAdapter> extends BaseListActivity<T, XListView, BA>
-implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
+public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends BaseListActivity<T, XListView, A>
+		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener
+		, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 	private static final String TAG = "BaseHttpListActivity";
+
 
 
 
@@ -50,17 +53,8 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 		setList((List<T>) null);//ListView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
 	}
 
-	/**设置列表适配器
-	 * @param callBack
-	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setList(AdapterCallBack<BA> callBack) {
-		super.setList(callBack);
-		boolean empty = adapter == null || adapter.isEmpty();
-		Log.d(TAG, "setList  adapter empty = " + empty);
-		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
-
+	public void setAdapter(A adapter) {
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
 			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
 				@Override
@@ -74,6 +68,18 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 				}
 			});
 		}
+		super.setAdapter(adapter);
+	}
+
+	/**刷新列表数据
+	 * @param callBack
+	 */
+	@Override
+	public void setList(AdapterCallBack<A> callBack) {
+		super.setList(callBack);
+		boolean empty = adapter == null || adapter.isEmpty();
+		Log.d(TAG, "setList  adapter empty = " + empty);
+		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
 	}
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -94,6 +100,13 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 		super.initData();
 
 	}
+
+
+	/**
+	 * @param page 用-page作为requestCode
+	 */
+	@Override
+	public abstract void getListAsync(int page);
 
 	/**
 	 * 将JSON串转为List（已在非UI线程中）
@@ -124,11 +137,6 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 		lvBaseList.setXListViewListener(this);
 	}
 
-	/*
-	 * @param page 用-page作为requestCode
-	 */
-	@Override
-	public abstract void getListAsync(int page);
 
 	@Override
 	public void onStopRefresh() {
@@ -152,7 +160,7 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	}
 
 	/**
-	 * @param requestCode = -page {@link #getListAsync(int)}
+	 * @param requestCode  = -page {@link #getListAsync(int)}
 	 * @param resultJson
 	 * @param e
 	 */
