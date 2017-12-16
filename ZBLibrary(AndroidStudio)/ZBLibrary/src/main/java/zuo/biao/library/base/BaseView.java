@@ -68,7 +68,7 @@ public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 	/**
 	 * @param context
 	 * @param layoutResId
-	 * @param parent TODO 如果itemView是放在RecyclerView.Adapter中，则需要传入parent来解决不能占满宽度的问题
+	 * @param parent TODO 如果itemView不能占满宽度 或 高度不对，一般是RecyclerView的问题，可通过传parent解决
 	 */
 	public BaseView(Activity context, @LayoutRes int layoutResId, ViewGroup parent) {
 		this(context, context.getLayoutInflater().inflate(layoutResId, parent, false));
