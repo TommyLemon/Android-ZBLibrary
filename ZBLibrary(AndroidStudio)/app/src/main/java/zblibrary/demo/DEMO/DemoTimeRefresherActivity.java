@@ -14,12 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.TimeRefresher;
-import zuo.biao.library.manager.TimeRefresher.OnTimeRefreshListener;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,11 +23,20 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.TimeRefresher;
+import zuo.biao.library.manager.TimeRefresher.OnTimeRefreshListener;
+import zuo.biao.library.util.StringUtil;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**时间刷新器使用activity示例
  * @author Lemon
  * @use toActivity(DemoTimeRefresherActivity.createIntent(...));
  */
-public class DemoTimeRefresherActivity extends BaseActivity 
+public class DemoTimeRefresherActivity extends BaseActivity
 implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	private static final String TAG = "DemoTimeRefresherActivity";
 
@@ -87,7 +90,7 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 	private void clear() {
 		TimeRefresher.getInstance().removeTimeRefreshListener(TAG);
 		count = 0;
-		tvDemoTimeRefresherCount.setText("0");		
+		tvDemoTimeRefresherCount.setText("0");
 	}
 
 
@@ -156,12 +159,12 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 		if (rightToLeft) {
 			clear();
 			return;
-		}	
-		
+		}
+
 		finish();
 	}
-	
-	
+
+
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

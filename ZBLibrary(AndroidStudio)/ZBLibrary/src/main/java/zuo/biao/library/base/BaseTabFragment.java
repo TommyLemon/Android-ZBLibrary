@@ -51,7 +51,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	private static final String TAG = "BaseTabFragment";
 
 
-	
+
 	/**
 	 * FragmentManager
 	 */
@@ -231,7 +231,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String topReturnButtonName;
-	
+
 	protected TopTabView topTabView;
 	private Fragment[] fragments;
 	@Override
@@ -271,9 +271,9 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 			}
 		}
 
-		topTabView = new TopTabView(context, getResources());
+		topTabView = new TopTabView(context);
 		llBaseTabTabContainer.removeAllViews();
-		llBaseTabTabContainer.addView(topTabView.createView(context.getLayoutInflater()));
+		llBaseTabTabContainer.addView(topTabView.createView());
 		topTabView.setCurrentPosition(currentPosition);
 		topTabView.bindView(getTabNames());
 

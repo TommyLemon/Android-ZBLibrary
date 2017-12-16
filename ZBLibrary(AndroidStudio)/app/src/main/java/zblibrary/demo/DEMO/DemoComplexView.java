@@ -15,55 +15,54 @@ limitations under the License.*/
 package zblibrary.demo.DEMO;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseView;
 import zuo.biao.library.model.Entry;
 import zuo.biao.library.util.StringUtil;
 
-
-/** 使用方法：复制>粘贴>改名>改代码 */
+/**使用方法：复制>粘贴>改名>改代码  */
 /**自定义View模板，当View比较庞大复杂(解耦效果明显)或使用次数>=2(方便重用)时建议使用
  * @author Lemon
  * @see DemoAdapter#createView
  * @use
- * <br> DemoView demoView = new DemoView(context, resources);
+ * <br> DemoComplexView DemoComplexView = new DemoComplexView(context, resources);
  * <br> adapter中使用:[具体参考.BaseViewAdapter(getView使用自定义View的写法)]
- * <br> convertView = demoView.createView(inflater);
- * <br> demoView.bindView(position, data);
+ * <br> convertView = DemoComplexView.createView(inflater);
+ * <br> DemoComplexView.bindView(position, data);
  * <br> 或 其它类中使用:
- * <br> containerView.addView(demoView.createView(inflater));
- * <br> demoView.bindView(data);
+ * <br> containerView.addView(DemoComplexView.createView(inflater));
+ * <br> DemoComplexView.bindView(data);
  * <br> 然后
- * <br> demoView.setOnDataChangedListener(onDataChangedListener); data = demoView.getData();//非必需
- * <br> demoView.setOnClickListener(onClickListener);//非必需
+ * <br> DemoComplexView.setOnDataChangedListener(onDataChangedListener); data = DemoComplexView.getData();//非必需
+ * <br> DemoComplexView.setOnClickListener(onClickListener);//非必需
  * <br> ...
  */
-public class DemoView extends BaseView<Entry<String, String>> implements OnClickListener {
-	private static final String TAG = "DemoView";
+public class DemoComplexView extends BaseView<Entry<String, String>> implements OnClickListener {
+	private static final String TAG = "DemoComplexView";
 
-	public DemoView(Activity context) {
-		super(context, R.layout.demo_view);  //TODO demo_view改为你所需要的layout文件
+	public DemoComplexView(Activity context) {
+		super(context, R.layout.demo_complex_view); //TODO demo_complex_view改为你所需要的layout文件
 	}
 
 
 	//示例代码<<<<<<<<<<<<<<<<
-	public ImageView ivDemoViewHead;
-	public TextView tvDemoViewName;
-	public TextView tvDemoViewNumber;
+	public ImageView ivDemoComplexViewHead;
+	public TextView tvDemoComplexViewName;
+	public TextView tvDemoComplexViewNumber;
 	//示例代码>>>>>>>>>>>>>>>>
 	@Override
 	public View createView() {
-
 		//示例代码<<<<<<<<<<<<<<<<
-		ivDemoViewHead = findView(R.id.ivDemoViewHead, this);
-		tvDemoViewName = findView(R.id.tvDemoViewName);
-		tvDemoViewNumber = findView(R.id.tvDemoViewNumber);
+		ivDemoComplexViewHead = findView(R.id.ivDemoComplexViewHead);
+		tvDemoComplexViewName = findView(R.id.tvDemoComplexViewName, this);
+		tvDemoComplexViewNumber = findView(R.id.tvDemoComplexViewNumber);
 		//示例代码>>>>>>>>>>>>>>>>
 
 		return super.createView();
@@ -71,16 +70,14 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 
 
 	@Override
-	public void bindView(Entry<String, String> data){
+	public void bindView(Entry<String, String> data_){
 		//示例代码<<<<<<<<<<<<<<<<
-		if (data == null) {
-			Log.e(TAG, "bindView data == null >> data = new Entry<>(); ");
-			data = new Entry<String, String>();
-		}
-		this.data = data;
+		super.bindView(data_ != null ? data_ : new Entry<String, String>());
 
-		tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
-		tvDemoViewNumber.setText(StringUtil.getTrimedString(data.getValue()));
+		Glide.with(context).load(data.getKey()).into(ivDemoComplexViewHead);
+
+		tvDemoComplexViewName.setText("Name " + position);
+		tvDemoComplexViewNumber.setText(StringUtil.getTrimedString(data.getValue()));
 		//示例代码>>>>>>>>>>>>>>>>
 	}
 
@@ -92,12 +89,8 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 			return;
 		}
 		switch (v.getId()) {
-		case R.id.ivDemoViewHead:
-			data.setKey("New " + data.getKey());
-			bindView(data);
-			if (onDataChangedListener != null) {
-				onDataChangedListener.onDataChanged();
-			}
+		case R.id.tvDemoComplexViewName:
+			tvDemoComplexViewName.setText("New " + StringUtil.getString(tvDemoComplexViewName));
 			break;
 		default:
 			break;

@@ -14,25 +14,27 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zuo.biao.library.base.BaseBroadcastReceiver;
-import zuo.biao.library.util.Log;
 import android.content.Context;
 import android.content.Intent;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import zuo.biao.library.base.BaseBroadcastReceiver;
+import zuo.biao.library.util.Log;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**BroadcastReceiver示例
  * @author Lemon
- * @use 
+ * @use
  * <br>  demoBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context);
  * <br>  demoBroadcastReceiver.register(onHeadsetConnectionChangedListener);
  * <br>  或
  * <br>  demoBroadcastReceiver.register();demoBroadcastReceiver.setOnReceiveListener(onReceiveListener);
- * <br>  然后在Activity或Fragment的onDestroy内 
+ * <br>  然后在Activity或Fragment的onDestroy内
  * <br>  demoBroadcastReceiver.unregister();
  * <br>  具体参考.DemoFragmentActivity(initEvent方法内)
  */
-public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver { 
-	private static final String TAG = "HeadsetConnectionBroadcastReceiver"; 
+public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver {
+	private static final String TAG = "HeadsetConnectionBroadcastReceiver";
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	/**耳机状态改变（插入、拔出）监听回调
@@ -70,19 +72,19 @@ public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver {
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	public static final String STATE = "state";
-	@Override 
-	public void onReceive(Context context, Intent intent) { 
+	@Override
+	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
 		//		if (onReceiveListener != null) {
 		//			onReceiveListener.onReceive(intent);
 		//			return;
 		//		}
-		if (intent != null && intent.hasExtra(STATE)){ 
+		if (intent != null && intent.hasExtra(STATE)){
 			Log.i(TAG, "onReceive intent.getIntExtra(STATE, 0) = " + intent.getIntExtra(STATE, 0));
 			if (onHeadsetConnectionChangedListener != null) {
 				onHeadsetConnectionChangedListener.onHeadsetConnectionChanged(intent.getIntExtra(STATE, 0) == 1);
 			}
-		} 
+		}
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>
 

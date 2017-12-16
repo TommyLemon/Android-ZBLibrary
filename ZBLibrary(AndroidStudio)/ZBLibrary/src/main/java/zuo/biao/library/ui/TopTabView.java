@@ -57,46 +57,40 @@ public class TopTabView extends BaseView<String[]> {
 		this.onTabSelectedListener = onTabSelectedListener;
 	}
 
+	private LayoutInflater inflater;
+	public TopTabView(Activity context) {
+		super(context, R.layout.top_tab_view);
+		this.inflater = context.getLayoutInflater();
+	}
 	private int minWidth;
-	public TopTabView(Activity context, Resources resources, int minWidth) {
-		this(context, resources);
+	public TopTabView(Activity context, int minWidth) {
+		this(context);
 		this.minWidth = minWidth;
 	}
-	public TopTabView(Activity context, Resources resources) {
-		super(context, resources);
-	}
+
 
 	private int currentPosition = 0;
 	public void setCurrentPosition(int currentPosition) {
 		this.currentPosition = currentPosition;
 	}
 
-	private LayoutInflater inflater;
-	
+
 	public TextView tvTopTabViewTabFirst;
 	public TextView tvTopTabViewTabLast;
 
 	public LinearLayout llTopTabViewContainer;
-	@SuppressLint("InflateParams")
 	@Override
-	public View createView(LayoutInflater inflater) {
-		this.inflater = inflater;
-		convertView = inflater.inflate(R.layout.top_tab_view, null);
-
+	public View createView() {
 		tvTopTabViewTabFirst = findView(R.id.tvTopTabViewTabFirst);
 		tvTopTabViewTabLast = findView(R.id.tvTopTabViewTabLast);
 
 		llTopTabViewContainer = findView(R.id.llTopTabViewContainer);
 
-		return convertView;
+		return super.createView();
 	}
 
 
-	private String[] names;//传进来的数据
-	@Override
-	public String[] getData() {
-		return names;
-	}
+	public String[] names;//传进来的数据
 
 	public int getCount() {
 		return names.length;
@@ -129,6 +123,7 @@ public class TopTabView extends BaseView<String[]> {
 			Log.e(TAG, "setInerView names == null || names.length < 2 >> return; ");
 			return;
 		}
+		super.bindView(names);
 		this.names = names;
 		this.lastPosition = getCount() - 1;
 
@@ -199,7 +194,7 @@ public class TopTabView extends BaseView<String[]> {
 		for (int i = 0; i < tvTabs.length; i++) {
 			tvTabs[i].setSelected(i == position);
 		}
-		
+
 		if (onTabSelectedListener != null) {
 			onTabSelectedListener.onTabSelected(tvTabs[position]
 					, position, tvTabs[position].getId());

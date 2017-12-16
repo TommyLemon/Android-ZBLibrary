@@ -65,25 +65,22 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 	}
 
 	private int contentHeight;
-	public GridPickerView(Activity context, Resources resources) {
-		super(context, resources);
+	public GridPickerView(Activity context) {
+		super(context, R.layout.grid_picker_view);
 		contentHeight = (int) getDimension(R.dimen.grid_picker_content_height);
 	}
 
 	public LinearLayout llGridPickerViewTabContainer;
 	public GridView gvGridPickerView;
 	/**获取View
-	 * @return 
+	 * @return
 	 */
-	@SuppressLint("InflateParams")
 	@Override
-	public View createView(LayoutInflater inflater) {
-		convertView = inflater.inflate(R.layout.grid_picker_view, null);
-
+	public View createView() {
 		llGridPickerViewTabContainer = findView(R.id.llGridPickerViewTabContainer);
 		gvGridPickerView = findView(R.id.gvGridPickerView);
 
-		return convertView;
+		return super.createView();
 	}
 
 
@@ -288,7 +285,7 @@ public class GridPickerView extends BaseView<List<Entry<Integer, String>>> {
 					onItemSelectedListener.onItemSelected(parent, view, position, id);
 					return;
 				}
-				doOnItemSelected(tabPosition, position, adapter.getCurrentItemName());	
+				doOnItemSelected(tabPosition, position, adapter.getCurrentItemName());
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {}

@@ -14,15 +14,17 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**fragmentActivity示例
  * @author Lemon
  * @use toActivity(DemoFragmentActivity.createIntent(...));
@@ -47,7 +49,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+
 	@Override
 	public Activity getActivity() {
 		return this;
@@ -98,7 +100,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 	public void initData() {//必须在onCreate方法内调用
 		//示例代码<<<<<<<<
 		demoFragment = DemoFragment.createInstance(getIntent().getLongExtra(INTENT_USER_ID, 0));
-		
+
 		fragmentManager
 		.beginTransaction()
 		.add(R.id.flDemoFragmentActivityContainer, demoFragment)
@@ -120,20 +122,20 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		
+
 	}
 
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			
+
 			return;
-		}	
-		
+		}
+
 		finish();
 	}
-	
+
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

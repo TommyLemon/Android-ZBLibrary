@@ -15,9 +15,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
+/**保留到17.0，请升级到17.0前替换为 ListView + SmartRefreshLayout
  * @modifier Lemon
  */
+@Deprecated
 public class XListViewFooter extends LinearLayout {
 	public final static int STATE_NORMAL = 0;
 	public final static int STATE_READY = 1;

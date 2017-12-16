@@ -14,6 +14,13 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListAdapter;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,18 +28,12 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
+import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 
 /**基础列表Activity
  * @author Lemon
@@ -49,7 +50,8 @@ import android.widget.BaseAdapter;
  * @use extends BaseListFragment 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListFragment
  * *缓存使用：在initData前调用initCache(...), 具体参考 .UserListFragment(onCreate方法内)
  */
-public abstract class BaseListFragment<T, LV extends AbsListView, BA extends BaseAdapter> extends BaseFragment {
+public abstract class BaseListFragment<T, LV extends AbsListView, BA extends ListAdapter>
+		extends BaseFragment implements OnLoadListener {
 	private static final String TAG = "BaseListFragment";
 
 	private OnStopLoadListener onStopLoadListener;
@@ -71,65 +73,35 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	}
 
 
+
+
+
 	/**
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
-	 * @return
+	 * @return view
 	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
-	 *       initView();initData();initEvent(); return view;
+	 *       2.在子类onCreateView中
+	 *       super.onCreateView(inflater, container, savedInstanceState);
+	 *
+	 *       initView();
+	 *       initData();
+	 *       initEvent();
+	 *
+	 *       return view;
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return onCreateView(inflater, container, savedInstanceState, 0);
-	}
-	/**
-	 * @param inflater
-	 * @param container
-	 * @param savedInstanceState
-	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
-	 *       initView();initData();initEvent(); return view;
-	 */
-	public final View onCreateView(LayoutInflater inflater, ViewGroup container
-			, Bundle savedInstanceState, int layoutResID) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
 		super.onCreateView(inflater, container, savedInstanceState);
-		//调用这个类的setContentView而崩溃 super.setContentView(layoutResID <= 0 ? R.layout.base_tab_activity : layoutResID);
-		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_list_fragment : layoutResID, container, false);
+		setContentView(R.layout.base_list_fragment);
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		return view;
 	}
 
 
-	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(int layoutResID) {
-		setContentView(null);
-	}
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(View view) {
-		setContentView(null, null);
-	}
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(View view, LayoutParams params) {
-		throw new UnsupportedOperationException(TAG + "不支持setContentView，传界面布局请使用onCreateView(" +
-				"LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID)等方法");
-	}
-	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -168,7 +140,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public abstract void setList(List<T> list);
 
 	/**显示列表（已在UI线程中）
-	 * @param list
+	 * @param callBack
 	 */
 	public void setList(AdapterCallBack<BA> callBack) {
 		if (adapter == null) {
@@ -212,7 +184,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int page) {
 		loadData(page, isToLoadCache);
 	}
-	
+
 	/**
 	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
 	 */

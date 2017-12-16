@@ -14,19 +14,9 @@ limitations under the License.*/
 
 package zblibrary.demo.view;
 
-import zblibrary.demo.R;
-import zblibrary.demo.model.User;
-import zuo.biao.library.base.BaseModel;
-import zuo.biao.library.base.BaseView;
-import zuo.biao.library.ui.WebViewActivity;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.Log;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -36,6 +26,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import zblibrary.demo.R;
+import zblibrary.demo.model.User;
+import zuo.biao.library.base.BaseModel;
+import zuo.biao.library.base.BaseView;
+import zuo.biao.library.ui.WebViewActivity;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.StringUtil;
+
 /**用户View
  * @author Lemon
  * @use
@@ -43,7 +41,7 @@ import com.bumptech.glide.request.transition.Transition;
  * <br> adapter中使用:[具体参考.BaseViewAdapter(getView使用自定义View的写法)]
  * <br> convertView = userView.createView(inflater);
  * <br> userView.bindView(position, data);
- * <br> 或  其它类中使用: 
+ * <br> 或  其它类中使用:
  * <br> containerView.addView(userView.createView(inflater));
  * <br> userView.bindView(data);
  * <br> 然后
@@ -53,8 +51,8 @@ import com.bumptech.glide.request.transition.Transition;
 public class UserView extends BaseView<User> implements OnClickListener {
 	private static final String TAG = "UserView";
 
-	public UserView(Activity context, Resources resources) {
-		super(context, resources);
+	public UserView(Activity context) {
+		super(context, R.layout.user_view);
 	}
 
 	public ImageView ivUserViewHead;
@@ -67,9 +65,7 @@ public class UserView extends BaseView<User> implements OnClickListener {
 	public TextView tvUserViewNumber;
 	@SuppressLint("InflateParams")
 	@Override
-	public View createView(LayoutInflater inflater) {
-		convertView = inflater.inflate(R.layout.user_view, null);
-
+	public View createView() {
 		ivUserViewHead = findView(R.id.ivUserViewHead, this);
 		ivUserViewStar = findView(R.id.ivUserViewStar, this);
 
@@ -79,16 +75,12 @@ public class UserView extends BaseView<User> implements OnClickListener {
 		tvUserViewId = findView(R.id.tvUserViewId);
 		tvUserViewNumber = findView(R.id.tvUserViewNumber);
 
-		return convertView;
+		return super.createView();
 	}
 
 	@Override
-	public void bindView(User data){
-		if (data == null) {
-			Log.e(TAG, "bindView data == null >> data = new User(); ");
-			data = new User();
-		}
-		this.data = data;
+	public void bindView(User data_){
+		super.bindView(data_ != null ? data_ : new User());
 
 		Glide.with(context).asBitmap().load(data.getHead()).into(new SimpleTarget<Bitmap>() {
 
@@ -97,7 +89,7 @@ public class UserView extends BaseView<User> implements OnClickListener {
 				ivUserViewHead.setImageBitmap(CommonUtil.toRoundCorner(bitmap, bitmap.getWidth()/2));
 			}
 		});
-		
+
 		ivUserViewStar.setImageResource(data.getStarred() ? R.drawable.star_light : R.drawable.star);
 
 		tvUserViewSex.setBackgroundResource(data.getSex() == User.SEX_FEMALE
@@ -130,6 +122,6 @@ public class UserView extends BaseView<User> implements OnClickListener {
 			}
 			bindView(data);
 			break;
-		}		
+		}
 	}
 }

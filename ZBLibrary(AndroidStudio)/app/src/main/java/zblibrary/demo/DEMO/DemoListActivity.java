@@ -14,6 +14,15 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +33,9 @@ import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.model.Entry;
 import zuo.biao.library.ui.GridAdapter;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**列表Activity示例
  * @author Lemon
  * @warn 这里列表显示组件lvBaseList是GridView，如果是lvBaseList是ListView就改成ListView
@@ -200,7 +202,7 @@ implements OnBottomDragListener {
 		if (rightToLeft) {
 
 			return;
-		}	
+		}
 
 		finish();
 	}

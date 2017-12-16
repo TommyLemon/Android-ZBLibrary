@@ -16,9 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-/**下拉刷新，上拉加载的ListView
+/**保留到17.0，请升级到17.0前替换为 ListView + SmartRefreshLayout
+ * 下拉刷新，上拉加载的ListView
  * @modifier Lemon
  */
+@Deprecated
 public class XListView extends ListView implements OnScrollListener {
 
 	private float mLastY = -1; // save event y
@@ -96,7 +98,7 @@ public class XListView extends ListView implements OnScrollListener {
 				mFooterView.hide();
 			}
 		}
-	}	
+	}
 	public void setFooterGone() {
 		mFooterView.setGone();
 	}
@@ -199,7 +201,7 @@ public class XListView extends ListView implements OnScrollListener {
 //		if (getCount() <= 0) {//解决onRefresh失败后不显示footer
 			showFooter(false);
 //		}
-		
+
 		mPullRefreshing = true;
 		smoothScrollToPosition(0);
 		mHeaderView.setVisiableHeight((int) getContext().getResources()
@@ -228,14 +230,14 @@ public class XListView extends ListView implements OnScrollListener {
 
 	/**
 	 * stop load more, reset footer view.
-	 * isHaveMore = true 
+	 * isHaveMore = true
 	 */
 	public void stopLoadMore() {
 		stopLoadMore(true);
 	}
 	/**
 	 * stop load more, reset footer view.
-	 * @param isHaveMore 
+	 * @param isHaveMore
 	 */
 	public void stopLoadMore(boolean isHaveMore) {
 		if (mPullLoading == true) {
@@ -366,7 +368,7 @@ public class XListView extends ListView implements OnScrollListener {
 //					if (getCount() <= 0) {
 						showFooter(false);
 //					}
-					
+
 					mPullRefreshing = true;
 					mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
 					if (mListViewListener != null) {

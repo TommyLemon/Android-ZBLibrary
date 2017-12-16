@@ -28,26 +28,26 @@ public class TestUtil {
 		return getUserList(0);
 	}
 	/**
-	 * @param pageNum 页码
+	 * @param page 页码
 	 * @return
 	 */
-	public static List<User> getUserList(int pageNum) {
-		return getUserList(pageNum, 10);
+	public static List<User> getUserList(int page) {
+		return getUserList(page, 10);
 	}
 	/**
-	 * @param pageNum 页码
-	 * @param maxLength 最大一页数量
+	 * @param page 页码
+	 * @param count 最大一页数量
 	 * @return
 	 */
-	public static List<User> getUserList(int pageNum, int maxLength) {
+	public static List<User> getUserList(int page, int count) {
 		List<User> list = new ArrayList<User>();
 		long userId;
 		User user;
-		int length = (maxLength <= 0 || maxLength > URLS.length ? URLS.length : maxLength);
+		int length = (count <= 0 || count > URLS.length ? URLS.length : count);
 		int index;
 		for (int i = 0; i < length ; i++) {
-			userId = i + pageNum*length + 1;
-			index = i + pageNum*length;
+			userId = i + page*length + 1;
+			index = i + page*length;
 			while (index >= URLS.length) {
 				index -= URLS.length;
 			}
@@ -60,7 +60,7 @@ public class TestUtil {
 			user.setSex(i%3);
 			user.setHead(URLS[index]);
 			user.setName("Name" + userId);
-			user.setPhone(String.valueOf(1311736568 + (i + userId)*(pageNum + userId)));
+			user.setPhone(String.valueOf(1311736568 + (i + userId)*(page + userId)));
 			user.setStarred(i%2 == 0);
 			list.add(user);
 		}

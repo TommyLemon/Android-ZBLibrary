@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 /**自定义嵌入式菜单View
  * @author Lemon
- * @use 
+ * @use
  * <br> BottomMenuView bottomMenuView = new BottomMenuView(context, resources, toBottomMenuWindowRequestCode);
  * <br> bottomMenuView.bindView(menuList);
  * <br> bottomMenuView.setOnMenuItemClickListener(onBottomMenuItemClickListener);
@@ -53,38 +53,29 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 		onBottomMenuItemClickListener = l;
 	}
 
-
+	private final LayoutInflater inflater;
 	private int toBottomMenuWindowRequestCode;
-	public BottomMenuView(Activity context, Resources resources, int toBottomMenuWindowRequestCode) {
-		super(context, resources);
+	public BottomMenuView(Activity context, int toBottomMenuWindowRequestCode) {
+		super(context, R.layout.bottom_menu_view);
+		this.inflater = context.getLayoutInflater();
 		this.toBottomMenuWindowRequestCode = toBottomMenuWindowRequestCode;
 	}
 
 
 
-	private LayoutInflater inflater;
-
 	public LinearLayout llBottomMenuViewMainItemContainer;
 	/**获取View
 	 * @return
 	 */
-	@SuppressLint("InflateParams")
 	@Override
-	public View createView(LayoutInflater inflater) {
-		this.inflater = inflater;
-		convertView = inflater.inflate(R.layout.bottom_menu_view, null);
-
+	public View createView() {
 		llBottomMenuViewMainItemContainer = findView(R.id.llBottomMenuViewMainItemContainer);
 
-		return convertView;
+		return super.createView();
 	}
 
-	@Override
-	public List<Menu> getData() {
-		return list;
-	}
 
-	private List<Menu> list;//传进来的数据
+	public List<Menu> list;//传进来的数据
 	private ArrayList<String> moreMenuNameList;
 	private ArrayList<Integer> moreMenuIntentCodeList;
 	@Override
@@ -93,6 +84,7 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 			Log.e(TAG, "bindView  menuList == null || menuList.isEmpty() >> return;");
 			return;
 		}
+		super.bindView(menuList);
 		this.list = menuList;
 
 		llBottomMenuViewMainItemContainer.removeAllViews();

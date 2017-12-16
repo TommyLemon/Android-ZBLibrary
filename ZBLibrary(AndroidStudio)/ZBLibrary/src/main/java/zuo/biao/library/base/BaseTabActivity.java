@@ -14,15 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.interfaces.ViewPresenter;
-import zuo.biao.library.ui.TopTabView;
-import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -37,6 +28,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.interfaces.ViewPresenter;
+import zuo.biao.library.ui.TopTabView;
+import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
+import zuo.biao.library.util.StringUtil;
 
 /**基础带标签的FragmentActivity
  * @author Lemon
@@ -284,9 +285,9 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 
 
 		//tab<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		topTabView = new TopTabView(context, getResources());
+		topTabView = new TopTabView(context);
 		llBaseTabTabContainer.removeAllViews();
-		llBaseTabTabContainer.addView(topTabView.createView(getLayoutInflater()));
+		llBaseTabTabContainer.addView(topTabView.createView());
 		topTabView.setCurrentPosition(currentPosition);
 		topTabView.bindView(getTabNames());
 		//tab>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

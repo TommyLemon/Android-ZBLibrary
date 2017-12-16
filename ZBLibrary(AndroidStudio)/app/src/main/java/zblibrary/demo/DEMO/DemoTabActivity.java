@@ -29,7 +29,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**带标签的Activity示例
  * @author Lemon
  * @use toActivity(DemoTabActivity.createIntent(...));
@@ -163,7 +164,7 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	public void initEvent() {//必须在onCreate方法内调用
 		super.initEvent();
 		topTabView.setOnTabSelectedListener(this);//覆盖super.initEvent();内的相同代码
-		
+
 		//示例代码:自动切换tab一个周期
 		for (int i = 0; i < getCount(); i++) {
 			new Handler().postDelayed(new Runnable() {
@@ -184,12 +185,12 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 		if (rightToLeft) {
 			toActivity(WebViewActivity.createIntent(context, "百度首页", "www.baidu.com"));
 			return;
-		}	
+		}
 
 		finish();
 		//示例代码>>>>>>>>>>>>>>>>>>
 	}
-	
+
 	@Override
 	public void onTabSelected(TextView tvTab, int position, int id) {
 		super.onTabSelected(tvTab, position, id);

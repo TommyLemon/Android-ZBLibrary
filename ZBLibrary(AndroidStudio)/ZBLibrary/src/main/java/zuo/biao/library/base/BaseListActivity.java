@@ -14,6 +14,9 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import android.widget.AbsListView;
+import android.widget.ListAdapter;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,13 +24,12 @@ import java.util.List;
 import zuo.biao.library.R;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
+import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 
 /**基础列表Activity
  * @author Lemon
@@ -42,7 +44,8 @@ import android.widget.BaseAdapter;
  * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
  * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
  */
-public abstract class BaseListActivity<T, LV extends AbsListView, BA extends BaseAdapter> extends BaseActivity {
+public abstract class BaseListActivity<T, LV extends AbsListView, BA extends ListAdapter>
+		extends BaseActivity implements OnLoadListener {
 	private static final String TAG = "BaseListActivity";
 
 	private OnStopLoadListener onStopLoadListener;
@@ -101,7 +104,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	public abstract void setList(List<T> list);
 
 	/**显示列表（已在UI线程中）
-	 * @param list
+	 * @param callBack
 	 */
 	public void setList(AdapterCallBack<BA> callBack) {
 		if (adapter == null) {
@@ -145,7 +148,7 @@ public abstract class BaseListActivity<T, LV extends AbsListView, BA extends Bas
 	public void loadData(int page) {
 		loadData(page, isToLoadCache);
 	}
-	
+
 	/**
 	 * 列表首页页码。有些服务器设置为1，即列表页码从1开始
 	 */

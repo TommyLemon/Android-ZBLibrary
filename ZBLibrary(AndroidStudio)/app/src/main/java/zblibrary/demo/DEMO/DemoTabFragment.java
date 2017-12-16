@@ -14,13 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.ArrayList;
-
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseTabFragment;
-import zuo.biao.library.ui.PlacePickerWindow;
-import zuo.biao.library.util.PlaceUtil;
-import zuo.biao.library.util.StringUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +24,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import java.util.ArrayList;
+
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseTabFragment;
+import zuo.biao.library.ui.PlacePickerWindow;
+import zuo.biao.library.util.PlaceUtil;
+import zuo.biao.library.util.StringUtil;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**带标签的Fragment示例
  * @author Lemon
  * @use new DemoTabFragment(),具体参考.DemoFragmentActivity(initData方法内)
@@ -170,7 +172,7 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
 		super.initEvent();
-		
+
 		tvDemoTabLeft.setOnClickListener(this);
 		findView(R.id.tvDemoTabRight).setOnClickListener(this);
 	}

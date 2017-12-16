@@ -14,88 +14,56 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.support.v7.widget.RecyclerView;
+
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
 import zuo.biao.library.R;
-import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnHttpResponseListener;
-import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
-import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
 
-/**基础http获取列表的Fragment
+/**基础http获取列表的Activity
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @param <BA> 管理XListView的Adapter
+ * @param <VH> ViewHolder或其子类
+ * @param <A> 管理LV的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
- * @use extends BaseHttpListFragment 并在子类onCreateView中lvBaseList.onRefresh();, 具体参考 .UserListFragment
+ * @use extends BaseHttpRecyclerActivity 并在子类onCreate中srlBaseHttpRecycler.autoRefresh();, 具体参考 .UserRecyclerFragmentt
  */
-public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
-		extends BaseListFragment<T, XListView, BA>
-		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
-	private static final String TAG = "BaseHttpListFragment";
-
-
-
-
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
-		super.onCreateView(inflater, container, savedInstanceState);
-		setContentView(R.layout.base_http_list_fragment);
-		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
-
-		return view;
-	}
-
+public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>>
+		extends BaseRecyclerActivity<T, RecyclerView, VH, A>
+		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener, OnRefreshListener, OnLoadmoreListener {
+	private static final String TAG = "BaseHttpRecyclerActivity";
 
 
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	protected SmartRefreshLayout srlBaseHttpRecycler;
+
 	@Override
 	public void initView() {
 		super.initView();
 
+		srlBaseHttpRecycler = findView(R.id.srlBaseHttpRecycler);
+
 		setList((List<T>) null);//ListView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
 	}
 
-	/**设置列表适配器
-	 * @param callBack
-	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setList(AdapterCallBack<BA> callBack) {
-		super.setList(callBack);
-		boolean empty = adapter == null || adapter.isEmpty();
-		Log.d(TAG, "setList  adapter empty = " + empty);
-		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
+	public void setList(List<T> list) {
 
-		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
-			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
-				@Override
-				public void onRefresh() {
-					lvBaseList.onRefresh();
-				}
-
-				@Override
-				public void onLoadMore() {
-					lvBaseList.onLoadMore();
-				}
-			});
-		}
 	}
+
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -142,8 +110,22 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 		super.initEvent();
 		setOnStopLoadListener(this);
 
-		lvBaseList.setXListViewListener(this);
+		srlBaseHttpRecycler.setOnRefreshListener(this);
+		srlBaseHttpRecycler.setOnLoadmoreListener(this);
 	}
+
+
+
+	@Override
+	public void onRefresh(RefreshLayout refreshlayout) {
+		onRefresh();
+	}
+
+	@Override
+	public void onLoadmore(RefreshLayout refreshlayout) {
+		onLoadMore();
+	}
+
 
 	/*
 	 * @param page 用-page作为requestCode
@@ -157,7 +139,8 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 
 			@Override
 			public void run() {
-				lvBaseList.stopRefresh();
+				srlBaseHttpRecycler.finishRefresh();
+				srlBaseHttpRecycler.setLoadmoreFinished(true);
 			}
 		});
 	}
@@ -167,7 +150,11 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 
 			@Override
 			public void run() {
-				lvBaseList.stopLoadMore(isHaveMore);
+				if (isHaveMore) {
+					srlBaseHttpRecycler.finishLoadmore();
+				} else {
+					srlBaseHttpRecycler.finishLoadmoreWithNoMoreData();
+				}
 			}
 		});
 	}
@@ -199,6 +186,7 @@ public abstract class BaseHttpListFragment<T, BA extends ListAdapter>
 			}
 		});
 	}
+
 
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

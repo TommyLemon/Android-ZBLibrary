@@ -14,10 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.UserActivity;
-import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.model.Entry;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,14 +21,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import zblibrary.demo.R;
+import zblibrary.demo.activity_fragment.UserActivity;
+import zuo.biao.library.base.BaseViewBottomWindow;
+import zuo.biao.library.model.Entry;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**底部弹出窗口界面示例
  * @author Lemon
  * <br> toActivity或startActivityForResult (DemoBottomWindow.createIntent(...), requestCode);
  * <br> 然后在onActivityResult方法内
  * <br> data.getStringExtra(DemoBottomWindow.RESULT_DATA); 可得到返回值
  */
-public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>, DemoView> implements OnClickListener {
+public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>, DemoComplexView> implements OnClickListener {
 	private static final String TAG = "DemoBottomWindow";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -88,10 +90,10 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	@Override
 	public void initData() {//必须调用
 		super.initData();
-		
+
 		data = new Entry<String, String>("Activity", TAG);
 		data.setId(1);
-		
+
 		containerView.bindView(data);
 	}
 
@@ -109,8 +111,8 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	}
 
 	@Override
-	protected DemoView createView() {
-		return new DemoView(context, getResources());
+	protected DemoComplexView createView() {
+		return new DemoComplexView(context);
 	}
 
 	@Override
@@ -135,7 +137,7 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 	public void initEvent() {//必须调用
 		super.initEvent();
 
-		containerView.setOnClickListener(this);
+		containerView.ivDemoComplexViewHead.setOnClickListener(this);
 	}
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

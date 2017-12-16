@@ -186,7 +186,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 		//			finish();
 		//			return;
 		//		}
-		//		
+		//
 
 		//		int[] minTimeDetails = TimeUtil.getTimeDetail(minTime);
 		//		int[] maxTimeDetails = TimeUtil.getTimeDetail(maxTime);
@@ -276,7 +276,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 			for (int i = 0; i < 24; i++) {
 				list.add(new Entry<Integer, String>(getItemType(
 						( isContinuous && (i >= minTimeDetails[0] && i <= maxTimeDetails[0]) )
-						|| ( isContinuous == false && (i >= minTimeDetails[0] || i <= maxTimeDetails[0]) ) 
+						|| ( isContinuous == false && (i >= minTimeDetails[0] || i <= maxTimeDetails[0]) )
 						), String.valueOf(i)));
 			}
 			break;
@@ -341,7 +341,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 	@Override
 	protected GridPickerView createView() {
-		return new GridPickerView(context, getResources());
+		return new GridPickerView(context);
 	}
 
 	@Override
@@ -350,7 +350,7 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 		List<String> list = containerView.getSelectedItemList();
 		if (list != null) {
-			ArrayList<Integer> detailList = new ArrayList<Integer>(); 
+			ArrayList<Integer> detailList = new ArrayList<Integer>();
 			for (int i = 0; i < list.size(); i++) {
 				detailList.add(0 + Integer.valueOf(StringUtil.getNumber(list.get(i))));
 			}

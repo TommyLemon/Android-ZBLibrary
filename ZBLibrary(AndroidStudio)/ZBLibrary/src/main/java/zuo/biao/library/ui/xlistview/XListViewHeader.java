@@ -17,6 +17,11 @@ import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+/**保留到17.0，请升级到17.0前替换为 ListView + SmartRefreshLayout
+ * @modifier Lemon
+ */
+@Deprecated
 public class XListViewHeader extends LinearLayout {
 	private LinearLayout mContainer;
 	private View mArrowImageView;
@@ -26,9 +31,9 @@ public class XListViewHeader extends LinearLayout {
 
 	private Animation mRotateUpAnim;
 	private Animation mRotateDownAnim;
-	
+
 	private final int ROTATE_ANIM_DURATION = 180;
-	
+
 	public final static int STATE_NORMAL = 0;
 	public final static int STATE_READY = 1;
 	public final static int STATE_REFRESHING = 2;
@@ -59,7 +64,7 @@ public class XListViewHeader extends LinearLayout {
 		mArrowImageView = findViewById(R.id.xlistview_header_arrow);
 		mHintTextView = (TextView)findViewById(R.id.xlistview_header_hint_textview);
 		mProgressBar = findViewById(R.id.xlistview_header_progressbar);
-		
+
 		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
@@ -74,7 +79,7 @@ public class XListViewHeader extends LinearLayout {
 
 	public void setState(int state) {
 		if (state == mState) return ;
-		
+
 		if (state == STATE_REFRESHING) {	// 显示进度
 			mArrowImageView.clearAnimation();
 			mArrowImageView.setVisibility(View.INVISIBLE);
@@ -83,7 +88,7 @@ public class XListViewHeader extends LinearLayout {
 			mArrowImageView.setVisibility(View.VISIBLE);
 			mProgressBar.setVisibility(View.INVISIBLE);
 		}
-		
+
 		switch(state){
 		case STATE_NORMAL:
 			if (mState == STATE_READY) {
@@ -106,10 +111,10 @@ public class XListViewHeader extends LinearLayout {
 			break;
 			default:
 		}
-		
+
 		mState = state;
 	}
-	
+
 	public void setVisiableHeight(int height) {
 		if (height < 0)
 			height = 0;

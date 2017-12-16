@@ -14,17 +14,17 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import android.widget.ListAdapter;
+
 import java.util.List;
 
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.OnHttpResponseListener;
-import zuo.biao.library.interfaces.OnReachViewBorderListener;
+import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 /**基础http获取列表的Activity
  * @author Lemon
@@ -34,7 +34,7 @@ import android.widget.BaseAdapter;
  * @see #onHttpResponse(int, String, Exception)
  * @use extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh();, 具体参考 .UserListFragment
  */
-public abstract class BaseHttpListActivity<T, BA extends BaseAdapter> extends BaseListActivity<T, XListView, BA>
+public abstract class BaseHttpListActivity<T, BA extends ListAdapter> extends BaseListActivity<T, XListView, BA>
 implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	private static final String TAG = "BaseHttpListActivity";
 
@@ -62,16 +62,17 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
 
 		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
-			((zuo.biao.library.base.BaseAdapter<T>) adapter).setOnReachViewBorderListener(
-					empty || lvBaseList.isFooterShowing() == false ? null : new OnReachViewBorderListener(){
+			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
+				@Override
+				public void onRefresh() {
+					lvBaseList.onRefresh();
+				}
 
-						@Override
-						public void onReach(int type, View v) {
-							if (type == TYPE_BOTTOM) {
-								lvBaseList.onLoadMore();
-							}
-						}
-					});
+				@Override
+				public void onLoadMore() {
+					lvBaseList.onLoadMore();
+				}
+			});
 		}
 	}
 
@@ -151,7 +152,7 @@ implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener {
 	}
 
 	/**
-	 * @param requestCode  = -page {@link #getListAsync(int)}
+	 * @param requestCode = -page {@link #getListAsync(int)}
 	 * @param resultJson
 	 * @param e
 	 */

@@ -46,7 +46,6 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	/**启动TopMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param names
 	 * @return
 	 */
@@ -56,7 +55,6 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	/**启动TopMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param nameList
 	 * @return
 	 */
@@ -66,7 +64,6 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	/**启动TopMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param names
 	 * @param intentCodes
 	 * @return
@@ -79,7 +76,6 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	/**启动TopMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param names
 	 * @param intentCodeList
 	 * @return
@@ -92,7 +88,6 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 	/**启动TopMenuWindow的Intent
 	 * @param context
-	 * @param title - 非必需
 	 * @param nameList
 	 * @param intentCodeList
 	 * @return
@@ -199,7 +194,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 			Log.e(TAG, "finish  isAlive == false >> return;");
 			return;
 		}
-		
+
 		llTopMenuWindowBg.setEnabled(false);
 
 		super.finish();

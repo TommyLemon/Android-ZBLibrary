@@ -14,16 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import zuo.biao.library.base.BaseViewBottomWindow;
-import zuo.biao.library.model.Entry;
-import zuo.biao.library.model.GridPickerConfig;
-import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
-import zuo.biao.library.util.StringUtil;
-import zuo.biao.library.util.TimeUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -34,9 +24,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import zuo.biao.library.base.BaseViewBottomWindow;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.model.GridPickerConfig;
+import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
+import zuo.biao.library.util.StringUtil;
+import zuo.biao.library.util.TimeUtil;
+
 /**日期选择窗口
  * @author Lemon
- * @use 
+ * @use
  * <br> toActivity或startActivityForResult (DatePickerWindow.createIntent(...), requestCode);
  * <br> 然后在onActivityResult方法内
  * <br> data.getLongExtra(DatePickerWindow.RESULT_TIME_IN_MILLIS); 可得到选中的日期
@@ -202,7 +203,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 		//			finish();
 		//			return;
 		//		}
-		//		
+		//
 
 		//		int[] minDateDetails = TimeUtil.getDateDetail(minDate);
 		//		int[] maxDateDetails = TimeUtil.getDateDetail(maxDate);
@@ -317,7 +318,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 	@Override
 	protected GridPickerView createView() {
-		return new GridPickerView(context, getResources());
+		return new GridPickerView(context);
 	}
 
 	@Override
@@ -326,7 +327,7 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 		List<String> list = containerView.getSelectedItemList();
 		if (list != null && list.size() >= 3) {
-			ArrayList<Integer> detailList = new ArrayList<Integer>(); 
+			ArrayList<Integer> detailList = new ArrayList<Integer>();
 			for (int i = 0; i < list.size(); i++) {
 				detailList.add(0 + Integer.valueOf(StringUtil.getNumber(list.get(i))));
 			}

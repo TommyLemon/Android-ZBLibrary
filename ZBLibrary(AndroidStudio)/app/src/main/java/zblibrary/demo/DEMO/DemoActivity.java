@@ -14,14 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.model.Entry;
-import zuo.biao.library.ui.PageScroller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +24,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import java.util.ArrayList;
+import java.util.List;
+
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.ui.PageScroller;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**activity示例
  * @author Lemon
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
@@ -102,7 +104,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	}
 
 	//示例代码<<<<<<<<
-	private DemoAdapter2 adapter;
+	private DemoAdapter adapter;
 	//示例代码>>>>>>>>
 	/** 示例方法 ：显示列表内容
 	 * @author author
@@ -110,7 +112,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	 */
 	private void setList(List<Entry<String, String>> list) {
 		if (adapter == null) {
-			adapter = new DemoAdapter2(context);
+			adapter = new DemoAdapter(context);
 			lvDemo.setAdapter(adapter);
 		}
 		adapter.refresh(list);
@@ -186,7 +188,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 		if (adapter != null) {
 			adapter.refresh(list);
 		}
-		lvDemo.smoothScrollToPosition(formerCout);		
+		lvDemo.smoothScrollToPosition(formerCout);
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -14,28 +14,30 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoRecyclerAdapter.DemoRecyclerView;
-import zblibrary.demo.util.TestUtil;
-import zuo.biao.library.base.BaseRecyclerActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.model.Entry;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-/**使用方法：复制>粘贴>改名>改代码 */
+import java.util.ArrayList;
+import java.util.List;
+
+import zblibrary.demo.R;
+import zblibrary.demo.util.TestUtil;
+import zuo.biao.library.base.BaseRecyclerActivity;
+import zuo.biao.library.interfaces.AdapterCallBack;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.model.Entry;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**RecyclerView Activity示例
  * @author Lemon
  * @use toActivity(DemoRecyclerActivity.createIntent(...));
  */
-public class DemoRecyclerActivity 
-extends BaseRecyclerActivity<Entry<String, String>, RecyclerView, DemoRecyclerView, DemoRecyclerAdapter>
+public class DemoRecyclerActivity
+extends BaseRecyclerActivity<Entry<String, String>, RecyclerView, DemoComplexView, DemoComplexAdapter>
 implements OnBottomDragListener {
 	//	private static final String TAG = "DemoRecyclerActivity";
 
@@ -92,11 +94,11 @@ implements OnBottomDragListener {
 	@Override
 	public void setList(final List<Entry<String, String>> list) {
 		//示例代码<<<<<<<<<<<<<<<
-		setList(new AdapterCallBack<DemoRecyclerView, DemoRecyclerAdapter>() {
+		setList(new AdapterCallBack<DemoComplexAdapter>() {
 
 			@Override
-			public DemoRecyclerAdapter createAdapter() {
-				return new DemoRecyclerAdapter(context);
+			public DemoComplexAdapter createAdapter() {
+				return new DemoComplexAdapter(context);
 			}
 
 			@Override
@@ -195,7 +197,7 @@ implements OnBottomDragListener {
 		if (rightToLeft) {
 
 			return;
-		}	
+		}
 
 		finish();
 	}

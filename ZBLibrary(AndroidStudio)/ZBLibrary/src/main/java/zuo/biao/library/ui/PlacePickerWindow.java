@@ -239,7 +239,7 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, 
 
 	@Override
 	protected GridPickerView createView() {
-		return new GridPickerView(context, getResources());
+		return new GridPickerView(context);
 	}
 
 	@Override

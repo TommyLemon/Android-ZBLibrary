@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import java.util.List;
@@ -29,7 +28,8 @@ import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
 import zblibrary.demo.util.TestUtil;
-import zuo.biao.library.base.BaseHttpListFragment;
+import zblibrary.demo.view.UserView;
+import zuo.biao.library.base.BaseHttpRecyclerFragment;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.util.JSON;
@@ -40,15 +40,15 @@ import zuo.biao.library.util.JSON;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> implements CacheCallBack<User> {
+public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserView, UserAdapter> implements CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String ARGUMENT_RANGE = "ARGUMENT_RANGE";
 
-	public static UserListFragment createInstance(int range) {
-		UserListFragment fragment = new UserListFragment();
+	public static UserRecyclerFragment createInstance(int range) {
+		UserRecyclerFragment fragment = new UserRecyclerFragment();
 
 		Bundle bundle = new Bundle();
 		bundle.putInt(ARGUMENT_RANGE, range);
@@ -84,7 +84,7 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		lvBaseList.onRefresh();
+		srlBaseHttpRecycler.autoRefresh();
 
 		return view;
 	}
@@ -129,10 +129,13 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	private int count = 10;
+
 	@Override
 	public void initData() {//必须调用
 		super.initData();
 
+		count = getCacheCount()/(range + 1);
 	}
 
 	@Override
@@ -144,7 +147,7 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 
 			@Override
 			public void run() {
-				onHttpResponse(-page, JSON.toJSONString(TestUtil.getUserList(page, getCacheCount())), null);
+				onHttpResponse(-page, JSON.toJSONString(TestUtil.getUserList(page, count)), null);
 			}
 		}, 1000);
 		//仅测试用>>>>>>>>>>>>
@@ -188,18 +191,15 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 	public void initEvent() {//必须调用
 		super.initEvent();
 
-		lvBaseList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (id > 0) {
-					toActivity(UserActivity.createIntent(context, id));
-				}
-			}
-		});
 	}
 
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		if (id > 0) {
+			toActivity(UserActivity.createIntent(context, id));
+		}
+	}
 
 	//系统自带监听方法 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

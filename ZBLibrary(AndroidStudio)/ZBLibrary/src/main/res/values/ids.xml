@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="lvBaseList" type="id">false</item>
     <item name="tvBaseTitle" type="id">false</item>
     <item name="pbBaseTitle" type="id">false</item>
     <item name="tvBaseTabTitle" type="id">false</item>
@@ -14,7 +13,8 @@
     <item name="llBaseViewBottomWindowContainer" type="id">false</item>
     <item name="tvBaseViewBottomWindowReturn" type="id">false</item>
     <item name="tvBaseViewBottomWindowForward" type="id">false</item>
+    <item name="lvBaseList" type="id">false</item>
     <item name="rvBaseRecycler" type="id">false</item>
-    <item name="xrvBaseHttpRecycler" type="id">false</item>
-    
+    <item name="srlBaseHttpRecycler" type="id">false</item>
+
 </resources>

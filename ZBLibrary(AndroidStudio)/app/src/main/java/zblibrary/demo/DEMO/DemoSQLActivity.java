@@ -14,13 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.List;
-
-import zblibrary.demo.R;
-import zblibrary.demo.manager.SQLHelper;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,7 +25,16 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import java.util.List;
+
+import zblibrary.demo.R;
+import zblibrary.demo.manager.SQLHelper;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.StringUtil;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**数据库SQLite示例Activity
  * @author Lemon
  * @use toActivity(DemoSQLActivity.createIntent(...));
@@ -90,7 +92,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	private EditText etDemoSQLEditValue;
 	@Override
 	public void initView() {//必须在onCreate方法内调用
-		
+
 		tvDemoSQLInfo = findView(R.id.tvDemoSQLInfo);
 
 		svDemoSQL = findView(R.id.svDemoSQL);
@@ -118,7 +120,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 			@Override
 			public void run() {
-				print("", getString(sqlHelper));						
+				print("", getString(sqlHelper));
 			}
 		});
 	}
@@ -134,7 +136,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 				dismissProgressDialog();
 				tvDemoSQLShow0.setText("" + s0);
 				tvDemoSQLShow1.setText("" + s1);
-				svDemoSQL.smoothScrollTo(0, 0);	
+				svDemoSQL.smoothScrollTo(0, 0);
 			}
 		});
 	}
@@ -157,7 +159,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 	private SQLHelper sqlHelper;
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-		
+
 		sqlHelper = new SQLHelper(context);
 
 		tvDemoSQLInfo.setText(SQLHelper.TABLE_NAME + "(" + SQLHelper.COLUMN_ID + ", " + SQLHelper.COLUMN_NAME
@@ -194,7 +196,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 					@Override
 					public void run() {
-						printAll();						
+						printAll();
 					}
 				});
 			}
@@ -255,7 +257,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 						etDemoSQLQueryValue.setText(StringUtil.getString(etDemoSQLEditValue));
 						query();
 					}
-				});			
+				});
 			}
 		});
 	}
@@ -265,7 +267,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 			@Override
 			public void run() {
-				print(getString(sqlHelper));			
+				print(getString(sqlHelper));
 			}
 		});
 	}
@@ -333,7 +335,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		
+
 		findView(R.id.btnDemoSQLInsert).setOnClickListener(this);
 		findView(R.id.btnDemoSQLDelete).setOnClickListener(this);
 		findView(R.id.btnDemoSQLUpdate).setOnClickListener(this);
@@ -345,7 +347,7 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 		if (rightToLeft) {
 			reset();
 			return;
-		}	
+		}
 
 		finish();
 	}
@@ -359,13 +361,13 @@ public class DemoSQLActivity extends BaseActivity implements OnClickListener, On
 		case R.id.btnDemoSQLInsert:
 			insert();
 			break;
-		case R.id.btnDemoSQLDelete:        
+		case R.id.btnDemoSQLDelete:
 			delete();
 			break;
-		case R.id.btnDemoSQLUpdate:   
+		case R.id.btnDemoSQLUpdate:
 			update();
 			break;
-		case R.id.btnDemoSQLQuery:  
+		case R.id.btnDemoSQLQuery:
 			query();
 			break;
 		default:

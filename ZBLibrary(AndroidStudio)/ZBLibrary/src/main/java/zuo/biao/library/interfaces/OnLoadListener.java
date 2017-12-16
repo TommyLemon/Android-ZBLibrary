@@ -14,11 +14,17 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
-/**添加回调
+/**停止加载监听回调
  * @author Lemon
- * @param <T>
+ * @use implements OnStopLoadListener
  */
-public interface OnAddListener<T> {
-	
-	void onAdd(T object);
+public interface OnLoadListener {
+	/**
+	 * 下拉刷新
+	 */
+	void onRefresh();
+	/**
+	 * 上拉加载更多
+	 */
+	void onLoadMore();
 }

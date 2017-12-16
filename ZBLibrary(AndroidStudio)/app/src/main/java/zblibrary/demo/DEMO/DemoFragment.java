@@ -14,13 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.UserActivity;
-import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.model.Entry;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +22,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+import java.util.ArrayList;
+import java.util.List;
+
+import zblibrary.demo.R;
+import zblibrary.demo.activity_fragment.UserActivity;
+import zuo.biao.library.base.BaseFragment;
+import zuo.biao.library.model.Entry;
+
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**fragment示例
  * @author Lemon
  * @use new DemoFragment(),具体参考.DemoFragmentActivity(initData方法内)
@@ -60,15 +62,15 @@ public class DemoFragment extends BaseFragment {
 		Bundle bundle = new Bundle();
 		bundle.putLong(ARGUMENT_USER_ID, userId);
 		bundle.putString(ARGUMENT_USER_NAME, userName);
-		
+
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
+
 	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
-	
+
+
 	private long userId = 0;
 	private String userName = null;
 	@Override
@@ -135,7 +137,7 @@ public class DemoFragment extends BaseFragment {
 
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	//示例代码<<<<<<<<
 	private List<Entry<String, String>> list;
 	//示例代码>>>>>>>>>
@@ -145,7 +147,7 @@ public class DemoFragment extends BaseFragment {
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		showShortToast(TAG + ": userId = " + userId + "; userName = " + userName);
-		
+
 		showProgressDialog(R.string.loading);
 
 		runThread(TAG + "initData", new Runnable() {

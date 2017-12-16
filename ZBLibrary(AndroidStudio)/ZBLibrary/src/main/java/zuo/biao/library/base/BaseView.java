@@ -14,53 +14,29 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
+import android.support.annotation.LayoutRes;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 
-/**基础自定义View
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.Log;
+
+
+/**基础自定义View，适合任何View
+ * <br /> 可以用于Adapter内的ItemView，也可以单独作为一个组件使用
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @see OnViewClickListener
+ * @see #onDataChangedListener
  * @see #onDestroy
  * @use extends BaseView<T>, 具体参考.DemoView
  */
-public abstract class BaseView<T> {
+public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 	private static final String TAG = "BaseView";
-
-	/**
-	 * 传入的Activity,可在子类直接使用
-	 */
-	public Activity context;
-	public Resources resources;
-	public BaseView(Activity context, Resources resources) {
-		this.context = context;
-		this.resources = resources;
-	}
-
-	/**点击View的事件监听回调，主要是为了activity或fragment间接通过adapter接管baseView的点击事件
-	 * @param <T>
-	 * @param <BV>
-	 * @must 子类重写setOnClickListener方法且view.setOnClickListener(listener)事件统一写在这个方法里面
-	 */
-	public interface OnViewClickListener<T, BV extends BaseView<T>> {
-		/**onClick(v)事件由这个方法接管
-		 * @param v
-		 * @param bv
-		 */
-		void onViewClick(View v, BV bv);
-	}
 
 	/**数据改变回调接口
 	 * (Object) getData() - 改变的数据
@@ -73,60 +49,42 @@ public abstract class BaseView<T> {
 	/**设置数据改变事件监听回调
 	 * @param listener
 	 */
-	public void setOnDataChangedListener(OnDataChangedListener listener) {
+	public BaseView<T> setOnDataChangedListener(OnDataChangedListener listener) {
 		onDataChangedListener = listener;
+		return this;
 	}
 
-	public OnTouchListener onTouchListener;//接触View回调监听回调的实例
-	/**设置接触View事件监听回调
-	 * @param listener
-	 */
-	public void setOnTouchListener(OnTouchListener listener) {
-		onTouchListener = listener;
-	}
 
-	public OnClickListener onClickListener;//点击View回调监听回调的实例
-	/**设置点击View事件监听回调
-	 * @param listener
-	 */
-	public void setOnClickListener(OnClickListener listener) {
-		onClickListener = listener;
-		if (onClickViewList != null) {
-			for (View v : onClickViewList) {
-				if (v != null) {
-					v.setOnClickListener(listener);
-				}
-			}
-		}
-	}
 
-	public OnLongClickListener onLongClickListener;//长按View回调监听回调的实例
-	/**设置长按View事件监听回调
-	 * @param listener
-	 */
-	public void setOnLongClickListener(OnLongClickListener listener) {
-		onLongClickListener = listener;
-	}
 
 
 	/**
-	 * 子类整个视图,可在子类直接使用
-	 * @must createView方法内对其赋值且不能为null
+	 * 传入的Activity,可在子类直接使用
 	 */
-	protected View convertView = null;
+	public final Activity context;
+	public BaseView(Activity context, @LayoutRes int layoutResId) {
+		this(context, context.getLayoutInflater().inflate(layoutResId, null));
+	}
+	public BaseView(Activity context, View itemView) {
+		super(itemView);
+		this.context = context;
+	}
 
-	protected List<View> onClickViewList;
+
+
+
+
 	/**通过id查找并获取控件，使用时不需要强转
 	 * @param id
-	 * @return 
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public <V extends View> V findView(int id) {
-		return (V) convertView.findViewById(id);
+		return (V) itemView.findViewById(id);
 	}
 	/**通过id查找并获取控件，使用时不需要强转
 	 * @param id
-	 * @return 
+	 * @return
 	 */
 	public <V extends View> V findViewById(int id) {
 		return findView(id);
@@ -139,10 +97,6 @@ public abstract class BaseView<T> {
 	public <V extends View> V findView(int id, OnClickListener listener) {
 		V v = findView(id);
 		v.setOnClickListener(listener);
-		if (onClickViewList == null) {
-			onClickViewList = new ArrayList<View>();
-		}
-		onClickViewList.add(v);
 		return v;
 	}
 	/**通过id查找并获取控件，并setOnClickListener
@@ -154,61 +108,41 @@ public abstract class BaseView<T> {
 		return findView(id, listener);
 	}
 
-	/**
-	 * 视图类型，部分情况下需要根据viewType使用不同layout，对应Adapter的itemViewType
-	 */
-	protected int viewType = 0;
+	public T data = null;
 	/**
 	 * data在列表中的位置
 	 * @must 只使用bindView(int position, T data)方法来设置position，保证position与data对应正确
 	 */
-	protected int position = 0;
-	/**获取data在列表中的位置
+	public int position = 0;
+	/**
+	 * 视图类型，部分情况下需要根据viewType使用不同layout，对应Adapter的itemViewType
 	 */
-	public int getPosition() {
-		return position;
-	}
+	public int viewType = 0;
 
 	/**创建一个新的View
-	 * @param inflater - @NonNull，布局解释器
-	 * @param viewType - 视图类型，部分情况下需要根据viewType使用不同layout
 	 * @return
 	 */
-	public View createView(LayoutInflater inflater, int position, int viewType) {
-		this.position = position;
-		this.viewType = viewType;
-		return createView(inflater);
+	public View createView() {
+		return itemView;
 	}
-	/**创建一个新的View
-	 * @param inflater - @NonNull，布局解释器
-	 * @return
-	 */
-	public abstract View createView(LayoutInflater inflater);
 
-	/**获取convertView的宽度
+	/**获取itemView的宽度
 	 * @warn 只能在createView后使用
 	 * @return
 	 */
 	public int getWidth() {
-		return convertView.getWidth();
+		return itemView.getWidth();
 	}
-	/**获取convertView的高度
+	/**获取itemView的高度
 	 * @warn 只能在createView后使用
 	 * @return
 	 */
 	public int getHeight() {
-		return convertView.getHeight();
+		return itemView.getHeight();
 	}
 
 
 
-	protected T data = null;
-	/**获取数据
-	 * @return
-	 */
-	public T getData() {
-		return data;
-	}
 
 
 	/**设置并显示内容，建议在子类bindView内this.data = data;
@@ -224,23 +158,28 @@ public abstract class BaseView<T> {
 	}
 	/**设置并显示内容，建议在子类bindView内this.data = data;
 	 * @warn 只能在createView后使用
-	 * @param data - 传入的数据
+	 * @param data_ - 传入的数据
 	 */
-	public abstract void bindView(T data);
+	public void bindView(T data_) {
+		if (data_ == null) {
+			Log.w(TAG, "bindView data_ == null");
+		}
+		this.data = data_;
+	}
 
 	/**获取可见性
 	 * @warn 只能在createView后使用
 	 * @return 可见性 (View.VISIBLE, View.GONE, View.INVISIBLE);
 	 */
 	public int getVisibility() {
-		return convertView.getVisibility();
+		return itemView.getVisibility();
 	}
 	/**设置可见性
 	 * @warn 只能在createView后使用
 	 * @param visibility - 可见性 (View.VISIBLE, View.GONE, View.INVISIBLE);
 	 */
 	public void setVisibility(int visibility) {
-		convertView.setVisibility(visibility);
+		itemView.setVisibility(visibility);
 	}
 
 
@@ -249,14 +188,7 @@ public abstract class BaseView<T> {
 	 * @param resId
 	 */
 	public void setBackground(int resId) {
-		if (resId > 0 && convertView != null) {
-			try {
-				convertView.setBackgroundResource(resId);
-			} catch (Exception e) {
-				Log.e(TAG, "setBackground   try { convertView.setBackgroundResource(resId);" +
-						" \n >> } catch (Exception e) { \n" + e.getMessage());
-			}
-		}
+		itemView.setBackgroundResource(resId);
 	}
 
 
@@ -273,10 +205,11 @@ public abstract class BaseView<T> {
 
 	//resources方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	public Resources resources;
 	public final Resources getResources() {
 		if(resources == null) {
 			resources = context.getResources();
-		} 
+		}
 		return resources;
 	}
 
@@ -347,26 +280,20 @@ public abstract class BaseView<T> {
 	 * @warn 只能在UI线程中调用
 	 */
 	public void onDestroy() {
-		if (convertView != null) {
+		if (itemView != null) {
 			try {
-				convertView.destroyDrawingCache();
+				itemView.destroyDrawingCache();
 			} catch (Exception e) {
-				Log.w(TAG, "onDestroy  try { convertView.destroyDrawingCache();" +
+				Log.w(TAG, "onDestroy  try { itemView.destroyDrawingCache();" +
 						" >> } catch (Exception e) {\n" + e.getMessage());
 			}
-			convertView = null;
 		}
 
 		onDataChangedListener = null;
-		onTouchListener = null;
-		onClickListener = null;
-		onLongClickListener = null;
-		onClickViewList = null;
 
 		data = null;
 		position = 0;
 
-		context = null;
 	}
 
 }

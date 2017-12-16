@@ -14,23 +14,30 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseAdapter;
-import zuo.biao.library.model.Entry;
-import zuo.biao.library.util.StringUtil;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.model.Entry;
+import zuo.biao.library.util.StringUtil;
+
 
 /**网格选择器adapter
  * @author Lemon
  * @use new GridPickerAdapter(...); 具体参考.DemoAdapter
  */
-public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
+public class GridPickerAdapter extends BaseAdapter {
 	//	private static final String TAG = "GridPickerAdapter";
 
 	public static final int TYPE_CONTNET_ENABLE = 0;
@@ -42,10 +49,15 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
 		this.onItemSelectedListener = onItemSelectedListener;
 	}
 
+	private final Activity context;
+	private final LayoutInflater inflater;
+	private final Resources resources;
 	private int currentPosition;//初始选中位置
 	private int height;//item高度
 	public GridPickerAdapter(Activity context, int currentPosition, int height) {
-		super(context);
+		this.context = context;
+		this.inflater = context.getLayoutInflater();
+		this.resources = context.getResources();
 		this.currentPosition = currentPosition;
 		this.height = height;
 	}
@@ -57,6 +69,31 @@ public class GridPickerAdapter extends BaseAdapter<Entry<Integer, String>> {
 	public String getCurrentItemName() {
 		return StringUtil.getTrimedString(getItem(getCurrentPosition()).getValue());
 	}
+
+
+	public List<Entry<Integer, String>> list;
+	/**刷新列表
+	 * @param list
+	 */
+	public synchronized void refresh(List<Entry<Integer, String>> list) {
+		this.list = list == null ? new ArrayList<Entry<Integer, String>>() : new ArrayList<Entry<Integer, String>>(list);
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public int getCount() {
+		return list == null ? 0 : list.size();
+	}
+
+	@Override
+	public Entry<Integer, String> getItem(int position) {
+		return list.get(position);
+	}
+	@Override
+	public long getItemId(int position) {
+		return getItem(position).getId();
+	}
+
 
 
 	//getView的常规写法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -14,23 +14,25 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.CacheCallBack;
-import zuo.biao.library.interfaces.OnStopLoadListener;
-import zuo.biao.library.manager.CacheManager;
-import zuo.biao.library.util.Log;
-import zuo.biao.library.util.StringUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.AdapterCallBack;
+import zuo.biao.library.interfaces.CacheCallBack;
+import zuo.biao.library.interfaces.OnStopLoadListener;
+import zuo.biao.library.manager.CacheManager;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.StringUtil;
 
 /**基础RecyclerView Fragment
  * @author Lemon
@@ -44,25 +46,11 @@ import android.view.ViewGroup.LayoutParams;
  * @see #getListAsync
  * @see #onRefresh
  * @use extends BaseRecyclerFragment 并在子类onCreateView中调用onRefresh(...), 具体参考.DemoListFragment
- * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
+ * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListFragment(onCreate方法内)
  */
 public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
-        , VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> extends BaseFragment {
-    private static final String TAG = "BaseRecyclerActivity";
-
-    public interface AdapterCallBack<VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> {
-        /**创建一个Adapter
-         * @return new A();
-         */
-        A createAdapter();
-
-        /**
-         * BaseAdapter#notifyDataSetChanged()有时无效，有时因列表更新不及时而崩溃，所以需要在自定义adapter内自定义一个刷新方法。
-         * 为什么不直接让自定义Adapter implement OnRefreshListener，从而直接 onRefreshListener.onRefresh(List<T> list) ？
-         * 因为这样的话会不兼容部分 Android SDK 或 第三方库的Adapter
-         */
-        void refreshAdapter();
-    }
+        , VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> extends BaseFragment implements AdapterView.OnItemClickListener {
+    private static final String TAG = "BaseRecyclerFragment";
 
 
     private OnStopLoadListener onStopLoadListener;
@@ -84,65 +72,34 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
 
 
 
-	/**
-	 * @param inflater
-	 * @param container
-	 * @param savedInstanceState
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState);
-	 *       initView();initData();initEvent(); return view;
-	 */
+
+
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     * @must 1.不要在子类重复这个类中onCreateView中的代码;
+     *       2.在子类onCreateView中
+     *       super.onCreateView(inflater, container, savedInstanceState);
+     *
+     *       initView();
+     *       initData();
+     *       initEvent();
+     *
+     *       return view;
+     */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return onCreateView(inflater, container, savedInstanceState, 0);
-	}
-	/**
-	 * @param inflater
-	 * @param container
-	 * @param savedInstanceState
-	 * @param layoutResID fragment全局视图view的布局资源id，默认值为R.layout.base_http_list_fragment
-	 * @return
-	 * @must 1.不要在子类重复这个类中onCreateView中的代码;
-	 *       2.在子类onCreateView中super.onCreateView(inflater, container, savedInstanceState, layoutResID);
-	 *       initView();initData();initEvent(); return view;
-	 */
-	public final View onCreateView(LayoutInflater inflater, ViewGroup container
-			, Bundle savedInstanceState, int layoutResID) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<<<
 		super.onCreateView(inflater, container, savedInstanceState);
-		//调用这个类的setContentView而崩溃 super.setContentView(layoutResID <= 0 ? R.layout.base_recycler_fragment : layoutResID);
-		view = inflater.inflate(layoutResID <= 0 ? R.layout.base_recycler_fragment : layoutResID, container, false);
+		setContentView(R.layout.base_recycler_fragment);
 		//类相关初始化，必须使用>>>>>>>>>>>>>>>>
 
 		return view;
 	}
 
 
-	//防止子类中setContentView <<<<<<<<<<<<<<<<<<<<<<<<
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(int layoutResID) {
-		setContentView(null);
-	}
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(View view) {
-		setContentView(null, null);
-	}
-	/**
-	 * @warn 不支持setContentView，传界面布局请使用onCreateView(Bundle savedInstanceState, int layoutResID)等方法
-	 */
-	@Override
-	public final void setContentView(View view, LayoutParams params) {
-		throw new UnsupportedOperationException(TAG + "不支持setContentView，传界面布局请使用onCreateView(" +
-				"LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layoutResID)等方法");
-	}
-	//防止子类中setContentView >>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -172,6 +129,10 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
      * @param adapter
      */
     public void setAdapter(A adapter) {
+        if (adapter != null && adapter instanceof BaseAdapter) {
+            ((BaseAdapter) adapter).setOnItemClickListener(this);
+        }
+
         this.adapter = adapter;
         rvBaseRecycler.setAdapter(adapter);
     }
@@ -184,7 +145,7 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
     /**显示列表（已在UI线程中）
      * @param callBack
      */
-    public void setList(AdapterCallBack<VH, A> callBack) {
+    public void setList(AdapterCallBack<A> callBack) {
         if (adapter == null) {
             setAdapter(callBack.createAdapter());
         }
@@ -472,6 +433,9 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
 
     /**刷新（从头加载）
      * @must 在子类onCreate中调用，建议放在最后
@@ -510,6 +474,7 @@ public abstract class BaseRecyclerFragment<T, RV extends RecyclerView
         onStopLoadListener = null;
         cacheCallBack = null;
     }
+
 
     // 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

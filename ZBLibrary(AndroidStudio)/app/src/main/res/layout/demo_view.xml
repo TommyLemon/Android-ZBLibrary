@@ -2,53 +2,28 @@
 <!-- ListView中的ItemView里不要用Button等默认hasFocus的控件，以免onItemClick事件无响应 -->
 <!-- 如果一定要用，则必须在根布局加上 android:descendantFocusability="blocksDescendants" -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ll_horizontal_match_wrap"
-    android:padding="6dp" >
+    style="@style/content_item"
+    android:background="@drawable/to_alpha" >
 
-    <RelativeLayout style="@style/match_wrap" >
+    <ImageView
+        android:id="@+id/ivDemoViewHead"
+        style="@style/content_item_lf_img"
+        android:layout_height="30dp"
+        android:background="@color/alpha_1"
+        android:layout_marginRight="6dp"
+        android:layout_width="30dp"/>
 
-        <ImageView
-            android:id="@+id/ivDemoViewHead"
-            android:layout_height="45dp"
-            android:layout_width="45dp"
-            android:scaleType="centerCrop"
-            android:background="@color/alpha_1"
-            android:src="@drawable/add" />
+    <TextView
+        android:id="@+id/tvDemoViewName"
+        style="@style/content_item_lf_tv"
+        android:layout_weight="1"
+        android:text="item" />
 
-        <TextView
-            android:id="@+id/tvDemoViewName"
-            style="@style/text_huge_black"
-            android:layout_alignTop="@+id/ivDemoViewHead"
-            android:layout_marginRight="6dp"
-            android:layout_toRightOf="@+id/ivDemoViewHead"
-            android:text="name" />
+    <TextView
+        android:id="@+id/tvDemoViewNumber"
+        style="@style/content_item_rt_tv"
+        android:text="right text" />
 
-        <TextView
-            android:id="@+id/tvDemoViewSex"
-            style="@style/text_middle_black"
-            android:layout_alignBaseline="@+id/tvDemoViewName"
-            android:layout_alignBottom="@+id/tvDemoViewName"
-            android:layout_toRightOf="@+id/tvDemoViewName"
-            android:text="sex" />
-
-        <LinearLayout
-            style="@style/ll_vertical_match_wrap"
-            android:layout_below="@+id/ivDemoViewHead"
-            android:layout_toRightOf="@+id/ivDemoViewHead"
-            android:background="@color/alpha_6"
-            android:gravity="left"
-            android:padding="30dp" >
-
-            <TextView
-                android:id="@+id/tvDemoViewAge"
-                style="@style/text_middle_white"
-                android:text="age" />
-
-            <TextView
-                android:id="@+id/tvDemoViewNumber"
-                style="@style/text_middle_white"
-                android:text="number" />
-        </LinearLayout>
-    </RelativeLayout>
+    <ImageView style="@style/content_item_rt_img" />
 
 </LinearLayout>

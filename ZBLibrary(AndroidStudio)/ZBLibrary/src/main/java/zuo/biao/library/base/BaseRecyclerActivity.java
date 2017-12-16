@@ -14,18 +14,23 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import zuo.biao.library.R;
+import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.interfaces.OnStopLoadListener;
 import zuo.biao.library.manager.CacheManager;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 
 /**基础RecyclerView Activity
  * @author Lemon
@@ -42,22 +47,8 @@ import android.support.v7.widget.RecyclerView;
  * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
  */
 public abstract class BaseRecyclerActivity<T, RV extends RecyclerView
-, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> extends BaseActivity {
+, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> extends BaseActivity implements AdapterView.OnItemClickListener {
 	private static final String TAG = "BaseRecyclerActivity";
-
-	public interface AdapterCallBack<VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>> {
-		/**创建一个Adapter
-		 * @return new A();
-		 */
-		A createAdapter();
-
-		/**
-		 * BaseAdapter#notifyDataSetChanged()有时无效，有时因列表更新不及时而崩溃，所以需要在自定义adapter内自定义一个刷新方法。
-		 * 为什么不直接让自定义Adapter implement OnRefreshListener，从而直接 onRefreshListener.onRefresh(List<T> list) ？
-		 * 因为这样的话会不兼容部分 Android SDK 或 第三方库的Adapter
-		 */
-		void refreshAdapter();
-	}
 
 
 	private OnStopLoadListener onStopLoadListener;
@@ -106,6 +97,10 @@ public abstract class BaseRecyclerActivity<T, RV extends RecyclerView
 	 * @param adapter
 	 */
 	public void setAdapter(A adapter) {
+		if (adapter != null && adapter instanceof BaseAdapter) {
+			((BaseAdapter) adapter).setOnItemClickListener(this);
+		}
+
 		this.adapter = adapter;
 		rvBaseRecycler.setAdapter(adapter);
 	}
@@ -118,7 +113,7 @@ public abstract class BaseRecyclerActivity<T, RV extends RecyclerView
 	/**显示列表（已在UI线程中）
 	 * @param callBack
 	 */
-	public void setList(AdapterCallBack<VH, A> callBack) {
+	public void setList(AdapterCallBack<A> callBack) {
 		if (adapter == null) {
 			setAdapter(callBack.createAdapter());
 		}
@@ -406,6 +401,9 @@ public abstract class BaseRecyclerActivity<T, RV extends RecyclerView
 
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	}
 
 	/**刷新（从头加载）
 	 * @must 在子类onCreate中调用，建议放在最后

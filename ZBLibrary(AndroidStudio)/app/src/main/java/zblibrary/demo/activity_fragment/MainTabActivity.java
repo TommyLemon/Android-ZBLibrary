@@ -14,17 +14,17 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoListFragment;
-import zblibrary.demo.DEMO.DemoTabFragment;
-import zuo.biao.library.base.BaseBottomTabActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
+
+import zblibrary.demo.DEMO.DemoTabFragment;
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseBottomTabActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
 
 /**应用主页
  * @author Lemon
@@ -84,7 +84,7 @@ public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDr
 	protected int[] getTabClickIds() {
 		return new int[]{R.id.llBottomTabTab0, R.id.llBottomTabTab1, R.id.llBottomTabTab2, R.id.llBottomTabTab3};
 	}
-	
+
 	@Override
 	protected int[][] getTabSelectIds() {
 		return new int[][]{
@@ -92,17 +92,17 @@ public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDr
 				new int[]{R.id.tvBottomTabTab0, R.id.tvBottomTabTab1, R.id.tvBottomTabTab2, R.id.tvBottomTabTab3}//底部文字
 		};
 	}
-	
+
 	@Override
 	public int getFragmentContainerResId() {
 		return R.id.flMainTabFragmentContainer;
 	}
-	
+
 	@Override
 	protected Fragment getFragment(int position) {
 		switch (position) {
 		case 1:
-			return DemoListFragment.createInstance();
+			return UserRecyclerFragment.createInstance(UserListFragment.RANGE_RECOMMEND);
 		case 2:
 			return demoTabFragment;
 		case 3:
@@ -119,7 +119,7 @@ public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDr
 		//		rlBottomTabTopbar.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
 
 		tvBaseTitle.setText(TAB_NAMES[position]);
-		
+
 		//点击底部tab切换顶部tab，非必要
 		if (position == 2 && position == currentPosition && demoTabFragment != null) {
 			demoTabFragment.selectNext();
@@ -188,7 +188,7 @@ public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDr
 		}
 		//将Activity的onDragBottom事件传递到Fragment，非必要>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
-	
+
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

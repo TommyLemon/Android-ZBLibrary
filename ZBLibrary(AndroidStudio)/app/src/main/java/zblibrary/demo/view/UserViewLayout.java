@@ -14,11 +14,12 @@ limitations under the License.*/
 
 package zblibrary.demo.view;
 
-import zblibrary.demo.activity_fragment.UserActivity;
-import zblibrary.demo.model.User;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+
+import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.model.User;
 
 /**UserView的布局类，可直接写在layout文件内。
  * *不如直接使用BaseViewLayout方便
@@ -42,7 +43,7 @@ public class UserViewLayout extends BaseViewLayout<User> {
 	@Override
 	protected void init(Activity context) {
 		super.init(context);
-		createView(new UserView(context, getResources()));
+		createView(new UserView(context));
 	}
 
 }

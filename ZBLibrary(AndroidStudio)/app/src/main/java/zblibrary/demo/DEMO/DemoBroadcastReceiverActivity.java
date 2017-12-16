@@ -25,7 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**使用方法：复制>粘贴>改名>改代码  */
+
+/** 使用方法：复制>粘贴>改名>改代码 */
 /**使用BroadcastReceiver的Activity示例
  * @author Lemon
  * @use toActivity(DemoBroadcastReceiverActivity.createIntent(...));
@@ -46,7 +47,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	
+
 	@Override
 	public Activity getActivity() {
 		return this;
@@ -71,7 +72,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 	@Override
 	public void initView() {//必须在onCreate方法内调用
 		autoSetTitle();
-		
+
 	}
 
 
@@ -92,7 +93,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 	@Override
 	public void initData() {//必须在onCreate方法内调用
-		
+
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -129,7 +130,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 			}
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (intent != null && intent.hasExtra(STATE)){ 
+				if (intent != null && intent.hasExtra(STATE)){
 					Log.i(TAG, "baseBroadcastReceiver.onReceive intent.getIntExtra(STATE, 0) = "
 				+ intent.getIntExtra(STATE, 0));
 					showShortToast("baseBroadcastReceiver\n" + (intent.getIntExtra(STATE, 0) == 1
@@ -172,7 +173,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 		if (rightToLeft) {
 
 			return;
-		}	
+		}
 
 		finish();
 	}
@@ -237,7 +238,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 		}
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent != null && intent.hasExtra(STATE)){ 
+			if (intent != null && intent.hasExtra(STATE)){
 				Log.i(TAG, "demoBroadcastReceiver.onReceive intent.getIntExtra(STATE, 0) = "
 			+ intent.getIntExtra(STATE, 0));
 				showShortToast("demoBroadcastReceiver\n" + (intent.getIntExtra(STATE, 0) == 1
