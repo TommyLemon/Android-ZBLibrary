@@ -40,7 +40,7 @@ import zuo.biao.library.ui.PageScroller;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoActivity.createIntent(...));
  */
-public class DemoActivity extends BaseActivity implements OnBottomDragListener {
+public class DemoActivity extends BaseActivity implements OnBottomDragListener, OnItemClickListener {
 	private static final String TAG = "DemoActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -113,6 +113,8 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	private void setList(List<Entry<String, String>> list) {
 		if (adapter == null) {
 			adapter = new DemoAdapter(context);
+			//TODO DemoAdapter继承zuo.biao.library.base.BaseAdapter,所以lvDemo.setOnItemClickListener无效
+			adapter.setOnItemClickListener(this);
 			lvDemo.setAdapter(adapter);
 		}
 		adapter.refresh(list);
@@ -177,7 +179,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	 * @author Lemon
 	 */
 	private void addList() {
-		int formerCout = adapter == null ? 0 : adapter.getCount() - 1;
+		int formerCount = adapter == null ? 0 : adapter.getCount() - 1;
 
 		if (list == null) {
 			list = new ArrayList<Entry<String, String>>();
@@ -188,7 +190,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 		if (adapter != null) {
 			adapter.refresh(list);
 		}
-		lvDemo.smoothScrollToPosition(formerCout);
+		lvDemo.smoothScrollToPosition(formerCount);
 	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -204,21 +206,11 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
-		//示例代码<<<<<<<<<<<<<<<<<<<
-
-		lvDemo.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
-				finish();
-			}
-		});
 
 		//分页滚动示例代码<<<<<<<<<<<<<<<<<<<
 		new PageScroller(lvDemo).init();
 		//分页滚动示例代码>>>>>>>>>>>>>>>>>>>
 
-		//示例代码>>>>>>>>>>>>>>>>>>>
 	}
 
 
@@ -233,6 +225,13 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 		finish();
 	}
 
+	//示例代码<<<<<<<<<<<<<<<<<<<
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
+		finish();
+	}
+	//示例代码>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
