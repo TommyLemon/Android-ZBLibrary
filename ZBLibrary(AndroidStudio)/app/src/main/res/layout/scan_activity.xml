@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/activity_page" >
-
-    <SurfaceView
-        android:id="@+id/svCameraScan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-    <!-- 必须在最底层，且不能指定宽高，否则扫描读取很难实现 -->
-
-    <com.zxing.view.ViewfinderView
-        android:id="@+id/vfvCameraScan"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+             style="@style/activity_page" >
 
     <LinearLayout
         style="@style/ll_vertical_match_match"
@@ -34,16 +21,29 @@
                 android:textColor="@color/black" />
         </RelativeLayout>
 
-        <LinearLayout
-            style="@style/ll_vertical_match_match"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1" >
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                style="@style/text_middle_white"
-                android:layout_margin="30dp"
-                android:text="将取景框对准二维码\n即可自动扫描" />
-        </LinearLayout>
+            <SurfaceView
+                android:id="@+id/svCameraScan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+
+            <LinearLayout
+                style="@style/ll_vertical_match_match"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    style="@style/text_middle_white"
+                    android:layout_margin="30dp"
+                    android:text="将取景框对准二维码\n即可自动扫描" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             style="@style/ll_horizontal_match_wrap"
@@ -115,5 +115,12 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+
+    <!-- 必须在最外层，且不能指定宽高，否则扫描解析成功率很低 -->
+    <com.zxing.view.ViewfinderView
+        android:id="@+id/vfvCameraScan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>
