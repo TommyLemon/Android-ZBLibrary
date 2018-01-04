@@ -47,7 +47,7 @@ Google开发的一个强大易用的图片加载库。
 注：okio.jar是OKHttp的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
 
 [FastJson](https://github.com/alibaba/fastjson)
-阿里巴巴对原生JSON的封装，简化了JSON的使用。ZBLibrary中的Json是对FastJson的简单封装，防止解析异常。
+阿里巴巴的JSON封装和解析库。ZBLibrary中的JSON是对FastJson的简单封装，防止解析异常。
 
 [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
 下拉刷新、上拉加载的库，兼容任意View，酷炫又好用。已在[BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java)等类内置支持。
