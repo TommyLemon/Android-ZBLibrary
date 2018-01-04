@@ -39,12 +39,8 @@ OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
 
-[Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
-非常强大的图片加载库，我在ZBLibrary中写了一个ImageLoaderUtil来简化使用它。
-UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google的Glide。
-
-[XListView-Android](https://github.com/Maxwin-z/XListView-Android)
-下拉刷新、上拉加载的ListView。我修改了部分代码使其支持打开即刷新（带动画）以及自动加载更多（无需上拉）。
+[Glid](https://github.com/bumptech/glide)
+Google开发的一个强大易用的图片加载库。
 
 [OKHttp](https://github.com/square/okhttp)
 很火很强大的Http/Https传输框架。ZBLibrary中的HttpManager对它做了封装（支持自签名Https），Demo中的HttpRequest是使用示例。
@@ -53,11 +49,11 @@ UIL唯一的缺点是不支持动态加载，需要动态加载建议用Google�
 [FastJson](https://github.com/alibaba/fastjson)
 阿里巴巴对原生JSON的封装，简化了JSON的使用。ZBLibrary中的Json是对FastJson的简单封装，防止解析异常。
 
+[SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
+下拉刷新、上拉加载的库，兼容任意View，酷炫又好用。已在[BaseHttpListActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpListActivity.java)和[BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary(AndroidStudio)/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java)等类内置支持。
+
 [ZXingLib](https://github.com/xuyisheng/ZXingLib)
 这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
-
-[PagedListView](https://github.com/TommyLemon/PagedListView)
-Scroll ListView faster, more accurate and comfortable.
 
 
 ## 初始化
