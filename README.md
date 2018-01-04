@@ -39,7 +39,7 @@ OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
 
-[Glid](https://github.com/bumptech/glide)
+[Glide](https://github.com/bumptech/glide)
 Google开发的一个强大易用的图片加载库。
 
 [OKHttp](https://github.com/square/okhttp)
