@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 这是最简布局，可以随意更改，比如添加导航栏等 -->
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- BaseListXXX的子类布局layout中，AbsListView必须有，且它的id必须按以下写法。padding会导致smoothScrollToPosition失效 -->
+<ListView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/lvBaseList"
     style="@style/lv" />

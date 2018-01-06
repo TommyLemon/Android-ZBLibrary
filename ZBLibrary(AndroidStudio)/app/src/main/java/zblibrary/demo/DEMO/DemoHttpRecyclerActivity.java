@@ -71,7 +71,7 @@ public class DemoHttpRecyclerActivity extends BaseHttpRecyclerActivity<User, Use
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 

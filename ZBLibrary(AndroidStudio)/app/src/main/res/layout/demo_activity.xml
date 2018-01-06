@@ -18,9 +18,10 @@
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lvDemo"
-        style="@style/lv"
-        android:layout_weight="1" />
+    <TextView
+        android:id="@+id/tvDemo"
+        style="@style/text_big_black"
+        android:text="Test"
+        />
 
 </LinearLayout>

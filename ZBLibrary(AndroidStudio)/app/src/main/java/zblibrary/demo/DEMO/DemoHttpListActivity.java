@@ -69,7 +69,7 @@ public class DemoHttpListActivity extends BaseHttpListActivity<User, UserAdapter
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 

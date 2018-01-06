@@ -65,7 +65,7 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	private long userId = 0;

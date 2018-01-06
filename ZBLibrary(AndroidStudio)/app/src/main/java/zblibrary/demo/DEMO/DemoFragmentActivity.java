@@ -52,7 +52,7 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	@Override

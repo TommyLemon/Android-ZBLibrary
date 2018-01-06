@@ -1,10 +1,5 @@
 package zblibrary.demo.activity_fragment;
 
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.Log;
-import zuo.biao.library.util.SettingUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.SettingUtil;
 
 /**设置界面Activity
  * @author Lemon
@@ -35,7 +36,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	@Override
@@ -57,16 +58,16 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 	private ImageView[] ivSettings;
 	@Override
 	public void initView() {//必须调用
-		
-		ivSettings = new ImageView[7];
-		ivSettings[0] = findView(R.id.ivSettingCache); 
-		ivSettings[1] = findView(R.id.ivSettingPreload); 
-		
-		ivSettings[2] = findView(R.id.ivSettingVoice); 
-		ivSettings[3] = findView(R.id.ivSettingVibrate); 
-		ivSettings[4] = findView(R.id.ivSettingNoDisturb); 
 
-		ivSettings[5] = findView(R.id.ivSettingTestMode); 
+		ivSettings = new ImageView[7];
+		ivSettings[0] = findView(R.id.ivSettingCache);
+		ivSettings[1] = findView(R.id.ivSettingPreload);
+
+		ivSettings[2] = findView(R.id.ivSettingVoice);
+		ivSettings[3] = findView(R.id.ivSettingVibrate);
+		ivSettings[4] = findView(R.id.ivSettingNoDisturb);
+
+		ivSettings[5] = findView(R.id.ivSettingTestMode);
 		ivSettings[6] = findView(R.id.ivSettingFirstStart);
 
 	}
@@ -151,7 +152,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 
 	@Override
 	public void initEvent() {//必须调用
-		
+
 		for (int i = 0; i < ivSettings.length; i++) {
 			final int which = i;
 			ivSettings[which].setOnClickListener(new OnClickListener() {
@@ -159,7 +160,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 				@Override
 				public void onClick(View v) {
 					isSettingChanged = true;
-					setSwitch(which, ! settings[which]);					
+					setSwitch(which, ! settings[which]);
 				}
 			});
 		}
@@ -171,7 +172,7 @@ public class SettingActivity extends BaseActivity implements OnBottomDragListene
 			SettingUtil.restoreDefault();
 			initData();
 			return;
-		}	
+		}
 
 		finish();
 	}

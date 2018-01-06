@@ -14,9 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity_fragment;
 
-import zblibrary.demo.R;
-import zuo.biao.library.interfaces.ActivityPresenter;
-import zuo.biao.library.util.CommonUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +24,10 @@ import android.view.View.OnClickListener;
 
 import com.zxing.activity.CaptureActivity;
 import com.zxing.view.ViewfinderView;
+
+import zblibrary.demo.R;
+import zuo.biao.library.interfaces.ActivityPresenter;
+import zuo.biao.library.util.CommonUtil;
 
 /**扫描二维码Activity
  * @author Lemon
@@ -50,7 +51,7 @@ public class ScanActivity extends CaptureActivity implements ActivityPresenter, 
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	@Override
@@ -119,12 +120,12 @@ public class ScanActivity extends CaptureActivity implements ActivityPresenter, 
 	@Override
 	public void onReturnClick(View v) {
 		finish();
-	}	
+	}
 	@Override
 	public void onForwardClick(View v) {
 		CommonUtil.toActivity(context, QRCodeActivity.createIntent(context, 1));
 	}
-	
+
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

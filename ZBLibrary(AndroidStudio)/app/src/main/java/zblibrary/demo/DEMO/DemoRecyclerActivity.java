@@ -59,7 +59,7 @@ implements OnBottomDragListener {
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	private int range = 0;

@@ -18,19 +18,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Handler;
+import android.widget.TextView;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.model.Entry;
 
 
 /** 使用方法：复制>粘贴>改名>改代码 */
@@ -39,7 +32,7 @@ import zuo.biao.library.model.Entry;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoActivity.createIntent(...));
  */
-public class DemoActivity extends BaseActivity implements OnBottomDragListener, OnItemClickListener {
+public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	private static final String TAG = "DemoActivity";
 
 
@@ -63,7 +56,7 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	private long userId = 0;
@@ -82,15 +75,13 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		Toast.makeText(context, "这是一个分页列表，中速滑动直接滚动一页。\n如果不需要则把PageScroller相关代码去掉"
-				, Toast.LENGTH_LONG).show();
 	}
 
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<
-	private ListView lvDemo;
+	private TextView tvDemo;
 	//示例代码>>>>>>>>
 	@Override
 	public void initView() {//必须在onCreate方法内调用
@@ -98,26 +89,26 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 
 		//示例代码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		lvDemo = findView(R.id.lvDemo);
+		tvDemo = findView(R.id.tvDemo);
 
 		//示例代码>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	}
 
-	//示例代码<<<<<<<<
-	private DemoAdapter adapter;
-	//示例代码>>>>>>>>
-	/** 示例方法 ：显示列表内容
-	 * @author author
-	 * @param list
+
+	/**绑定数据到UI
+	 * @param userId_
 	 */
-	private void setList(List<Entry<String, String>> list) {
-		if (adapter == null) {
-			adapter = new DemoAdapter(context);
-			//TODO DemoAdapter继承zuo.biao.library.base.BaseAdapter,所以lvDemo.setOnItemClickListener无效
-			adapter.setOnItemClickListener(this);
-			lvDemo.setAdapter(adapter);
-		}
-		adapter.refresh(list);
+	private void setContent(final long userId_) {
+		this.userId = userId_;
+
+		runUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				dismissProgressDialog();
+				tvDemo.setText("userId = " + userId);
+			}
+		});
 	}
 
 
@@ -134,9 +125,6 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	//示例代码<<<<<<<<
-	private List<Entry<String, String>> list;
-	//示例代码>>>>>>>>>
 	@Override
 	public void initData() {//必须在onCreate方法内调用
 
@@ -147,14 +135,13 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 			@Override
 			public void run() {
 
-				list = getList(userId);
-				runUiThread(new Runnable() {
+				new Handler().postDelayed(new Runnable() { //模拟延时
 					@Override
 					public void run() {
-						dismissProgressDialog();
-						setList(list);
+
+						setContent(userId);
 					}
-				});
+				}, 500);
 			}
 		});
 
@@ -162,36 +149,6 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 	}
 
 
-	/**示例方法：获取列表
-	 * @author Lemon
-	 * @param userId
-	 * @return
-	 */
-	protected List<Entry<String, String>> getList(long userId) {
-		List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
-		for (int i = 0; i < 64; i++) {
-			list.add(new Entry<String, String>("联系人" + i + userId, String.valueOf(1311736568 + i*i + userId)));
-		}
-		return list;
-	}
-
-	/**示例方法：添加列表
-	 * @author Lemon
-	 */
-	private void addList() {
-		int formerCount = adapter == null ? 0 : adapter.getCount() - 1;
-
-		if (list == null) {
-			list = new ArrayList<Entry<String, String>>();
-		}
-		userId += list.size();
-		list.addAll(getList(userId));
-
-		if (adapter != null) {
-			adapter.refresh(list);
-		}
-		lvDemo.smoothScrollToPosition(formerCount);
-	}
 
 	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -210,23 +167,18 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener, 
 	}
 
 
+	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
 		if (rightToLeft) {
-			addList();
 
+			setContent(userId + 1);
 			return;
 		}
 
 		finish();
 	}
 
-	//示例代码<<<<<<<<<<<<<<<<<<<
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		setResult(RESULT_OK, new Intent().putExtra(RESULT_CLICKED_ITEM, position));
-		finish();
-	}
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
 	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

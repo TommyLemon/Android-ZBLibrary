@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- BaseRecyclerXXX的子类布局layout中，RecyclerView必须有，且它的id必须按以下写法 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >

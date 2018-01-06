@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/activity_page" >
 
     <RelativeLayout style="@style/topbar_bg" >
@@ -12,7 +13,7 @@
             android:text="标题" />
     </RelativeLayout>
 
-    <!-- 可以改为ListView，如果改的话对应DemoListActivity内也要改；padding会导致smoothScrollToPosition失效 -->
+    <!-- BaseListXXX的子类布局layout中，AbsListView必须有，且它的id必须按以下写法。padding会导致smoothScrollToPosition失效 -->
 
     <GridView
         android:id="@id/lvBaseList"

@@ -63,7 +63,7 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 
 	@Override
 	public Activity getActivity() {
-		return this;
+		return this; //必须return this;
 	}
 
 	private int range = 0;
