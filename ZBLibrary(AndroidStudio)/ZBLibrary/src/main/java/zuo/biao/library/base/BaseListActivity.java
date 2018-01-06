@@ -34,6 +34,7 @@ import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 
+
 /**基础列表Activity
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
@@ -44,8 +45,20 @@ import zuo.biao.library.util.StringUtil;
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
- * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoListActivity(onCreate方法内)
+ * @see
+ *   <pre>
+ *       基础使用：<br />
+ *       extends BaseListActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoListActivity
+ *       <br /><br />
+ *       缓存使用：<br />
+ *       在initData前调用initCache(...), 具体参考 .UserListFragment(onCreateView方法内)
+ *       <br /><br />
+ *       列表数据加载及显示过程：<br />
+ *       1.onRefresh触发刷新 <br />
+ *       2.getListAsync异步获取列表数据 <br />
+ *       3.onLoadSucceed处理获取数据的结果 <br />
+ *       4.setList把列表数据绑定到adapter <br />
+ *   </pre>
  */
 public abstract class BaseListActivity<T, LV extends AbsListView, A extends ListAdapter>
 		extends BaseActivity implements OnItemClickListener, OnItemLongClickListener {

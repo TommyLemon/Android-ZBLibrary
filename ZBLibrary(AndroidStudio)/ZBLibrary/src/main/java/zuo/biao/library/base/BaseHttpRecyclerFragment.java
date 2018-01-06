@@ -42,7 +42,17 @@ import zuo.biao.library.util.Log;
  * @param <A> 管理LV的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
- * @use extends BaseHttpRecyclerFragment 并在子类onCreateView中srlBaseHttpRecycler.autoRefresh();, 具体参考 .UserRecyclerFragment
+ * @see
+ *   <pre>
+ *       基础使用：<br />
+ *       extends BaseHttpRecyclerFragment 并在子类onCreateView中srlBaseHttpRecycler.autoRefresh(), 具体参考.UserRecyclerFragment
+ *       <br /><br />
+ *       列表数据加载及显示过程：<br />
+ *       1.srlBaseHttpRecycler.autoRefresh触发刷新 <br />
+ *       2.getListAsync异步获取列表数据 <br />
+ *       3.onHttpResponse处理获取数据的结果 <br />
+ *       4.setList把列表数据绑定到adapter <br />
+ *   </pre>
  */
 public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>>
 		extends BaseRecyclerFragment<T, VH, A>

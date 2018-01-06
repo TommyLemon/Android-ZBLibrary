@@ -47,8 +47,20 @@ import zuo.biao.library.util.StringUtil;
  * @see #initView
  * @see #getListAsync
  * @see #onRefresh
- * @use extends BaseRecyclerActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoRecyclerActivity
- * *缓存使用：在initData前调用initCache(...), 具体参考 .DemoRecyclerActivity(onCreate方法内)
+ * @see
+ *   <pre>
+ *       基础使用：<br />
+ *       extends BaseRecyclerActivity 并在子类onCreate中调用onRefresh(...), 具体参考.DemoRecyclerActivity
+ *       <br /><br />
+ *       缓存使用：<br />
+ *       在initData前调用initCache(...), 具体参考 .UserRecyclerFragment(onCreateView方法内)
+ *       <br /><br />
+ *       列表数据加载及显示过程：<br />
+ *       1.onRefresh触发刷新 <br />
+ *       2.getListAsync异步获取列表数据 <br />
+ *       3.onLoadSucceed处理获取数据的结果 <br />
+ *       4.setList把列表数据绑定到adapter <br />
+ *   </pre>
  */
 public abstract class BaseRecyclerActivity<T, VH extends ViewHolder, A extends Adapter<VH>>
 		extends BaseActivity implements OnItemClickListener, OnItemLongClickListener {

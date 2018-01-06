@@ -27,13 +27,24 @@ import zuo.biao.library.ui.xlistview.XListView;
 import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
 
+
 /**基础http获取列表的Activity
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
  * @param <A> 管理XListView的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
- * @use extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh();, 具体参考 .UserListFragment
+ * @see
+ *   <pre>
+ *       基础使用：<br />
+ *       extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh(), 具体参考.DemoHttpListActivity
+ *       <br /><br />
+ *       列表数据加载及显示过程：<br />
+ *       1.lvBaseList.onRefresh触发刷新 <br />
+ *       2.getListAsync异步获取列表数据 <br />
+ *       3.onHttpResponse处理获取数据的结果 <br />
+ *       4.setList把列表数据绑定到adapter <br />
+ *   </pre>
  */
 public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends BaseListActivity<T, XListView, A>
 		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener
