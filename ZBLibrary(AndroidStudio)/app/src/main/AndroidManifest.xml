@@ -119,6 +119,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name="zblibrary.demo.DEMO.DemoHttpListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="zblibrary.demo.DEMO.DemoHttpRecyclerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name="zblibrary.demo.DEMO.DemoFragmentActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

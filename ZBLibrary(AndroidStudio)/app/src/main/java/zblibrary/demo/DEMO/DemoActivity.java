@@ -42,6 +42,7 @@ import zuo.biao.library.model.Entry;
 public class DemoActivity extends BaseActivity implements OnBottomDragListener, OnItemClickListener {
 	private static final String TAG = "DemoActivity";
 
+
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String INTENT_USER_ID = "INTENT_USER_ID";

@@ -14,6 +14,22 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import zblibrary.demo.R;
@@ -40,21 +56,6 @@ import zuo.biao.library.util.DataKeeper;
 import zuo.biao.library.util.SettingUtil;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 /**demo主页
  * @author Lemon
@@ -230,6 +231,8 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findView(R.id.llDemoMainDemoActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoListActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoRecyclerActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoHttpListActivity).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoHttpRecyclerActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoFragmentActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoTabActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoSQLActivity).setOnClickListener(this);
@@ -368,6 +371,12 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		case R.id.llDemoMainDemoRecyclerActivity:
 			toActivity(DemoRecyclerActivity.createIntent(context, 0));
+			break;
+		case R.id.llDemoMainDemoHttpListActivity:
+			toActivity(DemoHttpListActivity.createIntent(context, DemoHttpListActivity.RANGE_RECOMMEND));
+			break;
+		case R.id.llDemoMainDemoHttpRecyclerActivity:
+			toActivity(DemoHttpRecyclerActivity.createIntent(context, DemoHttpRecyclerActivity.RANGE_RECOMMEND));
 			break;
 		case R.id.llDemoMainDemoFragmentActivity:
 			toActivity(DemoFragmentActivity.createIntent(context, 0));
