@@ -212,7 +212,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 		});
 	}
 
-	/**
+	/**处理Http请求结果
 	 * @param requestCode  = -page {@link #getListAsync(int)}
 	 * @param resultJson
 	 * @param e
@@ -229,17 +229,24 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 				} else {
 					page = - requestCode;
 				}
-				List<T> array = parseArray(resultJson);
 
-				if ((array == null || array.isEmpty()) && e != null) {
-					onLoadFailed(page, e);
-				} else {
-					onLoadSucceed(page, array);
-				}
+				onResponse(page, parseArray(resultJson), e);
 			}
 		});
 	}
 
+	/**处理结果
+	 * @param page
+	 * @param list
+	 * @param e
+	 */
+	public void onResponse(int page, List<T> list, Exception e) {
+		if ((list == null || list.isEmpty()) && e != null) {
+			onLoadFailed(page, e);
+		} else {
+			onLoadSucceed(page, list);
+		}
+	}
 
 
 	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
