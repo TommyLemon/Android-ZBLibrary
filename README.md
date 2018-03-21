@@ -138,8 +138,8 @@ public class DemoApplication extends Application {
 ## 问题及解决方法
 [Wiki-FAQ](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95)
 
-## 使用ZBLibrary的公司
-请看链接 [使用ZBLibrary的公司](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
+## 使用ZBLibrary的项目
+请看链接 [使用ZBLibrary的项目](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
 
 ## 关于作者
 TommyLemon：[https://github.com/TommyLemon](https://github.com/TommyLemon) <br >
