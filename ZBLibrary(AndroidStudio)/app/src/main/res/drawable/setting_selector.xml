@@ -4,5 +4,6 @@
     <item android:drawable="@drawable/setting" android:state_selected="true"></item>
     <item android:drawable="@drawable/setting" android:state_pressed="true"></item>
     <item android:drawable="@drawable/setting_light"></item>
+    <!-- 默认状态只能放最下方，否则其它状态会无效！ -->
 
 </selector>
