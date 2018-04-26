@@ -33,6 +33,11 @@ import zuo.biao.library.util.SettingUtil;
 public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerView.Adapter<BV>
         implements ListAdapter, AdapterViewPresenter<BV> {
 
+    private BaseView.OnViewClickListener onViewClickListener;
+    public BaseAdapter<T, BV> setOnViewClickListener(BaseView.OnViewClickListener onViewClickListener) {
+        this.onViewClickListener = onViewClickListener;
+        return this;
+    }
 
     private AdapterView.OnItemClickListener onItemClickListener;
     public BaseAdapter<T, BV> setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
@@ -126,6 +131,7 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
     public BV onCreateViewHolder(final ViewGroup parent, int viewType) {
         final BV bv = createView(viewType, parent);
         bv.createView();
+        bv.setOnViewClickListener(onViewClickListener);
         bv.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

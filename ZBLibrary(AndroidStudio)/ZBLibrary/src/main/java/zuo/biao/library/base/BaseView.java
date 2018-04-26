@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +40,16 @@ import zuo.biao.library.util.Log;
 public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 	private static final String TAG = "BaseView";
 
+	/**点击事件
+	 */
+	public interface OnViewClickListener {
+		/**
+		 * @param bv
+		 * @param v
+		 */
+		void onViewClick(@NonNull BaseView bv, @NonNull View v); //BaseView<T>泛型太麻烦，不利于多层View传递
+	}
+
 	/**数据改变回调接口
 	 * (Object) getData() - 改变的数据
 	 */
@@ -46,6 +57,18 @@ public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 		void onDataChanged();
 	}
 
+	/**
+	 * 需要在BaseView子类手动回调 onViewClickListener.onViewClick(...)
+	 */
+	public OnViewClickListener onViewClickListener;//数据改变回调监听回调的实例
+	public BaseView<T> setOnViewClickListener(OnViewClickListener onViewClickListener) {
+		this.onViewClickListener = onViewClickListener;
+		return this;
+	}
+
+	/**
+	 * 需要在BaseView子类手动回调 onViewClickListener.onDataChanged()
+	 */
 	public OnDataChangedListener onDataChangedListener;//数据改变回调监听回调的实例
 	/**设置数据改变事件监听回调
 	 * @param listener
