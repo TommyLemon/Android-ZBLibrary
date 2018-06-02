@@ -26,7 +26,7 @@ OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自
 
 ![](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/AllPages.jpg?raw=true)
 
-[以下Gif图看起来比较卡，在手机上App运行很流畅] 
+[以下Gif图看起来比较卡，实际在手机上App运行很流畅]
 
 ZBLibraryDemoApp<br />
 
