@@ -18,7 +18,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.activity.UserActivity;
 import zblibrary.demo.model.User;
 
 /**UserView的布局类，可直接写在layout文件内。

@@ -20,7 +20,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.activity.UserActivity;
 import zuo.biao.library.base.BaseView;
 
 /**BaseView布局类，可直接写在layout文件内

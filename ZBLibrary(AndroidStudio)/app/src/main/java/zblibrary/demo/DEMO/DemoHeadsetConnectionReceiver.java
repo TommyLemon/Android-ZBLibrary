@@ -25,7 +25,7 @@ import zuo.biao.library.util.Log;
 /**BroadcastReceiver示例
  * @author Lemon
  * @use
- * <br>  demoBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context);
+ * <br>  demoBroadcastReceiver = new DemoHeadsetConnectionReceiver(context);
  * <br>  demoBroadcastReceiver.register(onHeadsetConnectionChangedListener);
  * <br>  或
  * <br>  demoBroadcastReceiver.register();demoBroadcastReceiver.setOnReceiveListener(onReceiveListener);
@@ -33,8 +33,8 @@ import zuo.biao.library.util.Log;
  * <br>  demoBroadcastReceiver.unregister();
  * <br>  具体参考.DemoFragmentActivity(initEvent方法内)
  */
-public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver {
-	private static final String TAG = "HeadsetConnectionBroadcastReceiver";
+public class DemoHeadsetConnectionReceiver extends BaseBroadcastReceiver {
+	private static final String TAG = "DemoHeadsetConnectionReceiver";
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	/**耳机状态改变（插入、拔出）监听回调
@@ -45,13 +45,13 @@ public class HeadsetConnectionBroadcastReceiver extends BaseBroadcastReceiver {
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
 
-	public HeadsetConnectionBroadcastReceiver(Context context) {
+	public DemoHeadsetConnectionReceiver(Context context) {
 		super(context);
 	}
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	private OnHeadsetConnectionChangedListener onHeadsetConnectionChangedListener;
-	public HeadsetConnectionBroadcastReceiver register(OnHeadsetConnectionChangedListener listener) {
+	public DemoHeadsetConnectionReceiver register(OnHeadsetConnectionChangedListener listener) {
 		this.onHeadsetConnectionChangedListener = listener;
 		register();
 		return this;

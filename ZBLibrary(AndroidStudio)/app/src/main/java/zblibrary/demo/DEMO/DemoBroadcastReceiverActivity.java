@@ -15,7 +15,7 @@ limitations under the License.*/
 package zblibrary.demo.DEMO;
 
 import zblibrary.demo.R;
-import zblibrary.demo.DEMO.HeadsetConnectionBroadcastReceiver.OnHeadsetConnectionChangedListener;
+import zblibrary.demo.DEMO.DemoHeadsetConnectionReceiver.OnHeadsetConnectionChangedListener;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.base.BaseBroadcastReceiver;
 import zuo.biao.library.interfaces.OnBottomDragListener;
@@ -112,7 +112,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 	private BaseBroadcastReceiver baseBroadcastReceiver;//BaseBroadcastReceiver直接使用示例
 	private DemoBroadcastReceiver demoBroadcastReceiver;//内部类BaseBroadcastReceiver子类使用示例
-	private HeadsetConnectionBroadcastReceiver headsetConnectionBroadcastReceiver;//外部类BaseBroadcastReceiver子类使用示例
+	private DemoHeadsetConnectionReceiver demoHeadsetConnectionReceiver;//外部类BaseBroadcastReceiver子类使用示例
 	//示例代码>>>>>>>>>>>>>>>>>>>
 	@Override
 	public void initEvent() {//必须在onCreate方法内调用
@@ -150,14 +150,14 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 
 		//外部类BaseBroadcastReceiver子类使用示例 <<<<<<<<<<<<<<
-		headsetConnectionBroadcastReceiver = new HeadsetConnectionBroadcastReceiver(context)
+		demoHeadsetConnectionReceiver = new DemoHeadsetConnectionReceiver(context)
 		.register(new OnHeadsetConnectionChangedListener() {
 
 			@Override
 			public void onHeadsetConnectionChanged(boolean isConnected) {
-				Log.i(TAG, "headsetConnectionBroadcastReceiver.onHeadsetConnectionChanged" +
+				Log.i(TAG, "demoHeadsetConnectionReceiver.onHeadsetConnectionChanged" +
 						" isConnected = " + isConnected);
-				showShortToast("headsetConnectionBroadcastReceiver\n"
+				showShortToast("demoHeadsetConnectionReceiver\n"
 						+ (isConnected ? "已插入耳机" : "请插入耳机"));
 			}
 		});
@@ -198,7 +198,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 		//内部类BaseBroadcastReceiver子类使用示例 >>>>>>>>>>>>>>
 
 		//外部类BaseBroadcastReceiver子类使用示例 <<<<<<<<<<<<<<
-		headsetConnectionBroadcastReceiver.unregister();
+		demoHeadsetConnectionReceiver.unregister();
 		//外部类BaseBroadcastReceiver子类使用示例 >>>>>>>>>>>>>>
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>

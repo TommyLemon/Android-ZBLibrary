@@ -65,7 +65,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="zblibrary.demo.activity_fragment.SplashActivity"
+            android:name="zblibrary.demo.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme"
             android:screenOrientation="portrait" >
@@ -76,27 +76,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="zblibrary.demo.activity_fragment.AboutActivity"
+            android:name="zblibrary.demo.activity.AboutActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="zblibrary.demo.activity_fragment.MainTabActivity"
+            android:name="zblibrary.demo.activity.MainTabActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="zblibrary.demo.activity_fragment.SettingActivity"
+            android:name="zblibrary.demo.activity.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="zblibrary.demo.activity_fragment.UserActivity"
+            android:name="zblibrary.demo.activity.UserActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="zblibrary.demo.activity_fragment.ScanActivity"
+            android:name="zblibrary.demo.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="zblibrary.demo.activity_fragment.QRCodeActivity"
+            android:name="zblibrary.demo.activity.QRCodeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
 

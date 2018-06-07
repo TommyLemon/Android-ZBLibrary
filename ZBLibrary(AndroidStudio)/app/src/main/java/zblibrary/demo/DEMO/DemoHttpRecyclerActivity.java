@@ -25,7 +25,7 @@ import android.widget.AdapterView;
 import java.util.List;
 
 import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.activity.UserActivity;
 import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;

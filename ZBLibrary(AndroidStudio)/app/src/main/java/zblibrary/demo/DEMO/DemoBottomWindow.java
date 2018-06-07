@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.activity.UserActivity;
 import zuo.biao.library.base.BaseViewBottomWindow;
 import zuo.biao.library.model.Entry;
 

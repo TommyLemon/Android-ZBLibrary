@@ -12,18 +12,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.activity_fragment;
+package zblibrary.demo.fragment;
 
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseFragment;
-import zuo.biao.library.ui.AlertDialog;
-import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import zblibrary.demo.R;
+import zblibrary.demo.activity.AboutActivity;
+import zblibrary.demo.activity.SettingActivity;
+import zuo.biao.library.base.BaseFragment;
+import zuo.biao.library.ui.AlertDialog;
+import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 
 /**设置fragment
  * @author Lemon
@@ -40,11 +43,11 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 	public static SettingFragment createInstance() {
 		return new SettingFragment();
 	}
-	
-	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
-	
-	
-	
+
+	//与Activity通信>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		//类相关初始化，必须使用<<<<<<<<<<<<<<<<
@@ -93,7 +96,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 
 	}
 
-	
+
 	private void logout() {
 		context.finish();
 	}
@@ -114,7 +117,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 	public void initEvent() {//必须调用
 
 		ivSettingHead.setOnClickListener(this);
-		
+
 		findView(R.id.llSettingSetting).setOnClickListener(this);
 		findView(R.id.llSettingAbout).setOnClickListener(this);
 		findView(R.id.llSettingLogout).setOnClickListener(this);
@@ -128,7 +131,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener, On
 		if (! isPositive) {
 			return;
 		}
-		
+
 		switch (requestCode) {
 		case 0:
 			logout();

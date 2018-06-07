@@ -1,4 +1,4 @@
-package zblibrary.demo.activity_fragment;
+package zblibrary.demo.activity;
 
 import android.app.Activity;
 import android.content.Context;

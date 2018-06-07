@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.activity_fragment;
+package zblibrary.demo.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,12 +24,12 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import zblibrary.demo.activity.UserActivity;
 import zblibrary.demo.adapter.UserAdapter;
 import zblibrary.demo.model.User;
 import zblibrary.demo.util.HttpRequest;
 import zblibrary.demo.util.TestUtil;
-import zblibrary.demo.view.UserView;
-import zuo.biao.library.base.BaseHttpRecyclerFragment;
+import zuo.biao.library.base.BaseHttpListFragment;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.interfaces.CacheCallBack;
 import zuo.biao.library.util.JSON;
@@ -40,15 +40,15 @@ import zuo.biao.library.util.JSON;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserView, UserAdapter> implements CacheCallBack<User> {
+public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> implements CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String ARGUMENT_RANGE = "ARGUMENT_RANGE";
 
-	public static UserRecyclerFragment createInstance(int range) {
-		UserRecyclerFragment fragment = new UserRecyclerFragment();
+	public static UserListFragment createInstance(int range) {
+		UserListFragment fragment = new UserListFragment();
 
 		Bundle bundle = new Bundle();
 		bundle.putInt(ARGUMENT_RANGE, range);
@@ -84,7 +84,7 @@ public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserVie
 		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		srlBaseHttpRecycler.autoRefresh();
+		lvBaseList.onRefresh();
 
 		return view;
 	}
@@ -190,7 +190,6 @@ public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserVie
 		super.initEvent();
 
 	}
-
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

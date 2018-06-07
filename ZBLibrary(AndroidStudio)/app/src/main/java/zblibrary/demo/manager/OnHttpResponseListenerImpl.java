@@ -16,7 +16,7 @@ package zblibrary.demo.manager;
 
 import org.json.JSONObject;
 
-import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.activity.UserActivity;
 import zblibrary.demo.interfaces.OnHttpResponseListener;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
@@ -44,7 +44,7 @@ public class OnHttpResponseListenerImpl implements OnHttpResponseListener
 	}
 
 
-	
+
 	/**zuo.biao.library.manager.HttpManager.OnHttpResponseListener的回调方法，这里转用listener处理
 	 */
 	@Override
@@ -65,10 +65,10 @@ public class OnHttpResponseListenerImpl implements OnHttpResponseListener
 			exception = e1;
 		}
 		Log.i(TAG, "onHttpResponse  resultCode = " + resultCode + "; resultData = " + resultData);
-		
+
 		if (listener == null) {
 			listener = this;
-		}		
+		}
 		if ((e == null && exception == null) || resultCode > 0 || StringUtil.isNotEmpty(resultData, true)) {
 			listener.onHttpSuccess(requestCode, resultCode, resultData);
 		} else {

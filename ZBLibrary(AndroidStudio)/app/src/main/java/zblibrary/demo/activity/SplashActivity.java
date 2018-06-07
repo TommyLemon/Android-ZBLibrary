@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.activity_fragment;
+package zblibrary.demo.activity;
 
 import zblibrary.demo.R;
 import android.app.Activity;
@@ -38,7 +38,7 @@ public class SplashActivity extends Activity {
 			}
 		}, 500);
 	}
-	
+
 	@Override
 	public void finish() {
 		super.finish();

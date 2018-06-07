@@ -33,7 +33,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.ScanActivity;
+import zblibrary.demo.activity.ScanActivity;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 import zuo.biao.library.ui.AlertDialog;

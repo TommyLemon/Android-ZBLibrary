@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package zblibrary.demo.activity_fragment;
+package zblibrary.demo.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +23,9 @@ import android.view.KeyEvent;
 
 import zblibrary.demo.DEMO.DemoTabFragment;
 import zblibrary.demo.R;
+import zblibrary.demo.fragment.SettingFragment;
+import zblibrary.demo.fragment.UserListFragment;
+import zblibrary.demo.fragment.UserRecyclerFragment;
 import zuo.biao.library.base.BaseBottomTabActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 

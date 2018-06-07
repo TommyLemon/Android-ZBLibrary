@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zblibrary.demo.R;
-import zblibrary.demo.activity_fragment.UserActivity;
+import zblibrary.demo.activity.UserActivity;
 import zuo.biao.library.base.BaseListFragment;
 import zuo.biao.library.interfaces.AdapterCallBack;
 import zuo.biao.library.model.Entry;
