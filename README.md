@@ -46,7 +46,7 @@ APIJSONApp<br />
 系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
 
 [Glide](https://github.com/bumptech/glide)
-Google开发的一个强大易用的图片加载库。
+Google推荐的一个强大易用的图片加载库。
 
 [OKHttp](https://github.com/square/okhttp)
 很火很强大的Http/Https传输框架。ZBLibrary中的HttpManager对它做了封装（支持自签名Https），Demo中的HttpRequest是使用示例。
