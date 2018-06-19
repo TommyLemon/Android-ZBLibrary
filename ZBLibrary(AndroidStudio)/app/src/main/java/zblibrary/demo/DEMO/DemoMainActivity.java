@@ -36,6 +36,7 @@ import zblibrary.demo.R;
 import zblibrary.demo.activity.ScanActivity;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.SystemBarTintManager;
 import zuo.biao.library.ui.AlertDialog;
 import zuo.biao.library.ui.AlertDialog.OnDialogButtonClickListener;
 import zuo.biao.library.ui.BottomMenuWindow;
@@ -117,6 +118,23 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		tvDemoMainHeadName = findView(R.id.tvDemoMainHeadName, this);
 
 		svDemoMain = findView(R.id.svDemoMain);
+	}
+
+	/**设置沉浸状态栏和导航栏颜色
+	 * @param position
+	 */
+	private void setTintColor(int position) {
+		if (position < 0) {
+			position = 0;
+		} else if (position >= TOPBAR_COLOR_RESIDS.length) {
+			position = TOPBAR_COLOR_RESIDS.length - 1;
+		}
+
+		rlDemoMainTopbar.setBackgroundResource(TOPBAR_COLOR_RESIDS[position]);
+
+		SystemBarTintManager tintManager = new SystemBarTintManager(this);
+		tintManager.setStatusBarTintEnabled(true);
+		tintManager.setStatusBarTintResource(TOPBAR_COLOR_RESIDS[position]);//状态背景色，可传drawable资源
 	}
 
 	/**显示列表选择弹窗
@@ -270,15 +288,13 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		}
 		switch (requestCode) {
 		case DIALOG_SET_TOPBAR:
-			if (position >= TOPBAR_COLOR_RESIDS.length) {
-				position = TOPBAR_COLOR_RESIDS.length - 1;
-			}
-			rlDemoMainTopbar.setBackgroundResource(TOPBAR_COLOR_RESIDS[position]);
+			setTintColor(position);
 			break;
 		default:
 			break;
 		}
 	}
+
 
 	@Override
 	public void onDragBottom(boolean rightToLeft) {
@@ -499,9 +515,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		case REQUEST_TO_BOTTOM_MENU:
 			if (data != null) {
-				int selectedPosition = data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1);
-				if (selectedPosition >= 0 && selectedPosition < TOPBAR_COLOR_RESIDS.length) {
-					rlDemoMainTopbar.setBackgroundResource(TOPBAR_COLOR_RESIDS[selectedPosition]);
+				int position = data.getIntExtra(BottomMenuWindow.RESULT_ITEM_ID, -1);
+				if (position >= 0) {
+					setTintColor(position);
 				}
 			}
 			break;
