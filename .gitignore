@@ -1,10 +1,3 @@
-ZBLibrary(ADT)/QRCodeLibrary/bin
-ZBLibrary(ADT)/QRCodeLibrary/gen
-ZBLibrary(ADT)/ZBLibrary/bin
-ZBLibrary(ADT)/ZBLibrary/gen
-ZBLibrary(ADT)/ZBLibraryDemoApp/bin
-ZBLibrary(ADT)/ZBLibraryDemoApp/gen
-ZBLibrary(AndroidStudio)/.idea
-ZBLibrary(AndroidStudio)/app/build
-ZBLibrary(AndroidStudio)/ZBLibrary/build
-ZBLibrary(ADT)/recyclerview/bin
+app/build
+ZBLibrary/build
+QRCodeLibrary/build

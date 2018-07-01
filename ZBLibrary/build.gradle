@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.1'
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    useLibrary 'org.apache.http.legacy'
+    productFlavors {
+    }
+}
+
+dependencies { //TODO 如果这些依赖和你项目中的依赖有冲突，则需要统一版本号，或者删除重复的依赖
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile files('libs/fastjson-1.2.24.jar')
+    compile files('libs/okhttp-2.1.0.jar')
+    compile files('libs/okio-1.0.0.jar')
+    compile files('libs/glide-full-4.1.1.jar')
+    compile files('libs/universal-image-loader-1.9.4.jar') //TODO 只为兼容老用户的项目，建议删除这行，对应的jar包和ImageLoaderUtil.java
+
+    compile 'com.android.support:appcompat-v7:25.0.1'//版本随意（必须）
+    compile 'com.android.support:design:25.3.1'//版本随意（非必须，引用可以解决无法预览问题）
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-4'
+
+}

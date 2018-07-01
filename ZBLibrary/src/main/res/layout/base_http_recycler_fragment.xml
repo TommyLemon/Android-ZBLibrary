@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- BaseHttpRecyclerXXX的子类布局layout中，SmartRefreshLayout和RecyclerView必须有，且它们的id必须按以下写法 -->
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_match"
+    android:id="@id/srlBaseHttpRecycler"
+    app:srlEnableLoadmore="true"
+    app:srlEnablePreviewInEditMode="true"
+    >
+
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+        style="@style/match_wrap"
+       />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/rvBaseRecycler"
+        style="@style/lv_no_divider"
+        />
+
+    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+        style="@style/match_wrap"
+        />
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

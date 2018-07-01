@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/ZBLibrary/unspecified/jars/libs/okio-1.0.0.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="88aacd10b4fb1c72827570e084f1e1402b2e83fe">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/okio-1.0.0_a8465e059c4e464898841cac9eb681466293d84c.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/ZBLibrary/unspecified/jars/libs/universal-image-loader-1.9.4.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="7ee33eb799792bcbf47ceef6a870301990aca8b7">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.4_cd529496b0022cc8d814db136c78a1e1ea226d92.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/ZBLibrary/unspecified/jars/libs/glide-full-4.1.1.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="68ea39222366131a2bf4b60f9f2169009e28a491">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/glide-full-4.1.1_150f92df5e5296661d2bc578a00f0e64ef8d443e.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/ZBLibrary/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="d2208a82f741c520f0874d9e93bf55cef30b6333">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/Android-ZBLibrary-ZBLibrary-unspecified_234879b32af5bc54cec3ae346a3853d592c18841.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/QRCodeLibrary/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="b72a405aa1147b3f105cf5ed7b37e6a4b3703cff">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/Android-ZBLibrary-QRCodeLibrary-unspecified_8929396dcebefcfdf095d27a9cc912cd12e48991.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/ZBLibrary/unspecified/jars/libs/okhttp-2.1.0.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="1f64458872659b6b4d2d7b7559645409e3b57efa">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/okhttp-2.1.0_0aa5f027d33f5ed8ce1e593b95b04a4b356c26f3.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/QRCodeLibrary/unspecified/jars/libs/zxing.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="1d6518cb9044f79a0be75f3475520ea9e58172a6">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/zxing_a4bedf342cfa8629cf9ccb9c684c9f6c79ec1180.jar" />
+    </item>
+    <item
+        jar="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/exploded-aar/Android-ZBLibrary/ZBLibrary/unspecified/jars/libs/fastjson-1.2.24.jar"
+        jumboMode="false"
+        revision="25.0.1"
+        sha1="7dbb2eb795b5820787ee0f75361dcdd4eba67efb">
+        <dex dex="/Users/Tommy/Documents/Android-ZBLibrary/app/build/intermediates/pre-dexed/debug/fastjson-1.2.24_84cf4e966ba312cddf9d441592cbf6852f6e5a3a.jar" />
+    </item>
+
+</items>

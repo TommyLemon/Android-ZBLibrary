@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llDemoBroadcastReceiver"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <ImageButton style="@style/topbar_return_img" />
+
+        <TextView
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="使用广播" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/text_micro_black"
+        android:layout_width="match_parent"
+        android:text="插拔耳机，测试 3 种不同广播使用方式" />
+
+</LinearLayout>

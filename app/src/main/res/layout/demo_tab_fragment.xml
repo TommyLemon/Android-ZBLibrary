@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <TextView
+            android:id="@+id/tvDemoTabLeft"
+            style="@style/topbar_left_btn"
+            android:drawableRight="@drawable/down2_small"
+            android:maxWidth="120dp"
+            android:text="杭州" />
+
+        <LinearLayout
+            android:id="@id/llBaseTabTabContainer"
+            style="@style/ll_vertical_wrap_match"
+            android:layout_centerHorizontal="true"
+            android:gravity="center" >
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDemoTabRight"
+            style="@style/topbar_right_btn"
+            android:text="筛选" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@id/flBaseTabFragmentContainer"
+        style="@style/match_match"
+        android:background="@color/activity_bg" >
+    </FrameLayout>
+
+</LinearLayout>

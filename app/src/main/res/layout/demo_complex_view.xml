@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ListView中的ItemView里不要用Button等默认hasFocus的控件，以免onItemClick事件无响应 -->
+<!-- 如果一定要用，则必须在根布局加上 android:descendantFocusability="blocksDescendants" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ll_horizontal_match_wrap"
+    android:padding="6dp" >
+
+    <RelativeLayout style="@style/match_wrap" >
+
+        <ImageView
+            android:id="@+id/ivDemoComplexViewHead"
+            android:layout_height="45dp"
+            android:layout_width="45dp"
+            android:scaleType="centerCrop"
+            android:background="@color/alpha_1"
+            android:src="@drawable/add" />
+
+        <TextView
+            android:id="@+id/tvDemoComplexViewName"
+            style="@style/text_huge_black"
+            android:layout_alignTop="@+id/ivDemoComplexViewHead"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/ivDemoComplexViewHead"
+            android:text="name" />
+
+        <TextView
+            android:id="@+id/tvDemoComplexViewSex"
+            style="@style/text_middle_black"
+            android:layout_alignBaseline="@+id/tvDemoComplexViewName"
+            android:layout_alignBottom="@+id/tvDemoComplexViewName"
+            android:layout_toRightOf="@+id/tvDemoComplexViewName"
+            android:text="sex" />
+
+        <LinearLayout
+            style="@style/ll_vertical_match_wrap"
+            android:layout_below="@+id/ivDemoComplexViewHead"
+            android:layout_toRightOf="@+id/ivDemoComplexViewHead"
+            android:background="@color/alpha_6"
+            android:gravity="left"
+            android:padding="30dp" >
+
+            <TextView
+                android:id="@+id/tvDemoComplexViewAge"
+                style="@style/text_middle_white"
+                android:text="age" />
+
+            <TextView
+                android:id="@+id/tvDemoComplexViewNumber"
+                style="@style/text_middle_white"
+                android:text="number" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/activity_page" >
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <ImageButton style="@style/topbar_return_img" />
+
+        <TextView
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="SQLite" />
+
+        <Button
+            style="@style/topbar_right_img"
+            android:text="重置" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvDemoSQLInfo"
+        style="@style/text_big_black"
+        android:layout_width="match_parent"
+        android:editable="true"
+        android:text="table(cloumn0, cloumn1...)" />
+
+    <ScrollView
+        android:id="@+id/svDemoSQL"
+        style="@style/match_match"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            style="@style/ll_horizontal_match_match"
+            android:gravity="top" >
+
+            <TextView
+                android:id="@+id/tvDemoSQLShow0"
+                style="@style/text_small_black"
+                android:layout_weight="1"
+                android:gravity="top|left"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/tvDemoSQLShow1"
+                style="@style/text_small_black"
+                android:layout_weight="1"
+                android:gravity="top|left"
+                android:textIsSelectable="true" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout style="@style/ll_horizontal_match_wrap" >
+
+        <TextView
+            android:id="@+id/tvDemoSQLQueryColumn"
+            style="@style/text_middle"
+            android:text="QueryColumn:" />
+
+        <EditText
+            android:id="@+id/etDemoSQLQueryColumn"
+            style="@style/text_small_black"
+            android:layout_weight="1"
+            android:text="_id" />
+
+        <TextView
+            android:id="@+id/tvDemoSQLQueryValue"
+            style="@style/text_middle"
+            android:text="QueryValue:" />
+
+        <EditText
+            android:id="@+id/etDemoSQLQueryValue"
+            style="@style/text_small_black"
+            android:layout_weight="1"
+            android:text="0" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ll_horizontal_match_wrap" >
+
+        <TextView
+            android:id="@+id/tvDemoSQLEditColumn"
+            style="@style/text_middle"
+            android:text="EditColumn:" />
+
+        <EditText
+            android:id="@+id/etDemoSQLEditColumn"
+            style="@style/text_small_black"
+            android:layout_weight="1"
+            android:text="name" />
+
+        <TextView
+            android:id="@+id/tvDemoSQLEditValue"
+            style="@style/text_middle"
+            android:text="EditValue:" />
+
+        <EditText
+            android:id="@+id/etDemoSQLEditValue"
+            style="@style/text_small_black"
+            android:layout_weight="1"
+            android:text="xxx" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ll_horizontal_match_wrap" >
+
+        <Button
+            android:id="@+id/btnDemoSQLInsert"
+            style="@style/wrap_wrap"
+            android:layout_weight="1"
+            android:text="增" />
+
+        <Button
+            android:id="@+id/btnDemoSQLDelete"
+            style="@style/wrap_wrap"
+            android:layout_weight="1"
+            android:text="删" />
+
+        <Button
+            android:id="@+id/btnDemoSQLUpdate"
+            style="@style/wrap_wrap"
+            android:layout_weight="1"
+            android:text="改" />
+
+        <Button
+            android:id="@+id/btnDemoSQLQuery"
+            style="@style/wrap_wrap"
+            android:layout_weight="1"
+            android:text="查" />
+    </LinearLayout>
+
+</LinearLayout>
