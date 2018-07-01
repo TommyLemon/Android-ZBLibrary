@@ -15,7 +15,6 @@ limitations under the License.*/
 package zblibrary.demo.DEMO;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -72,13 +71,11 @@ public class DemoView extends BaseView<Entry<String, String>> implements OnClick
 
 
 	@Override
-	public void bindView(Entry<String, String> data){
+	public void bindView(Entry<String, String> data_){
 		//示例代码<<<<<<<<<<<<<<<<
-		if (data == null) {
-			Log.e(TAG, "bindView data == null >> data = new Entry<>(); ");
-			data = new Entry<String, String>();
-		}
-		this.data = data;
+		super.bindView(data_ != null ? data_ : new Entry<String, String>());
+
+		itemView.setBackgroundResource(selected ? R.drawable.alpha3 : R.drawable.white_to_alpha);
 
 		tvDemoViewName.setText(StringUtil.getTrimedString(data.getKey()));
 		tvDemoViewNumber.setText(StringUtil.getTrimedString(data.getValue()));

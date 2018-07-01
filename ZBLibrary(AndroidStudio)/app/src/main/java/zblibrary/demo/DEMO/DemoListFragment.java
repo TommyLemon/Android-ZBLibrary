@@ -151,6 +151,10 @@ public class DemoListFragment extends BaseListFragment<Entry<String, String>, Li
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		//实现单选
+		adapter.selectedPosition = adapter.selectedPosition == position ? -1 : position;
+		adapter.notifyListDataSetChanged();
+
 		toActivity(UserActivity.createIntent(context, position));//一般用id，这里position仅用于测试 id));//
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>

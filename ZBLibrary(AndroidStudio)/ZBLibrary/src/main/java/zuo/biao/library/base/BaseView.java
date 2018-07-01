@@ -157,6 +157,10 @@ public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 	 * 视图类型，部分情况下需要根据viewType使用不同layout，对应Adapter的itemViewType
 	 */
 	public int viewType = 0;
+	/**
+	 * 是否已被选中
+	 */
+	public boolean selected = false;
 
 	/**创建一个新的View
 	 * @return
@@ -204,6 +208,8 @@ public abstract class BaseView<T> extends RecyclerView.ViewHolder {
 			Log.w(TAG, "bindView data_ == null");
 		}
 		this.data = data_;
+
+		//不一定要用单选功能，实现也不一定要用这种方式，这里写会影响所有BaseView子类的性能，子类写更好 itemView.setSelected(selected);
 	}
 
 	/**获取可见性

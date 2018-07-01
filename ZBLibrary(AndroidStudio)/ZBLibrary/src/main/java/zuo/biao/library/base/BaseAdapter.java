@@ -23,7 +23,7 @@ import zuo.biao.library.util.SettingUtil;
  * <br> 适用于几乎所有列表、表格，包括：
  * <br> 1.RecyclerView及其子类
  * <br> 2.ListView,GridView等AbsListView的子类
- * <br> 3.RecyclerView刷新用 refresh 或 notifyDataSetChanged; AbsListView刷新用 refresh 或 notifyListDataSetChanged
+ * <br> 3.刷新用 refresh 或 notifyListDataSetChanged，notifyDataSetChanged 可能无效
  * <br> 4.出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @author SCWANG
  * @author Lemon
@@ -91,9 +91,13 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
      * <br > > 0 - 列表滚到倒数第preloadCount个Item View显示时加载更多
      * @use 可在子类getView被调用前(可以是在构造器内)赋值
      */
-    protected int preloadCount = 0;
+    public int preloadCount = 0;
+
 
     //预加载，可不使用 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
 
 
     /**bv的显示方法
@@ -102,12 +106,26 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
      */
     @Override
     public void bindView(int position, BV bv) {
+        bv.selected = isSelected(position);
         bv.bindView(getItem(position), position, getItemViewType(position));
         if (SettingUtil.preload && onLoadListener != null && position >= getCount() - 1 - preloadCount) {
             onLoadListener.onLoadMore();
         }
     }
 
+    /**
+     * 已选中项的位置，一般可在onItemClick回调中：
+     * <br /> adapter.selectedPosition = position;
+     * <br /> adapter.notifyListDataSetChanged();
+     */
+    public int selectedPosition = -1;
+    /**是否已被选中，默认实现单选，重写可自定义实现多选
+     * @param position
+     * @return
+     */
+    public boolean isSelected(int position) {
+        return selectedPosition == position;
+    }
 
 
 
@@ -122,14 +140,12 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
      */
     public synchronized void refresh(List<T> list) {
         this.list = list == null ? null : new ArrayList<T>(list);
-        notifyDataSetChanged(); //仅对 RecyclerView 有效
         notifyListDataSetChanged(); //仅对 AbsListView 有效
     }
 
 
-
-
     //RecyclerAdapter <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
     @Override
     public BV onCreateViewHolder(final ViewGroup parent, int viewType) {
         final BV bv = createView(viewType, parent);
@@ -195,9 +211,9 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
     /**
      * Notifies the attached observers that the underlying data has been changed
      * and any View reflecting the data set should refresh itself.
-     * 仅对 AbsListView 有效
      */
     public void notifyListDataSetChanged() {
+        notifyDataSetChanged(); //仅对 RecyclerView 有效
         mDataSetObservable.notifyChanged();
     }
 
