@@ -14,83 +14,80 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import java.util.List;
 
-import zuo.biao.library.interfaces.AdapterCallBack;
+import zuo.biao.library.R;
 import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.interfaces.OnLoadListener;
 import zuo.biao.library.interfaces.OnStopLoadListener;
-import zuo.biao.library.ui.xlistview.XListView;
-import zuo.biao.library.ui.xlistview.XListView.IXListViewListener;
 import zuo.biao.library.util.Log;
 
 
-/**基础http获取列表的Activity
+/**基础http网络列表的Activity
  * @author Lemon
  * @param <T> 数据模型(model/JavaBean)类
- * @param <A> 管理XListView的Adapter
+ * @param <LV> AbsListView的子类（ListView,GridView等）
+ * @param <A> 管理LV的Adapter
  * @see #getListAsync(int)
  * @see #onHttpResponse(int, String, Exception)
  * @see
  *   <pre>
  *       基础使用：<br />
- *       extends BaseHttpListActivity 并在子类onCreate中lvBaseList.onRefresh(), 具体参考.DemoHttpListActivity
+ *       extends BaseHttpListActivity 并在子类onCreate中srlBaseHttpList.autoRefresh(), 具体参考.DemoHttpListActivity
  *       <br /><br />
  *       列表数据加载及显示过程：<br />
- *       1.lvBaseList.onRefresh触发刷新 <br />
+ *       1.srlBaseHttpList.autoRefresh触发刷新 <br />
  *       2.getListAsync异步获取列表数据 <br />
  *       3.onHttpResponse处理获取数据的结果 <br />
  *       4.setList把列表数据绑定到adapter <br />
  *   </pre>
  */
-public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends BaseListActivity<T, XListView, A>
-		implements OnHttpResponseListener, IXListViewListener, OnStopLoadListener
-		, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends ListAdapter>
+		extends BaseListActivity<T, LV, A>
+		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadmoreListener {
 	private static final String TAG = "BaseHttpListActivity";
-
 
 
 
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	protected SmartRefreshLayout srlBaseHttpList;
+
 	@Override
 	public void initView() {
 		super.initView();
 
-		setList((List<T>) null);//ListView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
+		srlBaseHttpList = findView(R.id.srlBaseHttpList);
+
 	}
 
 	@Override
 	public void setAdapter(A adapter) {
-		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
-			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
+		if (adapter != null && adapter instanceof BaseAdapter) {
+			((BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
 				@Override
 				public void onRefresh() {
-					lvBaseList.onRefresh();
+					srlBaseHttpList.autoRefresh();
 				}
 
 				@Override
 				public void onLoadMore() {
-					lvBaseList.onLoadMore();
+					srlBaseHttpList.autoLoadmore();
 				}
 			});
 		}
 		super.setAdapter(adapter);
-	}
-
-	/**刷新列表数据
-	 * @param callBack
-	 */
-	@Override
-	public void setList(AdapterCallBack<A> callBack) {
-		super.setList(callBack);
-		boolean empty = adapter == null || adapter.isEmpty();
-		Log.d(TAG, "setList  adapter empty = " + empty);
-		lvBaseList.showFooter(! empty);//放setAdapter中不行，adapter!=null时没有调用setAdapter
 	}
 
 	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -111,7 +108,6 @@ public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends Bas
 		super.initData();
 
 	}
-
 
 	/**
 	 * @param page 用-page作为requestCode
@@ -145,7 +141,29 @@ public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends Bas
 		super.initEvent();
 		setOnStopLoadListener(this);
 
-		lvBaseList.setXListViewListener(this);
+		srlBaseHttpList.setOnRefreshListener(this);
+		srlBaseHttpList.setOnLoadmoreListener(this);
+	}
+
+
+	/**重写后可自定义对这个事件的处理
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	}
+
+	@Override
+	public void onRefresh(RefreshLayout refreshlayout) {
+		onRefresh();
+	}
+
+	@Override
+	public void onLoadmore(RefreshLayout refreshlayout) {
+		onLoadMore();
 	}
 
 
@@ -155,7 +173,8 @@ public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends Bas
 
 			@Override
 			public void run() {
-				lvBaseList.stopRefresh();
+				srlBaseHttpList.finishRefresh();
+				srlBaseHttpList.setLoadmoreFinished(false);
 			}
 		});
 	}
@@ -165,7 +184,12 @@ public abstract class BaseHttpListActivity<T, A extends ListAdapter> extends Bas
 
 			@Override
 			public void run() {
-				lvBaseList.stopLoadMore(isHaveMore);
+				if (isHaveMore) {
+					srlBaseHttpList.finishLoadmore();
+				} else {
+					srlBaseHttpList.finishLoadmoreWithNoMoreData();
+				}
+				srlBaseHttpList.setLoadmoreFinished(! isHaveMore);
 			}
 		});
 	}

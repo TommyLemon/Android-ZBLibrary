@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -40,7 +41,7 @@ import zuo.biao.library.util.JSON;
  * @must 查看 .HttpManager 中的@must和@warn
  *       查看 .SettingUtil 中的@must和@warn
  */
-public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> implements CacheCallBack<User> {
+public class UserListFragment extends BaseHttpListFragment<User, ListView, UserAdapter> implements CacheCallBack<User> {
 	//	private static final String TAG = "UserListFragment";
 
 	//与Activity通信<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -84,7 +85,7 @@ public class UserListFragment extends BaseHttpListFragment<User, UserAdapter> im
 		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		lvBaseList.onRefresh();
+		srlBaseHttpList.autoRefresh();
 
 		return view;
 	}

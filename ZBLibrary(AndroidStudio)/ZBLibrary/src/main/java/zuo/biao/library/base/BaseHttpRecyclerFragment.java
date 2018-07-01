@@ -87,7 +87,6 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 
 		srlBaseHttpRecycler = findView(R.id.srlBaseHttpRecycler);
 
-		setList((List<T>) null);//RecyclerView需要设置adapter才能显示header和footer; setAdapter调不到子类方法
 	}
 
 	@Override

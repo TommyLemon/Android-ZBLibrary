@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ import zuo.biao.library.util.JSON;
  * @warn 复制到其它工程内使用时务必修改import R文件路径为所在应用包名
  * @use toActivity(DemoHttpListActivity.createIntent(...));
  */
-public class DemoHttpListActivity extends BaseHttpListActivity<User, UserAdapter> implements OnBottomDragListener {
+public class DemoHttpListActivity extends BaseHttpListActivity<User, ListView, UserAdapter> implements OnBottomDragListener {
 	//	private static final String TAG = "DemoHttpListActivity";
 
 
@@ -91,7 +92,7 @@ public class DemoHttpListActivity extends BaseHttpListActivity<User, UserAdapter
 		initEvent();
 		//功能归类分区方法，必须调用>>>>>>>>>>
 
-		lvBaseList.onRefresh();
+		srlBaseHttpList.autoRefresh();
 	}
 
 

@@ -23,11 +23,13 @@ import zuo.biao.library.util.SettingUtil;
  * <br> 适用于几乎所有列表、表格，包括：
  * <br> 1.RecyclerView及其子类
  * <br> 2.ListView,GridView等AbsListView的子类
+ * <br> 3.RecyclerView刷新用 refresh 或 notifyDataSetChanged; AbsListView刷新用 refresh 或 notifyListDataSetChanged
+ * <br> 4.出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @author SCWANG
  * @author Lemon
- * @warn 出于性能考虑，里面很多方法对变量(比如list)都没有判断，应在adapter外判断
  * @param <T> 数据模型(model/JavaBean)类
  * @param <BV> BaseView的子类，相当于ViewHolder
+ * @see #notifyListDataSetChanged
  * @use extends BaseAdapter<T, BV>, 具体参考.DemoAdapter
  */
 public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerView.Adapter<BV>
@@ -120,7 +122,8 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
      */
     public synchronized void refresh(List<T> list) {
         this.list = list == null ? null : new ArrayList<T>(list);
-        notifyDataSetChanged();
+        notifyDataSetChanged(); //仅对 RecyclerView 有效
+        notifyListDataSetChanged(); //仅对 AbsListView 有效
     }
 
 
@@ -192,6 +195,7 @@ public abstract class BaseAdapter<T, BV extends BaseView<T>> extends RecyclerVie
     /**
      * Notifies the attached observers that the underlying data has been changed
      * and any View reflecting the data set should refresh itself.
+     * 仅对 AbsListView 有效
      */
     public void notifyListDataSetChanged() {
         mDataSetObservable.notifyChanged();

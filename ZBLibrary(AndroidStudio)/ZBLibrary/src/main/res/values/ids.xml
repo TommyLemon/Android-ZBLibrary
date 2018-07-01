@@ -14,6 +14,8 @@
     <item name="tvBaseViewBottomWindowReturn" type="id">false</item>
     <item name="tvBaseViewBottomWindowForward" type="id">false</item>
     <item name="lvBaseList" type="id">false</item>
+    <item name="rvBaseList" type="id">false</item>
+    <item name="srlBaseHttpList" type="id">false</item>
     <item name="rvBaseRecycler" type="id">false</item>
     <item name="srlBaseHttpRecycler" type="id">false</item>
 
