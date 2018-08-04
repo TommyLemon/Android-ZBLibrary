@@ -1,7 +1,7 @@
 # ZBLibrary-Android快速开发框架 
 
 [![](https://jitpack.io/v/TommyLemon/Android-ZBLibrary.svg)](https://jitpack.io/#TommyLemon/Android-ZBLibrary)
-[![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels)
+[![SDK](https://img.shields.io/badge/SDK-15%2B-brightgreen.svg?style=flat)](https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels)
 [![Gradle Version](https://img.shields.io/badge/gradle-2.10%2B-green.svg)](https://docs.gradle.org/current/release-notes)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
