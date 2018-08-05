@@ -7,8 +7,8 @@ android {
         applicationId "zblibrary.demo"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 27
+        versionName "18.0"
     }
     buildTypes {
         release {

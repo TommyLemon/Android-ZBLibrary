@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -75,7 +74,6 @@ public class UserRecyclerFragment extends BaseHttpRecyclerFragment<User, UserVie
 			range = argument.getInt(ARGUMENT_RANGE, range);
 		}
 
-		Toast.makeText(context, "服务器配置有误，请查看这个类的@must", Toast.LENGTH_LONG).show();
 
 		initCache(this);
 
