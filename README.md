@@ -150,9 +150,9 @@ public class DemoApplication extends Application {
 
 ## 关于作者
 <div style="float:left">
-<img src="https://avatars1.githubusercontent.com/u/5738175?s=400&u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4"  height="90" width="90" link="https://github.com/TommyLemon">
-<img src="https://avatars0.githubusercontent.com/u/9335665?s=460&v=4"  height="90" width="90" link="https://github.com/huimingli">
- </div>
+  <a href="https://github.com/TommyLemon"><img src="https://avatars1.githubusercontent.com/u/5738175?s=400&u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4" ></a>
+  <a href="https://github.com/huimingli"><img src="https://avatars0.githubusercontent.com/u/9335665?s=460&v=4"  height="90" width="90" ></a>
+</div>
 <br />
 
 QQ技术交流群：421793905(群2) 595514898(群1满)
