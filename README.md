@@ -149,7 +149,7 @@ public class DemoApplication extends Application {
 请看链接 [使用ZBLibrary的项目](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
 
 ## 关于作者
-<div align="center">
+<div style="float:left">
 <img src="https://avatars1.githubusercontent.com/u/5738175?s=400&u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4"  height="90" width="90" link="https://github.com/TommyLemon">
 <img src="https://avatars0.githubusercontent.com/u/9335665?s=460&v=4"  height="90" width="90" link="https://github.com/huimingli">
  </div>
