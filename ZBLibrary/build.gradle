@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
@@ -28,8 +28,8 @@ dependencies { //TODO 如果这些依赖和你项目中的依赖有冲突，则�
     compile files('libs/universal-image-loader-1.9.4.jar') //TODO 只为兼容老用户的项目，建议删除这行，对应的jar包和ImageLoaderUtil.java
 
     compile 'com.squareup.okhttp3:okhttp:3.11.0'
-    compile 'com.android.support:appcompat-v7:25.0.1'//版本随意（必须）
-    compile 'com.android.support:design:25.3.1'//版本随意（非必须，引用可以解决无法预览问题）
+    compile 'com.android.support:appcompat-v7:27.0.1'//版本随意（必须）
+    compile 'com.android.support:design:27.0.1'//版本随意（非必须，引用可以解决无法预览问题）
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-4'
 
 }

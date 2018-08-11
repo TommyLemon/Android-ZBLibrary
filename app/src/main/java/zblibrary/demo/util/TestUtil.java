@@ -76,7 +76,7 @@ public class TestUtil {
 		"http://static.oschina.net/uploads/user/585/1170143_50.jpg?t=1390226446000",
 		"http://static.oschina.net/uploads/user/1174/2348263_50.png?t=1439773471000",
 		"http://common.cnblogs.com/images/wechat.png",
-		"http://my.oschina.net/img/portrait.gif?t=1451961935000",
+		"https://static.oschina.net/uploads/user/1344/2689427_200.jpg?t=1484029839000",
 		"http://static.oschina.net/uploads/user/998/1997902_50.jpg?t=1407806577000",
 		"http://static.oschina.net/uploads/user/1/3064_50.jpg?t=1449566001000",
 		"http://static.oschina.net/uploads/user/51/102723_50.jpg?t=1449212504000",
@@ -89,7 +89,7 @@ public class TestUtil {
 		"http://static.oschina.net/uploads/user/427/855532_50.jpg?t=1435030876000",
 		"http://static.oschina.net/uploads/user/629/1258821_50.jpg?t=1378063141000",
 		"http://static.oschina.net/uploads/user/1200/2400261_50.png?t=1439638750000",
-		"http://my.oschina.net/img/portrait.gif?t=1451961935000"
+		"https://static.oschina.net/uploads/user/1143/2286031_50.jpg?t=1468900004000"
 	};
 
 	public static String getPicture(int index) {

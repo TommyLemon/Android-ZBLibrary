@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">坐标标准库</string>
-    <string name="app_version">18.0</string>
+    <string name="app_version">18.3</string>
     <string name="share_app">我发现了一款很好用的Android快速开发框架，叫 Android－ZBLibrary ，快去GitHub上看看吧~</string>
     <string name="page_return">返回</string>
     <string name="remind">提示</string>
