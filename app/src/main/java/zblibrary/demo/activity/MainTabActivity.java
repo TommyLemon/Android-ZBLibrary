@@ -105,7 +105,7 @@ public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDr
 	protected Fragment getFragment(int position) {
 		switch (position) {
 		case 1:
-			return UserRecyclerFragment.createInstance(UserListFragment.RANGE_RECOMMEND);
+			return UserRecyclerFragment.createInstance(UserRecyclerFragment.RANGE_RECOMMEND);
 		case 2:
 			return demoTabFragment;
 		case 3:

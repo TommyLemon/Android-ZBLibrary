@@ -16,30 +16,30 @@ package zuo.biao.library.manager;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import zuo.biao.library.base.BaseApplication;
 import zuo.biao.library.interfaces.OnHttpResponseListener;
 import zuo.biao.library.model.Parameter;
+import zuo.biao.library.util.JSON;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SSLUtil;
 import zuo.biao.library.util.StringUtil;
@@ -83,22 +83,17 @@ public class HttpManager {
 
 
 
-
-	public static final String KEY_TOKEN = "token";
-	public static final String KEY_COOKIE = "cookie";
-
-
 	/**GET请求
-	 * @param paramList 请求参数列表，（可以一个键对应多个值）
-	 * @param url 接口url
+	 * @param request 请求
+	 * @param url 网络地址
 	 * @param requestCode
 	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
 	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>
 	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */
-	public void get(final List<Parameter> paramList, final String url,
-			final int requestCode, final OnHttpResponseListener listener) {
+	public void get(final Map<String, Object> request, final String url,
+					final int requestCode, final OnHttpResponseListener listener) {
 
 		new AsyncTask<Void, Void, Exception>() {
 
@@ -111,23 +106,28 @@ public class HttpManager {
 				}
 
 				StringBuffer sb = new StringBuffer();
-				sb.append(StringUtil.getNoBlankString(url));
-				if (paramList != null) {
-					Parameter parameter;
-					for (int i = 0; i < paramList.size(); i++) {
-						parameter = paramList.get(i);
-						sb.append(i <= 0 ? "?" : "&");
-						sb.append(StringUtil.getTrimedString(parameter.key));
+				sb.append(url);
+
+				Set<Map.Entry<String, Object>> set = request == null ? null : request.entrySet();
+				if (set != null) {
+					boolean isFirst = true;
+					for (Map.Entry<String, Object> entry : set) {
+						sb.append(isFirst ? "?" : "&");
+						sb.append(StringUtil.trim(entry.getKey()));
 						sb.append("=");
-						sb.append(StringUtil.getTrimedString(parameter.value));
+						sb.append(StringUtil.trim(entry.getValue()));
+
+						isFirst = false;
 					}
 				}
 
 				try {
-					result = getResponseJson(client, new Request.Builder()
-					.addHeader(KEY_TOKEN, getToken(url))
-					.url(sb.toString())
-					.build());
+					result = getResponseJson(
+							client,
+							new Request.Builder()
+									.url(sb.toString())
+									.build()
+					);
 					//仅供测试 result = "{\"code\":100,\"data\":{\"id\":1,\"name\":\"TestName\",\"phone\":\"1234567890\"}}";
 				} catch (Exception e) {
 					Log.e(TAG, "get  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
@@ -149,42 +149,95 @@ public class HttpManager {
 	}
 
 
-	/**POST请求
+	/**GET请求，最快在 19.0 删除，请尽快迁移到 {@link #get(Map, String, int, OnHttpResponseListener)}
 	 * @param paramList 请求参数列表，（可以一个键对应多个值）
-	 * @param url 接口url
+	 * @param url 网络地址
 	 * @param requestCode
 	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
 	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>
 	 *            在发起请求的类中可以用requestCode来区分各个请求
 	 * @param listener
 	 */
-	public void post(final List<Parameter> paramList, final String url,
-			final int requestCode, final OnHttpResponseListener listener) {
+	@Deprecated
+	public void get(final List<Parameter> paramList, final String url,
+					final int requestCode, final OnHttpResponseListener listener) {
+		Map<String, Object> request = new HashMap<>();
+		if (paramList != null) {
+			for (Parameter p : paramList) {
+				request.put(p.key, p.value);
+			}
+		}
+		get(request, url, requestCode, listener);
+	}
 
+
+
+
+	public static final MediaType TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+
+
+	/**POST请求，以FORM表单形式提交
+	 * @param request 请求
+	 * @param url 网络地址
+	 * @param requestCode
+	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            在发起请求的类中可以用requestCode来区分各个请求
+	 * @param listener
+	 */
+	public void post(final Map<String, Object> request, final String url
+			, final int requestCode, final OnHttpResponseListener listener) {
+		post(request, url, false, requestCode, listener);
+	}
+	/**POST请求
+	 * @param request 请求
+	 * @param url 网络地址
+	 * @param isJson JSON : FORM
+	 * @param requestCode
+	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            在发起请求的类中可以用requestCode来区分各个请求
+	 * @param listener
+	 */
+	public void post(final Map<String, Object> request, final String url, final boolean isJson
+			, final int requestCode, final OnHttpResponseListener listener) {
 		new AsyncTask<Void, Void, Exception>() {
 
 			String result;
 			@Override
 			protected Exception doInBackground(Void... params) {
-				OkHttpClient client = getHttpClient(url);
-				if (client == null) {
-					return new Exception(TAG + ".post  AsyncTask.doInBackground  client == null >> return;");
-				}
-
-				FormEncodingBuilder fBuilder = new FormEncodingBuilder();
-				if (paramList != null) {
-					for (Parameter p : paramList) {
-						fBuilder.add(StringUtil.getTrimedString(p.key), StringUtil.getTrimedString(p.value));
-					}
-				}
 
 				try {
-					result = getResponseJson(client, new Request.Builder()
-					.addHeader(KEY_TOKEN, getToken(url))
-					.url(StringUtil.getNoBlankString(url))
-					.post(fBuilder.build())
-					.build());
-					//仅供测试 result = "{\"code\":102}";
+					OkHttpClient client = getHttpClient(url);
+					if (client == null) {
+						return new Exception(TAG + ".post  AsyncTask.doInBackground  client == null >> return;");
+					}
+
+					RequestBody requestBody;
+					if (isJson) {
+						String body = JSON.toJSONString(request);
+						Log.d(TAG, "\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n post  url = " + url + "\n request = \n" + body);
+						requestBody = RequestBody.create(TYPE_JSON, body);
+					}
+					else {
+						FormBody.Builder builder = new FormBody.Builder();
+						Set<Map.Entry<String, Object>> set = request == null ? null : request.entrySet();
+						if (set != null) {
+							for (Map.Entry<String, Object> entry : set) {
+								builder.add(StringUtil.trim(entry.getKey()), StringUtil.trim(entry.getValue()));
+							}
+						}
+
+						requestBody = builder.build();
+					}
+
+					result = getResponseJson(
+							client,
+							new Request.Builder()
+									.post(requestBody)
+									.build()
+					);
+					Log.d(TAG, "\n post  result = \n" + result + "\n >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
 				} catch (Exception e) {
 					Log.e(TAG, "post  AsyncTask.doInBackground  try {  result = getResponseJson(..." +
 							"} catch (Exception e) {\n" + e.getMessage());
@@ -204,6 +257,30 @@ public class HttpManager {
 	}
 
 
+	/**POST请求，以FORM表单形式提交，最快在 19.0 删除，请尽快迁移到 {@link #post(Map, String, int, OnHttpResponseListener)}
+	 * @param paramList 请求参数列表，（可以一个键对应多个值）
+	 * @param url 网络地址
+	 * @param requestCode
+	 *            请求码，类似onActivityResult中请求码，当同一activity中以实现接口方式发起多个网络请求时，请求结束后都会回调
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br>
+	 *            {@link OnHttpResponseListener#onHttpResponse(int, String, Exception)}<br/>
+	 *            在发起请求的类中可以用requestCode来区分各个请求
+	 * @param listener
+	 */
+	@Deprecated
+	public void post(final List<Parameter> paramList, final String url,
+					 final int requestCode, final OnHttpResponseListener listener) {
+		Map<String, Object> request = new HashMap<>();
+		if (paramList != null) {
+			for (Parameter p : paramList) {
+				request.put(p.key, p.value);
+			}
+		}
+		post(request, url, requestCode, listener);
+	}
+
+
+
 	//httpGet/httpPost 内调用方法 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**
@@ -212,59 +289,85 @@ public class HttpManager {
 	 */
 	private OkHttpClient getHttpClient(String url) {
 		Log.i(TAG, "getHttpClient  url = " + url);
-		if (StringUtil.isNotEmpty(url, true) == false) {
-			Log.e(TAG, "getHttpClient  StringUtil.isNotEmpty(url, true) == false >> return null;");
+		if (StringUtil.isEmpty(url)) {
+			Log.e(TAG, "getHttpClient  StringUtil.isEmpty(url) >> return null;");
 			return null;
 		}
 
-		OkHttpClient client = new OkHttpClient();
-		client.setCookieHandler(new HttpHead());
-		client.setConnectTimeout(15, TimeUnit.SECONDS);
-		client.setWriteTimeout(10, TimeUnit.SECONDS);
-		client.setReadTimeout(10, TimeUnit.SECONDS);
+		OkHttpClient.Builder builder = new OkHttpClient.Builder()
+				.connectTimeout(15, TimeUnit.SECONDS)
+				.writeTimeout(10, TimeUnit.SECONDS)
+				.readTimeout(10, TimeUnit.SECONDS)
+				.cookieJar(new CookieJar() {
+
+					@Override
+					public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+						Map<String, String> map = new LinkedHashMap<>();
+						if (cookies != null) {
+							for (Cookie c : cookies) {
+								if (c != null && c.name() != null && c.value() != null) {
+									map.put(c.name(), StringUtil.get(c.value()));
+								}
+							}
+						}
+						saveCookie(url == null ? null : url.host(), JSON.toJSONString(map));//default constructor not found  cookies));
+					}
+
+					@Override
+					public List<Cookie> loadForRequest(HttpUrl url) {
+						String host = url == null ? null : url.host();
+						Map<String, String> map = host == null ? null : JSON.parseObject(getCookie(host), HashMap.class);
+
+						List<Cookie> list = new ArrayList<>();
+
+						Set<Map.Entry<String, String>> set = map == null ? null : map.entrySet();
+						if (set != null) {
+							for (Map.Entry<String, String> entry : set) {
+								if (entry != null && entry.getKey() != null && entry.getValue() != null) {
+									list.add(new Cookie.Builder().domain(host).name(entry.getKey()).value(entry.getValue()).build());
+								}
+							}
+						}
+
+						return list;
+					}
+				});
+
 		//添加信任https证书,用于自签名,不需要可删除
 		if (url.startsWith(StringUtil.URL_PREFIXs) && socketFactory != null) {
-			client.setSslSocketFactory(socketFactory);
+			builder.sslSocketFactory(socketFactory);
 		}
 
-		return client;
+		return builder.build();
 	}
 
+
+	public static final String KEY_COOKIE = "cookie";
 	/**
-	 * @param tag
+	 * @param host
 	 * @return
 	 */
-	public String getToken(String tag) {
-		return context.getSharedPreferences(KEY_TOKEN, Context.MODE_PRIVATE).getString(KEY_TOKEN + tag, "");
+	public String getCookie(String host) {
+		if (host == null) {
+			Log.e(TAG, "getCookie  host == null >> return \"\"");
+			return "";
+		}
+		return context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE).getString(host, "");
 	}
 	/**
-	 * @param tag
+	 * @param host
 	 * @param value
 	 */
-	public void saveToken(String tag, String value) {
-		context.getSharedPreferences(KEY_TOKEN, Context.MODE_PRIVATE)
-		.edit()
-		.remove(KEY_TOKEN + tag)
-		.putString(KEY_TOKEN + tag, value)
-		.commit();
-	}
-
-
-	/**
-	 * @return
-	 */
-	public String getCookie() {
-		return context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE).getString(KEY_COOKIE, "");
-	}
-	/**
-	 * @param value
-	 */
-	public void saveCookie(String value) {
+	public void saveCookie(String host, String value) {
+		if (host == null) {
+			Log.e(TAG, "saveCookie  host == null >> return;");
+			return;
+		}
 		context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE)
-		.edit()
-		.remove(KEY_COOKIE)
-		.putString(KEY_COOKIE, value)
-		.commit();
+				.edit()
+				.remove(host)
+				.putString(host, value)
+				.commit();
 	}
 
 
@@ -283,67 +386,8 @@ public class HttpManager {
 		return response.isSuccessful() ? response.body().string() : null;
 	}
 
-	/**从object中获取key对应的值
-	 * *获取如果T是基本类型容易崩溃，所以需要try-catch
-	 * @param json
-	 * @param key
-	 * @return
-	 * @throws JSONException
-	 */
-	public <T> T getValue(String json, String key) throws JSONException {
-		return getValue(new JSONObject(json), key);
-	}
-	/**从object中获取key对应的值
-	 * *获取如果T是基本类型容易崩溃，所以需要try-catch
-	 * @param object
-	 * @param key
-	 * @return
-	 * @throws JSONException
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> T getValue(JSONObject object, String key) throws JSONException {
-		return (T) object.get(key);
-	}
 
 	//httpGet/httpPost 内调用方法 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-	/**http请求头
-	 */
-	public class HttpHead extends CookieHandler {
-		public HttpHead() {
-		}
-
-		@Override
-		public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {
-			String cookie = getCookie();
-			Map<String, List<String>> map = new HashMap<String, List<String>>();
-			map.putAll(requestHeaders);
-			if (!TextUtils.isEmpty(cookie)) {
-				List<String> cList = new ArrayList<String>();
-				cList.add(cookie);
-				map.put("Cookie", cList);
-			}
-			return map;
-		}
-
-		@Override
-		public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
-			List<String> list = responseHeaders.get("Set-Cookie");
-			if (list != null) {
-				for (int i = 0; i < list.size(); i++) {
-					String cookie = list.get(i);
-					if (cookie.startsWith("JSESSIONID")) {
-						saveCookie(list.get(i));
-						break;
-					}
-				}
-			}
-		}
-
-	}
 
 
 
