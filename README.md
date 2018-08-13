@@ -100,7 +100,8 @@ public class DemoApplication extends Application {
 * 自动生成封装请求JSON的代码
 * 自动生成解析结果JSON的代码
 * 自动生成Modle/JavaBean
-<br /> 
+
+<br > 
 [https://github.com/TommyLemon/APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto)
 
 ## 编程思想
