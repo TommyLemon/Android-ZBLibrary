@@ -95,7 +95,7 @@ public class DemoApplication extends Application {
 
 注册 权限和Activity 等代码可复制ZBLibrary中AndroidManifest.xml里的 \<uses-permission/>, \<activity/> 等相关代码。
 
-## 自动生成代码
+## 生成代码
 可使用APIJSONAuto自动化接口管理工具来生成接口相关代码：
 * 自动生成封装请求JSON的代码
 * 自动生成解析结果JSON的代码
