@@ -41,7 +41,7 @@ APIJSONApp<br />
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON_App_Moment_Name.gif) 
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON_App_Moment_Comment.gif)
 
-## 用到的开源库
+## 感谢开源
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
 
