@@ -16,7 +16,6 @@ package zblibrary.demo.DEMO;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,17 +124,6 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		tvDemoTabLeft.setText(StringUtil.isNotEmpty(city, true) ? StringUtil.getTrimedString(city) : "杭州");
 	}
 
-	@Override
-	@Nullable
-	public String getTitleName() {
-		return null;
-	}
-
-	@Override
-	@Nullable
-	public String getReturnName() {
-		return null;
-	}
 
 	@Override
 	protected String[] getTabNames() {
@@ -144,16 +132,9 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 
 	@Override
 	protected Fragment getFragment(int position) {
-
-		DemoListFragment fragment = DemoListFragment.createInstance();
-		Bundle bundle = fragment.getArguments();
-		if (bundle == null) {
-			bundle = new Bundle();
-		}
-		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
-		fragment.setArguments(bundle);
-
-		return fragment;
+		//示例代码<<<<<<<<<<<<<<<<<<
+		return DemoListFragment.createInstance();
+		//示例代码>>>>>>>>>>>>>>>>>>
 	}
 
 

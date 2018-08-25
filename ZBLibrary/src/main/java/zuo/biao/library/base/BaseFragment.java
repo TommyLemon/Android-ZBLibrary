@@ -14,9 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.FragmentPresenter;
-import zuo.biao.library.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +23,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.FragmentPresenter;
+import zuo.biao.library.util.Log;
 
 /**基础android.support.v4.app.Fragment，通过继承可获取或使用 里面创建的 组件 和 方法
  * @author Lemon
@@ -109,23 +110,6 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 
 
 	/**
-	 * 该Fragment在Activity添加的所有Fragment中的位置，通过ARGUMENT_POSITION设置
-	 * @must 只使用getPosition方法来获取position，保证position正确
-	 */
-	private int position = -1;
-	/**获取该Fragment在Activity添加的所有Fragment中的位置
-	 */
-	public int getPosition() {
-		if (position < 0) {
-			argument = getArguments();
-			if (argument != null) {
-				position = argument.getInt(ARGUMENT_POSITION, position);
-			}
-		}
-		return position;
-	}
-
-	/**
 	 * 可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
 	 */
 	protected Bundle argument = null;
@@ -196,7 +180,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 			Log.w(TAG, "runThread  isAlive() == false >> return null;");
 			return null;
 		}
-		return context.runThread(name + getPosition(), runnable);//name, runnable);同一Activity出现多个同名Fragment可能会出错
+		return context.runThread(name + hashCode(), runnable);//name, runnable);同一Activity出现多个同名Fragment可能会出错
 	}
 
 	//运行线程>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

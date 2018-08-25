@@ -14,14 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.ViewPresenter;
-import zuo.biao.library.ui.TopTabView;
-import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -38,6 +30,15 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.ViewPresenter;
+import zuo.biao.library.ui.TopTabView;
+import zuo.biao.library.ui.TopTabView.OnTabSelectedListener;
+import zuo.biao.library.util.StringUtil;
 
 /**基础带标签的Fragment
  * @author Lemon
@@ -288,12 +289,29 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	}
 
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
+	@Override
+	public String getTitleName() {
+		return null;
+	}
+
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 */
+	@Override
+	public String getReturnName() {
+		return null;
+	}
 
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+	/**获取导航栏标题名
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
+	 */
 	@Override
-	@Nullable
-	public final String getForwardName() {
+	public String getForwardName() {
 		return null;
 	}
 

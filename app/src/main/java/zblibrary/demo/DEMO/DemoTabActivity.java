@@ -14,10 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
-import zuo.biao.library.base.BaseTabActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.ui.WebViewActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +24,11 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseTabActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.ui.WebViewActivity;
 
 
 /** 使用方法：复制>粘贴>改名>改代码 */
@@ -111,19 +112,11 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	}
 
 	@Override
-	@Nullable
 	public String getTitleName() {
 		return "账单";
 	}
 
 	@Override
-	@Nullable
-	public String getReturnName() {
-		return "";
-	}
-
-	@Override
-	@Nullable
 	public String getForwardName() {
 		return "了解";
 	}
@@ -136,15 +129,8 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 	@Override
 	protected Fragment getFragment(int position) {
 		//示例代码<<<<<<<<<<<<<<<<<<
-		DemoListFragment fragment = DemoListFragment.createInstance();
-		Bundle bundle = fragment.getArguments();
-		if (bundle == null) {
-			bundle = new Bundle();
-		}
-		bundle.putInt(DemoListFragment.ARGUMENT_POSITION, position);
-		fragment.setArguments(bundle);
+		return DemoListFragment.createInstance();
 		//示例代码>>>>>>>>>>>>>>>>>>
-		return fragment;
 	}
 
 

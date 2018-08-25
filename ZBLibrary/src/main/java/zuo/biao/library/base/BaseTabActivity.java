@@ -303,18 +303,20 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	}
 
 	/**获取导航栏标题名
-	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
+	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
 	 */
 	@Override
-	@Nullable
-	public abstract String getTitleName();
+	public String getTitleName() {
+		return null;
+	}
 
 	/**获取导航栏标题名
 	 * @return null - View.GONE; "" - <; "xxx" - "xxx"
 	 */
 	@Override
-	@Nullable
-	public abstract String getReturnName();
+	public String getReturnName() {
+		return "";
+	}
 
 	//top right button <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -322,8 +324,9 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 	 * @return null - View.GONE; "" - View.GONE; "xxx" - "xxx"
 	 */
 	@Override
-	@Nullable
-	public abstract String getForwardName();
+	public String getForwardName() {
+		return null;
+	}
 
 	@Nullable
 	private List<View> topRightButtonList = new ArrayList<View>();
