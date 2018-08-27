@@ -41,6 +41,13 @@ APIJSONApp<br />
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON_App_Moment_Name.gif) 
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON_App_Moment_Comment.gif)
 
+
+## 下载试用
+
+[ZBLibraryDemoApp.apk(ZBLibrary)](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
+
+[APIJSONApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
+
 ## 感谢开源
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
@@ -156,12 +163,6 @@ public class DemoApplication extends Application {
 
 ## 使用ZBLibrary的项目
 请看链接 [使用ZBLibrary的项目](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
-
-## 下载试用
-
-[ZBLibraryDemoApp.apk(ZBLibrary)](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
-
-[APIJSONApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
 
 
 ## 关于作者
