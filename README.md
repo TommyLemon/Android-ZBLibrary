@@ -144,6 +144,12 @@ public class DemoApplication extends Application {
 
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
 
+
+### 其它项目
+[APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析JSON的代码。
+
+[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构。
+
 ## 开发规范
 [Wiki-Norm](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83)
 
