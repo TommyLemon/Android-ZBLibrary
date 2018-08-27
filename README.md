@@ -145,11 +145,6 @@ public class DemoApplication extends Application {
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
 
 
-### 其它项目
-[APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析JSON的代码
-
-[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构
-
 ## 开发规范
 [Wiki-Norm](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83)
 
@@ -161,6 +156,13 @@ public class DemoApplication extends Application {
 
 ## 使用ZBLibrary的项目
 请看链接 [使用ZBLibrary的项目](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
+
+## 下载试用
+
+[ZBLibraryDemoApp.apk(ZBLibrary)](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
+
+[APIJSONApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
+
 
 ## 关于作者
 <div style="float:left">
@@ -174,11 +176,10 @@ QQ技术交流群：421793905(群2) 595514898(群1满)
 如果有什么问题或建议可以[提ISSUE](https://github.com/TommyLemon/Android-ZBLibrary/issues)、加群或者[发我邮件](https://github.com/TommyLemon)，交流技术，分享经验。<br >
 如果你解决了某些bug，或者新增了一些通用性强的功能，欢迎[贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
 
-## 下载试用
+### 其它项目
+[APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析JSON的代码
 
-[ZBLibraryDemoApp.apk(ZBLibrary)](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
-
-[APIJSONApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
+[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构
 
 ## 持续更新
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
