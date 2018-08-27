@@ -177,10 +177,12 @@ QQ技术交流群：421793905(群2) 595514898(群1满)
 如果有什么问题或建议可以[提ISSUE](https://github.com/TommyLemon/Android-ZBLibrary/issues)、加群或者[发我邮件](https://github.com/TommyLemon)，交流技术，分享经验。<br >
 如果你解决了某些bug，或者新增了一些通用性强的功能，欢迎[贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
 
+
 ### 其它项目
+[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构
+
 [APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析JSON的代码
 
-[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构
 
 ## 持续更新
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
