@@ -1,5 +1,5 @@
 ---
-name: 提交bug
+name: 提交问题
 about: Create a report to help us improve
 
 ---

@@ -1,5 +1,5 @@
 ---
-name: 意见或建议
+name: 功能改进
 about: Suggest an idea for this project
 
 ---
