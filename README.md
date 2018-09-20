@@ -42,13 +42,13 @@ APIJSONApp<br />
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON_App_Moment_Comment.gif)
 
 
-## 下载试用
+### 下载试用
 
 [ZBLibraryDemoApp.apk(ZBLibrary)](http://files.cnblogs.com/files/tommylemon/ZBLibraryDemoApp.apk)
 
 [APIJSONApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
 
-## 感谢开源
+### 感谢开源
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
 
@@ -69,7 +69,7 @@ Google推荐的一个强大易用的图片加载库。
 这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
 
 
-## 初始化
+### 初始化
 
 假设你工程中的Application为zblibrary.demo.application.DemoApplication，并且已在AndroidManifest.xml中注册
 ```
@@ -102,7 +102,7 @@ public class DemoApplication extends Application {
 
 注册 权限和Activity 等代码可复制ZBLibrary中AndroidManifest.xml里的 \<uses-permission/>, \<activity/> 等相关代码。
 
-## 生成代码
+### 生成代码
 可使用APIJSONAuto自动化接口管理工具来生成接口相关代码：
 * 自动生成封装请求JSON的代码
 * 自动生成解析结果JSON的代码
@@ -110,7 +110,7 @@ public class DemoApplication extends Application {
 
 [https://github.com/TommyLemon/APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto)
 
-## 编程思想
+### 编程思想
 * 能复制就复制，节约时间避免出错
 * 保留原本结构，简单上手容易调试
 * 增加必要注释，说明功能和使用方法
@@ -124,7 +124,7 @@ public class DemoApplication extends Application {
 * 分包结构合理，模块清晰浏览方便
 * 多用工具和快捷键，增删改查快捷高效
 
-## 相关推荐
+### 相关推荐
 [Android快速开发框架-ZBLibrary介绍](http://my.oschina.net/u/2437072/blog/662017)
 
 [如何使用ZBLibrary-Android快速开发框架](http://my.oschina.net/u/2437072/blog/665241)
@@ -152,20 +152,20 @@ public class DemoApplication extends Application {
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
 
 
-## 开发规范
+### 开发规范
 [Wiki-Norm](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83)
 
-## 架构、模式、技术
+### 架构、模式、技术
 [Wiki-Architecture,Pattern,Technology](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E6%9E%B6%E6%9E%84%E3%80%81%E6%A8%A1%E5%BC%8F%E3%80%81%E6%8A%80%E6%9C%AF)
 
-## 问题及解决方法
+### 问题及解决方法
 [Wiki-FAQ](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95)
 
-## 使用ZBLibrary的项目
+### 使用ZBLibrary的项目
 请看链接 [使用ZBLibrary的项目](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
 
 
-## 关于作者
+### 关于作者
 <div style="float:left">
   <a href="https://github.com/TommyLemon"><img src="https://avatars1.githubusercontent.com/u/5738175?s=400&u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4" height="90" width="90" ></a>
   <a href="https://github.com/TommyLemon/Android-ZBLibrary/pull/2"><img src="https://avatars0.githubusercontent.com/u/9335665?s=460&v=4"  height="90" width="90" ></a>
@@ -179,7 +179,7 @@ public class DemoApplication extends Application {
 如果你解决了某些bug，或者新增了一些通用性强的功能，欢迎[贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
 
 
-## 其它项目
+### 其它项目
 [APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构
 
 [APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析JSON的代码
@@ -187,9 +187,9 @@ public class DemoApplication extends Application {
 [APIJSON-Android-RxJava](https://github.com/TommyLemon/APIJSON-Android-RxJava) ZBLibrary(UI) + APIJSON(HTTP) + RxJava(Data)
 
 
-## 持续更新
+### 持续更新
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
 
-## 我要赞赏
+### 我要赞赏
 创作不易，右上角点 ⭐Star 支持下吧，谢谢 ^_^ <br />
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
