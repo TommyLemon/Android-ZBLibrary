@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 
-坐标标准库ZBLibrary，是一个MVP架构的Android快速开发框架，提供一套开发标准（View,Data,Event）以及模板和工具类并规范代码。
+ZBLibrary，是一个MVP架构的Android快速开发框架，提供一套开发标准（View,Data,Event）以及模板和工具类并规范代码。
 封装层级少，简单高效兼容性好。
 
 OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自动缓存以及各种Base、Demo、UI、Util直接用。
