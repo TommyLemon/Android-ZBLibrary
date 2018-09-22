@@ -158,7 +158,6 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		findView(R.id.tvDemoTabRight).setOnClickListener(this);
 	}
 
-	//系统自带监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Override
@@ -172,11 +171,12 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 			selectMan();
 			break;
 		default:
+			break;
 		}
 	}
 
 
-	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//生命周期、onActivityResult<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private static final int REQUEST_TO_PLACE_PICKER = 10;
 	@Override
@@ -199,14 +199,10 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		}
 	}
 
-
-	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	//系统自带监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//生命周期、onActivityResult>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
 
 

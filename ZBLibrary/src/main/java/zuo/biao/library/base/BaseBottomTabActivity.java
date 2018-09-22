@@ -14,11 +14,12 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import zuo.biao.library.util.Log;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import zuo.biao.library.util.Log;
 
 /**基础底部标签Activity
  * @author Lemon
@@ -29,7 +30,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	protected static int[] tabClickIds;
@@ -37,7 +38,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected View[] vTabClickViews;
 	protected View[][] vTabSelectViews;
 	@Override
-	public void initView() {// 必须调用
+	public void initView() {//必须调用
 
 		tabClickIds = getTabClickIds();
 
@@ -66,7 +67,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected abstract void selectTab(int position);
 
 	/**设置选中状态
-	 * @param position 
+	 * @param position
 	 */
 	protected void setTabSelection(int position) {
 		if (vTabSelectViews == null) {
@@ -101,7 +102,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		setTabSelection(position);
 		selectTab(position);
 		//tab，资源消耗很小>>>>>>
-		
+
 		if (currentPosition == position) {
 			if (needReload) {
 				if (fragments[position] != null && fragments[position].isAdded()) {
@@ -118,7 +119,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 				}
 			}
 		}
-		
+
 
 		if (fragments[position] == null) {
 			fragments[position] = getFragment(position);
@@ -136,7 +137,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	}
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -147,25 +148,24 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 
-	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	protected Fragment[] fragments;
 	@Override
-	public void initData() {// 必须调用
+	public void initData() {//必须调用
 
-		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		fragments = new Fragment[getCount()];
 		selectFragment(currentPosition);
 
-		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		//fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
 
 
 	/**获取tab内设置点击事件的View的id
-	 * @param position
 	 * @return
 	 */
 	protected abstract int[] getTabClickIds();
@@ -180,7 +180,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	 * @return
 	 */
 	public abstract int getFragmentContainerResId();
-	
+
 	/**获取新的Fragment
 	 * @param position
 	 * @return
@@ -194,7 +194,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		return tabClickIds == null ? 0 :tabClickIds.length;
 	}
 
-	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -205,10 +205,10 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 
-	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initEvent() {// 必须调用
+	public void initEvent() {//必须调用
 
 		for (int i = 0; i < vTabClickViews.length; i++) {
 			final int which = i;
@@ -222,23 +222,26 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		}
 	}
 
-	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//生命周期、onActivityResult<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
-	// 内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//生命周期、onActivityResult>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	// 内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

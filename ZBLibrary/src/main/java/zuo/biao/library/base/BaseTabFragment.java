@@ -125,7 +125,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	@Nullable
@@ -145,7 +145,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 */
 	@Override
-	public void initView() {// 必须调用
+	public void initView() {//必须调用
 
 		tvBaseTabTitle = findView(R.id.tvBaseTabTitle);
 
@@ -218,7 +218,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -229,14 +229,14 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 
 
-	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private String topReturnButtonName;
 
 	protected TopTabView topTabView;
 	private Fragment[] fragments;
 	@Override
-	public void initData() {// 必须调用
+	public void initData() {//必须调用
 
 		if (tvBaseTabTitle != null) {
 			tvBaseTabTitle.setVisibility(StringUtil.isNotEmpty(getTitleName(), true) ? View.VISIBLE : View.GONE);
@@ -279,12 +279,12 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 		topTabView.bindView(getTabNames());
 
 
-		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		fragments = new Fragment[getCount()];
 		selectFragment(currentPosition);
 
-		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		//fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
 
@@ -397,7 +397,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 
 
-	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -408,10 +408,10 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 
 
-	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initEvent() {// 必须调用
+	public void initEvent() {//必须调用
 
 		if (ivBaseTabReturn != null) {
 			ivBaseTabReturn.setOnClickListener(this);
@@ -428,7 +428,6 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 		selectFragment(position);
 	}
 
-	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void onClick(View v) {
@@ -438,7 +437,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	}
 
 
-	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//生命周期、onActivityResult<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void onDestroy() {
@@ -460,17 +459,22 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 		topRightButtonList = null;
 	}
 
-	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//生命周期、onActivityResult>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
-	// 内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	// 内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }

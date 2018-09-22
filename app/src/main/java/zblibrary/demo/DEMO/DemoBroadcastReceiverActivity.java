@@ -14,16 +14,17 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import zblibrary.demo.R;
-import zblibrary.demo.DEMO.DemoHeadsetConnectionReceiver.OnHeadsetConnectionChangedListener;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.base.BaseBroadcastReceiver;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.Log;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import zblibrary.demo.DEMO.DemoHeadsetConnectionReceiver.OnHeadsetConnectionChangedListener;
+import zblibrary.demo.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.base.BaseBroadcastReceiver;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.Log;
 
 
 /** 使用方法：复制>粘贴>改名>改代码 */
@@ -38,7 +39,6 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 	/**启动这个Activity的Intent
 	 * @param context
-	 * @param title
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
@@ -178,12 +178,7 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 		finish();
 	}
 
-	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-
-
-	//类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//示例代码<<<<<<<<<<<<<<<<<<<
 	@Override
@@ -203,12 +198,16 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 	}
 	//示例代码>>>>>>>>>>>>>>>>>>>
 
-	//类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	//系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//生命周期、onActivityResult<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//生命周期、onActivityResult>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 

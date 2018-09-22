@@ -14,13 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import zuo.biao.library.R;
-import zuo.biao.library.util.Log;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+
+import zuo.biao.library.R;
+import zuo.biao.library.util.Log;
 
 /**基础底部弹出界面Activity
  * @author Lemon
@@ -39,7 +40,7 @@ public abstract class BaseBottomWindow extends BaseActivity {
 
 
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	protected View vBaseBottomWindowRoot;//子Activity全局背景View
 	/**
@@ -47,7 +48,7 @@ public abstract class BaseBottomWindow extends BaseActivity {
 	 * 否则必须在子类initView中重写这个类中initView内的代码(所有id替换成可用id)
 	 */
 	@Override
-	public void initView() {// 必须调用
+	public void initView() {//必须调用
 		enterAnim = exitAnim = R.anim.null_anim;
 
 		vBaseBottomWindowRoot = findView(R.id.vBaseBottomWindowRoot);
@@ -55,7 +56,7 @@ public abstract class BaseBottomWindow extends BaseActivity {
 		vBaseBottomWindowRoot.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bottom_window_enter));
 	}
 
-	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -66,19 +67,19 @@ public abstract class BaseBottomWindow extends BaseActivity {
 
 
 
-	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initData() {// 必须调用
-		
+	public void initData() {//必须调用
+
 	}
 
 	/**
 	 * 设置需要返回的结果
 	 */
 	protected abstract void setResult();
-	
-	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -89,11 +90,11 @@ public abstract class BaseBottomWindow extends BaseActivity {
 
 
 
-	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initEvent() {// 必须调用
-		
+	public void initEvent() {//必须调用
+
 		//			vBaseBottomWindowRoot.setOnClickListener(new OnClickListener() {
 		//
 		//				@Override
@@ -103,14 +104,14 @@ public abstract class BaseBottomWindow extends BaseActivity {
 		//			});
 
 	}
-	
-	
+
+
 	@Override
 	public void onForwardClick(View v) {
 		setResult();
 		finish();
 	}
-	
+
 
 	@SuppressLint("HandlerLeak")
 	public Handler exitHandler = new Handler(){
@@ -121,10 +122,8 @@ public abstract class BaseBottomWindow extends BaseActivity {
 		}
 	};
 
-	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//生命周期、onActivityResult<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	private boolean isExit = false;
 	/**带动画退出,并使退出事件只响应一次
@@ -150,17 +149,22 @@ public abstract class BaseBottomWindow extends BaseActivity {
 		vBaseBottomWindowRoot = null;
 	}
 
-	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//生命周期、onActivityResult>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
-	// 内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	// 内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }
