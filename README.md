@@ -50,9 +50,6 @@ APIJSONApp<br />
 [APIJSONApp.apk(APIJSON+ZBLibrary)](http://files.cnblogs.com/files/tommylemon/APIJSONApp.apk)
 
 ### 感谢开源
-[SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
-系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
-
 [Glide](https://github.com/bumptech/glide)
 Google官方推荐的一个强大易用的图片加载库。
 
@@ -65,6 +62,9 @@ Google官方推荐的一个强大易用的图片加载库。
 
 [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
 下拉刷新、上拉加载的库，兼容任意View，酷炫又好用。已在[BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java)等类内置支持。
+
+[SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
+系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
 
 [ZXingLib](https://github.com/xuyisheng/ZXingLib)
 这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
