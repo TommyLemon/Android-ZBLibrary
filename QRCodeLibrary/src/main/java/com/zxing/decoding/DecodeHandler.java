@@ -15,7 +15,6 @@
  */
 
 package com.zxing.decoding;
-import java.util.Hashtable;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +32,8 @@ import com.google.zxing.common.HybridBinarizer;
 import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;
 import com.zxing.camera.PlanarYUVLuminanceSource;
+
+import java.util.Hashtable;
 
 final class DecodeHandler extends Handler {
 
@@ -85,6 +86,13 @@ final class DecodeHandler extends Handler {
 			rawResult = multiFormatReader.decodeWithState(bitmap);
 		} catch (ReaderException re) {
 			// continue
+			try { //解决条形码与预览框的水平倾角超过30%识别不了，感谢群友 alert(3339238074) 的贡献
+				source = CameraManager.get().buildLuminanceSource(data, height, width);
+				bitmap = new BinaryBitmap(new HybridBinarizer(source));
+				rawResult = multiFormatReader.decodeWithState(bitmap);
+			} catch (Exception e) {
+				multiFormatReader.reset();
+			}
 		} finally {
 			multiFormatReader.reset();
 		}
