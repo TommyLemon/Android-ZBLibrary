@@ -79,11 +79,6 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 
 
 	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo_main_activity, this);

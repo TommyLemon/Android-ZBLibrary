@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -57,10 +56,6 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
 
 	private long userId = 0;
 	@Override

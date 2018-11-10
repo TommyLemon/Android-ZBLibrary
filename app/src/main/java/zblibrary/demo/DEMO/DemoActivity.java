@@ -54,11 +54,6 @@ public class DemoActivity extends BaseActivity implements OnBottomDragListener {
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
-
 	private long userId = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

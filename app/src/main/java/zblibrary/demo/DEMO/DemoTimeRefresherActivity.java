@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,11 +51,6 @@ implements OnClickListener, OnBottomDragListener, OnTimeRefreshListener {
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

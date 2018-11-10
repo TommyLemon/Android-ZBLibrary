@@ -14,15 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseBottomWindow;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.ContactUtil;
-import zuo.biao.library.util.EditTextUtil;
-import zuo.biao.library.util.StringUtil;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,15 +25,26 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseBottomWindow;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.ContactUtil;
+import zuo.biao.library.util.EditTextUtil;
+import zuo.biao.library.util.StringUtil;
+
 /**通用编辑个人资料文本界面
  * @author Lemon
  * @use
  * <br> toActivity或startActivityForResult (EditTextInfoWindow.createIntent(...), requestCode);
  * <br> 然后在onActivityResult方法内
- * <br> data.getStringExtra(EditTextInfoWindow.RESULT_EDIT_TEXT_INFO); 可得到输入框内容 
+ * <br> data.getStringExtra(EditTextInfoWindow.RESULT_EDIT_TEXT_INFO); 可得到输入框内容
  */
 public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListener {
 	//	private static final String TAG = "EditTextInfoWindow";
+
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**
 	 * @param context
@@ -89,10 +91,8 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 				putExtra(INTENT_PACKAGE_NAME, packageName);
 	}
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -315,8 +315,8 @@ public class EditTextInfoWindow extends BaseBottomWindow implements OnClickListe
 		super.finish();
 		EditTextUtil.hideKeyboard(context, etEditTextInfo);
 	}
-	
-	
+
+
 	public static final int REQUEST_TO_PLACE_PICKER = 11;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

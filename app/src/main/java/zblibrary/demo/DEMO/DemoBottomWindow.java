@@ -47,11 +47,6 @@ public class DemoBottomWindow extends BaseViewBottomWindow<Entry<String, String>
 
 
 	@Override
-	public Activity getActivity() {
-		return this;
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 

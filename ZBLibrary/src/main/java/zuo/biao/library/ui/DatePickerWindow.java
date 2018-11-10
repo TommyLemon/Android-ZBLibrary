@@ -15,7 +15,6 @@ limitations under the License.*/
 package zuo.biao.library.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -98,10 +97,6 @@ public class DatePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

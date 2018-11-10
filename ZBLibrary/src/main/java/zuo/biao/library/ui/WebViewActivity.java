@@ -14,13 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.Log;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,12 +27,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.StringUtil;
+
 /**通用网页Activity
  * @author Lemon
  * @use toActivity(WebViewActivity.createIntent(...));
  */
 public class WebViewActivity extends BaseActivity implements OnBottomDragListener, OnClickListener {
 	public static final String TAG = "WebViewActivity";
+
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public static final String INTENT_RETURN = "INTENT_RETURN";
 	public static final String INTENT_URL = "INTENT_URL";
@@ -53,11 +55,8 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 				putExtra(WebViewActivity.INTENT_URL, url);
 	}
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	private String url;
 	@Override

@@ -14,19 +14,9 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.interfaces.ActivityPresenter;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.manager.SystemBarTintManager;
-import zuo.biao.library.manager.ThreadManager;
-import zuo.biao.library.util.Log;
-import zuo.biao.library.util.ScreenUtil;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,6 +40,18 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.interfaces.ActivityPresenter;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.SystemBarTintManager;
+import zuo.biao.library.manager.ThreadManager;
+import zuo.biao.library.util.Log;
+import zuo.biao.library.util.ScreenUtil;
+import zuo.biao.library.util.StringUtil;
+
 /**基础android.support.v4.app.FragmentActivity，通过继承可获取或使用 里面创建的 组件 和 方法
  * *onFling内控制左右滑动手势操作范围，可自定义
  * @author Lemon
@@ -65,6 +67,12 @@ import android.widget.Toast;
  */
 public abstract class BaseActivity extends FragmentActivity implements ActivityPresenter, OnGestureListener {
 	private static final String TAG = "BaseActivity";
+
+
+	@Override
+	public Activity getActivity() {
+		return this; //必须return this;
+	}
 
 	/**
 	 * 该Activity实例，命名为context是因为大部分方法都只需要context，写成context使用更方便
@@ -101,7 +109,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		inflater = getLayoutInflater();
 
 		threadNameList = new ArrayList<String>();
-		
+
 		BaseBroadcastReceiver.register(context, receiver, ACTION_EXIT_APP);
 	}
 
@@ -152,7 +160,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 
 		view = inflater.inflate(layoutResID, null);
 		view.setOnTouchListener(new OnTouchListener() {
-			
+
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -476,7 +484,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		enterAnim = exitAnim = R.anim.null_anim;
 		finish();
 	}
-	
+
 	@Override
 	public void finish() {
 		super.finish();//必须写在最前才能显示自定义动画
@@ -548,8 +556,8 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
 	}
 
-	
-	
+
+
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 
 		public void onReceive(Context context, Intent intent) {
@@ -562,10 +570,10 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 
 			if (ACTION_EXIT_APP.equals(action)) {
 				finish();
-			} 
+			}
 		}
 	};
-	
+
 
 
 	//手机返回键和菜单键实现同点击标题栏左右按钮效果<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -664,15 +672,15 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 					onBottomDragListener.onDragBottom(true);
 					return true;
 				}
-			} 
+			}
 		}
 
 		return false;
 	}
-	@Override  
-	public boolean dispatchTouchEvent(MotionEvent ev) {  
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if (gestureDetector != null) {
-			gestureDetector.onTouchEvent(ev);  
+			gestureDetector.onTouchEvent(ev);
 		}
 		return super.dispatchTouchEvent(ev);
 	}

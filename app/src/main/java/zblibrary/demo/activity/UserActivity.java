@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,6 +52,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 , OnBottomMenuItemClickListener, OnHttpResponseListener {
 	public static final String TAG = "UserActivity";
 
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	/**获取启动UserActivity的intent
 	 * @param context
 	 * @param userId
@@ -62,11 +63,8 @@ public class UserActivity extends BaseActivity implements OnClickListener, OnBot
 		return new Intent(context, UserActivity.class).putExtra(INTENT_ID, userId);
 	}
 
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
 
 	private long userId = 0;
 	@Override

@@ -51,11 +51,6 @@ public class DemoFragmentActivity extends BaseActivity implements OnBottomDragLi
 
 
 	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//TODO demo_fragment_activity改为你所需要的layout文件；传this是为了全局滑动返回

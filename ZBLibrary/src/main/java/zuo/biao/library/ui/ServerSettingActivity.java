@@ -14,13 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.DataKeeper;
-import zuo.biao.library.util.SettingUtil;
-import zuo.biao.library.util.StringUtil;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +21,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.DataKeeper;
+import zuo.biao.library.util.SettingUtil;
+import zuo.biao.library.util.StringUtil;
 
 /**服务器设置activity
  * @author Lemon
@@ -93,10 +93,6 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	private String normalAddress;
 	private String testAddress;
@@ -135,7 +131,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 	private EditText etServerSettingTest;
 	@Override
 	public void initView() {//必须调用
-		
+
 		tvServerSettingNormalName = findView(R.id.tvServerSettingNormalName);
 		tvServerSettingTestName = findView(R.id.tvServerSettingTestName);
 
@@ -165,7 +161,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initData() {//必须调用
-		
+
 		//获取并显网址
 		etServerSettingNormal.setText(StringUtil.getNoBlankString(normalAddress));
 		etServerSettingTest.setText(StringUtil.getNoBlankString(testAddress));
@@ -207,7 +203,7 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initEvent() {//必须调用
-		
+
 		findView(R.id.tvServerSettingNormalSet).setOnClickListener(this);
 		findView(R.id.tvServerSettingNormalOpen).setOnClickListener(this);
 
@@ -222,12 +218,12 @@ public class ServerSettingActivity extends BaseActivity implements OnClickListen
 			etServerSettingNormal.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_NORMAL_HTTP));
 			etServerSettingTest.setText(StringUtil.getTrimedString(SettingUtil.URL_SERVER_ADDRESS_TEST));
 			return;
-		}	
-		
+		}
+
 		finish();
 	}
 
-	
+
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

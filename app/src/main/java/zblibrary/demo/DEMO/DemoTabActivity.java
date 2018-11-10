@@ -52,11 +52,6 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 
 
 	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, this);
 

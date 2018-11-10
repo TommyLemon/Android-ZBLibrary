@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -77,10 +76,6 @@ public class PlacePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, 
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	public static final String INTENT_PACKAGE_NAME = "INTENT_PACKAGE_NAME";
 

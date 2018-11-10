@@ -14,14 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseBottomWindow;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +26,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseBottomWindow;
+import zuo.biao.library.util.StringUtil;
 
 /**通用底部弹出菜单
  * @author Lemon
@@ -96,7 +96,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 	 * @param idList
 	 * @return
 	 */
-	public static Intent createIntent(Context context, 
+	public static Intent createIntent(Context context,
 			ArrayList<String> nameList, ArrayList<Integer> idList) {
 		return new Intent(context, BottomMenuWindow.class).
 				putStringArrayListExtra(INTENT_ITEMS, nameList).
@@ -105,11 +105,6 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -214,9 +209,9 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 		super.initEvent();
 
 		lvBottomMenu.setOnItemClickListener(this);
-		
+
 		vBaseBottomWindowRoot.setOnTouchListener(new OnTouchListener() {
-			
+
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -250,7 +245,7 @@ public class BottomMenuWindow extends BaseBottomWindow implements OnItemClickLis
 
 	@Override
 	protected void setResult() {
-		
+
 	}
 
 

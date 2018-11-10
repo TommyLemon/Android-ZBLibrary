@@ -14,6 +14,14 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,14 +33,6 @@ import zuo.biao.library.ui.GridPickerView.OnTabClickListener;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.StringUtil;
 import zuo.biao.library.util.TimeUtil;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.TextView;
 
 /**时间选择弹窗
  * @author Lemon
@@ -99,10 +99,6 @@ public class TimePickerWindow extends BaseViewBottomWindow<List<Entry<Integer, S
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

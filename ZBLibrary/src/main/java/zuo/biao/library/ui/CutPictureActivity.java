@@ -84,12 +84,8 @@ public class CutPictureActivity extends BaseActivity {
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
 
-	
+
 	private String originalPicturePath;
 	private String cuttedPicturePath;
 	private String cuttedPictureName;
@@ -132,7 +128,7 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initView() {//必须调用
-		
+
 	}
 
 
@@ -162,7 +158,7 @@ public class CutPictureActivity extends BaseActivity {
 		intent.putExtra("outputY", height);
 
 		if (Build.VERSION.SDK_INT >= 23) {
-			File outputImage = new File(DataKeeper.imagePath, "output_image" + System.currentTimeMillis() + ".jpg"); 
+			File outputImage = new File(DataKeeper.imagePath, "output_image" + System.currentTimeMillis() + ".jpg");
 			cuttedPicturePath = outputImage.getAbsolutePath();
 			intent.putExtra("scale", true);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputImage));
@@ -192,7 +188,7 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initData() {//必须调用
-		
+
 		startPhotoZoom(originalPicturePath, cuttedWidth, cuttedHeight);
 	}
 
@@ -211,7 +207,7 @@ public class CutPictureActivity extends BaseActivity {
 
 	@Override
 	public void initEvent() {//必须调用
-		
+
 	}
 
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -242,10 +238,10 @@ public class CutPictureActivity extends BaseActivity {
 								setCuttedPicturePath();
 								cuttedPicturePath = CommonUtil.savePhotoToSDCard(cuttedPicturePath, cuttedPictureName, "jpg", photo);
 							}
-						} 
+						}
 					}
 					setResult(RESULT_OK, new Intent().putExtra(RESULT_PICTURE_PATH, cuttedPicturePath));
-				} 
+				}
 				break;
 			default:
 				break;

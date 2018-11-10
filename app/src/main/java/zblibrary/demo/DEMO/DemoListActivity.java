@@ -61,11 +61,6 @@ public class DemoListActivity extends BaseListActivity<Entry<String, String>, Gr
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
-
 	private int range = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

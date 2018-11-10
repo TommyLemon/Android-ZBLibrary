@@ -49,11 +49,6 @@ public class DemoBroadcastReceiverActivity extends BaseActivity implements OnBot
 
 
 	@Override
-	public Activity getActivity() {
-		return this;
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo_broadcast_receiver_activity, this);

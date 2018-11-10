@@ -14,17 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.interfaces.OnBottomDragListener;
-import zuo.biao.library.util.EditTextUtil;
-import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,25 +37,35 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.util.EditTextUtil;
+import zuo.biao.library.util.StringUtil;
+
 /**通用编辑个人资料文本界面
  * @author Lemon
- * @use 
+ * @use
  * <br> toActivity或startActivityForResult (EditTextInfoActivity.createIntent(...), requestCode);
  * <br> 然后在onActivityResult方法内
- * <br> data.getStringExtra(EditTextInfoActivity.RESULT_EDIT_TEXT_INFO); 可得到输入框内容 
+ * <br> data.getStringExtra(EditTextInfoActivity.RESULT_EDIT_TEXT_INFO); 可得到输入框内容
  */
 public class EditTextInfoActivity extends BaseActivity implements OnBottomDragListener {
 	public static final String TAG = "EditTextInfoActivity";
 
 	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+
 	public static final String RESULT_TYPE = "RESULT_TYPE";
 	public static final String RESULT_KEY = "RESULT_KEY";
 	public static final String RESULT_VALUE = "RESULT_VALUE";
 	public static final String RESULT_URL = "RESULT_URL";
 	public static final String RESULT_ID = "RESULT_ID";
 	public static final String RESULT_IMAGE_URL = "RESULT_IMAGE_URL";
-	
+
 	/**
 	 * @param context
 	 * @param key
@@ -88,15 +88,10 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 				putExtra(INTENT_KEY, key).
 				putExtra(INTENT_VALUE, value);
 	}
-	
-	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	
 
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
+	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +116,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	//	private XListView lvEditTextInfo;
 	@Override
 	public void initView() {//必须调用
-		
+
 		etEditTextInfo = findView(R.id.etEditTextInfo);
 		ivEditTextInfoClear = findView(R.id.ivEditTextInfoClear);
 		tvEditTextInfoRemind = findView(R.id.tvEditTextInfoRemind);
@@ -302,7 +297,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 	private Handler searchHandler;
 	@Override
 	public void initEvent() {//必须调用
-		
+
 		searchHandler = new Handler(new Callback() {
 			@Override
 			public boolean handleMessage(Message msg) {
@@ -409,7 +404,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 		if (rightToLeft) {
 			saveAndExit();
 			return;
-		}		
+		}
 		finish();
 	}
 
@@ -424,7 +419,7 @@ public class EditTextInfoActivity extends BaseActivity implements OnBottomDragLi
 			searchHandler.sendMessage(msg);
 		}
 	}
-	
+
 	//系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override

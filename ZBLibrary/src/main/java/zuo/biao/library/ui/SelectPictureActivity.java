@@ -14,13 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.ui;
 
-import java.io.File;
-
-import zuo.biao.library.R;
-import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.util.CommonUtil;
-import zuo.biao.library.util.DataKeeper;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -33,6 +26,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import java.io.File;
+
+import zuo.biao.library.R;
+import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.util.CommonUtil;
+import zuo.biao.library.util.DataKeeper;
+
 /**通用选择单张照片Activity,已自带选择弹窗
  * @author Lemon
  * @use
@@ -41,8 +41,9 @@ import android.widget.Toast;
  * <br> data.getStringExtra(SelectPictureActivity.RESULT_PICTURE_PATH); 可得到图片存储路径
  */
 public class SelectPictureActivity extends BaseActivity implements OnClickListener {
-	@SuppressWarnings("unused")
-	private static final String TAG = "SelectPictureActivity";
+//	private static final String TAG = "SelectPictureActivity";
+
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	/**
 	 * @param context
@@ -51,12 +52,10 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 	public static Intent createIntent(Context context) {
 		return new Intent(context, SelectPictureActivity.class);
 	}
-	
-	@Override
-	public Activity getActivity() {
-		return this;
-	}
-	
+
+	//启动方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,7 +74,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initView() {//必须调用
-		
+
 	}
 
 
@@ -95,7 +94,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 	private String picturePath = "";
 	@Override
 	public void initData() {//必须调用
-		
+
 	}
 
 	private File cameraFile;
@@ -177,7 +176,7 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initEvent() {//必须调用
-		
+
 		findViewById(R.id.llSelectPictureBg).setOnClickListener(this);
 
 		toActivity(new Intent(context, BottomMenuWindow.class)

@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,11 +49,6 @@ public class MainTabActivity extends BaseBottomTabActivity implements OnBottomDr
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

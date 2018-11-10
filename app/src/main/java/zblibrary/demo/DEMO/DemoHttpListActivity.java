@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zblibrary.demo.DEMO;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,13 +64,6 @@ public class DemoHttpListActivity extends BaseHttpListActivity<User, ListView, U
 	}
 
 	//启动方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-	@Override
-	public Activity getActivity() {
-		return this; //必须return this;
-	}
 
 
 	private int range = RANGE_ALL;
