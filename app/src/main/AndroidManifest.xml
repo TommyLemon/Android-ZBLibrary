@@ -4,10 +4,6 @@
     android:versionCode="28"
     android:versionName="@string/app_version" >
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="22" />
-
     <!-- 需要的权限和功能 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

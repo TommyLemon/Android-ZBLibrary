@@ -2,7 +2,6 @@ package zuo.biao.library.base;
 
 import zuo.biao.library.R;
 import zuo.biao.library.util.DataKeeper;
-import zuo.biao.library.util.ImageLoaderUtil;
 import zuo.biao.library.util.Log;
 import zuo.biao.library.util.SettingUtil;
 import android.app.Application;
@@ -44,7 +43,6 @@ public class BaseApplication extends Application {
 		
 		DataKeeper.init(instance);
 		SettingUtil.init(instance);
-		ImageLoaderUtil.init(instance);
 	}
 
 	/**获取应用名

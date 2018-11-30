@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "zblibrary.demo"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 27
         versionCode 28
         versionName "18.3"
     }
@@ -17,6 +17,10 @@ android {
         }
     }
     productFlavors {
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
