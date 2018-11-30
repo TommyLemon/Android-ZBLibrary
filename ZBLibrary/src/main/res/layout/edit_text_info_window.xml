@@ -53,7 +53,8 @@
                 android:paddingRight="10dp"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/edit_cusor"
-                android:textSize="17sp" >
+                android:textSize="17sp"
+                android:importantForAutofill="no">
 
                 <requestFocus />
             </EditText>

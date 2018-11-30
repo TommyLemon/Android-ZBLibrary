@@ -105,7 +105,7 @@ public class GridPickerAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.grid_picker_item, parent, false);
 			holder = new ViewHolder();
 
-			holder.tv = (TextView) convertView.findViewById(R.id.tvGridPickerItem);
+			holder.tv = convertView.findViewById(R.id.tvGridPickerItem);
 
 			convertView.setTag(holder);
 		}

@@ -127,7 +127,7 @@ public abstract class BaseListFragment<T, LV extends AbsListView, A extends List
 	 * @param adapter
 	 */
 	public void setAdapter(A adapter) {
-		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
+		if (adapter instanceof BaseAdapter) {
 			((zuo.biao.library.base.BaseAdapter) adapter).setOnItemClickListener(this);
 			((zuo.biao.library.base.BaseAdapter) adapter).setOnItemLongClickListener(this);
 		}

@@ -102,10 +102,10 @@ public class AlertDialog extends Dialog implements android.view.View.OnClickList
 		setContentView(R.layout.alert_dialog); 
 		setCanceledOnTouchOutside(true);
 
-		tvTitle = (TextView) findViewById(R.id.tvAlertDialogTitle);
-		tvMessage = (TextView) findViewById(R.id.tvAlertDialogMessage);
-		btnPositive = (Button) findViewById(R.id.btnAlertDialogPositive);
-		btnNegative = (Button) findViewById(R.id.btnAlertDialogNegative);
+		tvTitle = findViewById(R.id.tvAlertDialogTitle);
+		tvMessage = findViewById(R.id.tvAlertDialogMessage);
+		btnPositive = findViewById(R.id.btnAlertDialogPositive);
+		btnNegative = findViewById(R.id.btnAlertDialogNegative);
 
 		tvTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
 		tvTitle.setText("" + StringUtil.getCurrentString());
