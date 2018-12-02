@@ -155,12 +155,12 @@ public class GridAdapter extends BaseAdapter {
 			convertView = inflater.inflate(layoutRes, parent, false);
 
 			holder = new ViewHolder();
-			holder.ivGridItemHead = (ImageView) convertView.findViewById(R.id.ivGridItemHead);
+			holder.ivGridItemHead = convertView.findViewById(R.id.ivGridItemHead);
 			if (hasName) {
-				holder.tvGridItemName = (TextView) convertView.findViewById(R.id.tvGridItemName);
+				holder.tvGridItemName = convertView.findViewById(R.id.tvGridItemName);
 			}
 			if (hasCheck) {
-				holder.ivGridItemCheck = (ImageView) convertView.findViewById(R.id.ivGridItemCheck);
+				holder.ivGridItemCheck = convertView.findViewById(R.id.ivGridItemCheck);
 			}
 
 			convertView.setTag(holder);

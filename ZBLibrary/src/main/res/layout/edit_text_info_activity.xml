@@ -34,7 +34,8 @@
             android:focusableInTouchMode="true"
             android:hint="请在这里输入"
             android:textColor="@color/black"
-            android:textSize="17sp" >
+            android:textSize="17sp"
+            android:importantForAutofill="no">
 
             <requestFocus />
         </EditText>

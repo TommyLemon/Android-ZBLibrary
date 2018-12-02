@@ -54,6 +54,7 @@ public class SSLUtil {
                     if (certificate != null)
                         certificate.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             SSLContext sslContext = SSLContext.getInstance("TLS");

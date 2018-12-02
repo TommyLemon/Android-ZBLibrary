@@ -38,7 +38,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:hint="Input the text"/>
+        android:hint="Input the text"
+        android:importantForAutofill="no" />
     
     <Button
         android:id="@+id/btn_add_qrcode"

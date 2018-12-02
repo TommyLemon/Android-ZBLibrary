@@ -92,7 +92,7 @@ public abstract class BaseHttpListFragment<T, LV extends AbsListView, A extends 
 
 	@Override
 	public void setAdapter(A adapter) {
-		if (adapter != null && adapter instanceof BaseAdapter) {
+		if (adapter instanceof BaseAdapter) {
 			((BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
 				@Override
 				public void onRefresh() {

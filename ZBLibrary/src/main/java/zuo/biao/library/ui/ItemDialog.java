@@ -76,8 +76,8 @@ public class ItemDialog extends Dialog implements OnItemClickListener {
 		setContentView(R.layout.item_dialog); 
 		setCanceledOnTouchOutside(true);
 
-		tvItemDialogTitle = (TextView) findViewById(R.id.tvItemDialogTitle);
-		lvItemDialog = (ListView) findViewById(R.id.lvItemDialog);
+		tvItemDialogTitle = findViewById(R.id.tvItemDialogTitle);
+		lvItemDialog = findViewById(R.id.lvItemDialog);
 
 		tvItemDialogTitle.setVisibility(StringUtil.isNotEmpty(title, true) ? View.VISIBLE : View.GONE);
 		tvItemDialogTitle.setText("" + StringUtil.getCurrentString());

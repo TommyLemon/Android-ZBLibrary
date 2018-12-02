@@ -4,10 +4,6 @@
           android:versionCode="1"
           android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="22" />
-
     <!-- 复制粘贴到你的工程的AndroidManifest.xml内对应位置 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
 

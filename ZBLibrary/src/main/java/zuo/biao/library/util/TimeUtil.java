@@ -366,8 +366,8 @@ public class TimeUtil {
 		long between = 0;
 		try {
 
-			date0 = (Date) sdf.parse(sdf.format(new Date(dateLong0)));
-			date1 = (Date) sdf.parse(sdf.format(new Date(dateLong1)));
+			date0 = sdf.parse(sdf.format(new Date(dateLong0)));
+			date1 = sdf.parse(sdf.format(new Date(dateLong1)));
 			between = (date0.getTime() - date1.getTime())/1000;//除以1000是为了转换成秒
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

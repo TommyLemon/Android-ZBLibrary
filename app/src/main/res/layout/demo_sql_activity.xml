@@ -59,7 +59,8 @@
             android:id="@+id/etDemoSQLQueryColumn"
             style="@style/text_small_black"
             android:layout_weight="1"
-            android:text="_id" />
+            android:text="_id"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/tvDemoSQLQueryValue"
@@ -70,7 +71,8 @@
             android:id="@+id/etDemoSQLQueryValue"
             style="@style/text_small_black"
             android:layout_weight="1"
-            android:text="0" />
+            android:text="0"
+            android:importantForAutofill="no" />
     </LinearLayout>
 
     <LinearLayout style="@style/ll_horizontal_match_wrap" >
@@ -84,7 +86,8 @@
             android:id="@+id/etDemoSQLEditColumn"
             style="@style/text_small_black"
             android:layout_weight="1"
-            android:text="name" />
+            android:text="name"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/tvDemoSQLEditValue"
@@ -95,7 +98,8 @@
             android:id="@+id/etDemoSQLEditValue"
             style="@style/text_small_black"
             android:layout_weight="1"
-            android:text="xxx" />
+            android:text="xxx"
+            android:importantForAutofill="no" />
     </LinearLayout>
 
     <LinearLayout style="@style/ll_horizontal_match_wrap" >

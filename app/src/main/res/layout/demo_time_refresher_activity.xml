@@ -38,7 +38,8 @@
             android:hint="请输入时间间隔"
             android:inputType="number"
             android:maxLength="6"
-            android:paddingLeft="6dp" />
+            android:paddingLeft="6dp"
+            android:importantForAutofill="no" />
 
         <ImageButton
             android:id="@+id/ibtnDemoTimeRefresher"

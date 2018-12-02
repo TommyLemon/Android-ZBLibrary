@@ -43,7 +43,8 @@
             android:id="@+id/etServerSettingNormal"
             style="@style/edit_item_right_et"
             android:layout_weight="1"
-            android:maxLength="100" />
+            android:maxLength="100"
+            android:importantForAutofill="no" />
     </LinearLayout>
 
     <View style="@style/divider_horizontal_1px" />
@@ -91,7 +92,8 @@
             android:id="@+id/etServerSettingTest"
             style="@style/edit_item_right_et"
             android:layout_weight="1"
-            android:maxLength="100" />
+            android:maxLength="100"
+            android:importantForAutofill="no" />
     </LinearLayout>
 
     <View style="@style/divider_horizontal_1px" />

@@ -158,7 +158,7 @@ public class TopMenuWindow extends Activity implements OnItemClickListener, OnCl
 
 		adapter = new ArrayAdapter<String>(this, R.layout.top_menu_list_item, R.id.tvTopMenuListItem, nameList);
 
-		lvTopMenu = (ListView) findViewById(R.id.lvTopMenuWindowMenu);
+		lvTopMenu = findViewById(R.id.lvTopMenuWindowMenu);
 		lvTopMenu.setAdapter(adapter);
 		lvTopMenu.setOnItemClickListener(this);
 	}

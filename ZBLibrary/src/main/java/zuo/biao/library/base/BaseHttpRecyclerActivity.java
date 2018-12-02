@@ -73,7 +73,7 @@ public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHo
 
 	@Override
 	public void setAdapter(A adapter) {
-		if (adapter != null && adapter instanceof zuo.biao.library.base.BaseAdapter) {
+		if (adapter instanceof BaseAdapter) {
 			((zuo.biao.library.base.BaseAdapter) adapter).setOnLoadListener(new OnLoadListener() {
 				@Override
 				public void onRefresh() {

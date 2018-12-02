@@ -35,11 +35,10 @@ public class DownloadUtil {
                 FileOutputStream fos = new FileOutputStream(file);
                 byte[] buf = new byte[256];
                 conn.connect();
-                double count = 0;
                 if (conn.getResponseCode() >= 400) {
                     CommonUtil.showShortToast(context, "连接超时");
                 } else {
-                    while (count <= 100) {
+                    while (true) {
                         if (is != null) {
                             int numRead = is.read(buf);
                             if (numRead <= 0) {

@@ -135,8 +135,8 @@ public class BottomMenuView extends BaseView<List<Menu>> {
 		}
 
 		LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.icon_name_item, null);
-		ImageView iv = (ImageView) ll.findViewById(R.id.ivIconNameIcon);
-		TextView tv = (TextView) ll.findViewById(R.id.tvIconNameName);
+		ImageView iv = ll.findViewById(R.id.ivIconNameIcon);
+		TextView tv = ll.findViewById(R.id.tvIconNameName);
 		try {
 			iv.setImageResource(isMoreButton ? R.drawable.up_light : fsb.getImageRes());
 		} catch (Exception e) {
