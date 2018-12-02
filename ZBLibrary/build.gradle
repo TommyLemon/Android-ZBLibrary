@@ -2,10 +2,10 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -27,12 +27,11 @@ android {
 dependencies {
     //TODO 如果这些依赖和你项目中的依赖有冲突，则需要统一版本号，或者删除重复的依赖
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.android.support:appcompat-v7:27.1.1'
-    //版本随意（必须）
-    api 'com.android.support:design:27.1.1'
-    //版本随意（非必须，引用可以解决无法预览问题）
-    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-4'
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.alibaba:fastjson:1.2.54'
     api 'com.github.bumptech.glide:glide:4.8.0'
+
+    api 'com.android.support:design:27.1.1'  //版本随意（必须）
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-4' //版本随意（非必须，引用可以解决无法预览问题）
 }
