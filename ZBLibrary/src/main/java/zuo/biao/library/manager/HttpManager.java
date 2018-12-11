@@ -234,6 +234,7 @@ public class HttpManager {
 					result = getResponseJson(
 							client,
 							new Request.Builder()
+                                    .url(url)
 									.post(requestBody)
 									.build()
 					);
