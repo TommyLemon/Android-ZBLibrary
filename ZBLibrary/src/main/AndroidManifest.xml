@@ -25,6 +25,9 @@
         android:label="@string/app_name"
         >
 
+        <!-- 更好的适配全面屏 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+
         <activity
             android:name="zuo.biao.library.ui.SelectPictureActivity"
             android:screenOrientation="portrait"
