@@ -14,7 +14,6 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -34,10 +33,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,7 +129,8 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+			);
 		}
 		SystemBarTintManager tintManager = new SystemBarTintManager(this);
 		tintManager.setStatusBarTintEnabled(true);
@@ -159,7 +158,13 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		onBottomDragListener = listener;
 		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
 
-		view=((FrameLayout)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
+		try { //以防万一中间的值为 null 导致 throw NullPointerException
+			view = ((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
+		} catch (Exception e) {
+			Log.e(TAG, "setContentView  try {" +
+					"\nview = ((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);" +
+					"\n} catch (Exception e) {\n" + e.getMessage());
+		}
 	}
 
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -586,20 +591,20 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		}
 
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			if (onBottomDragListener != null) {
-				onBottomDragListener.onDragBottom(false);
-				return true;
-			}
-			break;
-		case KeyEvent.KEYCODE_MENU:
-			if (onBottomDragListener != null) {
-				onBottomDragListener.onDragBottom(true);
-				return true;
-			}
-			break;
-		default:
-			break;
+			case KeyEvent.KEYCODE_BACK:
+				if (onBottomDragListener != null) {
+					onBottomDragListener.onDragBottom(false);
+					return true;
+				}
+				break;
+			case KeyEvent.KEYCODE_MENU:
+				if (onBottomDragListener != null) {
+					onBottomDragListener.onDragBottom(true);
+					return true;
+				}
+				break;
+			default:
+				break;
 		}
 
 		return super.onKeyUp(keyCode, event);
