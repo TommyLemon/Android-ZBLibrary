@@ -37,6 +37,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -158,15 +159,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		onBottomDragListener = listener;
 		gestureDetector = new GestureDetector(this, this);//初始化手势监听类
 
-		view = inflater.inflate(layoutResID, null);
-		view.setOnTouchListener(new OnTouchListener() {
-
-			@SuppressLint("ClickableViewAccessibility")
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return gestureDetector.onTouchEvent(event);
-			}
-		});
+		view=((FrameLayout)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
 	}
 
 	//底部滑动实现同点击标题栏左右按钮效果>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
