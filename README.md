@@ -163,6 +163,11 @@ public class DemoApplication extends Application {
 [Wiki-FAQ](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95)
 
 ### 使用登记
+<div style="float:left">
+  <a href="http://www.egatee.com"><img src="https://lh3.googleusercontent.com/t_sA6kGX4WbqKHpTuLYx8hFClRfUHSXOWy53TsGTOYUiki7jfooQr9TDZOzY9CXcAAT3=s180-rw" height="60"></a>
+</div>
+<br />
+
 [您在使用ZBLibrary吗？](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
 
 
