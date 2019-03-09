@@ -164,9 +164,9 @@ public class DemoApplication extends Application {
 
 ### 使用登记
 <div style="float:left">
-  <a href="http://www.egatee.com"><img src="https://lh3.googleusercontent.com/t_sA6kGX4WbqKHpTuLYx8hFClRfUHSXOWy53TsGTOYUiki7jfooQr9TDZOzY9CXcAAT3=s180-rw" height="60"></a>
-  <a href="http://zhushou.360.cn/detail/index/soft_id/2687307?recrefer=SE_D_hi%E5%88%9D%E8%A7%81"><img src="http://p16.qhimg.com/t01dccaedd0ebed2ad9.png" height="60"></a>
-  <a href="https://www.wandoujia.com/apps/com.pobing.crafts"><img src="https://android-artworks.25pp.com/fs08/2016/06/07/10/1_dc9bffc8d352e7eb329a0851cf5bb097_con_130x130.png" height="60"></a>
+  <a ><img src="https://lh3.googleusercontent.com/t_sA6kGX4WbqKHpTuLYx8hFClRfUHSXOWy53TsGTOYUiki7jfooQr9TDZOzY9CXcAAT3=s180-rw" height="60"></a>
+  <a ><img src="http://p16.qhimg.com/t01dccaedd0ebed2ad9.png" height="60"></a>
+  <a ><img src="https://android-artworks.25pp.com/fs08/2016/06/07/10/1_dc9bffc8d352e7eb329a0851cf5bb097_con_130x130.png" height="60"></a>
 </div>
 <br />
 
