@@ -164,7 +164,7 @@ public class DemoApplication extends Application {
 
 ### 使用登记
 <div style="float:left">
-  <a href="https://sj.qq.com/myapp/detail.htm?apkName=com.dahua.leapmotor"><img src="https://pp.myapp.com/ma_icon/0/icon_52688286_1551098818/96" height="60"></a>
+  <a href="https://www.leapmotor.com/"><img src="https://pp.myapp.com/ma_icon/0/icon_52688286_1551098818/96" height="60"></a>
   <a href="http://www.egatee.com"><img src="https://lh3.googleusercontent.com/t_sA6kGX4WbqKHpTuLYx8hFClRfUHSXOWy53TsGTOYUiki7jfooQr9TDZOzY9CXcAAT3=s180-rw" height="60"></a>
   <a href="https://www.wandoujia.com/apps/com.didi.activity"><img src="https://android-artworks.25pp.com/fs08/2018/11/07/5/106_d33fcebea05e7bc1510a606d4bff86c7_con_130x130.png" height="60"></a>
   <a href="http://www.egatee.com"><img src="https://android-artworks.25pp.com/fs08/2018/03/12/1/110_d483f8186cd7ffb2f1bf1992f250e722_con_130x130.png" height="60"></a>
