@@ -165,14 +165,14 @@ public class DemoApplication extends Application {
 ### 使用登记
 <div style="float:left">
   <a href="https://www.leapmotor.com/"><img src="https://pp.myapp.com/ma_icon/0/icon_52688286_1551098818/96" height="60"></a>
-  <a href="http://www.egatee.com"><img src="https://lh3.googleusercontent.com/t_sA6kGX4WbqKHpTuLYx8hFClRfUHSXOWy53TsGTOYUiki7jfooQr9TDZOzY9CXcAAT3=s180-rw" height="60"></a>
+  <a href="http://www.egatee.com"><img src="https://github.com/TommyLemon/StaticResources/blob/master/Egatee.webp" height="60"></a>
   <a href="http://www.hzviewin.com/cxb"><img src="https://android-artworks.25pp.com/fs08/2018/11/07/5/106_d33fcebea05e7bc1510a606d4bff86c7_con_130x130.png" height="60"></a>
   <a href="http://www.dzwww.com/shandong/sdnews/201803/t20180305_17109009.htm"><img src="https://android-artworks.25pp.com/fs08/2018/03/12/1/110_d483f8186cd7ffb2f1bf1992f250e722_con_130x130.png" height="60"></a>
   <a href="https://sj.qq.com/myapp/detail.htm?apkName=com.pianfu.hungrybat"><img src="https://pp.myapp.com/ma_icon/0/icon_42293553_1479800504/96" height="60"></a>
   <a href="https://www.wandoujia.com/apps/com.pobing.crafts"><img src="https://android-artworks.25pp.com/fs08/2016/06/07/10/1_dc9bffc8d352e7eb329a0851cf5bb097_con_130x130.png" height="60"></a>
   <a href="http://zhushou.360.cn/detail/index/soft_id/3276581?recrefer=SE_D_%E5%BF%AB%E7%94%A8%E9%80%9A%E8%AE%AF%E5%BD%95"><img src="http://p17.qhimg.com/t01ed3c14480b8bef6b.png" height="60"></a>
   <a href="http://zhushou.360.cn/detail/index/soft_id/2687307?recrefer=SE_D_hi%E5%88%9D%E8%A7%81"><img src="http://p16.qhimg.com/t01dccaedd0ebed2ad9.png" height="60"></a>
-  <a href="http://www.egatee.com"><img src="https://android-artworks.25pp.com/fs08/2016/06/07/10/1_dc9bffc8d352e7eb329a0851cf5bb097_con_130x130.png" height="60"></a>
+  <a href="http://www.bjzxyy.com"><img src="https://raw.githubusercontent.com/TommyLemon/StaticResources/master/BaoJiShiZhongXinYiYuan.png" height="60"></a>
 </div>
 <br />
 
