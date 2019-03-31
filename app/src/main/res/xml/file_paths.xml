@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--//代表的目录即为：Environment.getExternalStorageDirectory()/Android/data/包名/-->
+    <external-path
+        name="files_root"
+        path="Android/data/zblibrary.demo/" />
+
+    <!--//代表的目录即为：Environment.getExternalStorageDirectory()-->
+    <external-path
+        name="external_storage_root"
+        path="." />
+
+    <!--//代表的目录即为：Environment.getExternalStorageDirectory()/pics-->
+    <external-path
+        name="external"
+        path="pics" />
+
+</paths>

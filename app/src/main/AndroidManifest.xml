@@ -58,6 +58,19 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="zblibrary.demo.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
         <activity
             android:name="zblibrary.demo.activity.SplashActivity"
             android:label="@string/app_name"

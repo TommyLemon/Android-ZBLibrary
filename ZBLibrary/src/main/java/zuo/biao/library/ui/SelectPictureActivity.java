@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +31,7 @@ import java.io.File;
 
 import zuo.biao.library.R;
 import zuo.biao.library.base.BaseActivity;
+import zuo.biao.library.base.BaseApplication;
 import zuo.biao.library.util.CommonUtil;
 import zuo.biao.library.util.DataKeeper;
 
@@ -111,7 +113,15 @@ public class SelectPictureActivity extends BaseActivity implements OnClickListen
 		// 指定调用相机拍照后照片的储存路径
 		cameraFile = new File(DataKeeper.imagePath, "photo" + System.currentTimeMillis() + ".jpg");
 		cameraFile.getParentFile().mkdirs();
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+
+		Uri uri;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			uri = FileProvider.getUriForFile(context, BaseApplication.getInstance().getApplicationInfo().packageName + ".fileProvider", cameraFile);
+		} else {
+			uri = Uri.fromFile(cameraFile);
+		}
+
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		toActivity(intent, REQUEST_CODE_CAMERA);
 	}
 
