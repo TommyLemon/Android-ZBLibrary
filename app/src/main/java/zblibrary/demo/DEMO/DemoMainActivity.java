@@ -252,6 +252,7 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 		findView(R.id.llDemoMainDemoTimeRefresherActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoBroadcastReceiverActivity).setOnClickListener(this);
 		findView(R.id.llDemoMainDemoBottomWindow).setOnClickListener(this);
+		findView(R.id.llDemoMainDemoThreadPoolActivity).setOnClickListener(this);
 
 
 		findView(R.id.llDemoMainTopMenuWindow).setOnClickListener(this);
@@ -402,6 +403,9 @@ public class DemoMainActivity extends BaseActivity implements OnClickListener, O
 			break;
 		case R.id.llDemoMainDemoBroadcastReceiverActivity:
 			toActivity(DemoBroadcastReceiverActivity.createIntent(context));
+			break;
+		case R.id.llDemoMainDemoThreadPoolActivity:
+			toActivity(DemoThreadPoolActivity.createIntent(context));
 			break;
 		case R.id.llDemoMainDemoBottomWindow:
 			toActivity(DemoBottomWindow.createIntent(context, ""), REQUEST_TO_DEMO_BOTTOM_WINDOW, false);
