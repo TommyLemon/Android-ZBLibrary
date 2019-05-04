@@ -1,17 +1,16 @@
 package zuo.biao.library.util.thread.pool;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/*
-* 2019.4.20
-* 无核心线程，最大数量工作线程，存活时间短。
-* 可用于，一次性、大数量异步任务处理。
-*
-* */
+/**
+ * 2019.4.20
+ * 无核心线程，最大数量工作线程，存活时间短。
+ * 可用于，一次性、大数量异步任务处理。
+ * @author bladeofgod
+ */
 public class CacheThreadPool {
 
     private volatile ThreadPoolExecutor mExecutors;
