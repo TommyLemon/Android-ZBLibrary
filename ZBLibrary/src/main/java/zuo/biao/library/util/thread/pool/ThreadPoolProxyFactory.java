@@ -1,11 +1,11 @@
 package zuo.biao.library.util.thread.pool;
 
-/*
-* 2019.4.20
-* 线程池代理，根据不同需求返回不同类型线程池
-* 可自行根据需求扩展
-*
-* */
+/**
+ * 2019.4.20
+ * 线程池代理，根据不同需求返回不同类型线程池
+ * 可自行根据需求扩展
+ * @author bladeofgod
+ */
 
 public class ThreadPoolProxyFactory {
 

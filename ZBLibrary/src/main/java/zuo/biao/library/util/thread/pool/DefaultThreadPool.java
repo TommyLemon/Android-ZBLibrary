@@ -9,12 +9,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/*
-* 2019.4.20
-* 指定数量的核心线程和工作线程 3秒存活时间
-* 可用于一般异步任务处理
-*
-* */
+/**
+ * 2019.4.20
+ * 指定数量的核心线程和工作线程 3秒存活时间
+ * 可用于一般异步任务处理
+ * @author bladeofgod
+ */
 
 public class DefaultThreadPool {
 
