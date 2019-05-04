@@ -73,8 +73,6 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
     public void initEvent() {
         findView(R.id.btn_default).setOnClickListener(this);
         findView(R.id.btn_cache).setOnClickListener(this);
-
-
     }
 
     Handler handler = new Handler(){
@@ -126,6 +124,7 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
     /*
     * cache线程池：
     * 建议与ui无关的异步任务使用此线程池
+    * #与UI有关的，注意处理好数据处理顺序。
     *
     * 这里仅在log输出展示
     * */
