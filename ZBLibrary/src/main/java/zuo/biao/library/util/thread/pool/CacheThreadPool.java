@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 2019.4.20
  * 无核心线程，最大数量工作线程，存活时间短。
- * 可用于，一次性、大数量异步任务处理。
+ * 可用于 一次性、大数量、高频等异步任务处理。
  * @author bladeofgod
  */
 public class CacheThreadPool {

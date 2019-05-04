@@ -311,6 +311,17 @@
 
                 <ImageView style="@style/content_item_rt_img" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llDemoMainDemoThreadPoolActivity"
+                style="@style/content_item_white" >
+
+                <TextView
+                    style="@style/content_item_lf_tv"
+                    android:layout_weight="1"
+                    android:text="DemoThreadPoolActivity" />
+
+                <ImageView style="@style/content_item_rt_img" />
+            </LinearLayout>
 
             <View style="@style/divider_horizontal_1px" />
 
