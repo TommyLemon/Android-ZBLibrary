@@ -1,6 +1,15 @@
-app/build
-ZBLibrary/build
-QRCodeLibrary/build
-build
-.gradle
-.idea
+.gradle/
+
+# Android Studio
+/.idea
+/local.properties
+/captures
+build/
+.DS_Store
+*.iml
+.externalNativeBuild
+
+# vscode
+.settings/
+.classpath
+.project%
