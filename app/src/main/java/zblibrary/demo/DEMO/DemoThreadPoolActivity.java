@@ -8,6 +8,8 @@ import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.util.Log;
@@ -33,6 +35,7 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
 
     private static final int DEFAULT_POOL = 500;
     private static final int CACHE_POOL = 800;
+    private static final int SINGLE_POOL = 1000;
 
     public static Intent createIntent(Context context){
         return new Intent(context,DemoThreadPoolActivity.class);
@@ -51,13 +54,14 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
 
 
 
-    TextView tvDefault,tvCache;
+    TextView tvDefault,tvCache,tvSingle;
 
     @Override
     public void initView() {
 
         tvDefault = findView(R.id.tv_default);
         tvCache = findView(R.id.tv_cache);
+        tvSingle = findView(R.id.tv_single);
 
     }
 
@@ -70,6 +74,7 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
     public void initEvent() {
         findView(R.id.btn_default).setOnClickListener(this);
         findView(R.id.btn_cache).setOnClickListener(this);
+        findView(R.id.btn_single).setOnClickListener(this);
     }
 
     Handler handler = new Handler(){
@@ -82,15 +87,22 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
                 case CACHE_POOL:
                     handleMsgFromCache();
                     break;
+                case SINGLE_POOL:
+                    handleMsgFromSingle();
+                    break;
             }
         }
     };
 
+
+    //===============================================================
     private void handleMsgFromDefault(){
         tvDefault.setText(
                 "DefaultThreadPool; 核心3线程，最大5线程，3000毫秒存活时间可执行一般异步任务需求。\n使用简单，这里仅做简单展示"
         );
     }
+
+    //===============================================================
     String info = "CacheThreadPool: 线程数为Integer.MAX,无核心线程，存活时间：" +
             "60毫秒适合执行大量、高频、一次性、后台（建议无关UI的）等的异步任务，\n" +
             "仅做简单展示，输出可查看LOG\n";
@@ -99,6 +111,8 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
         sb.append(info);
         tvCache.setText(sb);
     }
+
+
 
     /*
     * 常规线程池：
@@ -131,14 +145,46 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
             ThreadPoolProxyFactory.getCacheThreadPool().execute(new Runnable() {
                 @Override
                 public void run() {
-                    Log.i(TAG, "第 "+count +" 条信息");
-                    count +=1;
                     Message msg = Message.obtain();
                     msg.what = CACHE_POOL;
                     handler.sendMessageDelayed(msg, 50);
                 }
             });
         }
+    }
+
+    /*
+    * 单一线程池
+    * 适合需要顺序执行的异步任务
+    *
+    *
+    * */
+    private AtomicInteger taskIndex = new AtomicInteger();
+    private void initSinglePool(){
+        taskIndex.set(1);
+        for (int i=0 ; i< 5 ; i++){
+            ThreadPoolProxyFactory.getSingleThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    Message msg = Message.obtain();
+                    msg.what = SINGLE_POOL;
+                    handler.sendMessageDelayed(msg,1000);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    //===============================================================
+
+    StringBuffer singleSB =new StringBuffer();
+    private void handleMsgFromSingle(){
+        singleSB.append("正在处理任务： " + taskIndex.getAndIncrement() + "\n");
+        tvSingle.setText(singleSB.toString());
     }
 
     @Override
@@ -151,6 +197,10 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
             case R.id.btn_cache:
                 showShortToast("请求中");
                 initCachePool();
+                break;
+            case R.id.btn_single:
+                showShortToast("请求中");
+                initSinglePool();
                 break;
         }
 
