@@ -1,70 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".DEMO.DemoThreadPoolActivity"
-    style="@style/match_match"
+    style="@style/activity_page"
     >
 
-    <Button
-        android:id="@+id/btn_default"
-        android:text="default thread pool"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv_default"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/btn_cache"
-        android:text="cache thread pool"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv_cache"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/btn_single"
-        android:text="single thread pool"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv_single"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <RelativeLayout style="@style/topbar_bg" >
 
-    <LinearLayout
-        style="@style/ll_vertical_match_match"
-        android:paddingTop="20dp" >
-
-        <Button
-            android:id="@+id/btn_default"
-            android:text="default thread pool"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <ImageButton style="@style/topbar_return_img" />
 
         <TextView
-            android:id="@+id/tv_default"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="Thread Pool" />
 
-        <Button
-            android:id="@+id/btn_cache"
-            android:text="cache thread pool"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_cache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-    </LinearLayout>
+    <ScrollView
+        style="@style/match_match"
+        >
 
-</ScrollView>
+        <LinearLayout
+            style="@style/ll_vertical_match_match"
+            android:paddingTop="20dp" >
+
+            <Button
+                android:id="@+id/btn_default"
+                android:text="default thread pool"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_cache"
+                android:text="cache thread pool"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_cache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_single"
+                android:text="single thread pool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_single"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
