@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import zblibrary.demo.R;
 import zuo.biao.library.base.BaseActivity;
-import zuo.biao.library.util.Log;
 import zuo.biao.library.util.thread.pool.ThreadPoolProxyFactory;
 
 /*
@@ -44,7 +43,7 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo_thread_pool);
+        setContentView(R.layout.demo_thread_pool_activity);
 
         initView();
         initData();
@@ -54,14 +53,16 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
 
 
 
-    TextView tvDefault,tvCache,tvSingle;
+    TextView tvDemoThreadPoolDefault;
+    TextView tvDemoThreadPoolCache;
+    TextView tvDemoThreadPoolSingle;
 
     @Override
     public void initView() {
 
-        tvDefault = findView(R.id.tv_default);
-        tvCache = findView(R.id.tv_cache);
-        tvSingle = findView(R.id.tv_single);
+        tvDemoThreadPoolDefault = findView(R.id.tvDemoThreadPoolDefault);
+        tvDemoThreadPoolCache = findView(R.id.tvDemoThreadPoolCache);
+        tvDemoThreadPoolSingle = findView(R.id.tvDemoThreadPoolSingle);
 
     }
 
@@ -72,9 +73,9 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void initEvent() {
-        findView(R.id.btn_default).setOnClickListener(this);
-        findView(R.id.btn_cache).setOnClickListener(this);
-        findView(R.id.btn_single).setOnClickListener(this);
+        findView(R.id.btnDemoThreadPoolDefault).setOnClickListener(this);
+        findView(R.id.btnDemoThreadPoolCache).setOnClickListener(this);
+        findView(R.id.btnDemoThreadPoolSingle).setOnClickListener(this);
     }
 
     Handler handler = new Handler(){
@@ -97,7 +98,7 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
 
     //===============================================================
     private void handleMsgFromDefault(){
-        tvDefault.setText(
+        tvDemoThreadPoolDefault.setText(
                 "DefaultThreadPool; 核心3线程，最大5线程，3000毫秒存活时间可执行一般异步任务需求。\n使用简单，这里仅做简单展示"
         );
     }
@@ -109,7 +110,7 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
     StringBuffer sb = new StringBuffer();
     private void handleMsgFromCache(){
         sb.append(info);
-        tvCache.setText(sb);
+        tvDemoThreadPoolCache.setText(sb);
     }
 
 
@@ -184,21 +185,21 @@ public class DemoThreadPoolActivity extends BaseActivity implements View.OnClick
     StringBuffer singleSB =new StringBuffer();
     private void handleMsgFromSingle(){
         singleSB.append("正在处理任务： " + taskIndex.getAndIncrement() + "\n");
-        tvSingle.setText(singleSB.toString());
+        tvDemoThreadPoolSingle.setText(singleSB.toString());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_default:
+            case R.id.btnDemoThreadPoolDefault:
                 showShortToast("请求中" );
                 initDefaultPool();
                 break;
-            case R.id.btn_cache:
+            case R.id.btnDemoThreadPoolCache:
                 showShortToast("请求中");
                 initCachePool();
                 break;
-            case R.id.btn_single:
+            case R.id.btnDemoThreadPoolSingle:
                 showShortToast("请求中");
                 initSinglePool();
                 break;

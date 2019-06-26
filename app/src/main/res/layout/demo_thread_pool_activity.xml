@@ -27,33 +27,35 @@
             android:paddingTop="20dp" >
 
             <Button
-                android:id="@+id/btn_default"
+                android:id="@+id/btnDemoThreadPoolDefault"
                 android:text="default thread pool"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/tv_default"
+                android:id="@+id/tvDemoThreadPoolDefault"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
             <Button
-                android:id="@+id/btn_cache"
+                android:id="@+id/btnDemoThreadPoolCache"
                 android:text="cache thread pool"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/tv_cache"
+                android:id="@+id/tvDemoThreadPoolCache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
             <Button
-                android:id="@+id/btn_single"
+                android:id="@+id/btnDemoThreadPoolSingle"
                 android:text="single thread pool"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_single"
+                android:id="@+id/tvDemoThreadPoolSingle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
