@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ll_vertical_match_match"
-    android:paddingTop="20dp"
-    tools:context=".DEMO.DemoThreadPoolActivity">
+    tools:context=".DEMO.DemoThreadPoolActivity"
+    style="@style/match_match"
+    >
 
     <Button
         android:id="@+id/btn_default"
@@ -37,4 +37,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+    <LinearLayout
+        style="@style/ll_vertical_match_match"
+        android:paddingTop="20dp" >
+
+        <Button
+            android:id="@+id/btn_default"
+            android:text="default thread pool"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_cache"
+            android:text="cache thread pool"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</ScrollView>
