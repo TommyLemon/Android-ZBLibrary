@@ -15,6 +15,7 @@ limitations under the License.*/
 package zuo.biao.library.base;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -272,7 +273,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 			}
 		}
 
-		topTabView = new TopTabView(context);
+		topTabView = setTopBarLayout(context,0,setTabBarLayout());
 		llBaseTabTabContainer.removeAllViews();
 		llBaseTabTabContainer.addView(topTabView.createView());
 		topTabView.setCurrentPosition(currentPosition);
@@ -286,6 +287,25 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 		//fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	}
+
+	/*
+	 * 如果需要自定义tab layout 需要实现此方法
+	 *
+	 * */
+
+	public int setTabBarLayout(){
+		return R.layout.top_tab_view;
+	}
+
+	/*
+	 *
+	 * TopTabView 构造函数中，第二个参数为最小宽度，可以默认传入0即可
+	 * */
+
+	@Override
+	public TopTabView setTopBarLayout(Activity context, int minWidth, int layoutId) {
+		return new TopTabView(context,0,layoutId);
 	}
 
 

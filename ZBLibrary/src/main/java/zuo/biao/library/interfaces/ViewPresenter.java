@@ -14,7 +14,11 @@ limitations under the License.*/
 
 package zuo.biao.library.interfaces;
 
+import android.app.Activity;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+
+import zuo.biao.library.ui.TopTabView;
 
 /**View的逻辑接口
  * @author Lemon
@@ -39,5 +43,18 @@ public interface ViewPresenter {
 	 */
 	@Nullable
 	public String getForwardName();
+
+	/*
+	 * 如果需要自定义tab layout 需要实现此方法
+	 * TopTabView 构造函数中，第二个参数为最小宽度，可以默认传入0即可
+	 * */
+
+	default TopTabView setTopBarLayout(Activity context, int minWidth , @LayoutRes int layoutId){
+		if (layoutId == 0){
+			return new TopTabView(context);
+		}else {
+			return new TopTabView(context,0,layoutId);
+		}
+	}
 
 }

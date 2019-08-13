@@ -85,6 +85,15 @@ public class DemoTabActivity extends BaseTabActivity implements OnClickListener,
 		//示例代码>>>>>>>>
 	}
 
+	/*
+	* 当需要自定义 tab bar layout时，要实现此方法
+	*
+	* */
+
+	@Override
+	public int setTabBarLayout() {
+		return zuo.biao.library.R.layout.top_tab_view;
+	}
 
 	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
