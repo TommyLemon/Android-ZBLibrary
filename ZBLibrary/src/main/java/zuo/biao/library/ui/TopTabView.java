@@ -22,6 +22,7 @@ import zuo.biao.library.util.StringUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,12 @@ public class TopTabView extends BaseView<String[]> {
 	public TopTabView(Activity context, int minWidth) {
 		this(context);
 		this.minWidth = minWidth;
+	}
+
+	public TopTabView(Activity context, int minWidth, @LayoutRes int resource){
+		super(context,resource);
+		this.minWidth = minWidth;
+		this.inflater = context.getLayoutInflater();
 	}
 
 
