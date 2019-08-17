@@ -70,7 +70,7 @@ public class TopTabView extends BaseView<String[]> {
 	}
 
 	public TopTabView(Activity context, int minWidth, @LayoutRes int resource){
-		super(context,resource);
+		super(context, resource);
 		this.minWidth = minWidth;
 		this.inflater = context.getLayoutInflater();
 	}
@@ -189,7 +189,6 @@ public class TopTabView extends BaseView<String[]> {
 	private TextView[] tvTabs;
 	/**选择tab
 	 * @param position
-	 * @param tabType
 	 */
 	public void select(int position) {
 		Log.i(TAG, "select  position = " + position);

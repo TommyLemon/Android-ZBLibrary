@@ -92,15 +92,13 @@ public class DemoTabFragment extends BaseTabFragment implements OnClickListener 
 		tvDemoTabLeft = findView(R.id.tvDemoTabLeft);
 	}
 
-	/*
-	 * 当需要自定义 tab bar layout时，要实现此方法
-	 *
-	 * */
 
-	@Override
-	public int setTabBarLayout() {
-		return zuo.biao.library.R.layout.top_tab_view;
-	}
+	/**当需要自定义 tab bar layout时，要实现此方法
+	 */
+	//	@Override
+	//	public int getTopTabViewResId() {
+	//		return R.layout.top_tab_view;
+	//	}
 
 	/**一行代码没必要新建方法，这里是为了给DemoBottomTabActivity调用
 	 */

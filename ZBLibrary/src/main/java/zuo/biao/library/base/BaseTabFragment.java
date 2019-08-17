@@ -273,7 +273,7 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 			}
 		}
 
-		topTabView = setTopBarLayout(context,0,setTabBarLayout());
+		topTabView = newTopTabView(context, 0, getTopTabViewResId());
 		llBaseTabTabContainer.removeAllViews();
 		llBaseTabTabContainer.addView(topTabView.createView());
 		topTabView.setCurrentPosition(currentPosition);
@@ -289,23 +289,20 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 
 	}
 
-	/*
-	 * 如果需要自定义tab layout 需要实现此方法
-	 *
-	 * */
-
-	public int setTabBarLayout(){
+	/**如果需要自定义tab layout 需要实现此方法
+	 */
+	public int getTopTabViewResId() {
 		return R.layout.top_tab_view;
 	}
 
-	/*
-	 *
-	 * TopTabView 构造函数中，第二个参数为最小宽度，可以默认传入0即可
-	 * */
-
-	@Override
-	public TopTabView setTopBarLayout(Activity context, int minWidth, int layoutId) {
-		return new TopTabView(context,0,layoutId);
+	/**TopTabView 构造函数
+	 * @param context
+	 * @param minWidth 最小宽度，传入 0 表示默认值
+	 * @param layoutId
+	 * @return
+	 */
+	public TopTabView newTopTabView(Activity context, int minWidth, int layoutId) {
+		return new TopTabView(context, 0, layoutId);
 	}
 
 
