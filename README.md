@@ -186,6 +186,7 @@ public class DemoApplication extends Application {
   <a href="https://github.com/TommyLemon/Android-ZBLibrary/pull/31"><img src="https://avatars1.githubusercontent.com/u/45145447?s=400&v=4"  height="90" width="90" ></a>
   <a href="https://github.com/TommyLemon/Android-ZBLibrary/pull/2"><img src="https://avatars0.githubusercontent.com/u/9335665?s=460&v=4"  height="90" width="90" ></a>
   <a href="https://github.com/TommyLemon/Android-ZBLibrary/pull/33"><img src="https://avatars2.githubusercontent.com/u/30994405?s=400&v=4"  height="90" width="90" ></a>
+  <a href="https://github.com/TommyLemon/Android-ZBLibrary/pull/39"><img src="https://avatars0.githubusercontent.com/u/1075578?s=400&v=4"  height="90" width="90" ></a>
 </div>
 <br />
 感谢其它作者的贡献。
