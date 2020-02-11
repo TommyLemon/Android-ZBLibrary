@@ -191,7 +191,7 @@ public class DemoApplication extends Application {
 <br />
 感谢其它作者的贡献。
 
-#### QQ技术交流群：421793905（新） 595514898（满）
+#### QQ技术交流群：1050166440（新） 421793905（满） 595514898（满）
 
 如果有什么问题或建议可以 [提ISSUE](https://github.com/TommyLemon/Android-ZBLibrary/issues) 或 加群，交流技术，分享经验。<br >
 如果你解决了某些bug，或者新增了一些功能，欢迎 [贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
