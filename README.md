@@ -16,7 +16,7 @@ OKHttp 网络请求、Glide 图片加载、ZXing 二维码、沉浸状态栏、�
 
 用 [Entry<K, V>](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/model/Entry.java)，两个变量的 Model/JavaBean 再也不用写了;
 
-用[BaseHttpListActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpListActivity.java)，几行代码搞定 HTTP 请求列表 加载和缓存;
+用 [BaseHttpListActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpListActivity.java)，几行代码搞定 HTTP 请求列表 加载和缓存;
 
 还有 100 多个常用 [Style](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/res/values/styles.xml)，一行搞定 View 属性，一键统一配置UI... 
 
