@@ -53,7 +53,7 @@ Google 官方推荐的一个强大易用的图片加载库。
 
 [OKHttp](https://github.com/square/okhttp)
 很火很强大的 HTTP/HTTPS 传输框架。ZBLibrary 中的 HttpManager 对它做了封装（支持自签名Https），Demo 中的 HttpRequest 是使用示例。
-注：okio.jar 是 okhttp 的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
+注：okio.jar 是 OKHttp 的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
 
 [FastJson](https://github.com/alibaba/fastjson)
 阿里巴巴的 JSON 封装和解析库。ZBLibrary 中的 JSON 是对 fastjson 的简单封装，防止解析异常。
