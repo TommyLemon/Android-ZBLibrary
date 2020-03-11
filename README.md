@@ -59,7 +59,7 @@ Google 官方推荐的一个强大易用的图片加载库。
 阿里巴巴的 JSON 封装和解析库。ZBLibrary 中的 JSON 是对 fastjson 的简单封装，防止解析异常。
 
 [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
-下拉刷新、上拉加载的库，兼容任意 View，酷炫又好用。已在[BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java)等类内置支持。
+下拉刷新、上拉加载的组件库，已在 [BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java) 等类内置支持。
 
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
 系统栏管理器，我把它用在 ZBLibrary 的 BaseActivity 中实现了状态栏沉浸。
