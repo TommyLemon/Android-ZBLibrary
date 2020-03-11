@@ -6,26 +6,26 @@
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 
-MVP 架构，提供一套开发标准（View,Data,Event）以及模板和工具类并规范代码。封装层级少，简单高效兼容性好。
+MVP 架构，提供一套开发标准（View, Data, Event）以及模板和工具类并规范代码。封装层级少，简单高效兼容性好。
 
-OKHttp、UIL图片加载、ZXing二维码、沉浸状态栏、下载安装、自动缓存以及各种Base、Demo、UI、Util直接用。
+OKHttp 网络请求、Glide 图片加载、ZXing 二维码、沉浸状态栏、下载安装、自动缓存以及各种 Base、Demo、UI、Util 直接用。
 
-全新的手势，侧滑返回、全局右滑返回都OUT啦！
+全新的手势，侧滑返回、全局右滑返回都 OUT 啦！
 
-用[BaseView](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseView.java)，自定义View竟然如此简单;
+用 [BaseView](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseView.java)，自定义 View 竟然如此简单;
 
-用[Entry<K, V>](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/model/Entry.java)，两个变量的Model/JavaBean再也不用写了;
+用 [Entry<K, V>](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/model/Entry.java)，两个变量的 Model/JavaBean 再也不用写了;
 
-用[BaseHttpListActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpListActivity.java)，几行代码搞定http请求列表 加载和缓存;
+用[BaseHttpListActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpListActivity.java)，几行代码搞定 HTTP 请求列表 加载和缓存;
 
-还有100多个常用[style](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/res/values/styles.xml)，一行搞定View属性，一键统一配置UI... 
+还有 100 多个常用 [Style](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/res/values/styles.xml)，一行搞定 View 属性，一键统一配置UI... 
 
-点击右边链接查看如何使用[http://my.oschina.net/u/2437072/blog/665241](http://my.oschina.net/u/2437072/blog/665241)
+点击右边链接查看如何使用 [http://my.oschina.net/u/2437072/blog/665241](http://my.oschina.net/u/2437072/blog/665241)
 
 
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/ZBLibrary_AllPages.jpg)
 
-[以下Gif图看起来比较卡，实际在手机上App运行很流畅]
+[以下 Gif 图看起来比较卡，实际在手机上 App 运行很流畅]
 
 ZBLibraryDemoApp<br />
 
@@ -49,28 +49,28 @@ APIJSONApp<br />
 
 ### 感谢开源
 [Glide](https://github.com/bumptech/glide)
-Google官方推荐的一个强大易用的图片加载库。
+Google 官方推荐的一个强大易用的图片加载库。
 
 [OKHttp](https://github.com/square/okhttp)
-很火很强大的Http/Https传输框架。ZBLibrary中的HttpManager对它做了封装（支持自签名Https），Demo中的HttpRequest是使用示例。
-注：okio.jar是OKHttp的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
+很火很强大的 HTTP/HTTPS 传输框架。ZBLibrary 中的 HttpManager 对它做了封装（支持自签名Https），Demo 中的 HttpRequest 是使用示例。
+注：okio.jar 是 okhttp 的一部分，不能删除。删除后不会在代码中报错，但运行会出错。
 
 [FastJson](https://github.com/alibaba/fastjson)
-阿里巴巴的JSON封装和解析库。ZBLibrary中的JSON是对FastJson的简单封装，防止解析异常。
+阿里巴巴的 JSON 封装和解析库。ZBLibrary 中的 JSON 是对 fastjson 的简单封装，防止解析异常。
 
 [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
-下拉刷新、上拉加载的库，兼容任意View，酷炫又好用。已在[BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java)等类内置支持。
+下拉刷新、上拉加载的库，兼容任意 View，酷炫又好用。已在[BaseHttpRecyclerActivity](https://github.com/TommyLemon/Android-ZBLibrary/blob/master/ZBLibrary/src/main/java/zuo/biao/library/base/BaseHttpRecyclerActivity.java)等类内置支持。
 
 [SystemBarTint](https://github.com/jgilfelt/SystemBarTint)
-系统栏管理器，我把它用在ZBLibrary的BaseActivity中实现了状态栏沉浸。
+系统栏管理器，我把它用在 ZBLibrary 的 BaseActivity 中实现了状态栏沉浸。
 
 [ZXingLib](https://github.com/xuyisheng/ZXingLib)
-这是该作者对官方ZXing二维码库的精简版。我做了修改，作为ZBLibrary的QRCodeLibrary。
+这是该作者对官方 ZXing 二维码库的精简版。我做了修改，作为 ZBLibrary 的 QRCodeLibrary。
 
 
 ### 初始化
 
-假设你工程中的Application为zblibrary.demo.application.DemoApplication，并且已在AndroidManifest.xml中注册
+假设你工程中的 Application 为 zblibrary.demo.application.DemoApplication，并且已在 AndroidManifest.xml 中注册
 ```
     <application
         android:name="zblibrary.demo.application.DemoApplication"
@@ -79,13 +79,13 @@ Google官方推荐的一个强大易用的图片加载库。
     </application>
 ```
 
-可以用DemoApplication继承BaseApplication
+可以用 DemoApplication 继承 BaseApplication
 ```
 public class DemoApplication extends BaseApplication {
 ...
 }
 ```
-或 在DemoApplication的 onCreate函数 中调用 BaseApplication.init(this);
+或 在 DemoApplication 的 onCreate 函数 中调用 BaseApplication.init(this);
 ```
 public class DemoApplication extends Application {
 
@@ -99,15 +99,15 @@ public class DemoApplication extends Application {
 }
 ```
 
-注册 权限和Activity 等代码可复制ZBLibrary中AndroidManifest.xml里的 \<uses-permission/>, \<activity/> 等相关代码。
+注册 权限和 Activity 等代码可复制 ZBLibrary 中 AndroidManifest.xml 里的 \<uses-permission/>, \<activity/> 等相关代码。
 
 ### 生成代码
-可使用APIJSONAuto自动化接口管理工具来生成接口相关代码：
-* 自动生成封装请求JSON的代码
-* 自动生成解析结果JSON的代码
-* 自动生成Modle/JavaBean
+可使用 APIAuto 自动化接口管理工具来生成接口相关代码：
+* 自动生成封装请求 JSON 的代码
+* 自动生成解析结果 JSON 的代码
+* 自动生成 Modle/JavaBean
 
-[https://github.com/TommyLemon/APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto)
+[https://github.com/TommyLemon/APIAuto](https://github.com/TommyLemon/APIAuto)
 
 ### 编程思想
 * 能复制就复制，节约时间避免出错
@@ -175,7 +175,7 @@ public class DemoApplication extends Application {
 </div>
 <br />
 
-[您在使用ZBLibrary吗？](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
+[您在使用 ZBLibrary 吗？](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
 
 
 ### 关于作者
@@ -193,20 +193,20 @@ public class DemoApplication extends Application {
 
 #### QQ技术交流群：1050166440（新） 421793905（满） 595514898（满）
 
-如果有什么问题或建议可以 [提ISSUE](https://github.com/TommyLemon/Android-ZBLibrary/issues) 或 加群，交流技术，分享经验。<br >
-如果你解决了某些bug，或者新增了一些功能，欢迎 [贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
+如果有什么问题或建议可以 [提 ISSUE ](https://github.com/TommyLemon/Android-ZBLibrary/issues) 或 加群，交流技术，分享经验。<br >
+如果你解决了某些 Bug，或者新增了一些功能，欢迎 [贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
 
 
 ### 其它项目
-[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构
+[APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回 JSON 的数据和结构
 
-[APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析JSON的代码
+[APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析 JSON 的代码
 
 [APIJSON-Android-RxJava](https://github.com/TommyLemon/APIJSON-Android-RxJava) ZBLibrary(UI) + APIJSON(HTTP) + RxJava(Data)
 
-[AbsGrade](https://github.com/APIJSON/AbsGrade)  抽象列表分级算法，支持微信朋友圈单层评论、QQ空间双层评论、百度网盘多层(无限层)文件夹等
+[AbsGrade](https://github.com/APIJSON/AbsGrade) 抽象列表分级算法，支持微信朋友圈单层评论、QQ 空间双层评论、百度网盘多层(无限层)文件夹等
 
-[PagedListView](https://github.com/TommyLemon/PagedListView) 分页滑动列表工具，优化 ListView/GridView的滑动和滚动体验
+[PagedListView](https://github.com/TommyLemon/PagedListView) 分页滑动列表工具，优化 ListView/GridView 的滑动和滚动体验
 
 
 ### 持续更新
