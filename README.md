@@ -200,11 +200,13 @@ public class DemoApplication extends Application {
 ### 其它项目
 [APIJSON](https://github.com/TommyLemon/APIJSON) 后端接口和文档自动化，前端(客户端) 定制返回 JSON 的数据和结构
 
-[APIJSONAuto](https://github.com/TommyLemon/APIJSONAuto) 自动化接口管理工具，自动生成封装与解析 JSON 的代码
+[APIAuto](https://github.com/TommyLemon/APIAuto) 机器学习测试、自动生成代码、自动静态检查、自动生成文档与注释等，做最先进的接口管理工具
+
+[UnitAuto](https://github.com/TommyLemon/UnitAuto) 机器学习自动化单元测试平台，零代码、全方位、自动化 测试 方法/函数 的正确性和可用性
 
 [APIJSON-Android-RxJava](https://github.com/TommyLemon/APIJSON-Android-RxJava) ZBLibrary(UI) + APIJSON(HTTP) + RxJava(Data)
 
-[AbsGrade](https://github.com/APIJSON/AbsGrade) 抽象列表分级算法，支持微信朋友圈单层评论、QQ 空间双层评论、百度网盘多层(无限层)文件夹等
+[AbsGrade](https://github.com/APIJSON/AbsGrade) 列表级联算法，支持微信朋友圈单层评论、QQ空间双层评论、百度网盘多层(无限层)文件夹等
 
 [PagedListView](https://github.com/TommyLemon/PagedListView) 分页滑动列表工具，优化 ListView/GridView 的滑动和滚动体验
 
