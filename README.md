@@ -191,7 +191,10 @@ public class DemoApplication extends Application {
 <br />
 感谢其它作者的贡献。
 
-#### QQ技术交流群：1050166440（新） 421793905（满） 595514898（满）
+#### QQ技术交流群
+1050166440（新）<a target="_blank" style="bottom:2px;padding-top:4px" href="https://qm.qq.com/cgi-bin/qm/qr?k=GTjiuzvEO0yaajNv-vy3bNnGDJPygv0i&jump_from=webapi"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ZBLibrary3" title="ZBLibrary技术交流群3"  style="bottom:2px;margin-top:4px" /></a>    
+421793905（满） <a target="_blank" style="bottom:2px;padding-top:4px" href="https://qm.qq.com/cgi-bin/qm/qr?k=FnufE63OWowsjOtO970SMiHKW873dka9&jump_from=webapi"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ZBLibrary2" title="ZBLibrary技术交流群2"  style="bottom:2px;margin-top:4px" /></a>    
+595514898（满）<a target="_blank" style="bottom:2px;padding-top:4px" href="https://qm.qq.com/cgi-bin/qm/qr?k=gfm9X2yO2cUq0jwND3Hgkh12zfjeGdtC&jump_from=webapi"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="ZBLibrary1" title="ZBLibrary技术交流群1"  style="bottom:2px;margin-top:4px" /></a>    
 
 如果有什么问题或建议可以 [提 ISSUE ](https://github.com/TommyLemon/Android-ZBLibrary/issues) 或 加群，交流技术，分享经验。<br >
 如果你解决了某些 Bug，或者新增了一些功能，欢迎 [贡献代码](https://github.com/TommyLemon/Android-ZBLibrary/pulls)，感激不尽^_^
