@@ -175,6 +175,16 @@ public class DemoApplication extends Application {
 </div>
 <br />
 
+* 深圳市传音通讯有限公司
+* 浙江零跑科技有限公司
+* 杭州妙影微电子有限公司
+* 山东瑞翔科技有限公司
+* 杭州市珀冰科技有限公司
+* 魔笛手(杭州)网络科技有限公司
+* 佛山市手艺人有限公司
+* 山东国大智能科技有限公司
+* 宝鸡中心医院
+
 [您在使用 ZBLibrary 吗？](https://github.com/TommyLemon/Android-ZBLibrary/issues/18)
 
 
