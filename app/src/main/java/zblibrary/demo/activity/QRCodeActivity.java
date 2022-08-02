@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
 
 import zblibrary.demo.R;
@@ -150,7 +149,7 @@ public class QRCodeActivity extends BaseActivity implements OnBottomDragListener
 		try {
 			qRCodeBitmap = EncodingHandler.createQRCode(JSON.toJSONString(user)
 					, (int) (2 * getResources().getDimension(R.dimen.qrcode_size)));
-		} catch (WriterException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e(TAG, "initData  try {Bitmap qrcode = EncodingHandler.createQRCode(contactJson, ivQRCodeCode.getWidth());" +
 					" >> } catch (WriterException e) {" + e.getMessage());
