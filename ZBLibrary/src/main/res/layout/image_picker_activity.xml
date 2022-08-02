@@ -14,7 +14,7 @@
 
     <View style="@style/divider_horizontal_1dp" />
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/dlImagePicker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@android:color/white" />
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

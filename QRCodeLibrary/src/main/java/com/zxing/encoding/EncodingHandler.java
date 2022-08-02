@@ -16,7 +16,7 @@ import com.google.zxing.common.BitMatrix;
 public final class EncodingHandler {
 	private static final int BLACK = 0xff000000;
 	
-	public static Bitmap createQRCode(String str,int widthAndHeight) throws WriterException {
+	public static Bitmap createQRCode(String str,int widthAndHeight) throws Exception {
 		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();  
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8"); 
 		BitMatrix matrix = new MultiFormatWriter().encode(str,

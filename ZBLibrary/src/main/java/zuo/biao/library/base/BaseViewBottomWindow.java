@@ -18,7 +18,7 @@ import zuo.biao.library.R;
 import zuo.biao.library.interfaces.ViewPresenter;
 import zuo.biao.library.util.StringUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;

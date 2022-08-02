@@ -1,5 +1,6 @@
 package zuo.biao.library.util.thread.pool;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -25,7 +26,7 @@ public class CacheThreadPool {
                     TimeUnit unit = TimeUnit.MILLISECONDS;
                     mExecutors = new ThreadPoolExecutor(
                             0
-                    , Integer.MAX_VALUE, keepAliveTime, unit, new SynchronousQueue<>());
+                    , Integer.MAX_VALUE, keepAliveTime, unit, (BlockingQueue)new SynchronousQueue<>());
                 }
             }
         }
