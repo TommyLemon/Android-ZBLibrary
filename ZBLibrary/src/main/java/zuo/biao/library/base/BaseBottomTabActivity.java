@@ -113,7 +113,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		}
 
 		Fragment fragment = fragments[position];
-		String tag = TAG + "-fragment-" + position;
+		String tag = getClass().getName() + "-fragment-" + position;
 		if (fragment == null) {
 			fragment = fragmentManager.findFragmentByTag(tag);
 		}
@@ -145,7 +145,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		}
 
 		if (fragment.isAdded() == false) {
-			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragment, tag);
+			fragmentTransaction.add(getFragmentContainerResId(), fragment, tag);
 		}
 		FragmentTransaction ft = fragmentTransaction.show(fragment);
 		try { // cannot perform this action after savedInstance
@@ -244,7 +244,9 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	/**获取Fragment容器的id
 	 * @return
 	 */
-	public abstract int getFragmentContainerResId();
+	public int getFragmentContainerResId() {
+		return R.id.flBaseTabFragmentContainer;
+	}
 
 	/**获取新的Fragment
 	 * @param position

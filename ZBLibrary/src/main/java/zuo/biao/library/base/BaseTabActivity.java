@@ -202,7 +202,7 @@ public abstract class BaseTabActivity extends BaseActivity implements ViewPresen
 		}
 
 		Fragment fragment = fragments[position];
-		String tag = TAG + "-fragment-" + position;
+		String tag = getClass().getName() + "-fragment-" + position;
 		if (fragment == null) {
 			fragment = fragmentManager.findFragmentByTag(tag);
 		}
