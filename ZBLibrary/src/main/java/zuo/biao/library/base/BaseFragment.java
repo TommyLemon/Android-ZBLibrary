@@ -42,6 +42,8 @@ import zuo.biao.library.util.Log;
 public abstract class BaseFragment extends Fragment implements FragmentPresenter {
 	private static final String TAG = "BaseFragment";
 
+	public static final String ARGUMENT_POSITION = "ARGUMENT_POSITION";
+
 	/**
 	 * 添加该Fragment的Activity
 	 * @warn 不能在子类中创建
@@ -79,6 +81,12 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 		this.inflater = inflater;
 		this.container = container;
 
+		if (view != null) {
+			if (container == null || container.indexOfChild(view) < 0) {
+				container = (ViewGroup) view.getParent();
+			}
+			container.removeView(view);
+		}
 		return view;
 	}
 
@@ -110,6 +118,23 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 
 
 	/**
+	 * 该Fragment在Activity添加的所有Fragment中的位置，通过ARGUMENT_POSITION设置
+	 * @must 只使用getPosition方法来获取position，保证position正确
+	 */
+	private int position = -1;
+	/**获取该Fragment在Activity添加的所有Fragment中的位置
+	 */
+	public int getPosition() {
+		if (position < 0) {
+			argument = getArguments();
+			if (argument != null) {
+				position = argument.getInt(ARGUMENT_POSITION, position);
+			}
+		}
+		return position;
+	}
+
+	/**
 	 * 可用于 打开activity与fragment，fragment与fragment之间的通讯（传值）等
 	 */
 	protected Bundle argument = null;
@@ -118,9 +143,11 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 	 */
 	protected Intent intent = null;
 
+
 	/**通过id查找并获取控件，使用时不需要强转
+	 * @warn 调用前必须调用setContentView
 	 * @param id
-	 * @return
+	 * @return 
 	 */
 	@SuppressWarnings("unchecked")
 	public <V extends View> V findView(int id) {
@@ -136,23 +163,6 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 		v.setOnClickListener(l);
 		return v;
 	}
-	/**通过id查找并获取控件，使用时不需要强转
-	 * @warn 调用前必须调用setContentView
-	 * @param id
-	 * @return
-	 */
-	public <V extends View> V findViewById(int id) {
-		return findView(id);
-	}
-	/**通过id查找并获取控件，并setOnClickListener
-	 * @param id
-	 * @param l
-	 * @return
-	 */
-	public <V extends View> V findViewById(int id, OnClickListener l) {
-		return findView(id, l);
-	}
-
 
 	public Intent getIntent() {
 		return context.getIntent();
@@ -180,7 +190,7 @@ public abstract class BaseFragment extends Fragment implements FragmentPresenter
 			Log.w(TAG, "runThread  isAlive() == false >> return null;");
 			return null;
 		}
-		return context.runThread(name + hashCode(), runnable);//name, runnable);同一Activity出现多个同名Fragment可能会出错
+		return context.runThread(name + getPosition(), runnable);//name, runnable);同一Activity出现多个同名Fragment可能会出错
 	}
 
 	//运行线程>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

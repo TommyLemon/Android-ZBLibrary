@@ -185,34 +185,59 @@ public abstract class BaseTabFragment extends BaseFragment implements ViewPresen
 	 * @param position
 	 */
 	public void selectFragment(int position) {
+		if (fragments == null || fragments.length != getCount()) {
+			if (fragments != null) {
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				for (int i = 0; i < fragments.length; i++) {
+					fragmentTransaction.remove(fragments[i]);
+				}
+				fragmentTransaction.commit();
+			}
+
+			fragments = new Fragment[getCount()];
+		}
+
+		Fragment fragment = fragments[position];
+		String tag = TAG + "-fragment-" + position;
+		if (fragment == null) {
+			fragment = fragmentManager.findFragmentByTag(tag);
+		}
+
 		if (currentPosition == position) {
-			if (needReload) {
-				if (fragments[position] != null && fragments[position].isAdded()) {
-					FragmentTransaction ft = fragmentManager.beginTransaction();
-					ft.remove(fragments[position]).commit();
-					fragments[position] = null;
-				}
-			} else {
-				if (fragments[position] != null && fragments[position].isVisible()) {
-					Log.w(TAG, "selectFragment currentPosition == position" +
-							" >> fragments[position] != null && fragments[position].isVisible()" +
-							" >> return;	");
-					return;
-				}
+			if (needReload == false && fragment != null && fragment.isVisible()) {
+				android.util.Log.w(TAG, "selectFragment currentPosition == position" +
+						" >> fragment != null && fragment.isVisible()" +
+						" >> return;	");
+				return;
 			}
 		}
 
-		if (fragments[position] == null) {
-			fragments[position] = getFragment(position);
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		if (needReload) {
+			fragmentTransaction.remove(fragment);
+			fragment = null;
 		}
 
-		//全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.hide(fragments[currentPosition]);
-		if (fragments[position].isAdded() == false) {
-			ft.add(R.id.flBaseTabFragmentContainer, fragments[position]);
+		if (fragment == null) {
+			fragment = fragments[position] = getFragment(position);
 		}
-		ft.show(fragments[position]).commit();
+
+		// 用全局的fragmentTransaction因为already committed 崩溃
+		for (Fragment f : fragmentManager.getFragments()) {
+			if (f != null) {
+				fragmentTransaction.hide(f);
+			}
+		}
+
+		if (fragment.isAdded() == false) {
+			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragment, tag);
+		}
+		FragmentTransaction ft = fragmentTransaction.show(fragment);
+		try { // cannot perform this action after savedInstance
+			ft.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 
 		this.currentPosition = position;
 	}

@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package zuo.biao.library.base;
 
+import zuo.biao.library.R;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.View;
@@ -30,7 +31,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	protected static int[] tabClickIds;
@@ -38,7 +39,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected View[] vTabClickViews;
 	protected View[][] vTabSelectViews;
 	@Override
-	public void initView() {//必须调用
+	public void initView() {// 必须调用
 
 		tabClickIds = getTabClickIds();
 
@@ -67,7 +68,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 	protected abstract void selectTab(int position);
 
 	/**设置选中状态
-	 * @param position
+	 * @param position 
 	 */
 	protected void setTabSelection(int position) {
 		if (vTabSelectViews == null) {
@@ -87,57 +88,122 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 	/**
 	 *  == true >> 每次点击相应tab都加载，调用getFragment方法重新对点击的tab对应的fragment赋值。
-	 * 如果不希望重载，可以重写selectFragment。
+	 * 如果不希望重载，可以setOnTabSelectedListener，然后在onTabSelected内重写点击tab事件。
 	 */
 	protected boolean needReload = false;
 	/**
 	 * 当前显示的tab所在位置，对应fragment所在位置
 	 */
 	protected int currentPosition = 0;
+
 	/**选择并显示fragment
 	 * @param position
 	 */
 	public void selectFragment(int position) {
-		//tab，资源消耗很小<<<<<<
-		setTabSelection(position);
-		selectTab(position);
-		//tab，资源消耗很小>>>>>>
+		if (fragments == null || fragments.length != getCount()) {
+			if (fragments != null) {
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				for (int i = 0; i < fragments.length; i++) {
+					fragmentTransaction.remove(fragments[i]);
+				}
+				fragmentTransaction.commit();
+			}
+
+			fragments = new Fragment[getCount()];
+		}
+
+		Fragment fragment = fragments[position];
+		String tag = TAG + "-fragment-" + position;
+		if (fragment == null) {
+			fragment = fragmentManager.findFragmentByTag(tag);
+		}
 
 		if (currentPosition == position) {
-			if (needReload) {
-				if (fragments[position] != null && fragments[position].isAdded()) {
-					FragmentTransaction ft = fragmentManager.beginTransaction();
-					ft.remove(fragments[position]).commit();
-					fragments[position] = null;
-				}
-			} else {
-				if (fragments[position] != null && fragments[position].isVisible()) {
-					Log.w(TAG, "selectFragment currentPosition == position" +
-							" >> fragments[position] != null && fragments[position].isVisible()" +
-							" >> return;	");
-					return;
-				}
+			if (needReload == false && fragment != null && fragment.isVisible()) {
+				android.util.Log.w(TAG, "selectFragment currentPosition == position" +
+						" >> fragment != null && fragment.isVisible()" +
+						" >> return;	");
+				return;
 			}
 		}
 
-
-		if (fragments[position] == null) {
-			fragments[position] = getFragment(position);
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		if (needReload) {
+			fragmentTransaction.remove(fragment);
+			fragment = null;
 		}
 
-		//全局的fragmentTransaction因为already committed 崩溃
-		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.hide(fragments[currentPosition]);
-		if (fragments[position].isAdded() == false) {
-			ft.add(getFragmentContainerResId(), fragments[position]);
+		if (fragment == null) {
+			fragment = fragments[position] = getFragment(position);
 		}
-		ft.show(fragments[position]).commit();
+
+		// 用全局的fragmentTransaction因为already committed 崩溃
+		for (Fragment f : fragmentManager.getFragments()) {
+			if (f != null) {
+				fragmentTransaction.hide(f);
+			}
+		}
+
+		if (fragment.isAdded() == false) {
+			fragmentTransaction.add(R.id.flBaseTabFragmentContainer, fragment, tag);
+		}
+		FragmentTransaction ft = fragmentTransaction.show(fragment);
+		try { // cannot perform this action after savedInstance
+			ft.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 
 		this.currentPosition = position;
 	}
 
 
-	//UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	protected void reload(int position) {
+		remove(position);
+		if (position == currentPosition) {
+			selectFragment(position);
+		}
+	}
+	protected void reloadAll() {
+		runUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				removeAll(true);
+				selectFragment(currentPosition);				
+			}
+		});
+	}
+	protected void remove(int position) {
+		remove(position, false);
+	}
+	protected void remove(int position, boolean destroy) {
+		if (fragments != null && position >= 0 && position < fragments.length && fragments[position] != null) {
+			try {
+				fragmentManager.beginTransaction().remove(fragments[position]).commit();
+			} catch (Exception e) {
+				Log.e(TAG, "remove  try { fragmentManager.beginTransaction().remove(fragments[position]).commit();" +
+						" } catch (Exception e) {\n" + e.getMessage());
+				destroy = true;
+			}
+			if (destroy) {
+				fragments[position].onDestroy();
+				fragments[position] = null;
+			}
+		}
+	}
+	protected void removeAll() {
+		removeAll(false);
+	}
+	protected void removeAll(boolean destroy) {
+		if (fragments != null) {
+			for (int i = 0; i < fragments.length; i++) {
+				remove(i, destroy);
+			}
+		}
+	}
+
+	// UI显示区(操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -148,19 +214,18 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 
-	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 	protected Fragment[] fragments;
 	@Override
-	public void initData() {//必须调用
+	public void initData() {// 必须调用
 
-		//fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// fragmentActivity子界面初始化<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		fragments = new Fragment[getCount()];
 		selectFragment(currentPosition);
 
-		//fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		// fragmentActivity子界面初始化>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	}
 
@@ -194,7 +259,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		return tabClickIds == null ? 0 :tabClickIds.length;
 	}
 
-	//Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// Data数据区(存在数据获取或处理代码，但不存在事件监听代码)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -205,10 +270,10 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
 
 
-	//Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// Event事件区(只要存在事件监听代码就是)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	@Override
-	public void initEvent() {//必须调用
+	public void initEvent() {// 必须调用
 
 		for (int i = 0; i < vTabClickViews.length; i++) {
 			final int which = i;
@@ -222,26 +287,23 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 		}
 	}
 
-	//生命周期、onActivityResult<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// 系统自带监听方法<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+	// 类相关监听<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+	// 类相关监听>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	// 系统自带监听方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+	// Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
-	//生命周期、onActivityResult>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// 内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
-	//Event事件区(只要存在事件监听代码就是)>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-
-
-
-
-	//内部类,尽量少用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-
-	//内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// 内部类,尽量少用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 }
