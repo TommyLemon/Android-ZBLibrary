@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llWebView"
-    style="@style/activity_page" >
+    style="@style/activity_page"
+    android:splitMotionEvents="true"
+    >
 
     <RelativeLayout style="@style/topbar_bg" >
 

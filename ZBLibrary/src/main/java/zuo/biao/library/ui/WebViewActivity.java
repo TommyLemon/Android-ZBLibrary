@@ -17,6 +17,7 @@ package zuo.biao.library.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -62,6 +63,7 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR); // AndroidManifest 中设置导致 gradle 编译 merge 报错
 		setContentView(R.layout.web_view_activity, this);//传this是为了全局滑动返回
 
 		url = StringUtil.getCorrectUrl(getIntent().getStringExtra(INTENT_URL));
@@ -115,6 +117,11 @@ public class WebViewActivity extends BaseActivity implements OnBottomDragListene
 
 		WebSettings webSettings = wvWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
+		webSettings.setUseWideViewPort(true);
+		webSettings.setLoadWithOverviewMode(true);
+		webSettings.setBuiltInZoomControls(true);
+		webSettings.setSupportZoom(true);
+		webSettings.setDisplayZoomControls(false);
 
 		wvWebView.requestFocus();
 
