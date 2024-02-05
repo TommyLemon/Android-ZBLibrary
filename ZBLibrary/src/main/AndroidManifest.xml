@@ -40,7 +40,6 @@
         <activity
             android:name="zuo.biao.library.ui.WebViewActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize|adjustUnspecified" />
         <activity
             android:name="zuo.biao.library.ui.EditTextInfoActivity"
