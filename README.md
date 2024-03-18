@@ -235,5 +235,8 @@ public class DemoApplication extends Application {
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
 
 ### 我要赞赏
-创作不易，右上角点 ⭐Star 支持下吧，谢谢 ^_^ <br />
+腾讯、中国移动、中国电信、华为、字节跳动、阿里巴巴、美团、网易、百度、京东、小米、TCL、万达、中兴、携程、360、美图、同花顺、用友、金蝶 等 和国外 Google, Microsoft, Amazon, SAMSUNG, Airbnb, ThoughtWorks, DHC 等各大知名大厂员工点了 Star，感谢大家的支持~ <br />
+![image](https://github.com/TommyLemon/Android-ZBLibrary/assets/5738175/cc4d0930-92c9-4b8b-8a30-99fc776923a6)
+
+**创作不易、坚持更难，右上角点亮 ⭐Star 支持/收藏下本项目吧，谢谢 ^_^** <br />
 [https://github.com/TommyLemon/Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary)
