@@ -230,6 +230,7 @@ public class DemoApplication extends Application {
 
 [PagedListView](https://github.com/TommyLemon/PagedListView) 分页滑动列表工具，优化 ListView/GridView 的滑动和滚动体验
 
+[ohos-ZBLibrary](https://gitee.com/HarmonyOS-tpc/ohos-ZBLibrary) 华为开源鸿蒙 OS 版 ZBLibrary
 
 ### 持续更新
 [https://github.com/TommyLemon/Android-ZBLibrary/commits/master](https://github.com/TommyLemon/Android-ZBLibrary/commits/master)
