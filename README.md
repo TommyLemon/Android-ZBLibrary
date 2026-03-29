@@ -226,6 +226,8 @@ public class DemoApplication extends Application {
 
 [UIGO](https://github.com/TommyLemon/UIGO) 📱 零代码快准稳 UI 智能录制回放平台 🚀 3 像素内自动精准定位，2 毫秒内自动精准等待，用户包含腾讯，微信团队邀请分享
 
+[UIGOX](https://github.com/TommyLemon/UIGOX) UIGO 的 AndroidX 版 📱 零代码快准稳 UI 智能录制回放平台 🚀 3 像素内自动精准定位，2 毫秒内自动精准等待
+
 [APIJSON-Android-RxJava](https://github.com/TommyLemon/APIJSON-Android-RxJava) ZBLibrary(UI) + APIJSON(HTTP) + RxJava(Data) 的实战示例项目
 
 [AbsGrade](https://github.com/APIJSON/AbsGrade) 列表级联算法，支持微信朋友圈单层评论、QQ空间双层评论、百度网盘多层(无限层)文件夹等
