@@ -150,6 +150,7 @@ public class DemoApplication extends Application {
 
 [100多个Styles快速开发布局XML，一行搞定View属性，一键统一配置UI...](http://my.oschina.net/u/2437072/blog/716573)
 
+[终极指南：如何用APIAuto为Android-ZBLibrary实现零代码自动化开发]()
 
 ### 开发规范
 [Wiki-Norm](https://github.com/TommyLemon/Android-ZBLibrary/wiki/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83)
